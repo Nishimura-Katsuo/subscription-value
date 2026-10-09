@@ -4,7 +4,7 @@ How much benchmark work does a subscription dollar buy, once we require an Artif
 
 This report compares estimated subscription throughput with intelligence using a snapshot dated **October 8, 2026**. The inputs are derived from SemiAnalysis's subscription-value research, Artificial Analysis benchmarks, and the author's Cursor usage exports.
 
-**Explore the [interactive HTML report](index.html)**: a professional dark dashboard with linked chart and table selections, model search, provider and intelligence filters, sortable columns, a subscription-spend scenario control, and CSV export. Download the repository and open `index.html` in a browser; it works offline with no installation or build step. GitHub's file viewer displays the HTML source rather than running the report.
+**Explore the [interactive HTML report](docs/index.html)**: a professional dark dashboard with linked chart and table selections, model search, provider and intelligence filters, sortable columns, a subscription-spend scenario control, and CSV export. Download the repository and open `docs/index.html` in a browser; it works offline with no installation or build step. GitHub's file viewer displays the HTML source rather than running the report.
 
 ## Subscription multipliers
 
