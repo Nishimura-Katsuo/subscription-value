@@ -50,7 +50,7 @@ Sonnet XHigh and Sol High/XHigh are dominated: Opus High improves both dimension
 ## Conclusion
 
 - **Sonnet 5.5 High is the best raw Tasks / $20 option among qualifying configurations**, at **1,338** tasks and intelligence **47**.
-- **Sol 6.1 Medium is second**, at **1,010** tasks and intelligence **48**. Its underlying Artificial Analysis benchmark cost is cheaper per task (**$0.21 versus Sonnet High's $0.88**), despite its lower subscription multiplier (**10.6× versus 58.9×**). After applying those multipliers, Sonnet High still yields more tasks per subscription dollar; Sol's lower benchmark cost does not mean its effective subscription cost per task is lower.
+- **Sol 6.1 Medium is second**, at **1,010** tasks and intelligence **48**, despite its lower subscription multiplier (**10.6× versus 58.9×**). Sonnet High delivers **32.5% more tasks for the same subscription spend**, while Sol Medium offers one extra intelligence point.
 - **Opus 5.5 Medium, High, and XHigh define the higher-intelligence Pareto frontier**, trading throughput for scores of **51, 54, and 56**.
 - **Grok 4.7 is much less subscription-efficient under this metric**, at **152** tasks for High and **110** for XHigh, both with intelligence **46**. Product features or a different workload may still change a personal subscription decision.
 
@@ -73,7 +73,7 @@ The source is the [Subscription Value Comparison conversation](https://chatgpt.c
 - [Sol 6.1 Medium versus XHigh](https://artificialanalysis.ai/models/comparisons/gpt-6-1-sol-medium-vs-gpt-6-1-sol-xhigh)
 - [Grok 4.7 High versus XHigh](https://artificialanalysis.ai/models/comparisons/grok-4-7-high-vs-grok-4-7)
 
-The HTML contains the recorded benchmark costs alongside the exact displayed throughput values. Its chart and table use that same embedded dataset.
+The HTML retains the recorded benchmark costs as calculation inputs in its embedded dataset. The dashboard and CSV export present subscription throughput, intelligence, and multipliers. Its chart and table use the same preserved values.
 
 ## Report checks
 
