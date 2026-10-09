@@ -20,6 +20,8 @@ The Claude and ChatGPT figures are estimates carried forward from the conversati
 
 ## Qualifying configurations
 
+In my experience, Grok 4.7 is the least capable model that can still complete math and coding work successfully in messy codebases. That makes its Artificial Analysis score of **46** my intelligence floor for this comparison. Your mileage may vary.
+
 Only configurations with a known Artificial Analysis Intelligence score **≥46** and a known benchmark cost per task are included. Rows are sorted by **Tasks / $20 descending**. Sonnet 5.5 Medium is excluded because its score was 41; Grok 4.7 Medium is excluded because the required benchmark values were unavailable.
 
 | Model | Reasoning | Intelligence | Subscription multiplier | Tasks / $20 |
