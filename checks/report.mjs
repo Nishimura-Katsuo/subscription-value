@@ -27,4 +27,13 @@ assert.equal(pareto(data.filter(model => model.provider === 'Cursor' && model.in
 assert.equal(pareto([]).length, 0);
 assert.equal(pareto([{intelligence:46,tasks20:100},{intelligence:46,tasks20:100}]).length, 2);
 assert.equal(pareto([{intelligence:46,tasks20:100},{intelligence:46,tasks20:101}]).length, 1);
+const chartY = runInNewContext(code.match(/^    const chartY = .+$/m)[0] + '\nchartY');
+assert.equal(chartY(1,1000,1,true),458);
+assert.equal(chartY(1000,1000,1,true),38);
+assert.equal(chartY(0,1000,1,false),458);
+for (const model of data) {
+  const py = chartY(model.tasks20,70000,10,true);
+  assert.ok(Number.isFinite(py) && py >= 38 && py <= 458);
+}
+assert.ok(html.includes('.chart-point[aria-pressed="true"] .chart-label'));
 console.log('Report checks passed: 33 configurations, original README values, default floor, rounding, script syntax, and Pareto dominance.');
