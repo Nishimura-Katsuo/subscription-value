@@ -4,7 +4,7 @@ How much benchmark work does a subscription dollar buy, once we require an Artif
 
 This report compares estimated subscription throughput with intelligence using a snapshot dated **October 8, 2026**. The inputs are derived from SemiAnalysis's subscription-value research, Artificial Analysis benchmarks, and the author's Cursor usage exports.
 
-**Explore the [interactive HTML report](index.html)**: a professional dark dashboard with linked chart and table selections, model search, provider and intelligence filters, sortable columns, a budget scenario control, and CSV export. Download the repository and open `index.html` in a browser; it works offline with no installation or build step. GitHub's file viewer displays the HTML source rather than running the report.
+**Explore the [interactive HTML report](index.html)**: a professional dark dashboard with linked chart and table selections, model search, provider and intelligence filters, sortable columns, a subscription-spend scenario control, and CSV export. Download the repository and open `index.html` in a browser; it works offline with no installation or build step. GitHub's file viewer displays the HTML source rather than running the report.
 
 ## Subscription multipliers
 
@@ -20,11 +20,13 @@ The Claude and ChatGPT figures are estimates derived from [SemiAnalysis's API-eq
 
 ## Qualifying configurations
 
+All dollar amounts in the task-throughput comparison refer to **subscription fees**. API credits and on-demand usage charges are excluded. API-equivalent usage is an input used to estimate what the subscription buys; it is not the budget being spent.
+
 In my experience, Grok 4.7 is the least capable model that can still complete math and coding work successfully in messy codebases. That makes its Artificial Analysis score of **46** my intelligence floor for this comparison. Your mileage may vary.
 
 Only configurations with a known Artificial Analysis Intelligence score **≥46** and a known benchmark cost per task are included. Rows are sorted by **Tasks / $20 descending**. Sonnet 5.5 Medium is excluded because its score was 41; Grok 4.7 Medium is excluded because the required benchmark values were unavailable.
 
-| Model | Reasoning | Intelligence | Subscription multiplier | Tasks / $20 |
+| Model | Reasoning | Intelligence | Subscription multiplier | Tasks / $20 subscription spend |
 | --- | --- | ---: | ---: | ---: |
 | Claude Sonnet 5.5 | High | 47 | 58.9× | **1,338** |
 | GPT-6.1 Sol | Medium | 48 | 10.6× | **1,010** |
@@ -63,9 +65,9 @@ Tasks per subscription dollar = subscription multiplier / AA benchmark cost per 
 Tasks per $20 = 20 × tasks per subscription dollar
 ```
 
-Tasks per subscription dollar are rounded to **one decimal place before multiplying by 20**. For example, `58.9 / 0.88 ≈ 66.9`, then `66.9 × 20 = 1,338`. Computing directly from the unrounded ratio can yield a slightly different number. The dashboard scales these values linearly for its budget scenarios.
+Tasks per subscription dollar are rounded to **one decimal place before multiplying by 20**. For example, `58.9 / 0.88 ≈ 66.9`, then `66.9 × 20 = 1,338`. Computing directly from the unrounded ratio can yield a slightly different number. The dashboard scales these values linearly for its subscription-spend scenarios.
 
-The $20 figure is a common spending normalization, not a claim that every service offers a $20 plan or that these task counts are guaranteed monthly quotas. Benchmark task costs, API-equivalent usage estimates, context sizes, usage limits, and real coding tasks are different quantities. This metric does not measure task success rates, latency, tools, or the IDE experience. Figures reflect the October 8, 2026 snapshot; scores, prices, and subscription limits can change.
+The $20 figure normalizes subscription fees to a common amount, not a claim that every service offers a $20 plan or that these task counts are guaranteed monthly quotas. Benchmark task costs, API-equivalent usage estimates, context sizes, usage limits, and real coding tasks are different quantities. This metric does not measure task success rates, latency, tools, or the IDE experience. Figures reflect the October 8, 2026 snapshot; scores, prices, and subscription limits can change.
 
 ### Sources
 
