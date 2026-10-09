@@ -2,7 +2,7 @@
 
 How much benchmark work does a subscription dollar buy, once we require an Artificial Analysis Intelligence score of **at least 46**?
 
-This report preserves the findings of the **October 8, 2026** Subscription Value Comparison conversation. It compares estimated subscription throughput with intelligence, using the model names and rounded values recorded in that conversation.
+This report compares estimated subscription throughput with intelligence using a snapshot dated **October 8, 2026**. The inputs are derived from SemiAnalysis's subscription-value research, Artificial Analysis benchmarks, and the author's Cursor usage exports.
 
 **Explore the [interactive HTML report](index.html)**: a professional dark dashboard with linked chart and table selections, model search, provider and intelligence filters, sortable columns, a budget scenario control, and CSV export. Download the repository and open `index.html` in a browser; it works offline with no installation or build step. GitHub's file viewer displays the HTML source rather than running the report.
 
@@ -14,9 +14,9 @@ A multiplier represents estimated API-equivalent usage per subscription dollar; 
 | --- | ---: | --- |
 | Claude | **58.9×** | Applied to Sonnet 5.5 and Opus 5.5 |
 | ChatGPT | **10.6×** | Applied to GPT-6.1 Sol |
-| Cursor | **20.7×** | Applied to Grok 4.7 under the usage-pool assumption discussed in the conversation |
+| Cursor | **20.7×** | Applied to Grok 4.7 assuming both available usage pools are allocated to Grok |
 
-The Claude and ChatGPT figures are estimates carried forward from the conversation. The Cursor figure comes from observed metered usage divided by subscription spend. That observed usage included both Grok and Claude; applying the whole multiplier to Grok assumes the available pools can be used toward Grok as discussed. These are comparison inputs, not universal plan entitlements.
+The Claude and ChatGPT figures are estimates derived from [SemiAnalysis's API-equivalent subscription-value analysis](https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x). The Cursor figure comes from metered usage in the author's exports divided by subscription spend. That observed usage included both Grok and Claude; applying the whole multiplier to Grok assumes both available pools can be allocated to Grok. These inputs describe the workload and allocation assumptions used in this comparison.
 
 ## Qualifying configurations
 
@@ -63,17 +63,17 @@ Tasks per subscription dollar = subscription multiplier / AA benchmark cost per 
 Tasks per $20 = 20 × tasks per subscription dollar
 ```
 
-To match the original table exactly, tasks per subscription dollar were rounded to **one decimal place before multiplying by 20**. For example, `58.9 / 0.88 ≈ 66.9`, then `66.9 × 20 = 1,338`. Computing directly from the unrounded ratio can yield a slightly different number. The dashboard scales these preserved values linearly for its budget scenarios.
+Tasks per subscription dollar are rounded to **one decimal place before multiplying by 20**. For example, `58.9 / 0.88 ≈ 66.9`, then `66.9 × 20 = 1,338`. Computing directly from the unrounded ratio can yield a slightly different number. The dashboard scales these values linearly for its budget scenarios.
 
-The $20 figure is a common spending normalization, not a claim that every service offers a $20 plan or that these task counts are guaranteed monthly quotas. Benchmark task costs, API-equivalent usage estimates, context sizes, usage limits, and real coding tasks are different quantities. This metric does not measure task success rates, latency, tools, or the IDE experience. Scores, costs, and multipliers are a dated snapshot and have not been refreshed for this report.
+The $20 figure is a common spending normalization, not a claim that every service offers a $20 plan or that these task counts are guaranteed monthly quotas. Benchmark task costs, API-equivalent usage estimates, context sizes, usage limits, and real coding tasks are different quantities. This metric does not measure task success rates, latency, tools, or the IDE experience. Figures reflect the October 8, 2026 snapshot; scores, prices, and subscription limits can change.
 
-### Provenance
+### Sources
 
-The source is the [Subscription Value Comparison conversation](https://chatgpt.com/c/6ac86b0a-2b38-83e8-b8f6-08f6c817fbe9) and its final table, supplied again by the user. The conversation cited these Artificial Analysis comparisons for its benchmark inputs (the conversation may require access to the owner's account):
+Three sources supply the inputs used to calculate this table:
 
-- [Opus 5.5 Medium versus XHigh](https://artificialanalysis.ai/models/comparisons/claude-opus-5-5-medium-vs-claude-opus-5-5-xhigh)
-- [Sol 6.1 Medium versus XHigh](https://artificialanalysis.ai/models/comparisons/gpt-6-1-sol-medium-vs-gpt-6-1-sol-xhigh)
-- [Grok 4.7 High versus XHigh](https://artificialanalysis.ai/models/comparisons/grok-4-7-high-vs-grok-4-7)
+- **[SemiAnalysis — Anthropic Subscriptions Offer 5x+ More Value Than OpenAI](https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x)** — API-equivalent subscription-value research used to derive the Claude and ChatGPT multipliers.
+- **Artificial Analysis** — Intelligence Index scores and benchmark cost inputs for each model and reasoning configuration. Model comparisons: [Sonnet 5.5](https://artificialanalysis.ai/models/comparisons/claude-sonnet-5-5-high-vs-claude-sonnet-5-5-xhigh), [Opus 5.5](https://artificialanalysis.ai/models/comparisons/claude-opus-5-5-medium-vs-claude-opus-5-5-xhigh), [Sol 6.1](https://artificialanalysis.ai/models/comparisons/gpt-6-1-sol-medium-vs-gpt-6-1-sol-xhigh), and [Grok 4.7](https://artificialanalysis.ai/models/comparisons/grok-4-7-high-vs-grok-4-7).
+- **Cursor usage exports** — the author's observed metered API-equivalent usage divided by subscription spend, yielding the **20.7×** Cursor multiplier. It reflects the observed usage mix rather than a guaranteed allowance for every account.
 
 The HTML retains the recorded benchmark costs as calculation inputs in its embedded dataset. The dashboard and CSV export present subscription throughput, intelligence, and multipliers. Its chart and table use the same preserved values.
 
