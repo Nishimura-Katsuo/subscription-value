@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Explore subscription value across Claude, ChatGPT, and Cursor: ten model configurations, one intelligence floor, and the Pareto frontier.">
+  <meta name="description" content="Explore subscription value across Claude, ChatGPT, and Cursor: model and reasoning configurations, one intelligence floor, and the Pareto frontier.">
   <title>Subscription Value Comparison</title>
   <style>
     :root{--bg:#090c14;--panel:#111622;--text:#e9edf6;--muted:#9ba7bd;--line:#273042;--purple:#bba7ff;--mint:#69dbc2;--orange:#f3b87b;--font:Inter,"Segoe UI",system-ui,sans-serif}
@@ -21,32 +21,387 @@
   <header class="top"><div class="wrap nav"><a class="brand" href="#main"><span class="mark" aria-hidden="true">SV</span>Subscription Value</a><nav class="nav-right" aria-label="Report navigation"><a class="nav-link" href="#explorer">Explore</a><a class="nav-link" href="https://github.com/Nishimura-Katsuo/subscription-value">GitHub ↗</a><span class="snapshot"><span class="dot" aria-hidden="true"></span>08 OCT 2026 · SNAPSHOT</span></nav></div></header>
   <main id="main" class="wrap">
     <section class="hero" aria-labelledby="hero-title"><h1 id="hero-title">Subscription Value Comparison</h1></section>
-    <section class="metrics" aria-label="Original comparison highlights"><div class="metric"><div class="metric-label">Best subscription throughput</div><div class="metric-value accent">1,338<span>tasks / $20 in subscription fees</span></div><div class="metric-note">Sonnet 5.5 · High · Intelligence 47</div></div><div class="metric"><div class="metric-label">Runner-up throughput</div><div class="metric-value">1,010<span>tasks / $20 in subscription fees</span></div><div class="metric-note">Sol 6.1 · Medium · Intelligence 48</div></div><div class="metric"><div class="metric-label">Highest intelligence</div><div class="metric-value">56<span>AA index</span></div><div class="metric-note">Opus 5.5 · XHigh · 340 tasks / $20 subscription spend</div></div><div class="metric"><div class="metric-label">Subscription throughput lead</div><div class="metric-value" style="color:var(--mint)">+32.5%<span>more tasks</span></div><div class="metric-note">Sonnet High vs. Sol Medium · Same $20 subscription spend</div></div></section>
-    <noscript>The interactive explorer needs JavaScript. The complete <a href="README.md">README table</a> and <a href="assets/pareto.png">Pareto graph</a> are also available.</noscript>
+    <section class="metrics" aria-label="Comparison highlights at intelligence ≥46"><div class="metric"><div class="metric-label">Best subscription throughput</div><div class="metric-value accent">1,338<span>tasks / $20 in subscription fees</span></div><div class="metric-note">Sonnet 5.5 · High · Intelligence 47</div></div><div class="metric"><div class="metric-label">Runner-up throughput</div><div class="metric-value">1,010<span>tasks / $20 in subscription fees</span></div><div class="metric-note">Sol 6.1 · Medium · Intelligence 48</div></div><div class="metric"><div class="metric-label">Highest intelligence</div><div class="metric-value">58<span>AA index</span></div><div class="metric-note">Opus 5.5 · Max · 196 tasks / $20 subscription spend</div></div><div class="metric"><div class="metric-label">Subscription throughput lead</div><div class="metric-value" style="color:var(--mint)">+32.5%<span>more tasks</span></div><div class="metric-note">Sonnet High vs. Sol Medium · Same $20 subscription spend</div></div></section>
+    <noscript>The interactive explorer needs JavaScript. The complete <a href="README.md">README table</a> are also available.</noscript>
     <section id="explorer" aria-labelledby="explorer-title"><div class="section-title"><div><div class="section-number">01 / THE TRADEOFF</div><h2 id="explorer-title">The value frontier</h2><p id="floor-context">In my experience, Grok 4.7 is the least capable model that can still complete math and coding work successfully in messy codebases. That makes its Artificial Analysis score of 46 my intelligence floor for this comparison. Your mileage may vary.</p></div></div>
       <div class="panel">
-        <div class="controls"><label class="field search-field">Search configurations<input id="search" type="search" placeholder="Try Opus, Sol, or XHigh…" autocomplete="off"></label><label class="field">Subscription<select id="provider"><option value="all">All subscriptions</option><option>Claude</option><option>ChatGPT</option><option>Cursor</option></select></label><label class="field">Intelligence floor<select id="floor"><option value="46">≥46 · Original floor</option><option value="47">≥47</option><option value="48">≥48</option><option value="49">≥49</option><option value="50">≥50</option><option value="51">≥51</option><option value="52">≥52</option><option value="53">≥53</option><option value="54">≥54</option><option value="55">≥55</option><option value="56">≥56</option></select></label><label class="field budget-field">Subscription spend ($)<input aria-describedby="subscription-budget-help" id="budget" type="number" min="1" max="1000" step="1" value="20" required></label><label class="frontier-toggle"><input id="frontier-only" type="checkbox">Frontier only</label><button id="reset" class="reset" type="button">Reset</button></div>
+        <div class="controls"><label class="field search-field">Search configurations<input id="search" type="search" placeholder="Try Opus, Sol, or XHigh…" autocomplete="off"></label><label class="field">Subscription<select id="provider"><option value="all">All subscriptions</option><option>Claude</option><option>ChatGPT</option><option>Cursor</option></select></label><label class="field">Intelligence floor<select id="floor"><option value="0">All intelligence levels</option><option value="22">≥22</option><option value="23">≥23</option><option value="24">≥24</option><option value="25">≥25</option><option value="26">≥26</option><option value="27">≥27</option><option value="28">≥28</option><option value="29">≥29</option><option value="30">≥30</option><option value="31">≥31</option><option value="32">≥32</option><option value="33">≥33</option><option value="34">≥34</option><option value="35">≥35</option><option value="36">≥36</option><option value="37">≥37</option><option value="38">≥38</option><option value="39">≥39</option><option value="40">≥40</option><option value="41">≥41</option><option value="42">≥42</option><option value="43">≥43</option><option value="44">≥44</option><option value="45">≥45</option><option value="46" selected>≥46 · Original floor</option><option value="47">≥47</option><option value="48">≥48</option><option value="49">≥49</option><option value="50">≥50</option><option value="51">≥51</option><option value="52">≥52</option><option value="53">≥53</option><option value="54">≥54</option><option value="55">≥55</option><option value="56">≥56</option><option value="57">≥57</option><option value="58">≥58</option></select></label><label class="field budget-field">Subscription spend ($)<input aria-describedby="subscription-budget-help" id="budget" type="number" min="1" max="1000" step="1" value="20" required></label><label class="frontier-toggle"><input id="frontier-only" type="checkbox">Frontier only</label><button id="reset" class="reset" type="button">Reset</button></div>
         <p id="subscription-budget-help" class="caption" style="margin:0;padding:12px 23px;border-bottom:1px solid var(--line)">This amount is subscription fees only. API credits and on-demand usage charges are excluded.</p>
         <div class="chart-layout"><div class="chart-main"><div class="legend" aria-label="Chart legend"><span><i style="background:var(--purple)"></i>Claude</span><span><i style="background:var(--mint)"></i>ChatGPT</span><span><i style="background:var(--orange)"></i>Cursor / Grok</span><span><i class="line-sample"></i>Pareto frontier</span></div><div class="chart-scroll"><svg id="chart" viewBox="0 0 1000 540" role="group" aria-labelledby="chart-title chart-desc"><title id="chart-title">Intelligence versus tasks per $20 of subscription spend</title><desc id="chart-desc">Ten qualifying configurations. Five form the Pareto frontier. Use Tab to focus a point or select a model in the table.</desc></svg></div></div><aside id="detail" class="detail" aria-label="Selected configuration details"></aside></div>
-        <div class="chart-foot"><span id="chart-status" role="status" aria-live="polite">10 configurations · 5 on the frontier · all points visible</span><a href="assets/pareto.png" download="subscription-value-pareto.png">Download original $20 graph ↓</a></div>
+        <div class="chart-foot"><span id="chart-status" role="status" aria-live="polite">10 configurations · 5 on the frontier · all points visible</span></div>
       </div>
       <p class="caption">Subscription-spend scenarios scale the estimates linearly; they do not represent available plans or actual quotas. The line connects available tiers and does not imply intermediate configurations.</p>
     </section>
     <section class="table-section" aria-labelledby="table-title"><div class="section-title"><div><div class="section-number">02 / THE NUMBERS</div><h2 id="table-title">Every configuration, compared</h2><p id="table-meta" class="table-meta">Sorted by tasks per $20 of subscription spend · descending</p></div><button class="export" id="export" type="button">Export filtered CSV ↓</button></div><div class="panel table-scroll"><table><caption class="sr-only">Filtered model and reasoning configurations. Column buttons change sort order. Model buttons select chart points.</caption><thead><tr><th scope="col">#</th><th scope="col" id="sort-model" aria-sort="none"><button data-sort="model" type="button">Model ↕</button></th><th scope="col">Reasoning</th><th scope="col" class="num" id="sort-intelligence" aria-sort="none"><button data-sort="intelligence" type="button">Intelligence ↕</button></th><th scope="col" class="num" id="sort-multiplier" aria-sort="none"><button data-sort="multiplier" type="button">Multiplier ↕</button></th><th scope="col" class="num" id="sort-tasks20" aria-sort="descending"><button data-sort="tasks20" type="button" id="task-sort-label">Tasks / $20 subscription spend ↓</button></th></tr></thead><tbody id="rows"></tbody></table></div></section>
-    <details class="method"><summary>Method, assumptions &amp; sources</summary><div class="method-grid"><div><h3>A common spending denominator</h3><div class="formula">Tasks / subscription $ = multiplier ÷ AA cost / task<br>Tasks / $20 = 20 × rounded tasks / subscription $</div><p>Tasks per subscription dollar are rounded to one decimal before multiplying by 20. The subscription-spend scenario scales these estimates by subscription fees / $20. API-equivalent values are calculation inputs; the budget itself is the amount paid for the subscription.</p><p>Sonnet Medium (intelligence 41) is below the qualifying floor. Grok Medium lacks the required benchmark values. Neither appears in this dataset; filters cannot add missing configurations.</p><h3>What counts as Pareto optimal?</h3><p>No other included configuration offers at least as much intelligence and throughput, with a strict improvement in either dimension. The explorer recomputes the frontier among the configurations matching your search, subscription, and floor filters.</p></div><div><h3>A snapshot, not a usage guarantee</h3><p>The Claude and ChatGPT multipliers are estimates derived from SemiAnalysis's API-equivalent subscription-value analysis. Cursor's multiplier is calculated from the author's usage exports: metered API-equivalent usage divided by subscription spend.</p><p>The Cursor exports included both Grok and Claude usage. Applying the full 20.7× multiplier to Grok assumes both available usage pools can be allocated to it. Benchmark tasks are a spending proxy; actual task volume depends on the workload and usage limits. Figures reflect the 8 October 2026 snapshot.</p><h3>Sources</h3><ul><li><a href="https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x">SemiAnalysis: Anthropic Subscriptions Offer 5x+ More Value Than OpenAI</a> — subscription-value research used to derive the Claude and ChatGPT multipliers.</li><li><strong>Artificial Analysis</strong> — intelligence scores and benchmark inputs by model and reasoning configuration: <a href="https://artificialanalysis.ai/models/comparisons/claude-sonnet-5-5-high-vs-claude-sonnet-5-5-xhigh">Sonnet</a>, <a href="https://artificialanalysis.ai/models/comparisons/claude-opus-5-5-medium-vs-claude-opus-5-5-xhigh">Opus</a>, <a href="https://artificialanalysis.ai/models/comparisons/gpt-6-1-sol-medium-vs-gpt-6-1-sol-xhigh">Sol</a>, and <a href="https://artificialanalysis.ai/models/comparisons/grok-4-7-high-vs-grok-4-7">Grok</a>.</li><li><strong>Cursor usage exports</strong> — the author's observed usage and subscription spend, used to calculate the 20.7× multiplier.</li></ul></div></div></details>
+    <details class="method"><summary>Method, assumptions &amp; sources</summary><div class="method-grid"><div><h3>A common spending denominator</h3><div class="formula">Tasks / subscription $ = multiplier ÷ AA cost / task<br>Tasks / $20 = 20 × rounded tasks / subscription $</div><p>Tasks per subscription dollar are rounded to one decimal before multiplying by 20. The subscription-spend scenario scales these estimates by subscription fees / $20. API-equivalent values are calculation inputs; the budget itself is the amount paid for the subscription.</p><p>The default intelligence floor is 46. Lower it to include Luna, Haiku, and other lower-scoring reasoning configurations. Fable is excluded because it is not available on all plans. Only configurations with published benchmark values are included.</p><h3>What counts as Pareto optimal?</h3><p>No other included configuration offers at least as much intelligence and throughput, with a strict improvement in either dimension. The explorer recomputes the frontier among the configurations matching your search, subscription, and floor filters.</p></div><div><h3>A snapshot, not a usage guarantee</h3><p>The Claude and ChatGPT multipliers are estimates derived from SemiAnalysis's API-equivalent subscription-value analysis. The same provider multipliers are applied across all included models and reasoning levels: Claude 58.9× and ChatGPT 10.6×. This is a comparison assumption, not a separate measurement for each model. Cursor's multiplier is calculated from the author's usage exports: metered API-equivalent usage divided by subscription spend.</p><p>The Cursor exports included both Grok and Claude usage. Applying the full 20.7× multiplier to Grok assumes both available usage pools can be allocated to it. Benchmark tasks are a spending proxy; actual task volume depends on the workload and usage limits. Figures reflect the 8 October 2026 snapshot.</p><h3>Sources</h3><ul><li><a href="https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x">SemiAnalysis: Anthropic Subscriptions Offer 5x+ More Value Than OpenAI</a> — subscription-value research used to derive the Claude and ChatGPT multipliers.</li><li>Additional Artificial Analysis release data: <a href="https://artificialanalysis.ai/models/releases/claude-sonnet-5-5">Sonnet</a>, <a href="https://artificialanalysis.ai/models/releases/claude-opus-5-5">Opus</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-1-sol">Sol</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-astra">Astra</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-luna">Luna</a>, <a href="https://artificialanalysis.ai/models/releases/claude-haiku-5-5">Haiku</a>, <a href="https://artificialanalysis.ai/models/releases/grok-4-7">Grok</a>. Haiku uses the Default Fallback configurations.</li><li><strong>Artificial Analysis</strong> — intelligence scores and benchmark inputs by model and reasoning configuration: <a href="https://artificialanalysis.ai/models/comparisons/claude-sonnet-5-5-high-vs-claude-sonnet-5-5-xhigh">Sonnet</a>, <a href="https://artificialanalysis.ai/models/comparisons/claude-opus-5-5-medium-vs-claude-opus-5-5-xhigh">Opus</a>, <a href="https://artificialanalysis.ai/models/comparisons/gpt-6-1-sol-medium-vs-gpt-6-1-sol-xhigh">Sol</a>, and <a href="https://artificialanalysis.ai/models/comparisons/grok-4-7-high-vs-grok-4-7">Grok</a>.</li><li><strong>Cursor usage exports</strong> — the author's observed usage and subscription spend, used to calculate the 20.7× multiplier.</li></ul></div></div></details>
   </main><footer class="wrap foot"><span>Subscription Value / Research snapshot · 08 October 2026</span><span><a href="README.md">Read the summary</a> &nbsp;·&nbsp; <a href="https://github.com/Nishimura-Katsuo/subscription-value">View repository ↗</a></span></footer>
   <script id="comparison-data" type="application/json">
-  [{"id":"sonnet-high","model":"Claude Sonnet 5.5","short":"Sonnet 5.5","provider":"Claude","reasoning":"High","intelligence":47,"multiplier":58.9,"benchmarkCost":0.88,"tasks20":1338},
-  {"id":"sol-medium","model":"GPT-6.1 Sol","short":"Sol 6.1","provider":"ChatGPT","reasoning":"Medium","intelligence":48,"multiplier":10.6,"benchmarkCost":0.21,"tasks20":1010},
-  {"id":"opus-medium","model":"Claude Opus 5.5","short":"Opus 5.5","provider":"Claude","reasoning":"Medium","intelligence":51,"multiplier":58.9,"benchmarkCost":1.34,"tasks20":880},
-  {"id":"sol-high","model":"GPT-6.1 Sol","short":"Sol 6.1","provider":"ChatGPT","reasoning":"High","intelligence":50,"multiplier":10.6,"benchmarkCost":0.32,"tasks20":662},
-  {"id":"opus-high","model":"Claude Opus 5.5","short":"Opus 5.5","provider":"Claude","reasoning":"High","intelligence":54,"multiplier":58.9,"benchmarkCost":1.82,"tasks20":648},
-  {"id":"sonnet-xhigh","model":"Claude Sonnet 5.5","short":"Sonnet 5.5","provider":"Claude","reasoning":"XHigh","intelligence":52,"multiplier":58.9,"benchmarkCost":2.01,"tasks20":586},
-  {"id":"sol-xhigh","model":"GPT-6.1 Sol","short":"Sol 6.1","provider":"ChatGPT","reasoning":"XHigh","intelligence":51,"multiplier":10.6,"benchmarkCost":0.39,"tasks20":544},
-  {"id":"opus-xhigh","model":"Claude Opus 5.5","short":"Opus 5.5","provider":"Claude","reasoning":"XHigh","intelligence":56,"multiplier":58.9,"benchmarkCost":3.46,"tasks20":340},
-  {"id":"grok-high","model":"Grok 4.7","short":"Grok 4.7","provider":"Cursor","reasoning":"High","intelligence":46,"multiplier":20.7,"benchmarkCost":2.73,"tasks20":152},
-  {"id":"grok-xhigh","model":"Grok 4.7","short":"Grok 4.7","provider":"Cursor","reasoning":"XHigh","intelligence":46,"multiplier":20.7,"benchmarkCost":3.74,"tasks20":110}]
-  </script>
+[
+  {
+    "id": "sonnet-high",
+    "model": "Claude Sonnet 5.5",
+    "short": "Sonnet 5.5",
+    "provider": "Claude",
+    "reasoning": "High",
+    "intelligence": 47,
+    "multiplier": 58.9,
+    "benchmarkCost": 0.88,
+    "tasks20": 1338
+  },
+  {
+    "id": "sol-medium",
+    "model": "GPT-6.1 Sol",
+    "short": "Sol 6.1",
+    "provider": "ChatGPT",
+    "reasoning": "Medium",
+    "intelligence": 48,
+    "multiplier": 10.6,
+    "benchmarkCost": 0.21,
+    "tasks20": 1010
+  },
+  {
+    "id": "opus-medium",
+    "model": "Claude Opus 5.5",
+    "short": "Opus 5.5",
+    "provider": "Claude",
+    "reasoning": "Medium",
+    "intelligence": 51,
+    "multiplier": 58.9,
+    "benchmarkCost": 1.34,
+    "tasks20": 880
+  },
+  {
+    "id": "sol-high",
+    "model": "GPT-6.1 Sol",
+    "short": "Sol 6.1",
+    "provider": "ChatGPT",
+    "reasoning": "High",
+    "intelligence": 50,
+    "multiplier": 10.6,
+    "benchmarkCost": 0.32,
+    "tasks20": 662
+  },
+  {
+    "id": "opus-high",
+    "model": "Claude Opus 5.5",
+    "short": "Opus 5.5",
+    "provider": "Claude",
+    "reasoning": "High",
+    "intelligence": 54,
+    "multiplier": 58.9,
+    "benchmarkCost": 1.82,
+    "tasks20": 648
+  },
+  {
+    "id": "sonnet-xhigh",
+    "model": "Claude Sonnet 5.5",
+    "short": "Sonnet 5.5",
+    "provider": "Claude",
+    "reasoning": "XHigh",
+    "intelligence": 52,
+    "multiplier": 58.9,
+    "benchmarkCost": 2.01,
+    "tasks20": 586
+  },
+  {
+    "id": "sol-xhigh",
+    "model": "GPT-6.1 Sol",
+    "short": "Sol 6.1",
+    "provider": "ChatGPT",
+    "reasoning": "XHigh",
+    "intelligence": 51,
+    "multiplier": 10.6,
+    "benchmarkCost": 0.39,
+    "tasks20": 544
+  },
+  {
+    "id": "opus-xhigh",
+    "model": "Claude Opus 5.5",
+    "short": "Opus 5.5",
+    "provider": "Claude",
+    "reasoning": "XHigh",
+    "intelligence": 56,
+    "multiplier": 58.9,
+    "benchmarkCost": 3.46,
+    "tasks20": 340
+  },
+  {
+    "id": "grok-high",
+    "model": "Grok 4.7",
+    "short": "Grok 4.7",
+    "provider": "Cursor",
+    "reasoning": "High",
+    "intelligence": 46,
+    "multiplier": 20.7,
+    "benchmarkCost": 2.73,
+    "tasks20": 152
+  },
+  {
+    "id": "grok-xhigh",
+    "model": "Grok 4.7",
+    "short": "Grok 4.7",
+    "provider": "Cursor",
+    "reasoning": "XHigh",
+    "intelligence": 46,
+    "multiplier": 20.7,
+    "benchmarkCost": 3.74,
+    "tasks20": 110
+  },
+  {
+    "id": "sonnet-low",
+    "model": "Claude Sonnet 5.5",
+    "short": "Sonnet 5.5",
+    "provider": "Claude",
+    "reasoning": "Low",
+    "intelligence": 36,
+    "multiplier": 58.9,
+    "benchmarkCost": 0.35,
+    "tasks20": 3366.0
+  },
+  {
+    "id": "sonnet-medium",
+    "model": "Claude Sonnet 5.5",
+    "short": "Sonnet 5.5",
+    "provider": "Claude",
+    "reasoning": "Medium",
+    "intelligence": 41,
+    "multiplier": 58.9,
+    "benchmarkCost": 0.48,
+    "tasks20": 2454.0
+  },
+  {
+    "id": "sonnet-max",
+    "model": "Claude Sonnet 5.5",
+    "short": "Sonnet 5.5",
+    "provider": "Claude",
+    "reasoning": "Max",
+    "intelligence": 56,
+    "multiplier": 58.9,
+    "benchmarkCost": 5.46,
+    "tasks20": 216.0
+  },
+  {
+    "id": "opus-low",
+    "model": "Claude Opus 5.5",
+    "short": "Opus 5.5",
+    "provider": "Claude",
+    "reasoning": "Low",
+    "intelligence": 42,
+    "multiplier": 58.9,
+    "benchmarkCost": 0.55,
+    "tasks20": 2142.0
+  },
+  {
+    "id": "opus-max",
+    "model": "Claude Opus 5.5",
+    "short": "Opus 5.5",
+    "provider": "Claude",
+    "reasoning": "Max",
+    "intelligence": 58,
+    "multiplier": 58.9,
+    "benchmarkCost": 5.98,
+    "tasks20": 196.0
+  },
+  {
+    "id": "sol-low",
+    "model": "GPT-6.1 Sol",
+    "short": "Sol 6.1",
+    "provider": "ChatGPT",
+    "reasoning": "Low",
+    "intelligence": 42,
+    "multiplier": 10.6,
+    "benchmarkCost": 0.13,
+    "tasks20": 1630.0
+  },
+  {
+    "id": "sol-max",
+    "model": "GPT-6.1 Sol",
+    "short": "Sol 6.1",
+    "provider": "ChatGPT",
+    "reasoning": "Max",
+    "intelligence": 52,
+    "multiplier": 10.6,
+    "benchmarkCost": 0.72,
+    "tasks20": 294.0
+  },
+  {
+    "id": "astra-low",
+    "model": "GPT-6 Astra",
+    "short": "Astra 6",
+    "provider": "ChatGPT",
+    "reasoning": "Low",
+    "intelligence": 46,
+    "multiplier": 10.6,
+    "benchmarkCost": 0.82,
+    "tasks20": 258.0
+  },
+  {
+    "id": "astra-medium",
+    "model": "GPT-6 Astra",
+    "short": "Astra 6",
+    "provider": "ChatGPT",
+    "reasoning": "Medium",
+    "intelligence": 50,
+    "multiplier": 10.6,
+    "benchmarkCost": 1.54,
+    "tasks20": 138.0
+  },
+  {
+    "id": "astra-high",
+    "model": "GPT-6 Astra",
+    "short": "Astra 6",
+    "provider": "ChatGPT",
+    "reasoning": "High",
+    "intelligence": 51,
+    "multiplier": 10.6,
+    "benchmarkCost": 1.73,
+    "tasks20": 122.0
+  },
+  {
+    "id": "astra-xhigh",
+    "model": "GPT-6 Astra",
+    "short": "Astra 6",
+    "provider": "ChatGPT",
+    "reasoning": "XHigh",
+    "intelligence": 52,
+    "multiplier": 10.6,
+    "benchmarkCost": 2.31,
+    "tasks20": 92.0
+  },
+  {
+    "id": "astra-max",
+    "model": "GPT-6 Astra",
+    "short": "Astra 6",
+    "provider": "ChatGPT",
+    "reasoning": "Max",
+    "intelligence": 53,
+    "multiplier": 10.6,
+    "benchmarkCost": 3.26,
+    "tasks20": 66.0
+  },
+  {
+    "id": "luna-low",
+    "model": "GPT-6 Luna",
+    "short": "Luna 6",
+    "provider": "ChatGPT",
+    "reasoning": "Low",
+    "intelligence": 22,
+    "multiplier": 10.6,
+    "benchmarkCost": 0.0045,
+    "tasks20": 47112.0
+  },
+  {
+    "id": "luna-medium",
+    "model": "GPT-6 Luna",
+    "short": "Luna 6",
+    "provider": "ChatGPT",
+    "reasoning": "Medium",
+    "intelligence": 30,
+    "multiplier": 10.6,
+    "benchmarkCost": 0.02,
+    "tasks20": 10600.0
+  },
+  {
+    "id": "luna-high",
+    "model": "GPT-6 Luna",
+    "short": "Luna 6",
+    "provider": "ChatGPT",
+    "reasoning": "High",
+    "intelligence": 33,
+    "multiplier": 10.6,
+    "benchmarkCost": 0.03,
+    "tasks20": 7066.0
+  },
+  {
+    "id": "luna-xhigh",
+    "model": "GPT-6 Luna",
+    "short": "Luna 6",
+    "provider": "ChatGPT",
+    "reasoning": "XHigh",
+    "intelligence": 35,
+    "multiplier": 10.6,
+    "benchmarkCost": 0.04,
+    "tasks20": 5300.0
+  },
+  {
+    "id": "luna-max",
+    "model": "GPT-6 Luna",
+    "short": "Luna 6",
+    "provider": "ChatGPT",
+    "reasoning": "Max",
+    "intelligence": 38,
+    "multiplier": 10.6,
+    "benchmarkCost": 0.07,
+    "tasks20": 3028.0
+  },
+  {
+    "id": "haiku-low",
+    "model": "Claude Haiku 5.5",
+    "short": "Haiku 5.5",
+    "provider": "Claude",
+    "reasoning": "Low",
+    "intelligence": 29,
+    "multiplier": 58.9,
+    "benchmarkCost": 0.02,
+    "tasks20": 58900.0
+  },
+  {
+    "id": "haiku-medium",
+    "model": "Claude Haiku 5.5",
+    "short": "Haiku 5.5",
+    "provider": "Claude",
+    "reasoning": "Medium",
+    "intelligence": 34,
+    "multiplier": 58.9,
+    "benchmarkCost": 0.05,
+    "tasks20": 23560.0
+  },
+  {
+    "id": "haiku-high",
+    "model": "Claude Haiku 5.5",
+    "short": "Haiku 5.5",
+    "provider": "Claude",
+    "reasoning": "High",
+    "intelligence": 38,
+    "multiplier": 58.9,
+    "benchmarkCost": 0.08,
+    "tasks20": 14726.0
+  },
+  {
+    "id": "haiku-xhigh",
+    "model": "Claude Haiku 5.5",
+    "short": "Haiku 5.5",
+    "provider": "Claude",
+    "reasoning": "XHigh",
+    "intelligence": 41,
+    "multiplier": 58.9,
+    "benchmarkCost": 0.12,
+    "tasks20": 9816.0
+  },
+  {
+    "id": "haiku-max",
+    "model": "Claude Haiku 5.5",
+    "short": "Haiku 5.5",
+    "provider": "Claude",
+    "reasoning": "Max",
+    "intelligence": 43,
+    "multiplier": 58.9,
+    "benchmarkCost": 0.21,
+    "tasks20": 5610.0
+  },
+  {
+    "id": "grok-low",
+    "model": "Grok 4.7",
+    "short": "Grok 4.7",
+    "provider": "Cursor",
+    "reasoning": "Low",
+    "intelligence": 42,
+    "multiplier": 20.7,
+    "benchmarkCost": 1.25,
+    "tasks20": 332.0
+  }
+]
+</script>
   <script id="report-code">
     'use strict';
     const models = JSON.parse(document.getElementById('comparison-data').textContent);
@@ -62,19 +417,23 @@
     // Keep chart labels offset from the actual point coordinates, especially the two close Grok tiers.
     const labels = {'sonnet-high':[14,-15,'start'],'sol-medium':[16,-18,'start'],'opus-medium':[17,-18,'start'],'sol-high':[-16,-17,'end'],'opus-high':[15,-16,'start'],'sonnet-xhigh':[14,23,'start'],'sol-xhigh':[-14,28,'end'],'opus-xhigh':[-16,-18,'end'],'grok-high':[21,-13,'start'],'grok-xhigh':[21,26,'start']};
     function renderChart(){
-      const x = intelligence => 82 + (intelligence - 45.4) / 11.2 * 858;
-      const yMax = 1400 * budget / 20;
+      const xMin = Math.min(...shown.map(model => model.intelligence),46) - 1;
+      const xMax = Math.max(...shown.map(model => model.intelligence),58) + 1;
+      const x = intelligence => 82 + (intelligence - xMin) / (xMax - xMin) * 858;
+      const peak = Math.max(...shown.map(model => tasks(model)),1);
+      const step = 10 ** Math.floor(Math.log10(peak / 5));
+      const yMax = Math.ceil(peak * 1.08 / step) * step;
       const y = value => 38 + (1 - value / yMax) * 420;
       let svg = '<title id="chart-title">Intelligence versus tasks per $' + budget + ' of subscription spend</title><desc id="chart-desc">' + shown.length + ' configurations visible. ' + frontier.length + ' on the frontier among matching configurations. Tab to focus points; use Enter or Space to select.</desc>';
       svg += '<defs><linearGradient id="frontier-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#bba7ff" stop-opacity=".09"/><stop offset="100%" stop-color="#bba7ff" stop-opacity="0"/></linearGradient></defs>';
-      for(let tick = 0; tick <= 1400; tick += 200){const py = y(tick * budget / 20);svg += '<line class="chart-grid" x1="82" x2="940" y1="' + py + '" y2="' + py + '"/><text class="chart-axis" x="65" y="' + (py + 4) + '" text-anchor="end">' + number(tick * budget / 20) + '</text>';}
-      for(let tick = 46; tick <= 56; tick += 2){const px = x(tick);svg += '<line class="chart-grid" y1="38" y2="458" x1="' + px + '" x2="' + px + '"/><text class="chart-axis" x="' + px + '" y="486" text-anchor="middle">' + tick + '</text>';}
+      for(let tick = 0; tick <= 5; tick++){const value = tick * yMax / 5, py = y(value);svg += '<line class="chart-grid" x1="82" x2="940" y1="' + py + '" y2="' + py + '"/><text class="chart-axis" x="65" y="' + (py + 4) + '" text-anchor="end">' + number(value) + '</text>';}
+      for(let tick = Math.ceil(xMin / 2) * 2; tick <= xMax; tick += (xMax - xMin > 20 ? 4 : 2)){const px = x(tick);svg += '<line class="chart-grid" y1="38" y2="458" x1="' + px + '" x2="' + px + '"/><text class="chart-axis" x="' + px + '" y="486" text-anchor="middle">' + tick + '</text>';}
       svg += '<text class="chart-axis" x="510" y="520" text-anchor="middle">Artificial Analysis Intelligence →</text><text class="chart-axis" transform="translate(20 248) rotate(-90)" text-anchor="middle">Tasks per $' + budget + ' subscription spend →</text>';
       if(frontier.length > 1){const points = frontier.map(model => x(model.intelligence) + ',' + y(tasks(model)));svg += '<polygon points="' + points.join(' ') + ' ' + x(frontier.at(-1).intelligence) + ',458 ' + x(frontier[0].intelligence) + ',458" fill="url(#frontier-fill)"/><polyline points="' + points.join(' ') + '" fill="none" stroke="#e0d8ff" stroke-width="2.2" stroke-linejoin="round"/>';}
       if(!shown.length) svg += '<text class="chart-axis" x="510" y="245" text-anchor="middle">No configurations match. Adjust the filters or reset.</text>';
       for(const model of shown){
-        const px = x(model.intelligence), py = y(tasks(model)), optimal = frontier.includes(model), label = labels[model.id], chosen = selected === model.id;
-        svg += '<g class="chart-point" role="button" tabindex="0" data-id="' + model.id + '" aria-pressed="' + chosen + '" aria-label="' + model.model + ' ' + model.reasoning + ', intelligence ' + model.intelligence + ', ' + number(tasks(model)) + ' tasks per $' + budget + ' of subscription spend, ' + (optimal ? 'on frontier' : 'dominated') + '"><circle class="point-halo" cx="' + px + '" cy="' + py + '" r="' + (chosen ? 12 : 9) + '" stroke="' + (chosen ? colors[model.provider] : 'transparent') + '" stroke-opacity=".8"/><circle class="point-dot" cx="' + px + '" cy="' + py + '" r="6" fill="' + colors[model.provider] + '" stroke="' + (optimal ? '#f2edff' : '#111622') + '" stroke-width="' + (optimal ? 2 : 1.5) + '"/><text class="chart-label" x="' + (px + label[0]) + '" y="' + (py + label[1]) + '" text-anchor="' + label[2] + '">' + model.short + ' · ' + model.reasoning + '</text></g>';
+        const px = x(model.intelligence), py = y(tasks(model)), optimal = frontier.includes(model), label = labels[model.id] || [-14,-16,'end'], chosen = selected === model.id;
+        svg += '<g class="chart-point" role="button" tabindex="0" data-id="' + model.id + '" aria-pressed="' + chosen + '" aria-label="' + model.model + ' ' + model.reasoning + ', intelligence ' + model.intelligence + ', ' + number(tasks(model)) + ' tasks per $' + budget + ' of subscription spend, ' + (optimal ? 'on frontier' : 'dominated') + '"><circle class="point-halo" cx="' + px + '" cy="' + py + '" r="' + (chosen ? 12 : 9) + '" stroke="' + (chosen ? colors[model.provider] : 'transparent') + '" stroke-opacity=".8"/><circle class="point-dot" cx="' + px + '" cy="' + py + '" r="6" fill="' + colors[model.provider] + '" stroke="' + (optimal ? '#f2edff' : '#111622') + '" stroke-width="' + (optimal ? 2 : 1.5) + '"/><title>' + model.short + ' · ' + model.reasoning + '</title>' + ((optimal || chosen) ? '<text class="chart-label" x="' + (px + label[0]) + '" y="' + (py + label[1]) + '" text-anchor="' + label[2] + '">' + model.short + ' · ' + model.reasoning + '</text>' : '') + '</g>';
       }
       chart.innerHTML = svg;
     }
@@ -85,10 +444,10 @@
       detail.innerHTML = '<div class="detail-head"><div class="detail-kicker">Selected configuration</div><h3>' + model.model + '</h3><p class="reason">' + model.reasoning + ' reasoning · ' + model.provider + '</p><span class="status ' + (optimal ? '' : 'dominated') + '">' + (optimal ? '↗ On the frontier' : '↓ Dominated configuration') + '</span></div><div><div class="detail-value" style="color:' + colors[model.provider] + '">' + number(tasks(model)) + '</div><p class="detail-unit">estimated tasks per $' + budget + ' of subscription spend</p></div><dl><div><dt>Intelligence</dt><dd>' + model.intelligence + '</dd></div><div><dt>Multiplier</dt><dd>' + model.multiplier + '×</dd></div><div><dt>Subscription / task</dt><dd>' + (20 / model.tasks20 * 100).toFixed(2) + '¢</dd></div></dl><p class="detail-explainer">' + (optimal ? 'No matching configuration improves intelligence and throughput without a tradeoff.' : better.short + ' ' + better.reasoning + ' offers intelligence ' + better.intelligence + ' and ' + number(tasks(better)) + ' tasks for the same spend.') + '</p>';
     }
     function renderTable(){
-      rows.innerHTML = shown.length ? shown.map((model,index) => '<tr class="' + (model.id === selected ? 'selected' : '') + '"><td class="rank">' + String(index + 1).padStart(2,'0') + '</td><td><button class="model-button" type="button" data-id="' + model.id + '" aria-pressed="' + (model.id === selected) + '"><span class="model-dot" style="background:' + colors[model.provider] + '"></span>' + model.model + (frontier.includes(model) ? '<span class="frontier-badge">Pareto</span>' : '') + '</button></td><td>' + model.reasoning + '</td><td class="num">' + model.intelligence + '</td><td class="num">' + model.multiplier + '×</td><td class="num tasks-cell">' + number(tasks(model)) + '<div class="mini-bar"><div style="width:' + model.tasks20 / 1338 * 100 + '%;background:' + colors[model.provider] + '"></div></div></td></tr>').join('') : '<tr><td class="empty" colspan="6">No matching configurations. Adjust your search or reset the filters.</td></tr>';
+      rows.innerHTML = shown.length ? shown.map((model,index) => '<tr class="' + (model.id === selected ? 'selected' : '') + '"><td class="rank">' + String(index + 1).padStart(2,'0') + '</td><td><button class="model-button" type="button" data-id="' + model.id + '" aria-pressed="' + (model.id === selected) + '"><span class="model-dot" style="background:' + colors[model.provider] + '"></span>' + model.model + (frontier.includes(model) ? '<span class="frontier-badge">Pareto</span>' : '') + '</button></td><td>' + model.reasoning + '</td><td class="num">' + model.intelligence + '</td><td class="num">' + model.multiplier + '×</td><td class="num tasks-cell">' + number(tasks(model)) + '<div class="mini-bar"><div style="width:' + model.tasks20 / Math.max(...shown.map(item => item.tasks20)) * 100 + '%;background:' + colors[model.provider] + '"></div></div></td></tr>').join('') : '<tr><td class="empty" colspan="6">No matching configurations. Adjust your search or reset the filters.</td></tr>';
       const titles = {model:'Model',intelligence:'Intelligence',multiplier:'Multiplier',tasks20:'Tasks / $' + budget + ' subscription spend'};
       document.querySelectorAll('[data-sort]').forEach(button => {const key = button.dataset.sort;button.textContent = titles[key] + (key === sortKey ? (sortDirection === -1 ? ' ↓' : ' ↑') : ' ↕');button.parentElement.setAttribute('aria-sort',key === sortKey ? (sortDirection === -1 ? 'descending' : 'ascending') : 'none');});
-      document.getElementById('table-meta').textContent = shown.length + ' of 10 configurations · sorted by ' + titles[sortKey].toLowerCase() + ' · ' + (sortDirection === -1 ? 'descending' : 'ascending');
+      document.getElementById('table-meta').textContent = shown.length + ' of ' + models.length + ' configurations · sorted by ' + titles[sortKey].toLowerCase() + ' · ' + (sortDirection === -1 ? 'descending' : 'ascending');
       document.getElementById('export').disabled = !shown.length;
     }
     function selectModel(id){
@@ -104,7 +463,7 @@
       shown = (controls['frontier-only'].checked ? frontier : eligible).slice().sort((a,b) => sortDirection * (sortKey === 'model' ? a.model.localeCompare(b.model) || a.reasoning.localeCompare(b.reasoning) : a[sortKey] - b[sortKey]));
       if(!shown.some(model => model.id === selected)) selected = shown[0]?.id || null;
       renderChart();renderTable();renderDetail();
-      document.getElementById('chart-status').textContent = shown.length + ' configurations visible · ' + frontier.length + ' on the frontier among matches' + (shown.length === 10 ? ' · all points visible' : '');
+      document.getElementById('chart-status').textContent = shown.length + ' configurations visible · ' + frontier.length + ' on the frontier among matches' ;
     }
     controls.search.addEventListener('input',render);
     ['provider','floor','frontier-only'].forEach(id => controls[id].addEventListener('change',render));
