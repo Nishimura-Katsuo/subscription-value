@@ -12,17 +12,21 @@ const metricValue = runInNewContext(valueCode + '\nmetricValue',{models:data});
 const pareto = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\n' + code.match(/^    const pareto = .+$/m)[0] + '\npareto',{models:data});
 const expected = [1338, 1010, 880, 662, 648, 586, 544, 340, 152, 110];
 assert.deepEqual(data.slice(0,10).map(model => model.tasks20), expected);
-assert.equal(new Set(data.map(model => model.id)).size, 33);
+assert.equal(new Set(data.map(model => model.id)).size, 38);
 for (const model of data) {
   assert.ok(Number.isFinite(model.intelligence) && model.intelligence > 0);
-  assert.ok(model.benchmarkCost > 0 && Number.isFinite(model.multiplier));
-  assert.equal(Math.round(model.multiplier / model.benchmarkCost * 10) / 10 * 20, model.tasks20);
+  assert.ok(Number.isFinite(model.multiplier));
+  if(model.tasks20 !== null) assert.ok(model.benchmarkCost > 0);
+  if(model.tasks20 !== null) assert.equal(Math.round(model.multiplier / model.benchmarkCost * 10) / 10 * 20, model.tasks20);
   if (data.indexOf(model) < 10) assert.ok(readme.includes(`| ${model.model} | ${model.reasoning} | ${model.intelligence} | ${model.multiplier}× | **${model.tasks20.toLocaleString('en-US')}** |`));
 }
-assert.equal(pareto(data.filter(model => model.intelligence >= 46)).map(model => model.id).join(','), 'sonnet-high,sol-medium,opus-medium,opus-high,opus-xhigh,opus-max');
-assert.equal(data.filter(model => model.intelligence >= 46).length, 18);
+assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null)).map(model => model.id).join(','), 'sonnet-high,sol-medium,opus-medium,opus-high,opus-xhigh,opus-max');
+assert.equal(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null).length, 23);
 assert.ok(data.filter(model => /Luna|Haiku/.test(model.model)).every(model => model.intelligence < 46));
-assert.ok(!data.some(model => model.model.includes('Fable')));
+assert.equal(data.filter(model => model.model.includes('Fable')).length,5);
+assert.ok(data.filter(model => /Fable|Astra/.test(model.model)).every(model => metricValue(model,'tasks') > 0));
+assert.equal(data.filter(model => metricValue(model,'tasks') !== null).length,38);
+assert.ok(data.filter(model => model.model.includes('Fable')).every(model => metricValue(model,'bugs') > 0));
 assert.ok(html.includes('value="46" selected'));
 assert.ok(!html.includes('Download original $20 graph'));
 assert.equal(pareto(data.filter(model => model.provider === 'Cursor' && model.intelligence >= 46)).map(model => model.id).join(','), 'grok-high');
@@ -34,6 +38,7 @@ assert.equal(chartY(1,1000,1,true),458);
 assert.equal(chartY(1000,1000,1,true),38);
 assert.equal(chartY(0,1000,1,false),458);
 for (const model of data) {
+  if(model.tasks20 === null) continue;
   const py = chartY(model.tasks20,70000,10,true);
   assert.ok(Number.isFinite(py) && py >= 38 && py <= 458);
 }
@@ -54,7 +59,7 @@ assert.equal(data.find(model => model.id === 'sol-medium').bugHunt.fixed,29);
 assert.equal(data.find(model => model.id === 'grok-xhigh').bugHunt.n_runs,5);
 assert.equal(data.find(model => model.id === 'grok-xhigh').bugHunt.cost_kind,'floor');
 assert.equal(metricValue({tasks20:10},'bugs'),null);
-assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'bugs') !== null),'bugs').map(model => model.id).join(','),'sol-medium,sol-high,sol-xhigh,sol-max,astra-xhigh');
+assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'bugs') !== null),'bugs').map(model => model.id).join(','),'sol-medium,sol-high,sol-xhigh,sol-max,astra-xhigh,fable-max');
 const solMedium = data.find(model => model.id === 'sol-medium');
 assert.equal(reliableBugs(solMedium).length,25);
 assert.ok(Math.abs(metricValue(solMedium,'bugs') - 1.76 / (10.6 * (29 + 30.5))) < 1e-10);
@@ -75,7 +80,7 @@ const easy = Object.keys(weights).find(id => weights[id] === Math.min(...Object.
 const hard = Object.keys(weights).find(id => weights[id] === Math.max(...Object.values(weights).filter(weight => weight !== null)));
 assert.equal(bugScore({bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[easy]:2,[hard]:2}}}),weights[easy] + weights[hard]);
 assert.ok(html.includes('data-sort="bugScore"'));
-console.log('Report checks passed: 33 configurations, original README values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
+console.log('Report checks passed: 38 configurations, original README values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
 
 const dominates = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\ndominates',{models:data});
 const candidate = {intelligence:58,multiplier:10,bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[hard]:2},fixed:1,extras:1,cost_usd:1}};
@@ -110,3 +115,9 @@ for(const model of data) assert.ok(Number.isFinite(model.bugHunt.extras) && mode
 assert.equal(data.find(model=>model.id==='sol-medium').bugHunt.extras,30.5);
 const costPerBug = runInNewContext(valueCode + '\ncostPerBug',{models:data});
 assert.ok(costPerBug({...candidate,bugHunt:{...candidate.bugHunt,extras:3}}) < costPerBug(candidate));
+
+assert.equal(reliableBugs({model:'Claude Fable 5.1',bugHunt:{n_runs:1,coverage_runs:1,bug_hits:{1:1}}}).join(','),'1');
+assert.equal(data.filter(model => metricValue(model,'bugs') !== null).length,32);
+
+assert.equal(data.filter(model => model.model === 'Claude Fable 5.1').map(model => model.tasks20).join(','),'498,396,302,196,154');
+assert.ok(data.filter(model => model.model === 'Claude Fable 5.1').every(model => model.multiplier === 58.9));
