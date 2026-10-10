@@ -8,7 +8,7 @@
   <title>Subscription Value Comparison</title>
   <style>
     :root{--bg:#090c14;--panel:#111622;--text:#e9edf6;--muted:#9ba7bd;--line:#273042;--purple:#bba7ff;--mint:#69dbc2;--orange:#f3b87b;--font:Inter,"Segoe UI",system-ui,sans-serif}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 75% 0%,#23203c55,transparent 38%),var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;font-size:15px}a{color:var(--purple);text-decoration:none}a:hover{text-decoration:underline}button,input,select{font:inherit;color:inherit}button,a,input,select{touch-action:manipulation}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--mint);outline-offset:4px}button:disabled{cursor:default;opacity:.5}input,select{background:#0c111c;border:1px solid #354159;border-radius:8px;padding:9px 12px;min-height:42px}button{border:1px solid var(--line);background:#181f2d;border-radius:8px;padding:9px 13px;min-height:42px}button:hover{background:#232c3e}.skip{position:absolute;left:16px;top:-80px;background:#fff;color:#111;padding:12px;z-index:9}.skip:focus{top:10px}.wrap{width:min(1240px,calc(100% - 64px));margin:auto}.hero{padding:38px 0 25px}h1{font-size:clamp(28px,3vw,36px);line-height:1.2;letter-spacing:-.8px;margin:0;font-weight:600}.caption{font-size:11px;color:var(--muted);margin:17px 0 0}.section-title{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:21px}.section-title h2{font-size:26px;letter-spacing:-.8px;margin:0 0 3px;font-weight:600}.section-title p{color:var(--muted);font-size:13px;margin:0}.panel{border:1px solid var(--line);background:var(--panel);border-radius:15px;overflow:hidden}.controls{display:flex;flex-wrap:wrap;gap:14px;align-items:end;padding:19px 23px;border-bottom:1px solid var(--line);background:#141a27}.field{display:flex;flex-direction:column;gap:5px;font-size:11px;letter-spacing:.4px;color:#b1bdd0}.field input,.field select{font-size:13px;letter-spacing:0}.search-field{flex:1;min-width:190px}.budget-field input{width:96px}.frontier-toggle{display:flex;align-items:center;gap:8px;font-size:12px;color:#c3ccda;min-height:42px;margin-bottom:0}.frontier-toggle input{accent-color:var(--purple);width:16px;min-height:16px;padding:0}.reset{font-size:12px;color:#bcc6d6}.chart-layout{display:grid;grid-template-columns:minmax(0,1fr) 245px}.chart-main{padding:20px 15px 8px;min-width:0}.legend{display:flex;flex-wrap:wrap;gap:20px;font-size:11px;color:#bcc7d8;margin:0 0 5px 30px}.legend span{display:flex;align-items:center;gap:6px}.legend i{width:7px;height:7px;border-radius:50%;display:inline-block}.legend .line-sample{width:19px;height:0;border-radius:0;border-top:2px solid #e0d8ff}.chart-scroll{overflow-x:auto}#chart{display:block;width:100%;height:auto;min-width:620px}.chart-point{cursor:pointer}.chart-point:focus{outline:none}.chart-point:focus .point-halo{stroke:var(--mint);stroke-width:3}.chart-point .point-halo{fill:none}.chart-point:hover .point-dot{stroke:#fff;stroke-width:3}.chart-label{display:none;pointer-events:none;fill:#d4dceb;font-size:11px;font-family:var(--font)}.chart-point.optimal .chart-label,.chart-point[aria-pressed="true"] .chart-label,.chart-point:hover .chart-label,.chart-point:focus .chart-label{display:block}.chart-axis{fill:#98a6bd;font-size:11px;font-family:var(--font)}.chart-grid{stroke:#252e40;stroke-dasharray:3 5}.detail{border-left:1px solid var(--line);padding:28px 22px;background:#0e1420}.detail-kicker{font-size:10px;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase}.detail h3{font-size:20px;line-height:1.35;letter-spacing:-.5px;margin:14px 0 8px}.detail .reason{font-size:12px;color:var(--muted);margin:0 0 15px}.status{display:inline-flex;gap:6px;align-items:center;border:1px solid #315448;color:#a1e8d3;background:#17332977;padding:3px 8px;border-radius:5px;font-size:10px}.status.dominated{border-color:#56442f;color:#e6c094;background:#3b2c1b66}.detail-value{font-size:34px;letter-spacing:-1px;margin:22px 0 0;font-weight:650;font-variant-numeric:tabular-nums}.detail-unit{font-size:11px;color:var(--muted);margin:0 0 18px}.detail dl{margin:0;font-size:12px}.detail dl div{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding:10px 0;gap:10px}.detail dt{color:var(--muted)}.detail dd{margin:0;font-variant-numeric:tabular-nums}.detail-explainer{font-size:11px;color:#aab6ca;margin:18px 0 0}.chart-foot{display:flex;justify-content:space-between;align-items:center;gap:18px;border-top:1px solid var(--line);padding:13px 23px;font-size:11px;color:var(--muted)}.chart-foot a{white-space:nowrap}.table-section{margin-top:46px}.table-meta{font-size:12px;color:var(--muted)}.table-scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px;white-space:nowrap}th{color:#9dabbe;font-size:11px;letter-spacing:.2px;text-align:left;padding:14px 22px;background:#151c2a;border-bottom:1px solid var(--line);font-weight:500}th.num,td.num{text-align:right}th button{border:0;background:transparent;padding:0;min-height:28px;color:inherit;font-size:inherit;border-radius:2px}th button:hover{color:#fff;background:transparent}td{padding:14px 22px;border-bottom:1px solid #222b3c;font-variant-numeric:tabular-nums}tbody tr:last-child td{border-bottom:0}tbody tr:hover{background:#1a2232}tbody tr.selected{background:#bba7ff0b}.rank{color:#6e7e96;font-size:11px;width:42px}.model-button{display:flex;align-items:center;gap:10px;border:0;background:transparent;padding:0;min-height:30px;font-size:13px;text-align:left}.model-button:hover{background:none;color:#fff}.model-dot{width:7px;height:7px;flex-shrink:0;border-radius:50%}.frontier-badge{font-size:9px;text-transform:uppercase;letter-spacing:.7px;color:#bca8ff;background:#bba7ff13;border-radius:4px;padding:2px 5px;margin-left:2px}.tasks-cell{font-weight:650;min-width:160px}.mini-bar{width:88px;height:3px;background:#293244;margin-top:5px;margin-left:auto;border-radius:3px}.mini-bar div{height:100%;border-radius:3px}.export{font-size:12px}.empty{text-align:center!important;color:var(--muted);padding:32px!important}.method{border-top:1px solid var(--line);padding:28px 0 38px}.method summary{cursor:pointer;font-size:14px;font-weight:550;min-height:35px}.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:42px;padding:10px 0}.method h3{font-size:13px;font-weight:600;color:var(--text)}.method p,.method li{font-size:12px;color:var(--muted)}.formula{border:1px solid var(--line);border-radius:8px;background:#111622;padding:14px 18px;font-family:ui-monospace,Consolas,monospace;font-size:12px;line-height:1.8;color:#d3c6ff;overflow-x:auto}.method ul{padding-left:18px}noscript{display:block;padding:24px;border:1px solid var(--line);margin:24px 0;border-radius:12px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    *{box-sizing:border-box}[hidden]{display:none!important}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 75% 0%,#23203c55,transparent 38%),var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;font-size:15px}a{color:var(--purple);text-decoration:none}a:hover{text-decoration:underline}button,input,select{font:inherit;color:inherit}button,a,input,select{touch-action:manipulation}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--mint);outline-offset:4px}button:disabled{cursor:default;opacity:.5}input,select{background:#0c111c;border:1px solid #354159;border-radius:8px;padding:9px 12px;min-height:42px}button{border:1px solid var(--line);background:#181f2d;border-radius:8px;padding:9px 13px;min-height:42px}button:hover{background:#232c3e}.skip{position:absolute;left:16px;top:-80px;background:#fff;color:#111;padding:12px;z-index:9}.skip:focus{top:10px}.wrap{width:min(1240px,calc(100% - 64px));margin:auto}.hero{padding:38px 0 25px}h1{font-size:clamp(28px,3vw,36px);line-height:1.2;letter-spacing:-.8px;margin:0;font-weight:600}.caption{font-size:11px;color:var(--muted);margin:17px 0 0}.section-title{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:21px}.section-title h2{font-size:26px;letter-spacing:-.8px;margin:0 0 3px;font-weight:600}.section-title p{color:var(--muted);font-size:13px;margin:0}.panel{border:1px solid var(--line);background:var(--panel);border-radius:15px;overflow:hidden}.controls{display:flex;flex-wrap:wrap;gap:14px;align-items:end;padding:19px 23px;border-bottom:1px solid var(--line);background:#141a27}.field{display:flex;flex-direction:column;gap:5px;font-size:11px;letter-spacing:.4px;color:#b1bdd0}.field input,.field select{font-size:13px;letter-spacing:0}.search-field{flex:1;min-width:190px}.budget-field input{width:96px}.frontier-toggle{display:flex;align-items:center;gap:8px;font-size:12px;color:#c3ccda;min-height:42px;margin-bottom:0}.frontier-toggle input{accent-color:var(--purple);width:16px;min-height:16px;padding:0}.reset{font-size:12px;color:#bcc6d6}.chart-layout{display:grid;grid-template-columns:minmax(0,1fr) 245px}.chart-main{padding:20px 15px 8px;min-width:0}.legend{display:flex;flex-wrap:wrap;gap:20px;font-size:11px;color:#bcc7d8;margin:0 0 5px 30px}.legend span{display:flex;align-items:center;gap:6px}.legend i{width:7px;height:7px;border-radius:50%;display:inline-block}.legend .line-sample{width:19px;height:0;border-radius:0;border-top:2px solid #e0d8ff}.chart-scroll{overflow-x:auto}#chart{display:block;width:100%;height:auto;min-width:620px}.chart-point{cursor:pointer}.chart-point:focus{outline:none}.chart-point:focus .point-halo{stroke:var(--mint);stroke-width:3}.chart-point .point-halo{fill:none}.chart-point:hover .point-dot{stroke:#fff;stroke-width:3}.chart-label{display:none;pointer-events:none;fill:#d4dceb;font-size:11px;font-family:var(--font)}.chart-point.optimal .chart-label,.chart-point[aria-pressed="true"] .chart-label,.chart-point:hover .chart-label,.chart-point:focus .chart-label{display:block}.chart-axis{fill:#98a6bd;font-size:11px;font-family:var(--font)}.chart-grid{stroke:#252e40;stroke-dasharray:3 5}.detail{border-left:1px solid var(--line);padding:28px 22px;background:#0e1420}.detail-kicker{font-size:10px;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase}.detail h3{font-size:20px;line-height:1.35;letter-spacing:-.5px;margin:14px 0 8px}.detail .reason{font-size:12px;color:var(--muted);margin:0 0 15px}.status{display:inline-flex;gap:6px;align-items:center;border:1px solid #315448;color:#a1e8d3;background:#17332977;padding:3px 8px;border-radius:5px;font-size:10px}.status.dominated{border-color:#56442f;color:#e6c094;background:#3b2c1b66}.detail-value{font-size:34px;letter-spacing:-1px;margin:22px 0 0;font-weight:650;font-variant-numeric:tabular-nums}.detail-unit{font-size:11px;color:var(--muted);margin:0 0 18px}.detail dl{margin:0;font-size:12px}.detail dl div{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding:10px 0;gap:10px}.detail dt{color:var(--muted)}.detail dd{margin:0;font-variant-numeric:tabular-nums}.detail-explainer{font-size:11px;color:#aab6ca;margin:18px 0 0}.chart-foot{display:flex;justify-content:space-between;align-items:center;gap:18px;border-top:1px solid var(--line);padding:13px 23px;font-size:11px;color:var(--muted)}.chart-foot a{white-space:nowrap}.table-section{margin-top:46px}.table-meta{font-size:12px;color:var(--muted)}.table-scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px;white-space:nowrap}th{color:#9dabbe;font-size:11px;letter-spacing:.2px;text-align:left;padding:14px 22px;background:#151c2a;border-bottom:1px solid var(--line);font-weight:500}th.num,td.num{text-align:right}th button{border:0;background:transparent;padding:0;min-height:28px;color:inherit;font-size:inherit;border-radius:2px}th button:hover{color:#fff;background:transparent}td{padding:14px 22px;border-bottom:1px solid #222b3c;font-variant-numeric:tabular-nums}tbody tr:last-child td{border-bottom:0}tbody tr:hover{background:#1a2232}tbody tr.selected{background:#bba7ff0b}.rank{color:#6e7e96;font-size:11px;width:42px}.model-button{display:flex;align-items:center;gap:10px;border:0;background:transparent;padding:0;min-height:30px;font-size:13px;text-align:left}.model-button:hover{background:none;color:#fff}.model-dot{width:7px;height:7px;flex-shrink:0;border-radius:50%}.frontier-badge{font-size:9px;text-transform:uppercase;letter-spacing:.7px;color:#bca8ff;background:#bba7ff13;border-radius:4px;padding:2px 5px;margin-left:2px}.tasks-cell{font-weight:650;min-width:160px}.mini-bar{width:88px;height:3px;background:#293244;margin-top:5px;margin-left:auto;border-radius:3px}.mini-bar div{height:100%;border-radius:3px}.export{font-size:12px}.empty{text-align:center!important;color:var(--muted);padding:32px!important}.method{border-top:1px solid var(--line);padding:28px 0 38px}.method summary{cursor:pointer;font-size:14px;font-weight:550;min-height:35px}.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:42px;padding:10px 0}.method h3{font-size:13px;font-weight:600;color:var(--text)}.method p,.method li{font-size:12px;color:var(--muted)}.formula{border:1px solid var(--line);border-radius:8px;background:#111622;padding:14px 18px;font-family:ui-monospace,Consolas,monospace;font-size:12px;line-height:1.8;color:#d3c6ff;overflow-x:auto}.method ul{padding-left:18px}noscript{display:block;padding:24px;border:1px solid var(--line);margin:24px 0;border-radius:12px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
     @media(max-width:1000px){.wrap{width:calc(100% - 40px)}.chart-layout{grid-template-columns:minmax(0,1fr)}.detail{border-left:0;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:0 28px;padding:20px 25px}.detail-head{grid-row:span 2}.detail-value{margin-top:0}.detail dl,.detail-explainer{grid-column:span 2}.detail dl{display:flex;gap:20px;flex-wrap:wrap}.detail dl div{gap:10px;flex:1}}
     @media(max-width:680px){.wrap{width:calc(100% - 30px)}.hero{padding:28px 0 22px}.section-title{align-items:start}.section-title h2{font-size:23px}.section-title p{font-size:12px}.controls{padding:16px;gap:12px}.search-field{width:100%;flex-basis:100%}.field select{max-width:170px}.frontier-toggle{flex:1}.legend{margin-left:12px;gap:14px}.chart-main{padding:15px 8px 4px}.chart-foot{padding:12px 16px;flex-wrap:wrap;gap:6px}.table-section{margin-top:30px}td,th{padding:12px 16px}.method-grid{grid-template-columns:1fr;gap:10px}.detail{gap:0 15px;padding:20px}.detail-value{font-size:30px}.detail h3{font-size:18px}.detail dl{gap:14px}.export{font-size:11px;padding:8px 10px}.table-meta{font-size:11px}}
@@ -23,15 +23,15 @@
     <noscript>The interactive explorer needs JavaScript. The <a href="../README.md">original comparison table</a> is also available.</noscript>
     <section id="explorer" aria-labelledby="explorer-title"><div class="section-title"><div><h2 id="explorer-title">The value frontier</h2><p id="floor-context">In my experience, Grok 4.7 is the least capable model that can still complete math and coding work successfully in messy codebases. That makes its Artificial Analysis score of 46 my intelligence floor for this comparison. Your mileage may vary.</p></div></div>
       <div class="panel">
-        <div class="controls"><label class="field">Metric<select id="metric"><option value="tasks">Tasks / $</option><option value="bugs">Bugs fixed / subscription $</option></select></label><label class="field search-field">Search configurations<input id="search" type="search" placeholder="Try Opus, Sol, or XHigh…" autocomplete="off"></label><label class="field">Subscription<select id="provider"><option value="all">All subscriptions</option><option>Claude</option><option>ChatGPT</option><option>Cursor</option></select></label><label class="field">Intelligence floor<select id="floor"><option value="0">All intelligence levels</option><option value="22">≥22</option><option value="23">≥23</option><option value="24">≥24</option><option value="25">≥25</option><option value="26">≥26</option><option value="27">≥27</option><option value="28">≥28</option><option value="29">≥29</option><option value="30">≥30</option><option value="31">≥31</option><option value="32">≥32</option><option value="33">≥33</option><option value="34">≥34</option><option value="35">≥35</option><option value="36">≥36</option><option value="37">≥37</option><option value="38">≥38</option><option value="39">≥39</option><option value="40">≥40</option><option value="41">≥41</option><option value="42">≥42</option><option value="43">≥43</option><option value="44">≥44</option><option value="45">≥45</option><option value="46" selected>≥46 · Original floor</option><option value="47">≥47</option><option value="48">≥48</option><option value="49">≥49</option><option value="50">≥50</option><option value="51">≥51</option><option value="52">≥52</option><option value="53">≥53</option><option value="54">≥54</option><option value="55">≥55</option><option value="56">≥56</option><option value="57">≥57</option><option value="58">≥58</option></select></label><label class="field budget-field">Subscription spend ($)<input aria-describedby="subscription-budget-help" id="budget" type="number" min="1" max="1000" step="1" value="20" required></label><label class="field">Chart scale<select id="scale"><option value="linear">Linear</option><option value="log">Logarithmic</option></select></label><label class="frontier-toggle"><input id="frontier-only" type="checkbox">Frontier only</label><button id="reset" class="reset" type="button">Reset</button></div>
+        <div class="controls"><label class="field">Metric<select id="metric"><option value="tasks">Tasks / $</option><option value="bugs">Subscription $ / reliable bug</option></select></label><label class="field search-field">Search configurations<input id="search" type="search" placeholder="Try Opus, Sol, or XHigh…" autocomplete="off"></label><label class="field">Subscription<select id="provider"><option value="all">All subscriptions</option><option>Claude</option><option>ChatGPT</option><option>Cursor</option></select></label><label class="field"><span id="floor-label">AA intelligence floor</span><select id="floor"><option value="0">All intelligence levels</option><option value="22">≥22</option><option value="23">≥23</option><option value="24">≥24</option><option value="25">≥25</option><option value="26">≥26</option><option value="27">≥27</option><option value="28">≥28</option><option value="29">≥29</option><option value="30">≥30</option><option value="31">≥31</option><option value="32">≥32</option><option value="33">≥33</option><option value="34">≥34</option><option value="35">≥35</option><option value="36">≥36</option><option value="37">≥37</option><option value="38">≥38</option><option value="39">≥39</option><option value="40">≥40</option><option value="41">≥41</option><option value="42">≥42</option><option value="43">≥43</option><option value="44">≥44</option><option value="45">≥45</option><option value="46" selected>≥46 · Original floor</option><option value="47">≥47</option><option value="48">≥48</option><option value="49">≥49</option><option value="50">≥50</option><option value="51">≥51</option><option value="52">≥52</option><option value="53">≥53</option><option value="54">≥54</option><option value="55">≥55</option><option value="56">≥56</option><option value="57">≥57</option><option value="58">≥58</option></select></label><label class="field budget-field">Subscription spend ($)<input aria-describedby="subscription-budget-help" id="budget" type="number" min="1" max="1000" step="1" value="20" required></label><label class="frontier-toggle"><input id="frontier-only" type="checkbox">Frontier only</label><button id="reset" class="reset" type="button">Reset</button></div>
         <p id="subscription-budget-help" class="caption" style="margin:0;padding:12px 23px;border-bottom:1px solid var(--line)">This amount is subscription fees only. API credits and on-demand usage charges are excluded.</p>
-        <p id="metric-context" class="caption" style="margin:0;padding:12px 23px;border-bottom:1px solid var(--line)" hidden>Bug Hunt measures verified fixes of planted bugs. Estimates reuse our subscription multipliers; Grok estimates are upper bounds because its reported costs are lower bounds. <a href="https://bughunt.productcompass.pm/">Source and run details ↗</a></p><div class="chart-layout"><div class="chart-main"><div class="legend" aria-label="Chart legend"><span><i style="background:var(--purple)"></i>Claude</span><span><i style="background:var(--mint)"></i>ChatGPT</span><span><i style="background:var(--orange)"></i>Cursor / Grok</span><span><i class="line-sample"></i>Pareto frontier</span><span><i class="line-sample" style="border-top-style:dotted"></i>Model effort levels</span></div><div class="chart-scroll"><svg id="chart" viewBox="0 0 1000 540" role="group" aria-labelledby="chart-title chart-desc"><title id="chart-title">Intelligence versus tasks per $20 of subscription spend</title><desc id="chart-desc">Explore configurations and their Pareto frontier. Use Tab to focus a point or select a model in the table.</desc></svg></div></div><aside id="detail" class="detail" aria-label="Selected configuration details"></aside></div>
+        <p id="metric-context" class="caption" style="margin:0;padding:12px 23px;border-bottom:1px solid var(--line)" hidden>Only bugs fixed in every recorded run count. At least two runs are required, except Astra’s single-run results, which are included with repeatability unverified. Each bug earns the lowest intelligence score of a reliable solver among our included configurations. The horizontal rating sums the difficulty weights of reliably fixed bugs; lower subscription cost per reliable bug is better on the vertical axis. Grok costs are lower-bound estimates. <a href="https://bughunt.productcompass.pm/">Source and run details ↗</a></p><div class="chart-layout"><div class="chart-main"><div class="legend" aria-label="Chart legend"><span><i style="background:var(--purple)"></i>Claude</span><span><i style="background:var(--mint)"></i>ChatGPT</span><span><i style="background:var(--orange)"></i>Cursor / Grok</span><span><i class="line-sample"></i>Pareto frontier</span><span><i class="line-sample" style="border-top-style:dotted"></i>Model effort levels</span></div><div class="chart-scroll"><svg id="chart" viewBox="0 0 1000 540" role="group" aria-labelledby="chart-title chart-desc"><title id="chart-title">Intelligence versus tasks per $20 of subscription spend</title><desc id="chart-desc">Explore configurations and their Pareto frontier. Use Tab to focus a point or select a model in the table.</desc></svg></div></div><aside id="detail" class="detail" aria-label="Selected configuration details"></aside></div>
         <div class="chart-foot"><span id="chart-status" role="status" aria-live="polite">Loading configurations…</span></div>
       </div>
-      <p class="caption">Subscription-spend scenarios scale the estimates linearly; they do not represent available plans or actual quotas. The solid line marks the Pareto frontier. Use logarithmic scale to separate points when throughput differs widely. Dotted lines connect each model’s visible reasoning levels from Low to Max; lines do not imply intermediate configurations.</p>
+      <p class="caption">In tasks mode, subscription-spend scenarios scale the estimates linearly; they do not represent available plans or actual quotas. The solid line marks the Pareto frontier. Bug costs use an inverted logarithmic scale: higher points cost less. In both modes, the upper-right direction is better. Dotted lines connect each model’s visible reasoning levels from Low to Max; lines do not imply intermediate configurations.</p>
     </section>
-    <section class="table-section" aria-labelledby="table-title"><div class="section-title"><div><h2 id="table-title">Every configuration, compared</h2><p id="table-meta" class="table-meta">Sorted by tasks per $20 of subscription spend · descending</p></div><button class="export" id="export" type="button">Export filtered CSV ↓</button></div><div class="panel table-scroll"><table><caption class="sr-only">Filtered model and reasoning configurations. Column buttons change sort order. Model buttons select chart points.</caption><thead><tr><th scope="col">#</th><th scope="col" id="sort-model" aria-sort="none"><button data-sort="model" type="button">Model ↕</button></th><th scope="col">Reasoning</th><th scope="col" class="num" id="sort-intelligence" aria-sort="none"><button data-sort="intelligence" type="button">Intelligence ↕</button></th><th scope="col" class="num" id="sort-multiplier" aria-sort="none"><button data-sort="multiplier" type="button">Multiplier ↕</button></th><th scope="col" class="num" id="sort-tasks20" aria-sort="descending"><button data-sort="tasks20" type="button" id="task-sort-label">Tasks / $20 subscription spend ↓</button></th></tr></thead><tbody id="rows"></tbody></table></div></section>
-    <details class="method"><summary>Method, assumptions &amp; sources</summary><div class="method-grid"><div><h3>A common spending denominator</h3><div class="formula">Tasks / subscription $ = multiplier ÷ AA cost / task<br>Tasks / $20 = 20 × rounded tasks / subscription $</div><p>All task counts are estimates. Tasks per subscription dollar are rounded to one decimal before multiplying by 20. The subscription-spend scenario scales these estimates by subscription fees / $20. API-equivalent values are calculation inputs; the budget itself is the amount paid for the subscription.</p><p>The default intelligence floor is 46. Lower it to include Luna, Haiku, and other lower-scoring reasoning configurations. Fable is excluded because it is not available on all plans. Only configurations with published benchmark values are included.</p><h3>Bugs fixed per subscription dollar</h3><div class="formula">Bugs fixed / subscription $ = multiplier × planted bugs fixed ÷ source run cost</div><p>The Bug Hunt snapshot is dated 2026-10-08. We match the exact model and effort level, omit superseded rows, and use the published current run or mean. Only verified planted-bug fixes count; partial fixes, claims, and extra bugs are excluded. Multipliers remain the same comparison assumptions. Bug estimates use the unrounded ratio before scaling by subscription spend.</p><p>We assume first-party harnesses and make no adjustment for Grok Build versus Cursor. Results may be single runs or means. Grok costs are reconstructed lower bounds, making its bugs-per-dollar estimates upper bounds. Other matched costs are list-rate estimates. Small differences may reflect run variance. Missing configurations are omitted from bugs mode; Artificial Analysis still supplies the intelligence axis and floor.</p><h3>What counts as Pareto optimal?</h3><p>No other included configuration offers at least as much intelligence and throughput, with a strict improvement in either dimension. The explorer recomputes the frontier among the configurations matching your search, subscription, and floor filters.</p></div><div><h3>A snapshot, not a usage guarantee</h3><p>The Claude and ChatGPT multipliers are estimates derived from SemiAnalysis's API-equivalent subscription-value analysis. The same provider multipliers are applied across all included models and reasoning levels: Claude 58.9× and ChatGPT 10.6×. This is a comparison assumption, not a separate measurement for each model. Cursor's multiplier is calculated from the author's usage exports: metered API-equivalent usage divided by subscription spend.</p><p>The Cursor exports included both Grok and Claude usage. Applying the full 20.7× multiplier to Grok assumes both available usage pools can be allocated to it. Benchmark tasks are a spending proxy; actual task volume depends on the workload and usage limits. Figures reflect the 8 October 2026 snapshot.</p><h3>Sources</h3><ul><li><a href="https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x">SemiAnalysis: Anthropic Subscriptions Offer 5x+ More Value Than OpenAI</a> — subscription-value research used to derive the Claude and ChatGPT multipliers.</li><li><strong>Artificial Analysis</strong> — intelligence scores and benchmark task costs: <a href="https://artificialanalysis.ai/models/releases/claude-sonnet-5-5">Sonnet</a>, <a href="https://artificialanalysis.ai/models/releases/claude-opus-5-5">Opus</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-1-sol">Sol</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-astra">Astra</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-luna">Luna</a>, <a href="https://artificialanalysis.ai/models/releases/claude-haiku-5-5">Haiku</a>, <a href="https://artificialanalysis.ai/models/releases/grok-4-7">Grok</a>. Haiku uses the Default Fallback configurations.</li><li><a href="https://bughunt.productcompass.pm/">Bug Hunt Bench</a> — verified planted-bug fixes and run costs. <a href="https://bughunt.productcompass.pm/data/benchmark.json">Source snapshot</a> · <a href="https://bughunt.productcompass.pm/method">Method and caveats</a>.</li><li><strong>Cursor usage exports</strong> — the author's observed usage and subscription spend, used to calculate the 20.7× multiplier.</li></ul></div></div></details>
+    <section class="table-section" aria-labelledby="table-title"><div class="section-title"><div><h2 id="table-title">Every configuration, compared</h2><p id="table-meta" class="table-meta">Sorted by tasks per $20 of subscription spend · descending</p></div><button class="export" id="export" type="button">Export filtered CSV ↓</button></div><div class="panel table-scroll"><table><caption class="sr-only">Filtered model and reasoning configurations. Column buttons change sort order. Model buttons select chart points.</caption><thead><tr><th scope="col">#</th><th scope="col" id="sort-model" aria-sort="none"><button data-sort="model" type="button">Model ↕</button></th><th scope="col">Reasoning</th><th scope="col" class="num" id="sort-intelligence" aria-sort="none"><button data-sort="intelligence" type="button">Intelligence ↕</button></th><th scope="col" class="num" id="sort-multiplier" aria-sort="none"><button data-sort="multiplier" type="button">Multiplier ↕</button></th><th scope="col" class="num" id="sort-bugScore" aria-sort="none" hidden><button data-sort="bugScore" type="button">Bug-fix rating ↕</button></th><th scope="col" class="num" id="sort-tasks20" aria-sort="descending"><button data-sort="tasks20" type="button" id="task-sort-label">Tasks / $20 subscription spend ↓</button></th></tr></thead><tbody id="rows"></tbody></table></div></section>
+    <details class="method"><summary>Method, assumptions &amp; sources</summary><div class="method-grid"><div><h3>A common spending denominator</h3><div class="formula">Tasks / subscription $ = multiplier ÷ AA cost / task<br>Tasks / $20 = 20 × rounded tasks / subscription $</div><p>All task counts are estimates. Tasks per subscription dollar are rounded to one decimal before multiplying by 20. The subscription-spend scenario scales these estimates by subscription fees / $20. API-equivalent values are calculation inputs; the budget itself is the amount paid for the subscription.</p><p>The default intelligence floor is 46. Lower it to include Luna, Haiku, and other lower-scoring reasoning configurations. Fable is excluded because it is not available on all plans. Only configurations with published benchmark values are included.</p><h3>Reliable bug-fix capability</h3><div class="formula">Bug weight = lowest intelligence of a 100% solver<br>Bug-fix rating = sum of weights of reliable fixes<br>Subscription $ / reliable bug<br>= source run cost ÷ multiplier ÷ reliable fixes</div><p>A reliable fix means a bug was verified fixed in every recorded run of the exact model and effort level, with at least two runs and complete per-bug coverage required. Astra is the sole exception to the two-run minimum: its single-run verified fixes are included in ratings and difficulty weights, without evidence of repeatability. Other single runs and partial coverage are excluded. Each bug’s weight is the lowest Artificial Analysis intelligence score among reliable solvers in the 33 configurations included here. Bugs without a reliable solver remain unrated. Weights use the full dataset and stay fixed when explorer filters change.</p><p>The bug-fix rating sums the difficulty weights of reliable fixes, crediting both fix volume and inferred difficulty. Configurations with no reliable fixes have no rating and are excluded. It is an empirical difficulty proxy, not an official benchmark score or a calibrated measure of difficulty. Estimated subscription cost per reliable bug is the source run cost divided by our subscription multiplier and the count of reliable fixes. Rating and unit cost do not change with subscription spend. A 100% observed rate over a few runs does not guarantee future reliability.</p><p>The Bug Hunt snapshot is dated 2026-10-08. We match exact model and effort levels, omit superseded rows, and use the published current means. Only verified planted fixes count. We assume first-party harnesses and make no adjustment for Grok Build versus Cursor. Grok costs are reconstructed lower bounds, so its subscription costs per reliable bug are lower bounds. Other matched costs are list-rate estimates. Artificial Analysis supplies the intelligence scores used to derive bug weights. Bugs mode filters by bug-fix rating; all bug-fix ratings are included by default. Tasks mode retains the intelligence floor of 46.</p><details><summary>Difficulty weights for all 105 bugs</summary><p>Bug IDs follow the source dataset. Unrated bugs contribute no points.</p><div class="table-scroll"><table><thead><tr><th>Bug</th><th>Lowest reliable solver intelligence</th></tr></thead><tbody id="bug-weights"></tbody></table></div></details><h3>What counts as Pareto optimal?</h3><p>In tasks mode, no other included configuration offers at least as much intelligence and throughput. In bugs mode, no other offers at least as high a bug-fix rating and at most as much subscription cost per reliable bug. Dominance requires a strict improvement in at least one dimension. The explorer recomputes the frontier among the configurations matching your search, subscription, and floor filters.</p></div><div><h3>A snapshot, not a usage guarantee</h3><p>The Claude and ChatGPT multipliers are estimates derived from SemiAnalysis's API-equivalent subscription-value analysis. The same provider multipliers are applied across all included models and reasoning levels: Claude 58.9× and ChatGPT 10.6×. This is a comparison assumption, not a separate measurement for each model. Cursor's multiplier is calculated from the author's usage exports: metered API-equivalent usage divided by subscription spend.</p><p>The Cursor exports included both Grok and Claude usage. Applying the full 20.7× multiplier to Grok assumes both available usage pools can be allocated to it. Benchmark tasks are a spending proxy; actual task volume depends on the workload and usage limits. Figures reflect the 8 October 2026 snapshot.</p><h3>Sources</h3><ul><li><a href="https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x">SemiAnalysis: Anthropic Subscriptions Offer 5x+ More Value Than OpenAI</a> — subscription-value research used to derive the Claude and ChatGPT multipliers.</li><li><strong>Artificial Analysis</strong> — intelligence scores and benchmark task costs: <a href="https://artificialanalysis.ai/models/releases/claude-sonnet-5-5">Sonnet</a>, <a href="https://artificialanalysis.ai/models/releases/claude-opus-5-5">Opus</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-1-sol">Sol</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-astra">Astra</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-luna">Luna</a>, <a href="https://artificialanalysis.ai/models/releases/claude-haiku-5-5">Haiku</a>, <a href="https://artificialanalysis.ai/models/releases/grok-4-7">Grok</a>. Haiku uses the Default Fallback configurations.</li><li><a href="https://bughunt.productcompass.pm/">Bug Hunt Bench</a> — verified planted-bug fixes and run costs. <a href="https://bughunt.productcompass.pm/data/benchmark.json">Source snapshot</a> · <a href="https://bughunt.productcompass.pm/method">Method and caveats</a>.</li><li><strong>Cursor usage exports</strong> — the author's observed usage and subscription spend, used to calculate the 20.7× multiplier.</li></ul></div></div></details>
   </main>
   <script id="comparison-data" type="application/json">
 [
@@ -51,7 +51,9 @@
       "cost_usd": 19.85,
       "cost_kind": "list",
       "n_runs": 3,
-      "date": "2026-09-29"
+      "date": "2026-09-29",
+      "coverage_runs": 3,
+      "bug_hits": {"13":3,"16":3,"20":3,"21":2,"22":2,"23":1,"25":3,"26":2,"27":3,"28":3,"29":3,"30":3,"33":3,"34":3,"39":3,"40":1,"43":3,"45":3,"47":3,"49":3,"50":3,"60":3,"61":3,"70":3,"71":3,"76":3,"77":3,"80":1,"82":3,"83":3,"84":3,"91":2,"92":3,"95":1,"96":1,"97":3,"98":3,"99":3,"100":3}
     }
   },
   {
@@ -70,7 +72,9 @@
       "cost_usd": 1.76,
       "cost_kind": "list",
       "n_runs": 2,
-      "date": "2026-09-30"
+      "date": "2026-09-30",
+      "coverage_runs": 2,
+      "bug_hits": {"13":2,"16":2,"20":2,"22":2,"25":2,"29":2,"30":2,"33":2,"34":2,"35":1,"37":1,"39":2,"40":2,"41":2,"43":2,"44":2,"45":2,"47":2,"49":2,"50":2,"62":1,"68":1,"76":2,"77":1,"82":2,"83":2,"84":2,"92":1,"97":1,"98":2,"99":2,"100":2,"102":1}
     }
   },
   {
@@ -89,7 +93,9 @@
       "cost_usd": 15.68,
       "cost_kind": "list",
       "n_runs": 3,
-      "date": "2026-09-23"
+      "date": "2026-09-23",
+      "coverage_runs": 3,
+      "bug_hits": {"13":2,"16":3,"20":3,"22":3,"25":2,"26":2,"28":1,"29":3,"30":3,"33":3,"34":3,"36":1,"39":3,"43":3,"45":3,"46":3,"47":3,"49":3,"50":2,"60":3,"62":2,"70":1,"71":3,"76":3,"77":3,"80":1,"82":2,"83":3,"84":3,"92":2,"95":1,"97":3,"98":3,"99":3,"100":3,"102":3}
     }
   },
   {
@@ -108,7 +114,9 @@
       "cost_usd": 3.26,
       "cost_kind": "list",
       "n_runs": 2,
-      "date": "2026-09-30"
+      "date": "2026-09-30",
+      "coverage_runs": 2,
+      "bug_hits": {"13":2,"16":2,"20":2,"21":1,"22":2,"25":2,"26":1,"27":2,"29":2,"30":1,"33":2,"34":2,"35":1,"37":2,"39":2,"40":1,"41":1,"43":2,"44":2,"45":2,"46":1,"47":2,"49":2,"50":2,"51":1,"56":1,"59":1,"62":2,"66":1,"67":1,"69":2,"76":2,"77":2,"78":1,"80":1,"82":2,"83":2,"84":2,"92":2,"95":1,"98":2,"99":2,"100":2,"102":2}
     }
   },
   {
@@ -127,7 +135,9 @@
       "cost_usd": 22.25,
       "cost_kind": "list",
       "n_runs": 3,
-      "date": "2026-09-23"
+      "date": "2026-09-23",
+      "coverage_runs": 3,
+      "bug_hits": {"13":2,"16":3,"17":1,"20":3,"21":1,"22":3,"25":2,"26":1,"29":3,"30":3,"33":3,"34":3,"37":2,"39":3,"43":3,"45":3,"47":3,"49":3,"50":3,"60":3,"62":3,"70":1,"71":3,"76":3,"77":3,"80":1,"82":2,"83":3,"84":3,"91":2,"92":3,"95":3,"97":2,"98":3,"99":3,"100":3,"102":3}
     }
   },
   {
@@ -146,7 +156,9 @@
       "cost_usd": 42.86,
       "cost_kind": "list",
       "n_runs": 3,
-      "date": "2026-09-29"
+      "date": "2026-09-29",
+      "coverage_runs": 3,
+      "bug_hits": {"13":3,"16":3,"20":3,"21":2,"22":3,"23":2,"25":3,"27":3,"28":3,"29":3,"30":3,"33":2,"34":2,"36":1,"39":3,"40":1,"43":3,"44":2,"45":3,"47":3,"49":3,"50":3,"59":1,"60":3,"61":2,"62":2,"70":3,"71":3,"76":3,"77":3,"78":1,"79":1,"80":2,"82":2,"83":3,"84":3,"91":2,"92":2,"95":2,"97":3,"98":3,"99":3,"100":3,"102":1}
     }
   },
   {
@@ -165,7 +177,9 @@
       "cost_usd": 4.35,
       "cost_kind": "list",
       "n_runs": 3,
-      "date": "2026-09-30"
+      "date": "2026-09-30",
+      "coverage_runs": 3,
+      "bug_hits": {"13":3,"16":3,"17":2,"20":3,"21":3,"22":3,"23":2,"25":3,"26":3,"27":3,"28":3,"29":3,"30":3,"32":1,"33":3,"34":3,"35":1,"36":1,"37":3,"39":3,"40":3,"41":3,"43":3,"44":3,"45":3,"46":1,"47":3,"49":3,"50":3,"51":3,"56":1,"61":1,"62":3,"68":1,"69":3,"70":1,"71":2,"74":1,"76":3,"77":3,"79":1,"80":2,"82":2,"83":3,"84":3,"91":1,"92":3,"95":2,"98":3,"99":3,"100":3,"102":3}
     }
   },
   {
@@ -184,7 +198,9 @@
       "cost_usd": 34.98,
       "cost_kind": "list",
       "n_runs": 3,
-      "date": "2026-09-23"
+      "date": "2026-09-23",
+      "coverage_runs": 3,
+      "bug_hits": {"13":3,"16":3,"20":3,"21":2,"22":3,"23":1,"25":3,"27":2,"28":3,"29":3,"30":3,"32":1,"33":3,"34":3,"36":1,"39":3,"40":2,"41":2,"43":3,"44":1,"45":3,"46":1,"47":3,"49":3,"50":3,"60":3,"62":3,"70":1,"71":3,"76":3,"77":3,"80":2,"82":2,"83":3,"84":3,"91":1,"92":3,"95":2,"97":3,"98":3,"99":3,"100":3,"102":3}
     }
   },
   {
@@ -203,7 +219,9 @@
       "cost_usd": 12.29,
       "cost_kind": "floor",
       "n_runs": 3,
-      "date": "2026-09-21"
+      "date": "2026-09-21",
+      "coverage_runs": 3,
+      "bug_hits": {"13":1,"16":3,"20":3,"22":1,"25":2,"29":1,"30":3,"33":1,"34":1,"37":3,"39":2,"43":2,"45":3,"47":2,"50":2,"60":3,"62":2,"71":3,"76":3,"83":2,"84":3,"92":1,"95":1,"98":2,"99":3,"100":3,"102":2}
     }
   },
   {
@@ -222,7 +240,9 @@
       "cost_usd": 22.96,
       "cost_kind": "floor",
       "n_runs": 5,
-      "date": "2026-10-08"
+      "date": "2026-10-08",
+      "coverage_runs": 5,
+      "bug_hits": {"13":4,"16":5,"20":5,"21":1,"22":3,"23":2,"25":5,"27":1,"28":1,"29":4,"30":5,"33":2,"34":3,"37":5,"38":1,"39":4,"40":2,"41":1,"43":5,"44":1,"45":5,"46":1,"47":5,"49":4,"50":4,"56":1,"57":1,"60":5,"62":5,"70":1,"71":5,"76":5,"82":3,"83":5,"84":4,"87":2,"89":1,"91":2,"92":5,"95":3,"97":1,"98":3,"99":5,"100":5,"102":4}
     }
   },
   {
@@ -241,7 +261,9 @@
       "cost_usd": 5.73,
       "cost_kind": "list",
       "n_runs": 3,
-      "date": "2026-09-30"
+      "date": "2026-09-30",
+      "coverage_runs": 3,
+      "bug_hits": {"13":2,"20":3,"22":1,"25":2,"30":3,"39":3,"43":3,"45":3,"46":2,"47":1,"49":2,"50":3,"60":2,"71":3,"76":3,"77":3,"82":2,"83":1,"84":3,"92":3,"98":3,"99":3,"100":3}
     }
   },
   {
@@ -260,7 +282,9 @@
       "cost_usd": 11.11,
       "cost_kind": "list",
       "n_runs": 3,
-      "date": "2026-09-30"
+      "date": "2026-09-30",
+      "coverage_runs": 3,
+      "bug_hits": {"13":1,"20":3,"22":1,"25":2,"27":1,"29":2,"30":3,"33":1,"34":1,"37":1,"39":3,"40":1,"43":3,"45":3,"46":1,"47":2,"50":3,"60":2,"61":1,"62":1,"68":1,"70":1,"71":3,"76":3,"77":3,"82":1,"83":3,"84":2,"91":1,"92":3,"95":1,"97":3,"98":3,"99":3,"100":3}
     }
   },
   {
@@ -279,7 +303,9 @@
       "cost_usd": 154.03,
       "cost_kind": "list",
       "n_runs": 3,
-      "date": "2026-09-29"
+      "date": "2026-09-29",
+      "coverage_runs": 3,
+      "bug_hits": {"13":3,"16":3,"17":3,"20":3,"21":3,"22":3,"23":3,"25":3,"26":2,"27":3,"28":3,"29":3,"30":3,"32":2,"33":3,"34":3,"36":2,"37":1,"38":2,"39":3,"40":3,"42":2,"43":3,"44":3,"45":3,"47":3,"49":3,"50":3,"51":2,"52":1,"53":1,"55":2,"56":2,"59":2,"60":2,"61":3,"62":1,"64":2,"66":1,"68":1,"69":2,"70":3,"71":3,"73":1,"74":1,"76":3,"77":3,"78":2,"79":2,"80":3,"82":2,"83":3,"84":3,"91":3,"92":3,"94":2,"95":2,"96":2,"97":3,"98":3,"99":3,"100":3,"102":1,"105":1}
     }
   },
   {
@@ -298,7 +324,9 @@
       "cost_usd": 8.34,
       "cost_kind": "list",
       "n_runs": 3,
-      "date": "2026-09-23"
+      "date": "2026-09-23",
+      "coverage_runs": 3,
+      "bug_hits": {"13":1,"16":3,"20":3,"22":2,"23":1,"25":2,"26":1,"29":3,"30":3,"33":3,"34":3,"39":3,"40":1,"43":3,"44":1,"45":1,"47":3,"49":3,"50":1,"60":1,"62":2,"71":2,"76":3,"77":1,"83":2,"84":3,"92":1,"97":1,"98":2,"99":3,"100":3,"102":2}
     }
   },
   {
@@ -317,7 +345,9 @@
       "cost_usd": 58.53,
       "cost_kind": "list",
       "n_runs": 3,
-      "date": "2026-09-23"
+      "date": "2026-09-23",
+      "coverage_runs": 3,
+      "bug_hits": {"13":3,"16":3,"20":3,"21":3,"22":3,"23":2,"25":2,"27":3,"28":2,"29":3,"30":3,"32":2,"33":3,"34":3,"36":1,"37":1,"38":2,"39":3,"40":3,"41":1,"43":3,"44":2,"45":3,"47":3,"49":3,"50":3,"60":3,"61":2,"62":2,"66":1,"70":3,"71":3,"74":2,"76":3,"77":3,"80":1,"82":3,"83":3,"84":3,"91":3,"92":3,"95":3,"96":3,"97":3,"98":3,"99":3,"100":3,"102":3}
     }
   },
   {
@@ -336,7 +366,9 @@
       "cost_usd": 1.34,
       "cost_kind": "list",
       "n_runs": 2,
-      "date": "2026-10-01"
+      "date": "2026-10-01",
+      "coverage_runs": 2,
+      "bug_hits": {"13":2,"16":2,"20":2,"22":2,"25":1,"29":1,"30":2,"33":2,"34":2,"37":1,"40":1,"41":1,"43":1,"44":1,"45":2,"47":1,"49":2,"50":2,"62":1,"68":2,"69":1,"76":1,"77":1,"82":1,"83":2,"84":2,"92":1,"98":1,"99":1,"100":2,"102":1}
     }
   },
   {
@@ -355,7 +387,9 @@
       "cost_usd": 5.88,
       "cost_kind": "list",
       "n_runs": 3,
-      "date": "2026-09-30"
+      "date": "2026-09-30",
+      "coverage_runs": 3,
+      "bug_hits": {"13":3,"16":3,"17":1,"20":3,"21":2,"22":3,"23":3,"25":2,"26":2,"27":3,"28":3,"29":3,"30":3,"32":1,"33":3,"34":3,"35":3,"36":1,"37":3,"39":3,"40":3,"41":3,"42":1,"43":3,"44":3,"45":3,"46":2,"47":3,"49":3,"50":3,"51":3,"56":1,"60":1,"62":3,"66":1,"68":2,"69":3,"70":1,"71":3,"73":1,"74":1,"76":3,"77":3,"79":1,"80":2,"82":3,"83":3,"84":2,"92":3,"95":3,"98":3,"99":3,"100":3,"102":3}
     }
   },
   {
@@ -374,7 +408,9 @@
       "cost_usd": 11.69,
       "cost_kind": "list",
       "n_runs": 1,
-      "date": "2026-09-05"
+      "date": "2026-09-05",
+      "coverage_runs": 1,
+      "bug_hits": {"13":1,"16":1,"20":1,"22":1,"25":1,"26":1,"29":1,"30":1,"33":1,"34":1,"35":1,"36":1,"39":1,"40":1,"41":1,"43":1,"44":1,"45":1,"49":1,"50":1,"68":1,"77":1,"83":1,"98":1,"99":1,"100":1,"102":1}
     }
   },
   {
@@ -393,7 +429,9 @@
       "cost_usd": 15.78,
       "cost_kind": "list",
       "n_runs": 1,
-      "date": "2026-09-05"
+      "date": "2026-09-05",
+      "coverage_runs": 1,
+      "bug_hits": {"13":1,"16":1,"17":1,"20":1,"22":1,"25":1,"29":1,"30":1,"33":1,"34":1,"35":1,"36":1,"37":1,"39":1,"40":1,"41":1,"43":1,"44":1,"45":1,"47":1,"49":1,"50":1,"62":1,"73":1,"74":1,"76":1,"77":1,"82":1,"83":1,"84":1,"97":1,"98":1,"99":1,"100":1}
     }
   },
   {
@@ -412,7 +450,9 @@
       "cost_usd": 20.6,
       "cost_kind": "list",
       "n_runs": 1,
-      "date": "2026-09-04"
+      "date": "2026-09-04",
+      "coverage_runs": 1,
+      "bug_hits": {"13":1,"16":1,"20":1,"21":1,"22":1,"25":1,"29":1,"30":1,"33":1,"34":1,"35":1,"36":1,"37":1,"39":1,"40":1,"41":1,"43":1,"44":1,"45":1,"47":1,"49":1,"50":1,"68":1,"71":1,"76":1,"77":1,"80":1,"82":1,"83":1,"84":1,"92":1,"98":1,"99":1,"100":1,"102":1}
     }
   },
   {
@@ -431,7 +471,9 @@
       "cost_usd": 24.22,
       "cost_kind": "list",
       "n_runs": 1,
-      "date": "2026-09-04"
+      "date": "2026-09-04",
+      "coverage_runs": 1,
+      "bug_hits": {"13":1,"16":1,"20":1,"21":1,"22":1,"23":1,"25":1,"26":1,"27":1,"28":1,"29":1,"30":1,"33":1,"34":1,"35":1,"36":1,"37":1,"39":1,"40":1,"41":1,"43":1,"44":1,"45":1,"47":1,"49":1,"50":1,"51":1,"61":1,"62":1,"68":1,"69":1,"71":1,"76":1,"77":1,"82":1,"83":1,"84":1,"92":1,"97":1,"98":1,"99":1,"100":1,"102":1}
     }
   },
   {
@@ -450,7 +492,9 @@
       "cost_usd": 33.03,
       "cost_kind": "list",
       "n_runs": 3,
-      "date": "2026-09-14"
+      "date": "2026-09-14",
+      "coverage_runs": 3,
+      "bug_hits": {"13":3,"16":3,"20":3,"21":3,"22":3,"23":3,"25":3,"26":2,"27":2,"28":2,"29":3,"30":3,"33":3,"34":3,"35":2,"36":3,"37":3,"39":3,"40":3,"41":3,"42":1,"43":3,"44":3,"45":3,"46":1,"47":3,"49":3,"50":3,"51":2,"56":1,"59":1,"60":1,"61":1,"62":3,"66":1,"68":3,"69":2,"70":1,"71":3,"74":2,"76":3,"77":3,"78":1,"79":2,"80":1,"82":3,"83":3,"84":3,"92":3,"95":3,"97":1,"98":3,"99":3,"100":3,"102":3}
     }
   },
   {
@@ -469,7 +513,9 @@
       "cost_usd": 0.2,
       "cost_kind": "list",
       "n_runs": 1,
-      "date": "2026-09-23"
+      "date": "2026-09-23",
+      "coverage_runs": 0,
+      "bug_hits": {}
     }
   },
   {
@@ -488,7 +534,9 @@
       "cost_usd": 0.06,
       "cost_kind": "list",
       "n_runs": 1,
-      "date": "2026-09-23"
+      "date": "2026-09-23",
+      "coverage_runs": 0,
+      "bug_hits": {}
     }
   },
   {
@@ -507,7 +555,9 @@
       "cost_usd": 0.13,
       "cost_kind": "list",
       "n_runs": 1,
-      "date": "2026-09-23"
+      "date": "2026-09-23",
+      "coverage_runs": 0,
+      "bug_hits": {}
     }
   },
   {
@@ -526,7 +576,9 @@
       "cost_usd": 0.39,
       "cost_kind": "list",
       "n_runs": 1,
-      "date": "2026-09-23"
+      "date": "2026-09-23",
+      "coverage_runs": 0,
+      "bug_hits": {}
     }
   },
   {
@@ -545,7 +597,9 @@
       "cost_usd": 0.52,
       "cost_kind": "list",
       "n_runs": 3,
-      "date": "2026-09-23"
+      "date": "2026-09-23",
+      "coverage_runs": 3,
+      "bug_hits": {"16":2,"20":2,"25":3,"29":1,"30":3,"33":1,"34":1,"39":2,"40":1,"41":1,"43":1,"44":1,"47":3,"49":3,"50":2,"62":3,"71":2,"76":3,"77":3,"78":1,"80":1,"82":1,"83":3,"84":3,"92":2,"98":2,"99":2,"100":1,"102":1}
     }
   },
   {
@@ -564,7 +618,9 @@
       "cost_usd": 1.61,
       "cost_kind": "list",
       "n_runs": 1,
-      "date": "2026-10-08"
+      "date": "2026-10-08",
+      "coverage_runs": 0,
+      "bug_hits": {}
     }
   },
   {
@@ -583,7 +639,9 @@
       "cost_usd": 2.66,
       "cost_kind": "list",
       "n_runs": 1,
-      "date": "2026-10-08"
+      "date": "2026-10-08",
+      "coverage_runs": 0,
+      "bug_hits": {}
     }
   },
   {
@@ -602,7 +660,9 @@
       "cost_usd": 3.56,
       "cost_kind": "list",
       "n_runs": 2,
-      "date": "2026-10-07"
+      "date": "2026-10-07",
+      "coverage_runs": 2,
+      "bug_hits": {"20":1,"25":2,"27":1,"30":2,"43":2,"45":2,"47":1,"49":2,"62":1,"71":2,"76":2,"77":1,"82":1,"83":2,"84":2,"92":1,"97":2,"98":1,"99":2,"100":2}
     }
   },
   {
@@ -621,7 +681,9 @@
       "cost_usd": 4.8,
       "cost_kind": "list",
       "n_runs": 3,
-      "date": "2026-10-07"
+      "date": "2026-10-07",
+      "coverage_runs": 3,
+      "bug_hits": {"16":1,"20":3,"22":1,"23":1,"25":3,"26":1,"27":1,"28":1,"29":1,"30":3,"33":1,"34":1,"39":1,"40":2,"43":3,"45":3,"49":3,"50":1,"60":1,"61":1,"71":2,"76":3,"77":3,"83":2,"84":3,"92":1,"97":1,"99":3,"100":3,"102":1}
     }
   },
   {
@@ -640,7 +702,9 @@
       "cost_usd": 5.83,
       "cost_kind": "list",
       "n_runs": 2,
-      "date": "2026-10-07"
+      "date": "2026-10-07",
+      "coverage_runs": 2,
+      "bug_hits": {"20":2,"21":1,"22":2,"25":2,"26":1,"27":2,"28":1,"29":2,"30":2,"39":1,"43":2,"45":2,"47":2,"49":2,"50":1,"62":1,"71":2,"76":2,"77":2,"82":1,"84":2,"97":2,"98":2,"99":2,"100":2}
     }
   },
   {
@@ -659,7 +723,9 @@
       "cost_usd": 9.36,
       "cost_kind": "floor",
       "n_runs": 3,
-      "date": "2026-09-21"
+      "date": "2026-09-21",
+      "coverage_runs": 3,
+      "bug_hits": {"13":2,"16":2,"20":3,"21":1,"22":2,"23":2,"25":2,"29":1,"30":3,"37":3,"39":3,"41":2,"43":2,"44":1,"45":2,"49":2,"60":1,"76":2,"83":3,"84":2,"95":1,"99":2,"100":3}
     }
   }
 ]
@@ -668,61 +734,87 @@
     'use strict';
     const models = JSON.parse(document.getElementById('comparison-data').textContent);
     const colors = {Claude:'#bba7ff',ChatGPT:'#69dbc2',Cursor:'#f3b87b'};
-    const controls = Object.fromEntries(['search','provider','floor','budget','frontier-only','scale','metric'].map(id => [id,document.getElementById(id)]));
+    const controls = Object.fromEntries(['search','provider','floor','budget','frontier-only','metric'].map(id => [id,document.getElementById(id)]));
     const chart = document.getElementById('chart');
     const rows = document.getElementById('rows');
     let selected = 'sonnet-high', sortKey = 'tasks20', sortDirection = -1, budget = 20, eligible = [], frontier = [], shown = [];
     const number = value => new Intl.NumberFormat('en-US',{maximumFractionDigits:1}).format(value);
-    const value20 = (model,metric = 'tasks') => metric === 'bugs' ? (model.bugHunt ? model.multiplier * model.bugHunt.fixed / model.bugHunt.cost_usd * 20 : null) : model.tasks20;
-    const bound = model => controls.metric.value === 'bugs' && model.bugHunt.cost_kind === 'floor' ? '≤ ' : '';
-    const unit = () => controls.metric.value === 'bugs' ? 'bugs fixed' : 'tasks';
-    const estimate = model => value20(model,controls.metric.value) * budget / 20;
-    const dominates = (a,b,metric = 'tasks') => a.intelligence >= b.intelligence && value20(a,metric) >= value20(b,metric) && (a.intelligence > b.intelligence || value20(a,metric) > value20(b,metric));
-    const pareto = (data,metric = 'tasks') => data.filter(model => !data.some(other => dominates(other,model,metric))).sort((a,b) => a.intelligence - b.intelligence);
-    const chartY = (value,max,min,logarithmic) => 38 + (1 - (logarithmic ? Math.log(value / min) / Math.log(max / min) : value / max)) * 420;
+    const reliableBugs = model => (model.bugHunt?.n_runs >= 2 || (model.model === 'GPT-6 Astra' && model.bugHunt?.n_runs === 1)) && model.bugHunt.coverage_runs === model.bugHunt.n_runs ? Object.keys(model.bugHunt.bug_hits).filter(id => model.bugHunt.bug_hits[id] === model.bugHunt.n_runs) : null;
+    const bugWeights = Object.fromEntries(Array.from({length:105},(_,i) => {const id = String(i + 1), solvers = models.filter(model => reliableBugs(model)?.includes(id));return [id,solvers.length ? Math.min(...solvers.map(model => model.intelligence)) : null];}));
+    const bugScore = model => {const fixes = reliableBugs(model);return fixes?.length ? fixes.reduce((sum,id) => sum + bugWeights[id],0) : null;};
+    const costPerBug = model => {const fixes = reliableBugs(model);return fixes?.length ? model.bugHunt.cost_usd / model.multiplier / fixes.length : null;};
+    const metricValue = (model,metric = 'tasks') => metric === 'bugs' ? costPerBug(model) : model.tasks20;
+    const rating = (model,metric = 'tasks') => metric === 'bugs' ? bugScore(model) : model.intelligence;
+    const bugFloors = [...new Set(models.map(bugScore).filter(score => score !== null))].sort((a,b) => a - b);
+    const defaultBugFloor = 0;
+    const intelligenceFloorOptions = controls.floor.innerHTML;
+    const intelligenceFloorContext = document.getElementById('floor-context').textContent;
+    function configureFloor(){
+      const bugMode = controls.metric.value === 'bugs';
+      document.getElementById('floor-label').textContent = bugMode ? 'Bug-fix rating floor' : 'AA intelligence floor';
+      controls.floor.innerHTML = bugMode ? '<option value="0">All bug-fix ratings</option>' + bugFloors.map(score => '<option value="' + score + '">≥' + number(score) + '</option>').join('') : intelligenceFloorOptions;
+      controls.floor.value = String(bugMode ? defaultBugFloor : 46);
+      document.getElementById('floor-context').textContent = bugMode ? 'All bug-fix ratings are included by default. Choose a floor to focus on higher-rated configurations.' : intelligenceFloorContext;
+    }
+    const money = value => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:4}).format(value);
+    const formatted = model => bound(model) + (controls.metric.value === 'bugs' ? money(estimate(model)) : number(estimate(model)));
+    document.getElementById('bug-weights').innerHTML = Object.entries(bugWeights).map(([id,weight]) => '<tr><td>' + id + '</td><td>' + (weight ?? 'Unrated') + '</td></tr>').join('');
+    const bound = model => controls.metric.value === 'bugs' && model.bugHunt.cost_kind === 'floor' ? '≥ ' : '';
+    const unit = () => controls.metric.value === 'bugs' ? 'subscription cost per reliable bug' : 'tasks';
+    const estimate = model => controls.metric.value === 'bugs' ? costPerBug(model) : model.tasks20 * budget / 20;
+    const dominates = (a,b,metric = 'tasks') => rating(a,metric) >= rating(b,metric) && (metric === 'bugs' ? metricValue(a,metric) <= metricValue(b,metric) : metricValue(a,metric) >= metricValue(b,metric)) && (rating(a,metric) > rating(b,metric) || metricValue(a,metric) !== metricValue(b,metric));
+    const pareto = (data,metric = 'tasks') => data.filter(model => !data.some(other => dominates(other,model,metric))).sort((a,b) => rating(a,metric) - rating(b,metric));
+    const chartY = (value,max,min,logarithmic,inverted = false) => {const fraction = logarithmic ? Math.log(value / min) / Math.log(max / min) : value / max;return 38 + (inverted ? fraction : 1 - fraction) * 420;};
     // Keep chart labels offset from the actual point coordinates, especially the two close Grok tiers.
     const labels = {'sonnet-high':[14,-15,'start'],'sol-medium':[16,-18,'start'],'opus-medium':[17,-18,'start'],'sol-high':[-16,-17,'end'],'opus-high':[15,-16,'start'],'sonnet-xhigh':[14,23,'start'],'sol-xhigh':[-14,28,'end'],'opus-xhigh':[-16,-18,'end'],'grok-high':[21,-13,'start'],'grok-xhigh':[21,26,'start']};
     function renderChart(){
-      const xMin = Math.min(...shown.map(model => model.intelligence),46) - 1;
-      const xMax = Math.max(...shown.map(model => model.intelligence),58) + 1;
+      const xValues = shown.map(model => rating(model,controls.metric.value));
+      const bugMode = controls.metric.value === 'bugs';
+      const low = bugMode && shown.length ? Math.min(...xValues) : Math.min(...xValues,46);
+      const high = bugMode && shown.length ? Math.max(...xValues) : Math.max(...xValues,58);
+      const padding = bugMode ? Math.max((high - low) * .05,1) : 1;
+      const xMin = low - padding, xMax = high + padding;
+      const xStep = bugMode ? Math.max(1,2 * 10 ** Math.floor(Math.log10((xMax - xMin) / 5))) : (xMax - xMin > 20 ? 4 : 2);
       const x = intelligence => 82 + (intelligence - xMin) / (xMax - xMin) * 858;
-      const peak = Math.max(...shown.map(model => estimate(model)),1);
+      const peak = Math.max(...shown.map(model => estimate(model)),controls.metric.value === 'bugs' ? .001 : 1);
       const step = 10 ** Math.floor(Math.log10(peak / 5));
       const yMax = Math.ceil(peak * 1.08 / step) * step;
-      const logarithmic = controls.scale.value === 'log';
+      const logarithmic = controls.metric.value === 'bugs';
       const yMin = 10 ** Math.floor(Math.log10(Math.min(...shown.map(model => estimate(model)),peak) * .9));
-      const y = value => chartY(value,yMax,yMin,logarithmic);
-      let svg = '<title id="chart-title">Intelligence versus ' + unit() + ' per $' + budget + ' of subscription spend' + (logarithmic ? ' (logarithmic scale)' : '') + '</title><desc id="chart-desc">' + shown.length + ' configurations visible. ' + frontier.length + ' on the frontier among matching configurations. Tab to focus points; use Enter or Space to select.</desc>';
+      const y = value => chartY(value,yMax,yMin,logarithmic,controls.metric.value === 'bugs');
+      let svg = '<title id="chart-title">' + (controls.metric.value === 'bugs' ? 'Bug-fix rating versus subscription cost per reliable bug' : 'Intelligence versus tasks per $' + budget + ' of subscription spend') + (logarithmic ? ' (inverted logarithmic scale)' : '') + '</title><desc id="chart-desc">' + shown.length + ' configurations visible. ' + frontier.length + ' on the frontier among matching configurations. Tab to focus points; use Enter or Space to select.</desc>';
       svg += '<defs><linearGradient id="frontier-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#bba7ff" stop-opacity=".09"/><stop offset="100%" stop-color="#bba7ff" stop-opacity="0"/></linearGradient></defs>';
       const ticks = logarithmic ? Array.from({length:Math.floor(Math.log10(yMax / yMin)) + 1},(_,i) => yMin * 10 ** i) : Array.from({length:6},(_,i) => i * yMax / 5);
-      for(const value of ticks){const py = y(value);svg += '<line class="chart-grid" x1="82" x2="940" y1="' + py + '" y2="' + py + '"/><text class="chart-axis" x="65" y="' + (py + 4) + '" text-anchor="end">' + number(value) + '</text>';}
-      for(let tick = Math.ceil(xMin / 2) * 2; tick <= xMax; tick += (xMax - xMin > 20 ? 4 : 2)){const px = x(tick);svg += '<line class="chart-grid" y1="38" y2="458" x1="' + px + '" x2="' + px + '"/><text class="chart-axis" x="' + px + '" y="486" text-anchor="middle">' + tick + '</text>';}
-      svg += '<text class="chart-axis" x="510" y="520" text-anchor="middle">Artificial Analysis Intelligence →</text><text class="chart-axis" transform="translate(20 248) rotate(-90)" text-anchor="middle">' + (controls.metric.value === 'bugs' ? 'Bugs fixed' : 'Tasks') + ' / $' + budget + ' subscription spend' + (logarithmic ? ' (log scale)' : '') + ' →</text>';
+      for(const value of ticks){const py = y(value);svg += '<line class="chart-grid" x1="82" x2="940" y1="' + py + '" y2="' + py + '"/><text class="chart-axis" x="65" y="' + (py + 4) + '" text-anchor="end">' + (controls.metric.value === 'bugs' ? money(value) : number(value)) + '</text>';}
+      for(let tick = Math.ceil(xMin / xStep) * xStep; tick <= xMax; tick += xStep){const px = x(tick);svg += '<line class="chart-grid" y1="38" y2="458" x1="' + px + '" x2="' + px + '"/><text class="chart-axis" x="' + px + '" y="486" text-anchor="middle">' + number(tick) + '</text>';}
+      svg += '<text class="chart-axis" x="510" y="520" text-anchor="middle">' + (controls.metric.value === 'bugs' ? 'Bug-fix rating →' : 'Artificial Analysis Intelligence →') + '</text><text class="chart-axis" transform="translate(20 248) rotate(-90)" text-anchor="middle">' + (controls.metric.value === 'bugs' ? 'Subscription $ / reliable bug' : 'Tasks / $' + budget + ' subscription spend') + '</text>';
       const effortOrder = ['Low','Medium','High','XHigh','Max'];
       for(const name of new Set(shown.map(model => model.model))){
         const levels = shown.filter(model => model.model === name).sort((a,b) => effortOrder.indexOf(a.reasoning) - effortOrder.indexOf(b.reasoning));
         if(levels.length < 2) continue;
-        svg += '<polyline class="effort-line" points="' + levels.map(model => x(model.intelligence) + ',' + y(estimate(model))).join(' ') + '" fill="none" stroke="' + colors[levels[0].provider] + '" stroke-width="1.8" stroke-dasharray="1 6" stroke-linecap="round" stroke-opacity=".65" pointer-events="none"><title>' + name + ' reasoning levels, Low to Max</title></polyline>';
+        svg += '<polyline class="effort-line" points="' + levels.map(model => x(rating(model,controls.metric.value)) + ',' + y(estimate(model))).join(' ') + '" fill="none" stroke="' + colors[levels[0].provider] + '" stroke-width="1.8" stroke-dasharray="1 6" stroke-linecap="round" stroke-opacity=".65" pointer-events="none"><title>' + name + ' reasoning levels, Low to Max</title></polyline>';
       }
-      if(frontier.length > 1){const points = frontier.map(model => x(model.intelligence) + ',' + y(estimate(model)));svg += '<polygon points="' + points.join(' ') + ' ' + x(frontier.at(-1).intelligence) + ',458 ' + x(frontier[0].intelligence) + ',458" fill="url(#frontier-fill)"/><polyline points="' + points.join(' ') + '" fill="none" stroke="#e0d8ff" stroke-width="2.2" stroke-linejoin="round"/>';}
+      if(frontier.length > 1){const points = frontier.map(model => x(rating(model,controls.metric.value)) + ',' + y(estimate(model)));svg += '<polyline points="' + points.join(' ') + '" fill="none" stroke="#e0d8ff" stroke-width="2.2" stroke-linejoin="round"/>'; }
+      if(frontier.length) svg += '<g class="frontier-note" pointer-events="none"><rect x="620" y="44" width="320" height="48" rx="7" fill="#111622" fill-opacity=".94" stroke="#354159"/><text class="chart-axis" x="634" y="62" style="fill:#e0d8ff">Pareto frontier</text><text class="chart-axis" x="634" y="81">' + (controls.metric.value === 'bugs' ? 'Higher bug-fix rating · lower subscription cost / bug' : 'Higher intelligence · more tasks / subscription $') + '</text></g>';
       if(!shown.length) svg += '<text class="chart-axis" x="510" y="245" text-anchor="middle">No configurations match. Adjust the filters or reset.</text>';
       for(const model of shown){
-        const px = x(model.intelligence), py = y(estimate(model)), optimal = frontier.includes(model), label = labels[model.id] || [-14,-16,'end'], chosen = selected === model.id;
-        svg += '<g class="chart-point ' + (optimal ? 'optimal' : '') + '" role="button" tabindex="0" data-id="' + model.id + '" aria-pressed="' + chosen + '" aria-label="' + model.model + ' ' + model.reasoning + ', intelligence ' + model.intelligence + ', ' + bound(model) + number(estimate(model)) + ' ' + unit() + ' per $' + budget + ' of subscription spend, ' + (optimal ? 'on frontier' : 'dominated') + '"><circle class="point-halo" cx="' + px + '" cy="' + py + '" r="' + (chosen ? 12 : 9) + '" stroke="' + (chosen ? colors[model.provider] : 'transparent') + '" stroke-opacity=".8"/><circle class="point-dot" cx="' + px + '" cy="' + py + '" r="6" fill="' + colors[model.provider] + '" stroke="' + (optimal ? '#f2edff' : '#111622') + '" stroke-width="' + (optimal ? 2 : 1.5) + '"/><title>' + model.short + ' · ' + model.reasoning + '</title>' + '<text class="chart-label" x="' + (px + label[0]) + '" y="' + (py + label[1]) + '" text-anchor="' + label[2] + '">' + model.short + ' · ' + model.reasoning + '</text></g>';
+        const px = x(rating(model,controls.metric.value)), py = y(estimate(model)), optimal = frontier.includes(model), label = labels[model.id] || [-14,-16,'end'], chosen = selected === model.id;
+        svg += '<g class="chart-point ' + (optimal ? 'optimal' : '') + '" role="button" tabindex="0" data-id="' + model.id + '" aria-pressed="' + chosen + '" aria-label="' + model.model + ' ' + model.reasoning + ', ' + (controls.metric.value === 'bugs' ? 'bug-fix rating ' : 'intelligence ') + rating(model,controls.metric.value) + ', ' + formatted(model) + ' ' + unit() + (controls.metric.value === 'bugs' && model.bugHunt.n_runs === 1 ? ', Astra single-run exception, repeatability unverified' : '') + (controls.metric.value === 'bugs' ? ', ' : ' per $' + budget + ' of subscription spend, ') + (optimal ? 'on frontier' : 'dominated') + '"><circle class="point-halo" cx="' + px + '" cy="' + py + '" r="' + (chosen ? 12 : 9) + '" stroke="' + (chosen ? colors[model.provider] : 'transparent') + '" stroke-opacity=".8"/><circle class="point-dot" cx="' + px + '" cy="' + py + '" r="6" fill="' + colors[model.provider] + '" stroke="' + (optimal ? '#f2edff' : '#111622') + '" stroke-width="' + (optimal ? 2 : 1.5) + '"/><title>' + model.short + ' · ' + model.reasoning + '</title>' + '<text class="chart-label" x="' + (px + label[0]) + '" y="' + (py + label[1]) + '" text-anchor="' + label[2] + '">' + model.short + ' · ' + model.reasoning + '</text></g>';
       }
       chart.innerHTML = svg;
     }
     function renderDetail(){
       const model = shown.find(item => item.id === selected), detail = document.getElementById('detail');
       if(!model){detail.innerHTML = '<div><div class="detail-kicker">Selected configuration</div><h3>No matching models</h3><p class="detail-explainer">Try a broader search or reset the filters.</p></div>';return;}
-      const optimal = frontier.includes(model), better = eligible.filter(other => dominates(other,model,controls.metric.value)).sort((a,b) => value20(b,controls.metric.value) - value20(a,controls.metric.value))[0];
-      const bug = controls.metric.value === 'bugs' ? model.bugHunt : null;
-      const runNote = bug ? '<p class="detail-explainer">Bug Hunt: ' + bug.fixed + ' / 105 planted bugs fixed · ' + bug.n_runs + (bug.n_runs === 1 ? ' run' : ' runs (mean)') + ' · ' + bug.date + '. ' + (bug.cost_kind === 'floor' ? 'Upper-bound estimate from a lower-bound cost.' : 'Estimate based on source list-rate costs.') + '</p>' : '';
-      detail.innerHTML = '<div class="detail-head"><div class="detail-kicker">Selected configuration</div><h3>' + model.model + '</h3><p class="reason">' + model.reasoning + ' reasoning · ' + model.provider + '</p><span class="status ' + (optimal ? '' : 'dominated') + '">' + (optimal ? '↗ On the frontier' : '↓ Dominated configuration') + '</span></div><div><div class="detail-value" style="color:' + colors[model.provider] + '">' + bound(model) + number(estimate(model)) + '</div><p class="detail-unit">estimated ' + unit() + ' per $' + budget + ' of subscription spend</p></div><dl><div><dt>Intelligence</dt><dd>' + model.intelligence + '</dd></div><div><dt>Multiplier</dt><dd>' + model.multiplier + '×</dd></div><div><dt>Subscription / ' + (controls.metric.value === 'bugs' ? 'bug fixed' : 'task') + '</dt><dd>' + (bound(model) ? '≥ ' : '') + (20 / value20(model,controls.metric.value) * 100).toFixed(2) + '¢</dd></div></dl><p class="detail-explainer">' + (optimal ? 'No matching configuration improves intelligence and throughput without a tradeoff.' : better.short + ' ' + better.reasoning + ' offers intelligence ' + better.intelligence + ' and ' + number(estimate(better)) + ' estimated ' + unit() + ' for the same subscription spend.') + '</p>' + runNote;
+      const bug = controls.metric.value === 'bugs' ? model.bugHunt : null, optimal = frontier.includes(model);
+      const runNote = bug ? '<p class="detail-explainer">Bug Hunt: ' + reliableBugs(model).length + ' / 105 bugs fixed in every run · ' + (bug.n_runs === 1 ? '1 run — Astra exception; repeatability unverified' : bug.n_runs + ' runs') + ' · ' + bug.date + '. ' + (bug.cost_kind === 'floor' ? 'Lower-bound subscription cost estimate.' : 'Estimate derived from source list-rate costs.') + '</p>' : '';
+      detail.innerHTML = '<div class="detail-head"><div class="detail-kicker">Selected configuration</div><h3>' + model.model + '</h3><p class="reason">' + model.reasoning + ' reasoning · ' + model.provider + '</p><span class="status ' + (optimal ? '' : 'dominated') + '">' + (optimal ? '↗ On the frontier' : '↓ Dominated configuration') + '</span></div><div><div class="detail-value" style="color:' + colors[model.provider] + '">' + formatted(model) + '</div><p class="detail-unit">estimated ' + unit() + (bug ? '' : ' per $' + budget + ' of subscription spend') + '</p></div><dl>' + (bug ? '<div><dt>Bug-fix rating</dt><dd>' + bugScore(model) + '</dd></div>' : '') + '<div><dt>AA intelligence</dt><dd>' + model.intelligence + '</dd></div><div><dt>Multiplier</dt><dd>' + model.multiplier + '×</dd></div>' + (bug ? '' : '<div><dt>Subscription / task</dt><dd>' + (20 / model.tasks20 * 100).toFixed(2) + '¢</dd></div>') + '</dl><p class="detail-explainer">' + (bug ? (optimal ? 'No matching configuration offers a higher rating or lower cost without a tradeoff.' : 'Another matching configuration offers at least this rating at no higher cost, with an improvement in one or both.') : (optimal ? 'No matching configuration improves intelligence and throughput without a tradeoff.' : 'Another matching configuration improves intelligence or throughput without sacrificing the other.')) + '</p>' + runNote;
     }
+
     function renderTable(){
-      rows.innerHTML = shown.length ? shown.map((model,index) => '<tr class="' + (model.id === selected ? 'selected' : '') + '"><td class="rank">' + String(index + 1).padStart(2,'0') + '</td><td><button class="model-button" type="button" data-id="' + model.id + '" aria-pressed="' + (model.id === selected) + '"><span class="model-dot" style="background:' + colors[model.provider] + '"></span>' + model.model + (frontier.includes(model) ? '<span class="frontier-badge">Pareto</span>' : '') + '</button></td><td>' + model.reasoning + '</td><td class="num">' + model.intelligence + '</td><td class="num">' + model.multiplier + '×</td><td class="num tasks-cell">' + bound(model) + number(estimate(model)) + '<div class="mini-bar"><div style="width:' + value20(model,controls.metric.value) / Math.max(...shown.map(item => value20(item,controls.metric.value))) * 100 + '%;background:' + colors[model.provider] + '"></div></div></td></tr>').join('') : '<tr><td class="empty" colspan="6">No matching configurations. Adjust your search or reset the filters.</td></tr>';
-      const titles = {model:'Model',intelligence:'Intelligence',multiplier:'Multiplier',tasks20:(controls.metric.value === 'bugs' ? 'Bugs fixed' : 'Tasks') + ' / $' + budget + ' subscription spend'};
+      rows.innerHTML = shown.length ? shown.map((model,index) => '<tr class="' + (model.id === selected ? 'selected' : '') + '"><td class="rank">' + String(index + 1).padStart(2,'0') + '</td><td><button class="model-button" type="button" data-id="' + model.id + '" aria-pressed="' + (model.id === selected) + '"><span class="model-dot" style="background:' + colors[model.provider] + '"></span>' + model.model + (controls.metric.value === 'bugs' && model.bugHunt.n_runs === 1 ? '<span class="frontier-badge">single run</span>' : '') + (frontier.includes(model) ? '<span class="frontier-badge">Pareto</span>' : '') + '</button></td><td>' + model.reasoning + '</td><td class="num">' + model.intelligence + '</td><td class="num">' + model.multiplier + '×</td>' + (controls.metric.value === 'bugs' ? '<td class="num">' + number(bugScore(model)) + '</td>' : '') + '<td class="num tasks-cell">' + formatted(model) + '<div class="mini-bar"><div style="width:' + (controls.metric.value === 'bugs' ? Math.min(...shown.map(item => costPerBug(item))) / costPerBug(model) : model.tasks20 / Math.max(...shown.map(item => item.tasks20))) * 100 + '%;background:' + colors[model.provider] + '"></div></div></td></tr>').join('') : '<tr><td class="empty" colspan="' + (controls.metric.value === 'bugs' ? 7 : 6) + '">No matching configurations. Adjust your search or reset the filters.</td></tr>';
+      document.getElementById('sort-bugScore').hidden = controls.metric.value !== 'bugs';
+      const titles = {bugScore:'Bug-fix rating',model:'Model',intelligence:'Intelligence',multiplier:'Multiplier',tasks20:controls.metric.value === 'bugs' ? 'Subscription $ / reliable bug' : 'Tasks / $' + budget + ' subscription spend'};
       document.querySelectorAll('[data-sort]').forEach(button => {const key = button.dataset.sort;button.textContent = titles[key] + (key === sortKey ? (sortDirection === -1 ? ' ↓' : ' ↑') : ' ↕');button.parentElement.setAttribute('aria-sort',key === sortKey ? (sortDirection === -1 ? 'descending' : 'ascending') : 'none');});
       document.getElementById('table-meta').textContent = shown.length + ' of ' + models.length + ' configurations · sorted by ' + titles[sortKey].toLowerCase() + ' · ' + (sortDirection === -1 ? 'descending' : 'ascending');
       document.getElementById('export').disabled = !shown.length;
@@ -734,32 +826,36 @@
       renderDetail();
     }
     function render(){
+      if(controls.metric.value !== 'bugs' && sortKey === 'bugScore'){sortKey = 'tasks20';sortDirection = -1;}
       const query = controls.search.value.trim().toLowerCase();
-      eligible = models.filter(model => value20(model,controls.metric.value) !== null && model.intelligence >= Number(controls.floor.value) && (controls.provider.value === 'all' || model.provider === controls.provider.value) && (model.model + ' ' + model.reasoning).toLowerCase().includes(query));
+      eligible = models.filter(model => metricValue(model,controls.metric.value) !== null && rating(model,controls.metric.value) >= Number(controls.floor.value) && (controls.provider.value === 'all' || model.provider === controls.provider.value) && (model.model + ' ' + model.reasoning).toLowerCase().includes(query));
       frontier = pareto(eligible,controls.metric.value);
-      shown = (controls['frontier-only'].checked ? frontier : eligible).slice().sort((a,b) => sortDirection * (sortKey === 'model' ? a.model.localeCompare(b.model) || a.reasoning.localeCompare(b.reasoning) : sortKey === 'tasks20' ? value20(a,controls.metric.value) - value20(b,controls.metric.value) : a[sortKey] - b[sortKey]));
+      shown = (controls['frontier-only'].checked ? frontier : eligible).slice().sort((a,b) => sortDirection * (sortKey === 'model' ? a.model.localeCompare(b.model) || a.reasoning.localeCompare(b.reasoning) : sortKey === 'bugScore' ? bugScore(a) - bugScore(b) : sortKey === 'tasks20' ? metricValue(a,controls.metric.value) - metricValue(b,controls.metric.value) : a[sortKey] - b[sortKey]));
       if(!shown.some(model => model.id === selected)) selected = shown[0]?.id || null;
       document.getElementById('metric-context').hidden = controls.metric.value !== 'bugs';
+      controls.budget.closest('label').hidden = controls.metric.value === 'bugs';
+      document.getElementById('subscription-budget-help').hidden = controls.metric.value === 'bugs';
       renderChart();renderTable();renderDetail();
       document.getElementById('chart-status').textContent = shown.length + ' configurations visible · ' + frontier.length + ' on the frontier among matches' ;
     }
     controls.search.addEventListener('input',render);
-    ['provider','floor','frontier-only','scale','metric'].forEach(id => controls[id].addEventListener('change',render));
+    controls.metric.addEventListener('change',() => {sortKey = 'tasks20';sortDirection = controls.metric.value === 'bugs' ? 1 : -1;configureFloor();render();});
+    ['provider','floor','frontier-only'].forEach(id => controls[id].addEventListener('change',render));
     controls.budget.addEventListener('input',() => {if(!controls.budget.checkValidity()) return;budget = Number(controls.budget.value);render();});
     controls.budget.addEventListener('blur',() => {if(!controls.budget.checkValidity()) controls.budget.value = String(budget);});
-    document.getElementById('reset').addEventListener('click',() => {controls.search.value = '';controls.provider.value = 'all';controls.floor.value = '46';controls.metric.value = 'tasks';controls.scale.value = 'linear';controls.budget.value = '20';controls['frontier-only'].checked = false;budget = 20;sortKey = 'tasks20';sortDirection = -1;selected = 'sonnet-high';render();});
+    document.getElementById('reset').addEventListener('click',() => {controls.search.value = '';controls.provider.value = 'all';controls.floor.value = '46';controls.metric.value = 'tasks';controls.budget.value = '20';controls['frontier-only'].checked = false;budget = 20;sortKey = 'tasks20';sortDirection = -1;selected = 'sonnet-high';configureFloor();render();});
     document.querySelectorAll('[data-sort]').forEach(button => button.addEventListener('click',() => {const key = button.dataset.sort;sortDirection = sortKey === key ? -sortDirection : (key === 'model' ? 1 : -1);sortKey = key;render();}));
     chart.addEventListener('click',event => {const point = event.target.closest('[data-id]');if(point) selectModel(point.dataset.id);});
     chart.addEventListener('focusin',event => {const point = event.target.closest('[data-id]');if(point) selectModel(point.dataset.id);});
     chart.addEventListener('keydown',event => {if(event.key === 'Enter' || event.key === ' '){const point = event.target.closest('[data-id]');if(point){event.preventDefault();selectModel(point.dataset.id);}}});
     rows.addEventListener('click',event => {const button = event.target.closest('[data-id]');if(button) selectModel(button.dataset.id);});
     document.getElementById('export').addEventListener('click',() => {
-      const header = ['Model','Reasoning','Intelligence','Subscription','Multiplier', (controls.metric.value === 'bugs' ? 'Bugs fixed' : 'Tasks') + ' / $' + budget + ' subscription spend','Pareto among matching configurations'];
-      const csvRows = shown.map(model => [model.model,model.reasoning,model.intelligence,model.provider,model.multiplier,estimate(model).toFixed(1),frontier.includes(model) ? 'Yes' : 'No']);
-      if(controls.metric.value === 'bugs'){header.push('Planted bugs fixed (out of 105)','Runs','Run date','Source cost kind','Subscription estimate bound');shown.forEach((model,index) => {const bug = model.bugHunt;csvRows[index].push(bug.fixed,bug.n_runs,bug.date,bug.cost_kind,bug.cost_kind === 'floor' ? 'Upper bound' : 'Estimate');});}
+      const header = ['Model','Reasoning','Intelligence','Subscription','Multiplier', controls.metric.value === 'bugs' ? 'Subscription $ / reliable bug' : 'Tasks / $' + budget + ' subscription spend','Pareto among matching configurations'];
+      const csvRows = shown.map(model => [model.model,model.reasoning,model.intelligence,model.provider,model.multiplier,estimate(model).toFixed(controls.metric.value === 'bugs' ? 6 : 1),frontier.includes(model) ? 'Yes' : 'No']);
+      if(controls.metric.value === 'bugs'){header.push('Reliable fixes (out of 105)','Bug-fix rating','Reliable bug IDs','Runs','Run date','Source cost kind','Subscription estimate bound','Evidence');shown.forEach((model,index) => {const bug = model.bugHunt;csvRows[index].push(reliableBugs(model).length,bugScore(model),reliableBugs(model).join(' '),bug.n_runs,bug.date,bug.cost_kind,bug.cost_kind === 'floor' ? 'Lower bound' : 'Estimate',bug.n_runs === 1 ? 'Astra single-run exception' : 'Fixed in every repeated run');});}
       const csv = [header,...csvRows].map(row => row.map(value => '"' + String(value).replaceAll('"','""') + '"').join(',')).join('\r\n');
       const url = URL.createObjectURL(new Blob(['\ufeff' + csv],{type:'text/csv;charset=utf-8'})), link = document.createElement('a');
-      link.href = url;link.download = 'subscription-value-' + controls.metric.value + '-' + budget + '-subscription-dollars.csv';document.body.append(link);link.click();link.remove();setTimeout(() => URL.revokeObjectURL(url),1000);
+      link.href = url;link.download = controls.metric.value === 'bugs' ? 'subscription-value-reliable-bug-cost.csv' : 'subscription-value-tasks-' + budget + '-subscription-dollars.csv';document.body.append(link);link.click();link.remove();setTimeout(() => URL.revokeObjectURL(url),1000);
     });
     render();
   </script>
