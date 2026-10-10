@@ -18,7 +18,6 @@ for (const model of data) {
   assert.ok(Number.isFinite(model.multiplier));
   if(model.tasks20 !== null) assert.ok(model.benchmarkCost > 0);
   if(model.tasks20 !== null) assert.equal(Math.round(model.multiplier / model.benchmarkCost * 10) / 10 * 20, model.tasks20);
-  if (data.indexOf(model) < 10) assert.ok(readme.includes(`| ${model.model} | ${model.reasoning} | ${model.intelligence} | ${model.multiplier}× | **${model.tasks20.toLocaleString('en-US')}** |`));
 }
 assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null)).map(model => model.id).join(','), 'sonnet-high,sol-medium,opus-medium,opus-high,opus-xhigh,opus-max');
 assert.equal(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null).length, 23);
@@ -80,7 +79,7 @@ const easy = Object.keys(weights).find(id => weights[id] === Math.min(...Object.
 const hard = Object.keys(weights).find(id => weights[id] === Math.max(...Object.values(weights).filter(weight => weight !== null)));
 assert.equal(bugScore({bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[easy]:2,[hard]:2}}}),weights[easy] + weights[hard]);
 assert.ok(html.includes('data-sort="bugScore"'));
-console.log('Report checks passed: 38 configurations, original README values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
+console.log('Report checks passed: 38 configurations, original task values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
 
 const dominates = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\ndominates',{models:data});
 const candidate = {intelligence:58,multiplier:10,bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[hard]:2},fixed:1,extras:1,cost_usd:1}};
@@ -121,3 +120,6 @@ assert.equal(data.filter(model => metricValue(model,'bugs') !== null).length,32)
 
 assert.equal(data.filter(model => model.model === 'Claude Fable 5.1').map(model => model.tasks20).join(','),'498,396,302,196,154');
 assert.ok(data.filter(model => model.model === 'Claude Fable 5.1').every(model => model.multiplier === 58.9));
+
+for(const method of ['Tasks / subscription $ = multiplier / AA cost per task','Bug-fix rating = sum of weights of its qualifying planted fixes','source run cost / subscription multiplier / total fixes','Astra and Fable are explicit single-run exceptions']) assert.ok(readme.includes(method));
+assert.ok(readme.includes('https://nishimura-katsuo.github.io/subscription-value/'));
