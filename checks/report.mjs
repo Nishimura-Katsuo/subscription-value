@@ -7,7 +7,7 @@ const readme = readFileSync(new URL('../README.md', import.meta.url), 'utf8');
 const data = JSON.parse(html.match(/<script id="comparison-data" type="application\/json">([\s\S]*?)<\/script>/)[1]);
 const code = html.match(/<script id="report-code">([\s\S]*?)<\/script>/)[1];
 new Script(code); // Compile the actual dashboard script to catch syntax errors.
-const valueCode = ['reliableBugs','bugWeights','bugScore','costPerBug','metricValue','rating'].map(name => code.match(new RegExp('^    const ' + name + ' = .+$','m'))[0]).join('\n');
+const valueCode = ['reliableBugs','bugWeights','bugScore','totalFixes','costPerBug','metricValue','rating'].map(name => code.match(new RegExp('^    const ' + name + ' = .+$','m'))[0]).join('\n');
 const metricValue = runInNewContext(valueCode + '\nmetricValue',{models:data});
 const pareto = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\n' + code.match(/^    const pareto = .+$/m)[0] + '\npareto',{models:data});
 const expected = [1338, 1010, 880, 662, 648, 586, 544, 340, 152, 110];
@@ -46,7 +46,7 @@ for (const model of data) {
   assert.ok(bug.fixed > 0 && bug.fixed <= 105 && bug.cost_usd > 0);
   assert.ok(bug.n_runs >= 1 && ['list','floor'].includes(bug.cost_kind));
   const reliable = reliableBugs(model);
-  assert.equal(metricValue(model,'bugs'),reliable === null ? null : bug.cost_usd / model.multiplier / reliable.length);
+  assert.equal(metricValue(model,'bugs'),reliable === null ? null : bug.cost_usd / model.multiplier / (bug.fixed + bug.extras));
   assert.equal(metricValue(model,'tasks'),model.tasks20);
 }
 assert.equal(data.find(model => model.id === 'sol-medium').bugHunt.cost_usd,1.76);
@@ -54,11 +54,11 @@ assert.equal(data.find(model => model.id === 'sol-medium').bugHunt.fixed,29);
 assert.equal(data.find(model => model.id === 'grok-xhigh').bugHunt.n_runs,5);
 assert.equal(data.find(model => model.id === 'grok-xhigh').bugHunt.cost_kind,'floor');
 assert.equal(metricValue({tasks20:10},'bugs'),null);
-assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'bugs') !== null),'bugs').map(model => model.id).join(','),'sol-medium,sol-high,sonnet-high,sol-xhigh,sol-max,astra-xhigh');
+assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'bugs') !== null),'bugs').map(model => model.id).join(','),'sol-medium,sol-high,sol-xhigh,sol-max,astra-xhigh');
 const solMedium = data.find(model => model.id === 'sol-medium');
 assert.equal(reliableBugs(solMedium).length,25);
-assert.ok(Math.abs(metricValue(solMedium,'bugs') - 1.76 / (10.6 * 25)) < 1e-10);
-assert.ok(html.includes('Subscription $ / reliable bug'));
+assert.ok(Math.abs(metricValue(solMedium,'bugs') - 1.76 / (10.6 * (29 + 30.5))) < 1e-10);
+assert.ok(html.includes('Subscription $ / bug fixed'));
 assert.equal(data.filter(model => reliableBugs(model) === null).length,6);
 assert.equal(Object.keys(weights).length,105);
 for(const [id,weight] of Object.entries(weights)){
@@ -78,7 +78,7 @@ assert.ok(html.includes('data-sort="bugScore"'));
 console.log('Report checks passed: 33 configurations, original README values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
 
 const dominates = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\ndominates',{models:data});
-const candidate = {intelligence:58,multiplier:10,bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[hard]:2},cost_usd:1}};
+const candidate = {intelligence:58,multiplier:10,bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[hard]:2},fixed:1,extras:1,cost_usd:1}};
 assert.ok(dominates(candidate,{...candidate,bugHunt:{...candidate.bugHunt,cost_usd:2}},'bugs'));
 assert.ok(!dominates({...candidate,bugHunt:{...candidate.bugHunt,cost_usd:2}},candidate,'bugs'));
 assert.equal(pareto([candidate,{...candidate,bugHunt:{...candidate.bugHunt,cost_usd:2}}],'bugs').length,1);
@@ -105,3 +105,8 @@ for(const model of data.filter(model => model.model === 'GPT-6 Astra')){
  if(model.bugHunt.n_runs === 1) assert.equal(reliableBugs(model).length,model.bugHunt.fixed);
 }
 assert.ok(data.filter(model => /Luna|Haiku/.test(model.model) && model.bugHunt.n_runs === 1).every(model => reliableBugs(model) === null));
+
+for(const model of data) assert.ok(Number.isFinite(model.bugHunt.extras) && model.bugHunt.extras >= 0);
+assert.equal(data.find(model=>model.id==='sol-medium').bugHunt.extras,30.5);
+const costPerBug = runInNewContext(valueCode + '\ncostPerBug',{models:data});
+assert.ok(costPerBug({...candidate,bugHunt:{...candidate.bugHunt,extras:3}}) < costPerBug(candidate));
