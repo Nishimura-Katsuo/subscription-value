@@ -86,7 +86,7 @@ The graph plots:
 - **Horizontal:** bug-fix rating.
 - **Vertical:** estimated subscription dollars per total bug fixed.
 
-The vertical axis is **inverted and logarithmic**, so higher points cost less. Bugs mode defaults to all ratings; its floor choices come from the calculated results. Rating and unit cost do not scale with the subscription-spend scenario.
+The horizontal axis is **exponential**, spreading out higher ratings and compressing lower ratings. Within the displayed rating range, its normalized position is `(10^t - 1) / 9`, where `t = (rating - minimum) / (maximum - minimum)`; this changes spacing only, not ratings or Pareto membership. The vertical axis is **inverted and logarithmic**, so higher points cost less. Bugs mode defaults to all ratings; its floor choices come from the calculated results. Rating and unit cost do not scale with the subscription-spend scenario.
 
 ## Pareto frontier and graph lines
 

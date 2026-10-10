@@ -123,3 +123,23 @@ assert.ok(data.filter(model => model.model === 'Claude Fable 5.1').every(model =
 
 for(const method of ['Tasks / subscription $ = multiplier / AA cost per task','Bug-fix rating = sum of weights of its qualifying planted fixes','source run cost / subscription multiplier / total fixes','Astra and Fable are explicit single-run exceptions']) assert.ok(readme.includes(method));
 assert.ok(readme.includes('https://nishimura-katsuo.github.io/subscription-value/'));
+
+const chartX = runInNewContext(code.match(/^    const chartX = .+$/m)[0] + '\nchartX');
+assert.equal(chartX(100,100,1100,true),82);
+assert.equal(chartX(1100,100,1100,true),940);
+assert.equal(chartX(600,100,1100,false),511);
+assert.ok(chartX(600,100,1100,true) < 511);
+assert.ok(chartX(1100,100,1100,true) - chartX(1000,100,1100,true) > chartX(200,100,1100,true) - chartX(100,100,1100,true));
+assert.ok(Number.isFinite(chartX(100,99,101,true)));
+assert.ok(html.includes('Math.log10(1 + 9 * i / 5)'));
+console.log('Exponential horizontal scale checks passed.');
+
+const labelPosition = runInNewContext(code.match(/^    const labelPosition = .+$/m)[0] + '\nlabelPosition');
+for(const [px,py,width,height] of [[82,458,120,14],[940,38,160,14],[400,250,100,14],[90,42,300,16]]){
+  const [lx,ly] = labelPosition(px,py,width,height);
+  assert.ok(lx >= 90 && lx + width <= 932);
+  assert.ok(ly - height >= 38 && ly <= 450);
+}
+assert.ok(!code.includes('const labels ='));
+assert.ok(code.includes('label.getBBox()'));
+console.log('General chart label bounds checks passed.');
