@@ -4,7 +4,7 @@ How much benchmark work does a subscription dollar buy, once we require an Artif
 
 This report compares estimated subscription throughput with intelligence using a snapshot dated **October 8, 2026**. The inputs are derived from SemiAnalysis's subscription-value research, Artificial Analysis benchmarks, and the author's Cursor usage exports.
 
-**Explore the [interactive report](https://nishimura-katsuo.github.io/subscription-value/)**: a professional dark dashboard with linked chart and table selections, model search, provider and intelligence filters, sortable columns, a subscription-spend scenario control, and CSV export. The report is hosted on GitHub Pages and runs directly in your browser with no installation or build step.
+**Explore the [interactive report](https://nishimura-katsuo.github.io/subscription-value/)**: a professional dark dashboard with linked chart and table selections, model search, provider and intelligence filters, sortable columns, a tasks-per-dollar / bugs-fixed-per-dollar toggle, a subscription-spend scenario control, and CSV export. The report is hosted on GitHub Pages and runs directly in your browser with no installation or build step.
 
 ## Subscription multipliers
 
@@ -77,7 +77,9 @@ Three sources supply the inputs used to calculate this table:
 - **Artificial Analysis** — Intelligence Index scores and benchmark cost inputs for each model and reasoning configuration. Model comparisons: [Sonnet 5.5](https://artificialanalysis.ai/models/comparisons/claude-sonnet-5-5-high-vs-claude-sonnet-5-5-xhigh), [Opus 5.5](https://artificialanalysis.ai/models/comparisons/claude-opus-5-5-medium-vs-claude-opus-5-5-xhigh), [Sol 6.1](https://artificialanalysis.ai/models/comparisons/gpt-6-1-sol-medium-vs-gpt-6-1-sol-xhigh), and [Grok 4.7](https://artificialanalysis.ai/models/comparisons/grok-4-7-high-vs-grok-4-7).
 - **Cursor usage exports** — the author's observed metered API-equivalent usage divided by subscription spend, yielding the **20.7×** Cursor multiplier. It reflects the observed usage mix rather than a guaranteed allowance for every account.
 
-The HTML retains the recorded benchmark costs as calculation inputs in its embedded dataset. The dashboard and CSV export present subscription throughput, intelligence, and multipliers. Its chart and table use the same preserved values.
+The explorer also includes a bugs-fixed metric derived from [Bug Hunt Bench](https://bughunt.productcompass.pm/), matched by model and effort level. It estimates bugs fixed per subscription dollar as `subscription multiplier × verified planted bugs fixed / source run cost`. Its October 8, 2026 snapshot excludes superseded runs and preserves run counts, harnesses, and cost kinds. Grok run costs are lower bounds, so its bugs-per-dollar figures are upper-bound estimates. The table and graph above retain the original Artificial Analysis comparison.
+
+The HTML retains the recorded benchmark costs as calculation inputs in its embedded dataset. The dashboard and CSV export present subscription throughput, intelligence, and multipliers. Task mode preserves the original comparison values.
 
 ## Report checks
 

@@ -23,15 +23,15 @@
     <noscript>The interactive explorer needs JavaScript. The <a href="../README.md">original comparison table</a> is also available.</noscript>
     <section id="explorer" aria-labelledby="explorer-title"><div class="section-title"><div><h2 id="explorer-title">The value frontier</h2><p id="floor-context">In my experience, Grok 4.7 is the least capable model that can still complete math and coding work successfully in messy codebases. That makes its Artificial Analysis score of 46 my intelligence floor for this comparison. Your mileage may vary.</p></div></div>
       <div class="panel">
-        <div class="controls"><label class="field search-field">Search configurations<input id="search" type="search" placeholder="Try Opus, Sol, or XHigh…" autocomplete="off"></label><label class="field">Subscription<select id="provider"><option value="all">All subscriptions</option><option>Claude</option><option>ChatGPT</option><option>Cursor</option></select></label><label class="field">Intelligence floor<select id="floor"><option value="0">All intelligence levels</option><option value="22">≥22</option><option value="23">≥23</option><option value="24">≥24</option><option value="25">≥25</option><option value="26">≥26</option><option value="27">≥27</option><option value="28">≥28</option><option value="29">≥29</option><option value="30">≥30</option><option value="31">≥31</option><option value="32">≥32</option><option value="33">≥33</option><option value="34">≥34</option><option value="35">≥35</option><option value="36">≥36</option><option value="37">≥37</option><option value="38">≥38</option><option value="39">≥39</option><option value="40">≥40</option><option value="41">≥41</option><option value="42">≥42</option><option value="43">≥43</option><option value="44">≥44</option><option value="45">≥45</option><option value="46" selected>≥46 · Original floor</option><option value="47">≥47</option><option value="48">≥48</option><option value="49">≥49</option><option value="50">≥50</option><option value="51">≥51</option><option value="52">≥52</option><option value="53">≥53</option><option value="54">≥54</option><option value="55">≥55</option><option value="56">≥56</option><option value="57">≥57</option><option value="58">≥58</option></select></label><label class="field budget-field">Subscription spend ($)<input aria-describedby="subscription-budget-help" id="budget" type="number" min="1" max="1000" step="1" value="20" required></label><label class="field">Chart scale<select id="scale"><option value="linear">Linear</option><option value="log">Logarithmic</option></select></label><label class="frontier-toggle"><input id="frontier-only" type="checkbox">Frontier only</label><button id="reset" class="reset" type="button">Reset</button></div>
+        <div class="controls"><label class="field">Metric<select id="metric"><option value="tasks">Tasks / $</option><option value="bugs">Bugs fixed / $</option></select></label><label class="field search-field">Search configurations<input id="search" type="search" placeholder="Try Opus, Sol, or XHigh…" autocomplete="off"></label><label class="field">Subscription<select id="provider"><option value="all">All subscriptions</option><option>Claude</option><option>ChatGPT</option><option>Cursor</option></select></label><label class="field">Intelligence floor<select id="floor"><option value="0">All intelligence levels</option><option value="22">≥22</option><option value="23">≥23</option><option value="24">≥24</option><option value="25">≥25</option><option value="26">≥26</option><option value="27">≥27</option><option value="28">≥28</option><option value="29">≥29</option><option value="30">≥30</option><option value="31">≥31</option><option value="32">≥32</option><option value="33">≥33</option><option value="34">≥34</option><option value="35">≥35</option><option value="36">≥36</option><option value="37">≥37</option><option value="38">≥38</option><option value="39">≥39</option><option value="40">≥40</option><option value="41">≥41</option><option value="42">≥42</option><option value="43">≥43</option><option value="44">≥44</option><option value="45">≥45</option><option value="46" selected>≥46 · Original floor</option><option value="47">≥47</option><option value="48">≥48</option><option value="49">≥49</option><option value="50">≥50</option><option value="51">≥51</option><option value="52">≥52</option><option value="53">≥53</option><option value="54">≥54</option><option value="55">≥55</option><option value="56">≥56</option><option value="57">≥57</option><option value="58">≥58</option></select></label><label class="field budget-field">Subscription spend ($)<input aria-describedby="subscription-budget-help" id="budget" type="number" min="1" max="1000" step="1" value="20" required></label><label class="field">Chart scale<select id="scale"><option value="linear">Linear</option><option value="log">Logarithmic</option></select></label><label class="frontier-toggle"><input id="frontier-only" type="checkbox">Frontier only</label><button id="reset" class="reset" type="button">Reset</button></div>
         <p id="subscription-budget-help" class="caption" style="margin:0;padding:12px 23px;border-bottom:1px solid var(--line)">This amount is subscription fees only. API credits and on-demand usage charges are excluded.</p>
-        <div class="chart-layout"><div class="chart-main"><div class="legend" aria-label="Chart legend"><span><i style="background:var(--purple)"></i>Claude</span><span><i style="background:var(--mint)"></i>ChatGPT</span><span><i style="background:var(--orange)"></i>Cursor / Grok</span><span><i class="line-sample"></i>Pareto frontier</span><span><i class="line-sample" style="border-top-style:dotted"></i>Model effort levels</span></div><div class="chart-scroll"><svg id="chart" viewBox="0 0 1000 540" role="group" aria-labelledby="chart-title chart-desc"><title id="chart-title">Intelligence versus tasks per $20 of subscription spend</title><desc id="chart-desc">Explore configurations and their Pareto frontier. Use Tab to focus a point or select a model in the table.</desc></svg></div></div><aside id="detail" class="detail" aria-label="Selected configuration details"></aside></div>
+        <p id="metric-context" class="caption" style="margin:0;padding:12px 23px;border-bottom:1px solid var(--line)" hidden>Bug Hunt measures verified fixes of planted bugs. Estimates reuse our subscription multipliers; Grok estimates are upper bounds because its reported costs are lower bounds. <a href="https://bughunt.productcompass.pm/">Source and run details ↗</a></p><div class="chart-layout"><div class="chart-main"><div class="legend" aria-label="Chart legend"><span><i style="background:var(--purple)"></i>Claude</span><span><i style="background:var(--mint)"></i>ChatGPT</span><span><i style="background:var(--orange)"></i>Cursor / Grok</span><span><i class="line-sample"></i>Pareto frontier</span><span><i class="line-sample" style="border-top-style:dotted"></i>Model effort levels</span></div><div class="chart-scroll"><svg id="chart" viewBox="0 0 1000 540" role="group" aria-labelledby="chart-title chart-desc"><title id="chart-title">Intelligence versus tasks per $20 of subscription spend</title><desc id="chart-desc">Explore configurations and their Pareto frontier. Use Tab to focus a point or select a model in the table.</desc></svg></div></div><aside id="detail" class="detail" aria-label="Selected configuration details"></aside></div>
         <div class="chart-foot"><span id="chart-status" role="status" aria-live="polite">Loading configurations…</span></div>
       </div>
-      <p class="caption">Subscription-spend scenarios scale the estimates linearly; they do not represent available plans or actual quotas. The solid line marks the Pareto frontier. Use logarithmic scale to separate points when task volumes differ widely. Dotted lines connect each model’s visible reasoning levels from Low to Max; lines do not imply intermediate configurations.</p>
+      <p class="caption">Subscription-spend scenarios scale the estimates linearly; they do not represent available plans or actual quotas. The solid line marks the Pareto frontier. Use logarithmic scale to separate points when throughput differs widely. Dotted lines connect each model’s visible reasoning levels from Low to Max; lines do not imply intermediate configurations.</p>
     </section>
     <section class="table-section" aria-labelledby="table-title"><div class="section-title"><div><h2 id="table-title">Every configuration, compared</h2><p id="table-meta" class="table-meta">Sorted by tasks per $20 of subscription spend · descending</p></div><button class="export" id="export" type="button">Export filtered CSV ↓</button></div><div class="panel table-scroll"><table><caption class="sr-only">Filtered model and reasoning configurations. Column buttons change sort order. Model buttons select chart points.</caption><thead><tr><th scope="col">#</th><th scope="col" id="sort-model" aria-sort="none"><button data-sort="model" type="button">Model ↕</button></th><th scope="col">Reasoning</th><th scope="col" class="num" id="sort-intelligence" aria-sort="none"><button data-sort="intelligence" type="button">Intelligence ↕</button></th><th scope="col" class="num" id="sort-multiplier" aria-sort="none"><button data-sort="multiplier" type="button">Multiplier ↕</button></th><th scope="col" class="num" id="sort-tasks20" aria-sort="descending"><button data-sort="tasks20" type="button" id="task-sort-label">Tasks / $20 subscription spend ↓</button></th></tr></thead><tbody id="rows"></tbody></table></div></section>
-    <details class="method"><summary>Method, assumptions &amp; sources</summary><div class="method-grid"><div><h3>A common spending denominator</h3><div class="formula">Tasks / subscription $ = multiplier ÷ AA cost / task<br>Tasks / $20 = 20 × rounded tasks / subscription $</div><p>All task counts are estimates. Tasks per subscription dollar are rounded to one decimal before multiplying by 20. The subscription-spend scenario scales these estimates by subscription fees / $20. API-equivalent values are calculation inputs; the budget itself is the amount paid for the subscription.</p><p>The default intelligence floor is 46. Lower it to include Luna, Haiku, and other lower-scoring reasoning configurations. Fable is excluded because it is not available on all plans. Only configurations with published benchmark values are included.</p><h3>What counts as Pareto optimal?</h3><p>No other included configuration offers at least as much intelligence and throughput, with a strict improvement in either dimension. The explorer recomputes the frontier among the configurations matching your search, subscription, and floor filters.</p></div><div><h3>A snapshot, not a usage guarantee</h3><p>The Claude and ChatGPT multipliers are estimates derived from SemiAnalysis's API-equivalent subscription-value analysis. The same provider multipliers are applied across all included models and reasoning levels: Claude 58.9× and ChatGPT 10.6×. This is a comparison assumption, not a separate measurement for each model. Cursor's multiplier is calculated from the author's usage exports: metered API-equivalent usage divided by subscription spend.</p><p>The Cursor exports included both Grok and Claude usage. Applying the full 20.7× multiplier to Grok assumes both available usage pools can be allocated to it. Benchmark tasks are a spending proxy; actual task volume depends on the workload and usage limits. Figures reflect the 8 October 2026 snapshot.</p><h3>Sources</h3><ul><li><a href="https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x">SemiAnalysis: Anthropic Subscriptions Offer 5x+ More Value Than OpenAI</a> — subscription-value research used to derive the Claude and ChatGPT multipliers.</li><li><strong>Artificial Analysis</strong> — intelligence scores and benchmark task costs: <a href="https://artificialanalysis.ai/models/releases/claude-sonnet-5-5">Sonnet</a>, <a href="https://artificialanalysis.ai/models/releases/claude-opus-5-5">Opus</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-1-sol">Sol</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-astra">Astra</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-luna">Luna</a>, <a href="https://artificialanalysis.ai/models/releases/claude-haiku-5-5">Haiku</a>, <a href="https://artificialanalysis.ai/models/releases/grok-4-7">Grok</a>. Haiku uses the Default Fallback configurations.</li><li><strong>Cursor usage exports</strong> — the author's observed usage and subscription spend, used to calculate the 20.7× multiplier.</li></ul></div></div></details>
+    <details class="method"><summary>Method, assumptions &amp; sources</summary><div class="method-grid"><div><h3>A common spending denominator</h3><div class="formula">Tasks / subscription $ = multiplier ÷ AA cost / task<br>Tasks / $20 = 20 × rounded tasks / subscription $</div><p>All task counts are estimates. Tasks per subscription dollar are rounded to one decimal before multiplying by 20. The subscription-spend scenario scales these estimates by subscription fees / $20. API-equivalent values are calculation inputs; the budget itself is the amount paid for the subscription.</p><p>The default intelligence floor is 46. Lower it to include Luna, Haiku, and other lower-scoring reasoning configurations. Fable is excluded because it is not available on all plans. Only configurations with published benchmark values are included.</p><h3>Bugs fixed per subscription dollar</h3><div class="formula">Bugs fixed / subscription $ = multiplier × planted bugs fixed ÷ source run cost</div><p>The Bug Hunt snapshot is dated 2026-10-08. We match the exact model and effort level, omit superseded rows, and use the published current run or mean. Only verified planted-bug fixes count; partial fixes, claims, and extra bugs are excluded. Multipliers remain the same comparison assumptions. Bug estimates use the unrounded ratio before scaling by subscription spend.</p><p>These runs use different agentic harnesses and may be single runs or means. Grok costs are reconstructed lower bounds, making its bugs-per-dollar estimates upper bounds. Other matched costs are list-rate estimates. Small differences may reflect run variance. Missing configurations are omitted from bugs mode; Artificial Analysis still supplies the intelligence axis and floor.</p><h3>What counts as Pareto optimal?</h3><p>No other included configuration offers at least as much intelligence and throughput, with a strict improvement in either dimension. The explorer recomputes the frontier among the configurations matching your search, subscription, and floor filters.</p></div><div><h3>A snapshot, not a usage guarantee</h3><p>The Claude and ChatGPT multipliers are estimates derived from SemiAnalysis's API-equivalent subscription-value analysis. The same provider multipliers are applied across all included models and reasoning levels: Claude 58.9× and ChatGPT 10.6×. This is a comparison assumption, not a separate measurement for each model. Cursor's multiplier is calculated from the author's usage exports: metered API-equivalent usage divided by subscription spend.</p><p>The Cursor exports included both Grok and Claude usage. Applying the full 20.7× multiplier to Grok assumes both available usage pools can be allocated to it. Benchmark tasks are a spending proxy; actual task volume depends on the workload and usage limits. Figures reflect the 8 October 2026 snapshot.</p><h3>Sources</h3><ul><li><a href="https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x">SemiAnalysis: Anthropic Subscriptions Offer 5x+ More Value Than OpenAI</a> — subscription-value research used to derive the Claude and ChatGPT multipliers.</li><li><strong>Artificial Analysis</strong> — intelligence scores and benchmark task costs: <a href="https://artificialanalysis.ai/models/releases/claude-sonnet-5-5">Sonnet</a>, <a href="https://artificialanalysis.ai/models/releases/claude-opus-5-5">Opus</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-1-sol">Sol</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-astra">Astra</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-luna">Luna</a>, <a href="https://artificialanalysis.ai/models/releases/claude-haiku-5-5">Haiku</a>, <a href="https://artificialanalysis.ai/models/releases/grok-4-7">Grok</a>. Haiku uses the Default Fallback configurations.</li><li><a href="https://bughunt.productcompass.pm/">Bug Hunt Bench</a> — verified planted-bug fixes and run costs. <a href="https://bughunt.productcompass.pm/data/benchmark.json">Source snapshot</a> · <a href="https://bughunt.productcompass.pm/method">Method and caveats</a>.</li><li><strong>Cursor usage exports</strong> — the author's observed usage and subscription spend, used to calculate the 20.7× multiplier.</li></ul></div></div></details>
   </main>
   <script id="comparison-data" type="application/json">
 [
@@ -44,7 +44,16 @@
     "intelligence": 47,
     "multiplier": 58.9,
     "benchmarkCost": 0.88,
-    "tasks20": 1338
+    "tasks20": 1338,
+    "bugHunt": {
+      "id": "Sonnet 5.5 (high effort) - mean of 3",
+      "fixed": 34.3,
+      "cost_usd": 19.85,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "harness": "Claude Code",
+      "date": "2026-09-29"
+    }
   },
   {
     "id": "sol-medium",
@@ -55,7 +64,16 @@
     "intelligence": 48,
     "multiplier": 10.6,
     "benchmarkCost": 0.21,
-    "tasks20": 1010
+    "tasks20": 1010,
+    "bugHunt": {
+      "id": "GPT-6.1 Sol (medium effort) - mean of 2",
+      "fixed": 29,
+      "cost_usd": 1.76,
+      "cost_kind": "list",
+      "n_runs": 2,
+      "harness": "Codex CLI",
+      "date": "2026-09-30"
+    }
   },
   {
     "id": "opus-medium",
@@ -66,7 +84,16 @@
     "intelligence": 51,
     "multiplier": 58.9,
     "benchmarkCost": 1.34,
-    "tasks20": 880
+    "tasks20": 880,
+    "bugHunt": {
+      "id": "Opus 5.5 (medium effort) - mean of 3",
+      "fixed": 30.3,
+      "cost_usd": 15.68,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "harness": "Claude Code",
+      "date": "2026-09-23"
+    }
   },
   {
     "id": "sol-high",
@@ -77,7 +104,16 @@
     "intelligence": 50,
     "multiplier": 10.6,
     "benchmarkCost": 0.32,
-    "tasks20": 662
+    "tasks20": 662,
+    "bugHunt": {
+      "id": "GPT-6.1 Sol (high effort) - mean of 2",
+      "fixed": 36.5,
+      "cost_usd": 3.26,
+      "cost_kind": "list",
+      "n_runs": 2,
+      "harness": "Codex CLI",
+      "date": "2026-09-30"
+    }
   },
   {
     "id": "opus-high",
@@ -88,7 +124,16 @@
     "intelligence": 54,
     "multiplier": 58.9,
     "benchmarkCost": 1.82,
-    "tasks20": 648
+    "tasks20": 648,
+    "bugHunt": {
+      "id": "Opus 5.5 (high effort) - mean of 3",
+      "fixed": 31.7,
+      "cost_usd": 22.25,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "harness": "Claude Code",
+      "date": "2026-09-23"
+    }
   },
   {
     "id": "sonnet-xhigh",
@@ -99,7 +144,16 @@
     "intelligence": 52,
     "multiplier": 58.9,
     "benchmarkCost": 2.01,
-    "tasks20": 586
+    "tasks20": 586,
+    "bugHunt": {
+      "id": "Sonnet 5.5 (xhigh effort) - mean of 3",
+      "fixed": 36,
+      "cost_usd": 42.86,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "harness": "Claude Code",
+      "date": "2026-09-29"
+    }
   },
   {
     "id": "sol-xhigh",
@@ -110,7 +164,16 @@
     "intelligence": 51,
     "multiplier": 10.6,
     "benchmarkCost": 0.39,
-    "tasks20": 544
+    "tasks20": 544,
+    "bugHunt": {
+      "id": "GPT-6.1 Sol (xhigh effort) - mean of 3",
+      "fixed": 42.7,
+      "cost_usd": 4.35,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "harness": "Codex CLI",
+      "date": "2026-09-30"
+    }
   },
   {
     "id": "opus-xhigh",
@@ -121,7 +184,16 @@
     "intelligence": 56,
     "multiplier": 58.9,
     "benchmarkCost": 3.46,
-    "tasks20": 340
+    "tasks20": 340,
+    "bugHunt": {
+      "id": "Opus 5.5 (xhigh effort) - mean of 3",
+      "fixed": 36,
+      "cost_usd": 34.98,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "harness": "Claude Code",
+      "date": "2026-09-23"
+    }
   },
   {
     "id": "grok-high",
@@ -132,7 +204,16 @@
     "intelligence": 46,
     "multiplier": 20.7,
     "benchmarkCost": 2.73,
-    "tasks20": 152
+    "tasks20": 152,
+    "bugHunt": {
+      "id": "Grok 4.7 (high) - mean of 3",
+      "fixed": 19.3,
+      "cost_usd": 12.29,
+      "cost_kind": "floor",
+      "n_runs": 3,
+      "harness": "Grok Build CLI (ACP)",
+      "date": "2026-09-21"
+    }
   },
   {
     "id": "grok-xhigh",
@@ -143,7 +224,16 @@
     "intelligence": 46,
     "multiplier": 20.7,
     "benchmarkCost": 3.74,
-    "tasks20": 110
+    "tasks20": 110,
+    "bugHunt": {
+      "id": "Grok 4.7 (xhigh) - mean of 5",
+      "fixed": 29,
+      "cost_usd": 22.96,
+      "cost_kind": "floor",
+      "n_runs": 5,
+      "harness": "Grok Build CLI (ACP)",
+      "date": "2026-10-08"
+    }
   },
   {
     "id": "sonnet-low",
@@ -154,7 +244,16 @@
     "intelligence": 36,
     "multiplier": 58.9,
     "benchmarkCost": 0.35,
-    "tasks20": 3366.0
+    "tasks20": 3366.0,
+    "bugHunt": {
+      "id": "Sonnet 5.5 (low effort) - mean of 3",
+      "fixed": 19,
+      "cost_usd": 5.73,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "harness": "Claude Code",
+      "date": "2026-09-30"
+    }
   },
   {
     "id": "sonnet-medium",
@@ -165,7 +264,16 @@
     "intelligence": 41,
     "multiplier": 58.9,
     "benchmarkCost": 0.48,
-    "tasks20": 2454.0
+    "tasks20": 2454.0,
+    "bugHunt": {
+      "id": "Sonnet 5.5 (medium effort) - mean of 3",
+      "fixed": 23.3,
+      "cost_usd": 11.11,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "harness": "Claude Code",
+      "date": "2026-09-30"
+    }
   },
   {
     "id": "sonnet-max",
@@ -176,7 +284,16 @@
     "intelligence": 56,
     "multiplier": 58.9,
     "benchmarkCost": 5.46,
-    "tasks20": 216.0
+    "tasks20": 216.0,
+    "bugHunt": {
+      "id": "Sonnet 5.5 (max effort) - mean of 3",
+      "fixed": 51.3,
+      "cost_usd": 154.03,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "harness": "Claude Code",
+      "date": "2026-09-29"
+    }
   },
   {
     "id": "opus-low",
@@ -187,7 +304,16 @@
     "intelligence": 42,
     "multiplier": 58.9,
     "benchmarkCost": 0.55,
-    "tasks20": 2142.0
+    "tasks20": 2142.0,
+    "bugHunt": {
+      "id": "Opus 5.5 (low effort) - mean of 3",
+      "fixed": 22.3,
+      "cost_usd": 8.34,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "harness": "Claude Code",
+      "date": "2026-09-23"
+    }
   },
   {
     "id": "opus-max",
@@ -198,7 +324,16 @@
     "intelligence": 58,
     "multiplier": 58.9,
     "benchmarkCost": 5.98,
-    "tasks20": 196.0
+    "tasks20": 196.0,
+    "bugHunt": {
+      "id": "Opus 5.5 (max effort) - mean of 3",
+      "fixed": 41.7,
+      "cost_usd": 58.53,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "harness": "Claude Code",
+      "date": "2026-09-23"
+    }
   },
   {
     "id": "sol-low",
@@ -209,7 +344,16 @@
     "intelligence": 42,
     "multiplier": 10.6,
     "benchmarkCost": 0.13,
-    "tasks20": 1630.0
+    "tasks20": 1630.0,
+    "bugHunt": {
+      "id": "GPT-6.1 Sol (low effort) - mean of 2",
+      "fixed": 22.5,
+      "cost_usd": 1.34,
+      "cost_kind": "list",
+      "n_runs": 2,
+      "harness": "Codex CLI",
+      "date": "2026-10-01"
+    }
   },
   {
     "id": "sol-max",
@@ -220,7 +364,16 @@
     "intelligence": 52,
     "multiplier": 10.6,
     "benchmarkCost": 0.72,
-    "tasks20": 294.0
+    "tasks20": 294.0,
+    "bugHunt": {
+      "id": "GPT-6.1 Sol (max effort) - mean of 3",
+      "fixed": 44.3,
+      "cost_usd": 5.88,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "harness": "Codex CLI",
+      "date": "2026-09-30"
+    }
   },
   {
     "id": "astra-low",
@@ -231,7 +384,16 @@
     "intelligence": 46,
     "multiplier": 10.6,
     "benchmarkCost": 0.82,
-    "tasks20": 258.0
+    "tasks20": 258.0,
+    "bugHunt": {
+      "id": "GPT-6 Astra (low effort)",
+      "fixed": 27,
+      "cost_usd": 11.69,
+      "cost_kind": "list",
+      "n_runs": 1,
+      "harness": "Codex CLI",
+      "date": "2026-09-05"
+    }
   },
   {
     "id": "astra-medium",
@@ -242,7 +404,16 @@
     "intelligence": 50,
     "multiplier": 10.6,
     "benchmarkCost": 1.54,
-    "tasks20": 138.0
+    "tasks20": 138.0,
+    "bugHunt": {
+      "id": "GPT-6 Astra (medium effort)",
+      "fixed": 34,
+      "cost_usd": 15.78,
+      "cost_kind": "list",
+      "n_runs": 1,
+      "harness": "Codex CLI",
+      "date": "2026-09-05"
+    }
   },
   {
     "id": "astra-high",
@@ -253,7 +424,16 @@
     "intelligence": 51,
     "multiplier": 10.6,
     "benchmarkCost": 1.73,
-    "tasks20": 122.0
+    "tasks20": 122.0,
+    "bugHunt": {
+      "id": "GPT-6 Astra (high effort)",
+      "fixed": 35,
+      "cost_usd": 20.6,
+      "cost_kind": "list",
+      "n_runs": 1,
+      "harness": "Codex CLI",
+      "date": "2026-09-04"
+    }
   },
   {
     "id": "astra-xhigh",
@@ -264,7 +444,16 @@
     "intelligence": 52,
     "multiplier": 10.6,
     "benchmarkCost": 2.31,
-    "tasks20": 92.0
+    "tasks20": 92.0,
+    "bugHunt": {
+      "id": "GPT-6 Astra (xhigh effort)",
+      "fixed": 43,
+      "cost_usd": 24.22,
+      "cost_kind": "list",
+      "n_runs": 1,
+      "harness": "Codex CLI",
+      "date": "2026-09-04"
+    }
   },
   {
     "id": "astra-max",
@@ -275,7 +464,16 @@
     "intelligence": 53,
     "multiplier": 10.6,
     "benchmarkCost": 3.26,
-    "tasks20": 66.0
+    "tasks20": 66.0,
+    "bugHunt": {
+      "id": "GPT-6 Astra (max effort) - mean of 3",
+      "fixed": 45,
+      "cost_usd": 33.03,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "harness": "Codex CLI",
+      "date": "2026-09-14"
+    }
   },
   {
     "id": "luna-low",
@@ -286,7 +484,16 @@
     "intelligence": 22,
     "multiplier": 10.6,
     "benchmarkCost": 0.0045,
-    "tasks20": 47112.0
+    "tasks20": 47112.0,
+    "bugHunt": {
+      "id": "GPT-6 Luna (low effort)",
+      "fixed": 4,
+      "cost_usd": 0.2,
+      "cost_kind": "list",
+      "n_runs": 1,
+      "harness": "Codex CLI",
+      "date": "2026-09-23"
+    }
   },
   {
     "id": "luna-medium",
@@ -297,7 +504,16 @@
     "intelligence": 30,
     "multiplier": 10.6,
     "benchmarkCost": 0.02,
-    "tasks20": 10600.0
+    "tasks20": 10600.0,
+    "bugHunt": {
+      "id": "GPT-6 Luna (medium effort)",
+      "fixed": 4,
+      "cost_usd": 0.06,
+      "cost_kind": "list",
+      "n_runs": 1,
+      "harness": "Codex CLI",
+      "date": "2026-09-23"
+    }
   },
   {
     "id": "luna-high",
@@ -308,7 +524,16 @@
     "intelligence": 33,
     "multiplier": 10.6,
     "benchmarkCost": 0.03,
-    "tasks20": 7066.0
+    "tasks20": 7066.0,
+    "bugHunt": {
+      "id": "GPT-6 Luna (high effort)",
+      "fixed": 9,
+      "cost_usd": 0.13,
+      "cost_kind": "list",
+      "n_runs": 1,
+      "harness": "Codex CLI",
+      "date": "2026-09-23"
+    }
   },
   {
     "id": "luna-xhigh",
@@ -319,7 +544,16 @@
     "intelligence": 35,
     "multiplier": 10.6,
     "benchmarkCost": 0.04,
-    "tasks20": 5300.0
+    "tasks20": 5300.0,
+    "bugHunt": {
+      "id": "GPT-6 Luna (xhigh effort)",
+      "fixed": 14,
+      "cost_usd": 0.39,
+      "cost_kind": "list",
+      "n_runs": 1,
+      "harness": "Codex CLI",
+      "date": "2026-09-23"
+    }
   },
   {
     "id": "luna-max",
@@ -330,7 +564,16 @@
     "intelligence": 38,
     "multiplier": 10.6,
     "benchmarkCost": 0.07,
-    "tasks20": 3028.0
+    "tasks20": 3028.0,
+    "bugHunt": {
+      "id": "GPT-6 Luna (max effort) - mean of 3",
+      "fixed": 18.3,
+      "cost_usd": 0.52,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "harness": "Codex CLI",
+      "date": "2026-09-23"
+    }
   },
   {
     "id": "haiku-low",
@@ -341,7 +584,16 @@
     "intelligence": 29,
     "multiplier": 58.9,
     "benchmarkCost": 0.02,
-    "tasks20": 58900.0
+    "tasks20": 58900.0,
+    "bugHunt": {
+      "id": "Haiku 5.5 (low effort)",
+      "fixed": 11,
+      "cost_usd": 1.61,
+      "cost_kind": "list",
+      "n_runs": 1,
+      "harness": "Claude Code",
+      "date": "2026-10-08"
+    }
   },
   {
     "id": "haiku-medium",
@@ -352,7 +604,16 @@
     "intelligence": 34,
     "multiplier": 58.9,
     "benchmarkCost": 0.05,
-    "tasks20": 23560.0
+    "tasks20": 23560.0,
+    "bugHunt": {
+      "id": "Haiku 5.5 (medium effort)",
+      "fixed": 12,
+      "cost_usd": 2.66,
+      "cost_kind": "list",
+      "n_runs": 1,
+      "harness": "Claude Code",
+      "date": "2026-10-08"
+    }
   },
   {
     "id": "haiku-high",
@@ -363,7 +624,16 @@
     "intelligence": 38,
     "multiplier": 58.9,
     "benchmarkCost": 0.08,
-    "tasks20": 14726.0
+    "tasks20": 14726.0,
+    "bugHunt": {
+      "id": "Haiku 5.5 (high effort) - mean of 2",
+      "fixed": 16,
+      "cost_usd": 3.56,
+      "cost_kind": "list",
+      "n_runs": 2,
+      "harness": "Claude Code",
+      "date": "2026-10-07"
+    }
   },
   {
     "id": "haiku-xhigh",
@@ -374,7 +644,16 @@
     "intelligence": 41,
     "multiplier": 58.9,
     "benchmarkCost": 0.12,
-    "tasks20": 9816.0
+    "tasks20": 9816.0,
+    "bugHunt": {
+      "id": "Haiku 5.5 (xhigh effort) - mean of 3",
+      "fixed": 18.3,
+      "cost_usd": 4.8,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "harness": "Claude Code",
+      "date": "2026-10-07"
+    }
   },
   {
     "id": "haiku-max",
@@ -385,7 +664,16 @@
     "intelligence": 43,
     "multiplier": 58.9,
     "benchmarkCost": 0.21,
-    "tasks20": 5610.0
+    "tasks20": 5610.0,
+    "bugHunt": {
+      "id": "Haiku 5.5 (max effort) - mean of 2",
+      "fixed": 21.5,
+      "cost_usd": 5.83,
+      "cost_kind": "list",
+      "n_runs": 2,
+      "harness": "Claude Code",
+      "date": "2026-10-07"
+    }
   },
   {
     "id": "grok-low",
@@ -396,7 +684,16 @@
     "intelligence": 42,
     "multiplier": 20.7,
     "benchmarkCost": 1.25,
-    "tasks20": 332.0
+    "tasks20": 332.0,
+    "bugHunt": {
+      "id": "Grok 4.7 (low) - mean of 3",
+      "fixed": 15.7,
+      "cost_usd": 9.36,
+      "cost_kind": "floor",
+      "n_runs": 3,
+      "harness": "Grok Build CLI (ACP)",
+      "date": "2026-09-21"
+    }
   }
 ]
 </script>
@@ -404,14 +701,17 @@
     'use strict';
     const models = JSON.parse(document.getElementById('comparison-data').textContent);
     const colors = {Claude:'#bba7ff',ChatGPT:'#69dbc2',Cursor:'#f3b87b'};
-    const controls = Object.fromEntries(['search','provider','floor','budget','frontier-only','scale'].map(id => [id,document.getElementById(id)]));
+    const controls = Object.fromEntries(['search','provider','floor','budget','frontier-only','scale','metric'].map(id => [id,document.getElementById(id)]));
     const chart = document.getElementById('chart');
     const rows = document.getElementById('rows');
     let selected = 'sonnet-high', sortKey = 'tasks20', sortDirection = -1, budget = 20, eligible = [], frontier = [], shown = [];
     const number = value => new Intl.NumberFormat('en-US',{maximumFractionDigits:1}).format(value);
-    const tasks = model => model.tasks20 * budget / 20;
-    const dominates = (a,b) => a.intelligence >= b.intelligence && a.tasks20 >= b.tasks20 && (a.intelligence > b.intelligence || a.tasks20 > b.tasks20);
-    const pareto = data => data.filter(model => !data.some(other => dominates(other,model))).sort((a,b) => a.intelligence - b.intelligence);
+    const value20 = (model,metric = 'tasks') => metric === 'bugs' ? (model.bugHunt ? model.multiplier * model.bugHunt.fixed / model.bugHunt.cost_usd * 20 : null) : model.tasks20;
+    const bound = model => controls.metric.value === 'bugs' && model.bugHunt.cost_kind === 'floor' ? '≤ ' : '';
+    const unit = () => controls.metric.value === 'bugs' ? 'bugs fixed' : 'tasks';
+    const estimate = model => value20(model,controls.metric.value) * budget / 20;
+    const dominates = (a,b,metric = 'tasks') => a.intelligence >= b.intelligence && value20(a,metric) >= value20(b,metric) && (a.intelligence > b.intelligence || value20(a,metric) > value20(b,metric));
+    const pareto = (data,metric = 'tasks') => data.filter(model => !data.some(other => dominates(other,model,metric))).sort((a,b) => a.intelligence - b.intelligence);
     const chartY = (value,max,min,logarithmic) => 38 + (1 - (logarithmic ? Math.log(value / min) / Math.log(max / min) : value / max)) * 420;
     // Keep chart labels offset from the actual point coordinates, especially the two close Grok tiers.
     const labels = {'sonnet-high':[14,-15,'start'],'sol-medium':[16,-18,'start'],'opus-medium':[17,-18,'start'],'sol-high':[-16,-17,'end'],'opus-high':[15,-16,'start'],'sonnet-xhigh':[14,23,'start'],'sol-xhigh':[-14,28,'end'],'opus-xhigh':[-16,-18,'end'],'grok-high':[21,-13,'start'],'grok-xhigh':[21,26,'start']};
@@ -419,41 +719,43 @@
       const xMin = Math.min(...shown.map(model => model.intelligence),46) - 1;
       const xMax = Math.max(...shown.map(model => model.intelligence),58) + 1;
       const x = intelligence => 82 + (intelligence - xMin) / (xMax - xMin) * 858;
-      const peak = Math.max(...shown.map(model => tasks(model)),1);
+      const peak = Math.max(...shown.map(model => estimate(model)),1);
       const step = 10 ** Math.floor(Math.log10(peak / 5));
       const yMax = Math.ceil(peak * 1.08 / step) * step;
       const logarithmic = controls.scale.value === 'log';
-      const yMin = 10 ** Math.floor(Math.log10(Math.min(...shown.map(model => tasks(model)),peak) * .9));
+      const yMin = 10 ** Math.floor(Math.log10(Math.min(...shown.map(model => estimate(model)),peak) * .9));
       const y = value => chartY(value,yMax,yMin,logarithmic);
-      let svg = '<title id="chart-title">Intelligence versus tasks per $' + budget + ' of subscription spend' + (logarithmic ? ' (logarithmic scale)' : '') + '</title><desc id="chart-desc">' + shown.length + ' configurations visible. ' + frontier.length + ' on the frontier among matching configurations. Tab to focus points; use Enter or Space to select.</desc>';
+      let svg = '<title id="chart-title">Intelligence versus ' + unit() + ' per $' + budget + ' of subscription spend' + (logarithmic ? ' (logarithmic scale)' : '') + '</title><desc id="chart-desc">' + shown.length + ' configurations visible. ' + frontier.length + ' on the frontier among matching configurations. Tab to focus points; use Enter or Space to select.</desc>';
       svg += '<defs><linearGradient id="frontier-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#bba7ff" stop-opacity=".09"/><stop offset="100%" stop-color="#bba7ff" stop-opacity="0"/></linearGradient></defs>';
       const ticks = logarithmic ? Array.from({length:Math.floor(Math.log10(yMax / yMin)) + 1},(_,i) => yMin * 10 ** i) : Array.from({length:6},(_,i) => i * yMax / 5);
       for(const value of ticks){const py = y(value);svg += '<line class="chart-grid" x1="82" x2="940" y1="' + py + '" y2="' + py + '"/><text class="chart-axis" x="65" y="' + (py + 4) + '" text-anchor="end">' + number(value) + '</text>';}
       for(let tick = Math.ceil(xMin / 2) * 2; tick <= xMax; tick += (xMax - xMin > 20 ? 4 : 2)){const px = x(tick);svg += '<line class="chart-grid" y1="38" y2="458" x1="' + px + '" x2="' + px + '"/><text class="chart-axis" x="' + px + '" y="486" text-anchor="middle">' + tick + '</text>';}
-      svg += '<text class="chart-axis" x="510" y="520" text-anchor="middle">Artificial Analysis Intelligence →</text><text class="chart-axis" transform="translate(20 248) rotate(-90)" text-anchor="middle">Tasks per $' + budget + ' subscription spend' + (logarithmic ? ' (log scale)' : '') + ' →</text>';
+      svg += '<text class="chart-axis" x="510" y="520" text-anchor="middle">Artificial Analysis Intelligence →</text><text class="chart-axis" transform="translate(20 248) rotate(-90)" text-anchor="middle">' + (controls.metric.value === 'bugs' ? 'Bugs fixed' : 'Tasks') + ' per $' + budget + ' subscription spend' + (logarithmic ? ' (log scale)' : '') + ' →</text>';
       const effortOrder = ['Low','Medium','High','XHigh','Max'];
       for(const name of new Set(shown.map(model => model.model))){
         const levels = shown.filter(model => model.model === name).sort((a,b) => effortOrder.indexOf(a.reasoning) - effortOrder.indexOf(b.reasoning));
         if(levels.length < 2) continue;
-        svg += '<polyline class="effort-line" points="' + levels.map(model => x(model.intelligence) + ',' + y(tasks(model))).join(' ') + '" fill="none" stroke="' + colors[levels[0].provider] + '" stroke-width="1.8" stroke-dasharray="1 6" stroke-linecap="round" stroke-opacity=".65" pointer-events="none"><title>' + name + ' reasoning levels, Low to Max</title></polyline>';
+        svg += '<polyline class="effort-line" points="' + levels.map(model => x(model.intelligence) + ',' + y(estimate(model))).join(' ') + '" fill="none" stroke="' + colors[levels[0].provider] + '" stroke-width="1.8" stroke-dasharray="1 6" stroke-linecap="round" stroke-opacity=".65" pointer-events="none"><title>' + name + ' reasoning levels, Low to Max</title></polyline>';
       }
-      if(frontier.length > 1){const points = frontier.map(model => x(model.intelligence) + ',' + y(tasks(model)));svg += '<polygon points="' + points.join(' ') + ' ' + x(frontier.at(-1).intelligence) + ',458 ' + x(frontier[0].intelligence) + ',458" fill="url(#frontier-fill)"/><polyline points="' + points.join(' ') + '" fill="none" stroke="#e0d8ff" stroke-width="2.2" stroke-linejoin="round"/>';}
+      if(frontier.length > 1){const points = frontier.map(model => x(model.intelligence) + ',' + y(estimate(model)));svg += '<polygon points="' + points.join(' ') + ' ' + x(frontier.at(-1).intelligence) + ',458 ' + x(frontier[0].intelligence) + ',458" fill="url(#frontier-fill)"/><polyline points="' + points.join(' ') + '" fill="none" stroke="#e0d8ff" stroke-width="2.2" stroke-linejoin="round"/>';}
       if(!shown.length) svg += '<text class="chart-axis" x="510" y="245" text-anchor="middle">No configurations match. Adjust the filters or reset.</text>';
       for(const model of shown){
-        const px = x(model.intelligence), py = y(tasks(model)), optimal = frontier.includes(model), label = labels[model.id] || [-14,-16,'end'], chosen = selected === model.id;
-        svg += '<g class="chart-point ' + (optimal ? 'optimal' : '') + '" role="button" tabindex="0" data-id="' + model.id + '" aria-pressed="' + chosen + '" aria-label="' + model.model + ' ' + model.reasoning + ', intelligence ' + model.intelligence + ', ' + number(tasks(model)) + ' tasks per $' + budget + ' of subscription spend, ' + (optimal ? 'on frontier' : 'dominated') + '"><circle class="point-halo" cx="' + px + '" cy="' + py + '" r="' + (chosen ? 12 : 9) + '" stroke="' + (chosen ? colors[model.provider] : 'transparent') + '" stroke-opacity=".8"/><circle class="point-dot" cx="' + px + '" cy="' + py + '" r="6" fill="' + colors[model.provider] + '" stroke="' + (optimal ? '#f2edff' : '#111622') + '" stroke-width="' + (optimal ? 2 : 1.5) + '"/><title>' + model.short + ' · ' + model.reasoning + '</title>' + '<text class="chart-label" x="' + (px + label[0]) + '" y="' + (py + label[1]) + '" text-anchor="' + label[2] + '">' + model.short + ' · ' + model.reasoning + '</text></g>';
+        const px = x(model.intelligence), py = y(estimate(model)), optimal = frontier.includes(model), label = labels[model.id] || [-14,-16,'end'], chosen = selected === model.id;
+        svg += '<g class="chart-point ' + (optimal ? 'optimal' : '') + '" role="button" tabindex="0" data-id="' + model.id + '" aria-pressed="' + chosen + '" aria-label="' + model.model + ' ' + model.reasoning + ', intelligence ' + model.intelligence + ', ' + bound(model) + number(estimate(model)) + ' ' + unit() + ' per $' + budget + ' of subscription spend, ' + (optimal ? 'on frontier' : 'dominated') + '"><circle class="point-halo" cx="' + px + '" cy="' + py + '" r="' + (chosen ? 12 : 9) + '" stroke="' + (chosen ? colors[model.provider] : 'transparent') + '" stroke-opacity=".8"/><circle class="point-dot" cx="' + px + '" cy="' + py + '" r="6" fill="' + colors[model.provider] + '" stroke="' + (optimal ? '#f2edff' : '#111622') + '" stroke-width="' + (optimal ? 2 : 1.5) + '"/><title>' + model.short + ' · ' + model.reasoning + '</title>' + '<text class="chart-label" x="' + (px + label[0]) + '" y="' + (py + label[1]) + '" text-anchor="' + label[2] + '">' + model.short + ' · ' + model.reasoning + '</text></g>';
       }
       chart.innerHTML = svg;
     }
     function renderDetail(){
       const model = shown.find(item => item.id === selected), detail = document.getElementById('detail');
       if(!model){detail.innerHTML = '<div><div class="detail-kicker">Selected configuration</div><h3>No matching models</h3><p class="detail-explainer">Try a broader search or reset the filters.</p></div>';return;}
-      const optimal = frontier.includes(model), better = eligible.filter(other => dominates(other,model)).sort((a,b) => b.tasks20 - a.tasks20)[0];
-      detail.innerHTML = '<div class="detail-head"><div class="detail-kicker">Selected configuration</div><h3>' + model.model + '</h3><p class="reason">' + model.reasoning + ' reasoning · ' + model.provider + '</p><span class="status ' + (optimal ? '' : 'dominated') + '">' + (optimal ? '↗ On the frontier' : '↓ Dominated configuration') + '</span></div><div><div class="detail-value" style="color:' + colors[model.provider] + '">' + number(tasks(model)) + '</div><p class="detail-unit">estimated tasks per $' + budget + ' of subscription spend</p></div><dl><div><dt>Intelligence</dt><dd>' + model.intelligence + '</dd></div><div><dt>Multiplier</dt><dd>' + model.multiplier + '×</dd></div><div><dt>Subscription / task</dt><dd>' + (20 / model.tasks20 * 100).toFixed(2) + '¢</dd></div></dl><p class="detail-explainer">' + (optimal ? 'No matching configuration improves intelligence and throughput without a tradeoff.' : better.short + ' ' + better.reasoning + ' offers intelligence ' + better.intelligence + ' and ' + number(tasks(better)) + ' estimated tasks for the same subscription spend.') + '</p>';
+      const optimal = frontier.includes(model), better = eligible.filter(other => dominates(other,model,controls.metric.value)).sort((a,b) => value20(b,controls.metric.value) - value20(a,controls.metric.value))[0];
+      const bug = controls.metric.value === 'bugs' ? model.bugHunt : null;
+      const runNote = bug ? '<p class="detail-explainer">Bug Hunt: ' + bug.fixed + ' / 105 planted bugs fixed · ' + bug.n_runs + (bug.n_runs === 1 ? ' run' : ' runs (mean)') + ' · ' + bug.harness + ' · ' + bug.date + '. ' + (bug.cost_kind === 'floor' ? 'Upper-bound estimate from a lower-bound cost.' : 'Estimate based on source list-rate costs.') + '</p>' : '';
+      detail.innerHTML = '<div class="detail-head"><div class="detail-kicker">Selected configuration</div><h3>' + model.model + '</h3><p class="reason">' + model.reasoning + ' reasoning · ' + model.provider + '</p><span class="status ' + (optimal ? '' : 'dominated') + '">' + (optimal ? '↗ On the frontier' : '↓ Dominated configuration') + '</span></div><div><div class="detail-value" style="color:' + colors[model.provider] + '">' + bound(model) + number(estimate(model)) + '</div><p class="detail-unit">estimated ' + unit() + ' per $' + budget + ' of subscription spend</p></div><dl><div><dt>Intelligence</dt><dd>' + model.intelligence + '</dd></div><div><dt>Multiplier</dt><dd>' + model.multiplier + '×</dd></div><div><dt>Subscription / ' + (controls.metric.value === 'bugs' ? 'bug fixed' : 'task') + '</dt><dd>' + (bound(model) ? '≥ ' : '') + (20 / value20(model,controls.metric.value) * 100).toFixed(2) + '¢</dd></div></dl><p class="detail-explainer">' + (optimal ? 'No matching configuration improves intelligence and throughput without a tradeoff.' : better.short + ' ' + better.reasoning + ' offers intelligence ' + better.intelligence + ' and ' + number(estimate(better)) + ' estimated ' + unit() + ' for the same subscription spend.') + '</p>' + runNote;
     }
     function renderTable(){
-      rows.innerHTML = shown.length ? shown.map((model,index) => '<tr class="' + (model.id === selected ? 'selected' : '') + '"><td class="rank">' + String(index + 1).padStart(2,'0') + '</td><td><button class="model-button" type="button" data-id="' + model.id + '" aria-pressed="' + (model.id === selected) + '"><span class="model-dot" style="background:' + colors[model.provider] + '"></span>' + model.model + (frontier.includes(model) ? '<span class="frontier-badge">Pareto</span>' : '') + '</button></td><td>' + model.reasoning + '</td><td class="num">' + model.intelligence + '</td><td class="num">' + model.multiplier + '×</td><td class="num tasks-cell">' + number(tasks(model)) + '<div class="mini-bar"><div style="width:' + model.tasks20 / Math.max(...shown.map(item => item.tasks20)) * 100 + '%;background:' + colors[model.provider] + '"></div></div></td></tr>').join('') : '<tr><td class="empty" colspan="6">No matching configurations. Adjust your search or reset the filters.</td></tr>';
-      const titles = {model:'Model',intelligence:'Intelligence',multiplier:'Multiplier',tasks20:'Tasks / $' + budget + ' subscription spend'};
+      rows.innerHTML = shown.length ? shown.map((model,index) => '<tr class="' + (model.id === selected ? 'selected' : '') + '"><td class="rank">' + String(index + 1).padStart(2,'0') + '</td><td><button class="model-button" type="button" data-id="' + model.id + '" aria-pressed="' + (model.id === selected) + '"><span class="model-dot" style="background:' + colors[model.provider] + '"></span>' + model.model + (frontier.includes(model) ? '<span class="frontier-badge">Pareto</span>' : '') + '</button></td><td>' + model.reasoning + '</td><td class="num">' + model.intelligence + '</td><td class="num">' + model.multiplier + '×</td><td class="num tasks-cell">' + bound(model) + number(estimate(model)) + '<div class="mini-bar"><div style="width:' + value20(model,controls.metric.value) / Math.max(...shown.map(item => value20(item,controls.metric.value))) * 100 + '%;background:' + colors[model.provider] + '"></div></div></td></tr>').join('') : '<tr><td class="empty" colspan="6">No matching configurations. Adjust your search or reset the filters.</td></tr>';
+      const titles = {model:'Model',intelligence:'Intelligence',multiplier:'Multiplier',tasks20:(controls.metric.value === 'bugs' ? 'Bugs fixed' : 'Tasks') + ' / $' + budget + ' subscription spend'};
       document.querySelectorAll('[data-sort]').forEach(button => {const key = button.dataset.sort;button.textContent = titles[key] + (key === sortKey ? (sortDirection === -1 ? ' ↓' : ' ↑') : ' ↕');button.parentElement.setAttribute('aria-sort',key === sortKey ? (sortDirection === -1 ? 'descending' : 'ascending') : 'none');});
       document.getElementById('table-meta').textContent = shown.length + ' of ' + models.length + ' configurations · sorted by ' + titles[sortKey].toLowerCase() + ' · ' + (sortDirection === -1 ? 'descending' : 'ascending');
       document.getElementById('export').disabled = !shown.length;
@@ -466,29 +768,31 @@
     }
     function render(){
       const query = controls.search.value.trim().toLowerCase();
-      eligible = models.filter(model => model.intelligence >= Number(controls.floor.value) && (controls.provider.value === 'all' || model.provider === controls.provider.value) && (model.model + ' ' + model.reasoning).toLowerCase().includes(query));
-      frontier = pareto(eligible);
-      shown = (controls['frontier-only'].checked ? frontier : eligible).slice().sort((a,b) => sortDirection * (sortKey === 'model' ? a.model.localeCompare(b.model) || a.reasoning.localeCompare(b.reasoning) : a[sortKey] - b[sortKey]));
+      eligible = models.filter(model => value20(model,controls.metric.value) !== null && model.intelligence >= Number(controls.floor.value) && (controls.provider.value === 'all' || model.provider === controls.provider.value) && (model.model + ' ' + model.reasoning).toLowerCase().includes(query));
+      frontier = pareto(eligible,controls.metric.value);
+      shown = (controls['frontier-only'].checked ? frontier : eligible).slice().sort((a,b) => sortDirection * (sortKey === 'model' ? a.model.localeCompare(b.model) || a.reasoning.localeCompare(b.reasoning) : sortKey === 'tasks20' ? value20(a,controls.metric.value) - value20(b,controls.metric.value) : a[sortKey] - b[sortKey]));
       if(!shown.some(model => model.id === selected)) selected = shown[0]?.id || null;
+      document.getElementById('metric-context').hidden = controls.metric.value !== 'bugs';
       renderChart();renderTable();renderDetail();
       document.getElementById('chart-status').textContent = shown.length + ' configurations visible · ' + frontier.length + ' on the frontier among matches' ;
     }
     controls.search.addEventListener('input',render);
-    ['provider','floor','frontier-only','scale'].forEach(id => controls[id].addEventListener('change',render));
+    ['provider','floor','frontier-only','scale','metric'].forEach(id => controls[id].addEventListener('change',render));
     controls.budget.addEventListener('input',() => {if(!controls.budget.checkValidity()) return;budget = Number(controls.budget.value);render();});
     controls.budget.addEventListener('blur',() => {if(!controls.budget.checkValidity()) controls.budget.value = String(budget);});
-    document.getElementById('reset').addEventListener('click',() => {controls.search.value = '';controls.provider.value = 'all';controls.floor.value = '46';controls.scale.value = 'linear';controls.budget.value = '20';controls['frontier-only'].checked = false;budget = 20;sortKey = 'tasks20';sortDirection = -1;selected = 'sonnet-high';render();});
+    document.getElementById('reset').addEventListener('click',() => {controls.search.value = '';controls.provider.value = 'all';controls.floor.value = '46';controls.metric.value = 'tasks';controls.scale.value = 'linear';controls.budget.value = '20';controls['frontier-only'].checked = false;budget = 20;sortKey = 'tasks20';sortDirection = -1;selected = 'sonnet-high';render();});
     document.querySelectorAll('[data-sort]').forEach(button => button.addEventListener('click',() => {const key = button.dataset.sort;sortDirection = sortKey === key ? -sortDirection : (key === 'model' ? 1 : -1);sortKey = key;render();}));
     chart.addEventListener('click',event => {const point = event.target.closest('[data-id]');if(point) selectModel(point.dataset.id);});
     chart.addEventListener('focusin',event => {const point = event.target.closest('[data-id]');if(point) selectModel(point.dataset.id);});
     chart.addEventListener('keydown',event => {if(event.key === 'Enter' || event.key === ' '){const point = event.target.closest('[data-id]');if(point){event.preventDefault();selectModel(point.dataset.id);}}});
     rows.addEventListener('click',event => {const button = event.target.closest('[data-id]');if(button) selectModel(button.dataset.id);});
     document.getElementById('export').addEventListener('click',() => {
-      const header = ['Model','Reasoning','Intelligence','Subscription','Multiplier','Tasks / $' + budget + ' subscription spend','Pareto among matching configurations'];
-      const csvRows = shown.map(model => [model.model,model.reasoning,model.intelligence,model.provider,model.multiplier,tasks(model).toFixed(1),frontier.includes(model) ? 'Yes' : 'No']);
+      const header = ['Model','Reasoning','Intelligence','Subscription','Multiplier', (controls.metric.value === 'bugs' ? 'Bugs fixed' : 'Tasks') + ' / $' + budget + ' subscription spend','Pareto among matching configurations'];
+      const csvRows = shown.map(model => [model.model,model.reasoning,model.intelligence,model.provider,model.multiplier,estimate(model).toFixed(1),frontier.includes(model) ? 'Yes' : 'No']);
+      if(controls.metric.value === 'bugs'){header.push('Planted bugs fixed (out of 105)','Runs','Harness','Run date','Source cost kind','Subscription estimate bound');shown.forEach((model,index) => {const bug = model.bugHunt;csvRows[index].push(bug.fixed,bug.n_runs,bug.harness,bug.date,bug.cost_kind,bug.cost_kind === 'floor' ? 'Upper bound' : 'Estimate');});}
       const csv = [header,...csvRows].map(row => row.map(value => '"' + String(value).replaceAll('"','""') + '"').join(',')).join('\r\n');
       const url = URL.createObjectURL(new Blob(['\ufeff' + csv],{type:'text/csv;charset=utf-8'})), link = document.createElement('a');
-      link.href = url;link.download = 'subscription-value-' + budget + '-subscription-dollars.csv';document.body.append(link);link.click();link.remove();setTimeout(() => URL.revokeObjectURL(url),1000);
+      link.href = url;link.download = 'subscription-value-' + controls.metric.value + '-' + budget + '-subscription-dollars.csv';document.body.append(link);link.click();link.remove();setTimeout(() => URL.revokeObjectURL(url),1000);
     });
     render();
   </script>

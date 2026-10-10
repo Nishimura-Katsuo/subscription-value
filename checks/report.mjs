@@ -7,7 +7,9 @@ const readme = readFileSync(new URL('../README.md', import.meta.url), 'utf8');
 const data = JSON.parse(html.match(/<script id="comparison-data" type="application\/json">([\s\S]*?)<\/script>/)[1]);
 const code = html.match(/<script id="report-code">([\s\S]*?)<\/script>/)[1];
 new Script(code); // Compile the actual dashboard script to catch syntax errors.
-const pareto = runInNewContext(code.match(/^    const dominates = .+$/m)[0] + '\n' + code.match(/^    const pareto = .+$/m)[0] + '\npareto');
+const valueCode = code.match(/^    const value20 = .+$/m)[0];
+const value20 = runInNewContext(valueCode + '\nvalue20');
+const pareto = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\n' + code.match(/^    const pareto = .+$/m)[0] + '\npareto');
 const expected = [1338, 1010, 880, 662, 648, 586, 544, 340, 152, 110];
 assert.deepEqual(data.slice(0,10).map(model => model.tasks20), expected);
 assert.equal(new Set(data.map(model => model.id)).size, 33);
@@ -36,4 +38,17 @@ for (const model of data) {
   assert.ok(Number.isFinite(py) && py >= 38 && py <= 458);
 }
 assert.ok(html.includes('.chart-point[aria-pressed="true"] .chart-label'));
+for (const model of data) {
+  const bug = model.bugHunt;
+  assert.ok(bug.fixed > 0 && bug.fixed <= 105 && bug.cost_usd > 0);
+  assert.ok(bug.n_runs >= 1 && ['list','floor'].includes(bug.cost_kind));
+  assert.equal(value20(model,'bugs'),model.multiplier * bug.fixed / bug.cost_usd * 20);
+  assert.equal(value20(model,'tasks'),model.tasks20);
+}
+assert.equal(data.find(model => model.id === 'sol-medium').bugHunt.cost_usd,1.76);
+assert.equal(data.find(model => model.id === 'sol-medium').bugHunt.fixed,29);
+assert.equal(data.find(model => model.id === 'grok-xhigh').bugHunt.n_runs,5);
+assert.equal(data.find(model => model.id === 'grok-xhigh').bugHunt.cost_kind,'floor');
+assert.equal(value20({tasks20:10},'bugs'),null);
+assert.equal(pareto(data.filter(model => model.intelligence >= 46),'bugs').map(model => model.id).join(','),'sol-medium,sol-high,opus-medium,opus-high,opus-xhigh,opus-max');
 console.log('Report checks passed: 33 configurations, original README values, default floor, rounding, script syntax, and Pareto dominance.');
