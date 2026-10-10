@@ -42,7 +42,7 @@ for (const model of data) {
   const bug = model.bugHunt;
   assert.ok(bug.fixed > 0 && bug.fixed <= 105 && bug.cost_usd > 0);
   assert.ok(bug.n_runs >= 1 && ['list','floor'].includes(bug.cost_kind));
-  assert.equal(value20(model,'bugs'),model.multiplier * bug.fixed / bug.cost_usd * 20);
+  assert.equal(value20(model,'bugs'),model.multiplier * bug.fixed / bug.cost_usd / model.intelligence * 20);
   assert.equal(value20(model,'tasks'),model.tasks20);
 }
 assert.equal(data.find(model => model.id === 'sol-medium').bugHunt.cost_usd,1.76);
@@ -51,4 +51,8 @@ assert.equal(data.find(model => model.id === 'grok-xhigh').bugHunt.n_runs,5);
 assert.equal(data.find(model => model.id === 'grok-xhigh').bugHunt.cost_kind,'floor');
 assert.equal(value20({tasks20:10},'bugs'),null);
 assert.equal(pareto(data.filter(model => model.intelligence >= 46),'bugs').map(model => model.id).join(','),'sol-medium,sol-high,opus-medium,opus-high,opus-xhigh,opus-max');
+const solMedium = data.find(model => model.id === 'sol-medium');
+assert.ok(Math.abs(value20(solMedium,'bugs') - 72.77462121212122) < 1e-10);
+assert.ok(Math.abs(20 / (value20(solMedium,'bugs') * solMedium.intelligence) - 1.76 / (10.6 * 29)) < 1e-10);
+assert.ok(html.includes('Bugs fixed / intelligence / subscription $'));
 console.log('Report checks passed: 33 configurations, original README values, default floor, rounding, script syntax, and Pareto dominance.');
