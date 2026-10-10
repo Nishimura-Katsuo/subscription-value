@@ -31,7 +31,7 @@
       <p class="caption">Subscription-spend scenarios scale the estimates linearly; they do not represent available plans or actual quotas. The solid line marks the Pareto frontier. Use logarithmic scale to separate points when throughput differs widely. Dotted lines connect each model’s visible reasoning levels from Low to Max; lines do not imply intermediate configurations.</p>
     </section>
     <section class="table-section" aria-labelledby="table-title"><div class="section-title"><div><h2 id="table-title">Every configuration, compared</h2><p id="table-meta" class="table-meta">Sorted by tasks per $20 of subscription spend · descending</p></div><button class="export" id="export" type="button">Export filtered CSV ↓</button></div><div class="panel table-scroll"><table><caption class="sr-only">Filtered model and reasoning configurations. Column buttons change sort order. Model buttons select chart points.</caption><thead><tr><th scope="col">#</th><th scope="col" id="sort-model" aria-sort="none"><button data-sort="model" type="button">Model ↕</button></th><th scope="col">Reasoning</th><th scope="col" class="num" id="sort-intelligence" aria-sort="none"><button data-sort="intelligence" type="button">Intelligence ↕</button></th><th scope="col" class="num" id="sort-multiplier" aria-sort="none"><button data-sort="multiplier" type="button">Multiplier ↕</button></th><th scope="col" class="num" id="sort-tasks20" aria-sort="descending"><button data-sort="tasks20" type="button" id="task-sort-label">Tasks / $20 subscription spend ↓</button></th></tr></thead><tbody id="rows"></tbody></table></div></section>
-    <details class="method"><summary>Method, assumptions &amp; sources</summary><div class="method-grid"><div><h3>A common spending denominator</h3><div class="formula">Tasks / subscription $ = multiplier ÷ AA cost / task<br>Tasks / $20 = 20 × rounded tasks / subscription $</div><p>All task counts are estimates. Tasks per subscription dollar are rounded to one decimal before multiplying by 20. The subscription-spend scenario scales these estimates by subscription fees / $20. API-equivalent values are calculation inputs; the budget itself is the amount paid for the subscription.</p><p>The default intelligence floor is 46. Lower it to include Luna, Haiku, and other lower-scoring reasoning configurations. Fable is excluded because it is not available on all plans. Only configurations with published benchmark values are included.</p><h3>Bugs fixed per subscription dollar</h3><div class="formula">Bugs fixed / subscription $ = multiplier × planted bugs fixed ÷ source run cost</div><p>The Bug Hunt snapshot is dated 2026-10-08. We match the exact model and effort level, omit superseded rows, and use the published current run or mean. Only verified planted-bug fixes count; partial fixes, claims, and extra bugs are excluded. Multipliers remain the same comparison assumptions. Bug estimates use the unrounded ratio before scaling by subscription spend.</p><p>These runs use different agentic harnesses and may be single runs or means. Grok costs are reconstructed lower bounds, making its bugs-per-dollar estimates upper bounds. Other matched costs are list-rate estimates. Small differences may reflect run variance. Missing configurations are omitted from bugs mode; Artificial Analysis still supplies the intelligence axis and floor.</p><h3>What counts as Pareto optimal?</h3><p>No other included configuration offers at least as much intelligence and throughput, with a strict improvement in either dimension. The explorer recomputes the frontier among the configurations matching your search, subscription, and floor filters.</p></div><div><h3>A snapshot, not a usage guarantee</h3><p>The Claude and ChatGPT multipliers are estimates derived from SemiAnalysis's API-equivalent subscription-value analysis. The same provider multipliers are applied across all included models and reasoning levels: Claude 58.9× and ChatGPT 10.6×. This is a comparison assumption, not a separate measurement for each model. Cursor's multiplier is calculated from the author's usage exports: metered API-equivalent usage divided by subscription spend.</p><p>The Cursor exports included both Grok and Claude usage. Applying the full 20.7× multiplier to Grok assumes both available usage pools can be allocated to it. Benchmark tasks are a spending proxy; actual task volume depends on the workload and usage limits. Figures reflect the 8 October 2026 snapshot.</p><h3>Sources</h3><ul><li><a href="https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x">SemiAnalysis: Anthropic Subscriptions Offer 5x+ More Value Than OpenAI</a> — subscription-value research used to derive the Claude and ChatGPT multipliers.</li><li><strong>Artificial Analysis</strong> — intelligence scores and benchmark task costs: <a href="https://artificialanalysis.ai/models/releases/claude-sonnet-5-5">Sonnet</a>, <a href="https://artificialanalysis.ai/models/releases/claude-opus-5-5">Opus</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-1-sol">Sol</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-astra">Astra</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-luna">Luna</a>, <a href="https://artificialanalysis.ai/models/releases/claude-haiku-5-5">Haiku</a>, <a href="https://artificialanalysis.ai/models/releases/grok-4-7">Grok</a>. Haiku uses the Default Fallback configurations.</li><li><a href="https://bughunt.productcompass.pm/">Bug Hunt Bench</a> — verified planted-bug fixes and run costs. <a href="https://bughunt.productcompass.pm/data/benchmark.json">Source snapshot</a> · <a href="https://bughunt.productcompass.pm/method">Method and caveats</a>.</li><li><strong>Cursor usage exports</strong> — the author's observed usage and subscription spend, used to calculate the 20.7× multiplier.</li></ul></div></div></details>
+    <details class="method"><summary>Method, assumptions &amp; sources</summary><div class="method-grid"><div><h3>A common spending denominator</h3><div class="formula">Tasks / subscription $ = multiplier ÷ AA cost / task<br>Tasks / $20 = 20 × rounded tasks / subscription $</div><p>All task counts are estimates. Tasks per subscription dollar are rounded to one decimal before multiplying by 20. The subscription-spend scenario scales these estimates by subscription fees / $20. API-equivalent values are calculation inputs; the budget itself is the amount paid for the subscription.</p><p>The default intelligence floor is 46. Lower it to include Luna, Haiku, and other lower-scoring reasoning configurations. Fable is excluded because it is not available on all plans. Only configurations with published benchmark values are included.</p><h3>Bugs fixed per subscription dollar</h3><div class="formula">Bugs fixed / subscription $ = multiplier × planted bugs fixed ÷ source run cost</div><p>The Bug Hunt snapshot is dated 2026-10-08. We match the exact model and effort level, omit superseded rows, and use the published current run or mean. Only verified planted-bug fixes count; partial fixes, claims, and extra bugs are excluded. Multipliers remain the same comparison assumptions. Bug estimates use the unrounded ratio before scaling by subscription spend.</p><p>We assume first-party harnesses and make no adjustment for Grok Build versus Cursor. Results may be single runs or means. Grok costs are reconstructed lower bounds, making its bugs-per-dollar estimates upper bounds. Other matched costs are list-rate estimates. Small differences may reflect run variance. Missing configurations are omitted from bugs mode; Artificial Analysis still supplies the intelligence axis and floor.</p><h3>What counts as Pareto optimal?</h3><p>No other included configuration offers at least as much intelligence and throughput, with a strict improvement in either dimension. The explorer recomputes the frontier among the configurations matching your search, subscription, and floor filters.</p></div><div><h3>A snapshot, not a usage guarantee</h3><p>The Claude and ChatGPT multipliers are estimates derived from SemiAnalysis's API-equivalent subscription-value analysis. The same provider multipliers are applied across all included models and reasoning levels: Claude 58.9× and ChatGPT 10.6×. This is a comparison assumption, not a separate measurement for each model. Cursor's multiplier is calculated from the author's usage exports: metered API-equivalent usage divided by subscription spend.</p><p>The Cursor exports included both Grok and Claude usage. Applying the full 20.7× multiplier to Grok assumes both available usage pools can be allocated to it. Benchmark tasks are a spending proxy; actual task volume depends on the workload and usage limits. Figures reflect the 8 October 2026 snapshot.</p><h3>Sources</h3><ul><li><a href="https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x">SemiAnalysis: Anthropic Subscriptions Offer 5x+ More Value Than OpenAI</a> — subscription-value research used to derive the Claude and ChatGPT multipliers.</li><li><strong>Artificial Analysis</strong> — intelligence scores and benchmark task costs: <a href="https://artificialanalysis.ai/models/releases/claude-sonnet-5-5">Sonnet</a>, <a href="https://artificialanalysis.ai/models/releases/claude-opus-5-5">Opus</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-1-sol">Sol</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-astra">Astra</a>, <a href="https://artificialanalysis.ai/models/releases/gpt-6-luna">Luna</a>, <a href="https://artificialanalysis.ai/models/releases/claude-haiku-5-5">Haiku</a>, <a href="https://artificialanalysis.ai/models/releases/grok-4-7">Grok</a>. Haiku uses the Default Fallback configurations.</li><li><a href="https://bughunt.productcompass.pm/">Bug Hunt Bench</a> — verified planted-bug fixes and run costs. <a href="https://bughunt.productcompass.pm/data/benchmark.json">Source snapshot</a> · <a href="https://bughunt.productcompass.pm/method">Method and caveats</a>.</li><li><strong>Cursor usage exports</strong> — the author's observed usage and subscription spend, used to calculate the 20.7× multiplier.</li></ul></div></div></details>
   </main>
   <script id="comparison-data" type="application/json">
 [
@@ -51,7 +51,6 @@
       "cost_usd": 19.85,
       "cost_kind": "list",
       "n_runs": 3,
-      "harness": "Claude Code",
       "date": "2026-09-29"
     }
   },
@@ -71,7 +70,6 @@
       "cost_usd": 1.76,
       "cost_kind": "list",
       "n_runs": 2,
-      "harness": "Codex CLI",
       "date": "2026-09-30"
     }
   },
@@ -91,7 +89,6 @@
       "cost_usd": 15.68,
       "cost_kind": "list",
       "n_runs": 3,
-      "harness": "Claude Code",
       "date": "2026-09-23"
     }
   },
@@ -111,7 +108,6 @@
       "cost_usd": 3.26,
       "cost_kind": "list",
       "n_runs": 2,
-      "harness": "Codex CLI",
       "date": "2026-09-30"
     }
   },
@@ -131,7 +127,6 @@
       "cost_usd": 22.25,
       "cost_kind": "list",
       "n_runs": 3,
-      "harness": "Claude Code",
       "date": "2026-09-23"
     }
   },
@@ -151,7 +146,6 @@
       "cost_usd": 42.86,
       "cost_kind": "list",
       "n_runs": 3,
-      "harness": "Claude Code",
       "date": "2026-09-29"
     }
   },
@@ -171,7 +165,6 @@
       "cost_usd": 4.35,
       "cost_kind": "list",
       "n_runs": 3,
-      "harness": "Codex CLI",
       "date": "2026-09-30"
     }
   },
@@ -191,7 +184,6 @@
       "cost_usd": 34.98,
       "cost_kind": "list",
       "n_runs": 3,
-      "harness": "Claude Code",
       "date": "2026-09-23"
     }
   },
@@ -211,7 +203,6 @@
       "cost_usd": 12.29,
       "cost_kind": "floor",
       "n_runs": 3,
-      "harness": "Grok Build CLI (ACP)",
       "date": "2026-09-21"
     }
   },
@@ -231,7 +222,6 @@
       "cost_usd": 22.96,
       "cost_kind": "floor",
       "n_runs": 5,
-      "harness": "Grok Build CLI (ACP)",
       "date": "2026-10-08"
     }
   },
@@ -251,7 +241,6 @@
       "cost_usd": 5.73,
       "cost_kind": "list",
       "n_runs": 3,
-      "harness": "Claude Code",
       "date": "2026-09-30"
     }
   },
@@ -271,7 +260,6 @@
       "cost_usd": 11.11,
       "cost_kind": "list",
       "n_runs": 3,
-      "harness": "Claude Code",
       "date": "2026-09-30"
     }
   },
@@ -291,7 +279,6 @@
       "cost_usd": 154.03,
       "cost_kind": "list",
       "n_runs": 3,
-      "harness": "Claude Code",
       "date": "2026-09-29"
     }
   },
@@ -311,7 +298,6 @@
       "cost_usd": 8.34,
       "cost_kind": "list",
       "n_runs": 3,
-      "harness": "Claude Code",
       "date": "2026-09-23"
     }
   },
@@ -331,7 +317,6 @@
       "cost_usd": 58.53,
       "cost_kind": "list",
       "n_runs": 3,
-      "harness": "Claude Code",
       "date": "2026-09-23"
     }
   },
@@ -351,7 +336,6 @@
       "cost_usd": 1.34,
       "cost_kind": "list",
       "n_runs": 2,
-      "harness": "Codex CLI",
       "date": "2026-10-01"
     }
   },
@@ -371,7 +355,6 @@
       "cost_usd": 5.88,
       "cost_kind": "list",
       "n_runs": 3,
-      "harness": "Codex CLI",
       "date": "2026-09-30"
     }
   },
@@ -391,7 +374,6 @@
       "cost_usd": 11.69,
       "cost_kind": "list",
       "n_runs": 1,
-      "harness": "Codex CLI",
       "date": "2026-09-05"
     }
   },
@@ -411,7 +393,6 @@
       "cost_usd": 15.78,
       "cost_kind": "list",
       "n_runs": 1,
-      "harness": "Codex CLI",
       "date": "2026-09-05"
     }
   },
@@ -431,7 +412,6 @@
       "cost_usd": 20.6,
       "cost_kind": "list",
       "n_runs": 1,
-      "harness": "Codex CLI",
       "date": "2026-09-04"
     }
   },
@@ -451,7 +431,6 @@
       "cost_usd": 24.22,
       "cost_kind": "list",
       "n_runs": 1,
-      "harness": "Codex CLI",
       "date": "2026-09-04"
     }
   },
@@ -471,7 +450,6 @@
       "cost_usd": 33.03,
       "cost_kind": "list",
       "n_runs": 3,
-      "harness": "Codex CLI",
       "date": "2026-09-14"
     }
   },
@@ -491,7 +469,6 @@
       "cost_usd": 0.2,
       "cost_kind": "list",
       "n_runs": 1,
-      "harness": "Codex CLI",
       "date": "2026-09-23"
     }
   },
@@ -511,7 +488,6 @@
       "cost_usd": 0.06,
       "cost_kind": "list",
       "n_runs": 1,
-      "harness": "Codex CLI",
       "date": "2026-09-23"
     }
   },
@@ -531,7 +507,6 @@
       "cost_usd": 0.13,
       "cost_kind": "list",
       "n_runs": 1,
-      "harness": "Codex CLI",
       "date": "2026-09-23"
     }
   },
@@ -551,7 +526,6 @@
       "cost_usd": 0.39,
       "cost_kind": "list",
       "n_runs": 1,
-      "harness": "Codex CLI",
       "date": "2026-09-23"
     }
   },
@@ -571,7 +545,6 @@
       "cost_usd": 0.52,
       "cost_kind": "list",
       "n_runs": 3,
-      "harness": "Codex CLI",
       "date": "2026-09-23"
     }
   },
@@ -591,7 +564,6 @@
       "cost_usd": 1.61,
       "cost_kind": "list",
       "n_runs": 1,
-      "harness": "Claude Code",
       "date": "2026-10-08"
     }
   },
@@ -611,7 +583,6 @@
       "cost_usd": 2.66,
       "cost_kind": "list",
       "n_runs": 1,
-      "harness": "Claude Code",
       "date": "2026-10-08"
     }
   },
@@ -631,7 +602,6 @@
       "cost_usd": 3.56,
       "cost_kind": "list",
       "n_runs": 2,
-      "harness": "Claude Code",
       "date": "2026-10-07"
     }
   },
@@ -651,7 +621,6 @@
       "cost_usd": 4.8,
       "cost_kind": "list",
       "n_runs": 3,
-      "harness": "Claude Code",
       "date": "2026-10-07"
     }
   },
@@ -671,7 +640,6 @@
       "cost_usd": 5.83,
       "cost_kind": "list",
       "n_runs": 2,
-      "harness": "Claude Code",
       "date": "2026-10-07"
     }
   },
@@ -691,7 +659,6 @@
       "cost_usd": 9.36,
       "cost_kind": "floor",
       "n_runs": 3,
-      "harness": "Grok Build CLI (ACP)",
       "date": "2026-09-21"
     }
   }
@@ -750,7 +717,7 @@
       if(!model){detail.innerHTML = '<div><div class="detail-kicker">Selected configuration</div><h3>No matching models</h3><p class="detail-explainer">Try a broader search or reset the filters.</p></div>';return;}
       const optimal = frontier.includes(model), better = eligible.filter(other => dominates(other,model,controls.metric.value)).sort((a,b) => value20(b,controls.metric.value) - value20(a,controls.metric.value))[0];
       const bug = controls.metric.value === 'bugs' ? model.bugHunt : null;
-      const runNote = bug ? '<p class="detail-explainer">Bug Hunt: ' + bug.fixed + ' / 105 planted bugs fixed · ' + bug.n_runs + (bug.n_runs === 1 ? ' run' : ' runs (mean)') + ' · ' + bug.harness + ' · ' + bug.date + '. ' + (bug.cost_kind === 'floor' ? 'Upper-bound estimate from a lower-bound cost.' : 'Estimate based on source list-rate costs.') + '</p>' : '';
+      const runNote = bug ? '<p class="detail-explainer">Bug Hunt: ' + bug.fixed + ' / 105 planted bugs fixed · ' + bug.n_runs + (bug.n_runs === 1 ? ' run' : ' runs (mean)') + ' · ' + bug.date + '. ' + (bug.cost_kind === 'floor' ? 'Upper-bound estimate from a lower-bound cost.' : 'Estimate based on source list-rate costs.') + '</p>' : '';
       detail.innerHTML = '<div class="detail-head"><div class="detail-kicker">Selected configuration</div><h3>' + model.model + '</h3><p class="reason">' + model.reasoning + ' reasoning · ' + model.provider + '</p><span class="status ' + (optimal ? '' : 'dominated') + '">' + (optimal ? '↗ On the frontier' : '↓ Dominated configuration') + '</span></div><div><div class="detail-value" style="color:' + colors[model.provider] + '">' + bound(model) + number(estimate(model)) + '</div><p class="detail-unit">estimated ' + unit() + ' per $' + budget + ' of subscription spend</p></div><dl><div><dt>Intelligence</dt><dd>' + model.intelligence + '</dd></div><div><dt>Multiplier</dt><dd>' + model.multiplier + '×</dd></div><div><dt>Subscription / ' + (controls.metric.value === 'bugs' ? 'bug fixed' : 'task') + '</dt><dd>' + (bound(model) ? '≥ ' : '') + (20 / value20(model,controls.metric.value) * 100).toFixed(2) + '¢</dd></div></dl><p class="detail-explainer">' + (optimal ? 'No matching configuration improves intelligence and throughput without a tradeoff.' : better.short + ' ' + better.reasoning + ' offers intelligence ' + better.intelligence + ' and ' + number(estimate(better)) + ' estimated ' + unit() + ' for the same subscription spend.') + '</p>' + runNote;
     }
     function renderTable(){
@@ -789,7 +756,7 @@
     document.getElementById('export').addEventListener('click',() => {
       const header = ['Model','Reasoning','Intelligence','Subscription','Multiplier', (controls.metric.value === 'bugs' ? 'Bugs fixed' : 'Tasks') + ' / $' + budget + ' subscription spend','Pareto among matching configurations'];
       const csvRows = shown.map(model => [model.model,model.reasoning,model.intelligence,model.provider,model.multiplier,estimate(model).toFixed(1),frontier.includes(model) ? 'Yes' : 'No']);
-      if(controls.metric.value === 'bugs'){header.push('Planted bugs fixed (out of 105)','Runs','Harness','Run date','Source cost kind','Subscription estimate bound');shown.forEach((model,index) => {const bug = model.bugHunt;csvRows[index].push(bug.fixed,bug.n_runs,bug.harness,bug.date,bug.cost_kind,bug.cost_kind === 'floor' ? 'Upper bound' : 'Estimate');});}
+      if(controls.metric.value === 'bugs'){header.push('Planted bugs fixed (out of 105)','Runs','Run date','Source cost kind','Subscription estimate bound');shown.forEach((model,index) => {const bug = model.bugHunt;csvRows[index].push(bug.fixed,bug.n_runs,bug.date,bug.cost_kind,bug.cost_kind === 'floor' ? 'Upper bound' : 'Estimate');});}
       const csv = [header,...csvRows].map(row => row.map(value => '"' + String(value).replaceAll('"','""') + '"').join(',')).join('\r\n');
       const url = URL.createObjectURL(new Blob(['\ufeff' + csv],{type:'text/csv;charset=utf-8'})), link = document.createElement('a');
       link.href = url;link.download = 'subscription-value-' + controls.metric.value + '-' + budget + '-subscription-dollars.csv';document.body.append(link);link.click();link.remove();setTimeout(() => URL.revokeObjectURL(url),1000);
