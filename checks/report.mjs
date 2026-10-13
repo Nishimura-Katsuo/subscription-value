@@ -12,19 +12,19 @@ const metricValue = runInNewContext(valueCode + '\nmetricValue',{models:data});
 const pareto = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\n' + code.match(/^    const pareto = .+$/m)[0] + '\npareto',{models:data});
 const expected = [1338, 1010, 880, 662, 648, 586, 544, 340, 152, 110];
 assert.deepEqual(data.slice(0,10).map(model => model.tasks20), expected);
-assert.equal(new Set(data.map(model => model.id)).size, 38);
+assert.equal(new Set(data.map(model => model.id)).size, 42);
 for (const model of data) {
   assert.ok(Number.isFinite(model.intelligence) && model.intelligence > 0);
   assert.ok(Number.isFinite(model.multiplier));
   if(model.tasks20 !== null) assert.ok(model.benchmarkCost > 0);
   if(model.tasks20 !== null) assert.equal(Math.round(model.multiplier / model.benchmarkCost * 10) / 10 * 20, model.tasks20);
 }
-assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null)).map(model => model.id).join(','), 'sonnet-high,sol-medium,opus-medium,opus-high,opus-xhigh,opus-max');
-assert.equal(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null).length, 23);
+assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null)).map(model => model.id).join(','), 'muse-contributor-max,opus-medium,opus-high,opus-xhigh,opus-max');
+assert.equal(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null).length, 25);
 assert.ok(data.filter(model => /Luna|Haiku/.test(model.model)).every(model => model.intelligence < 46));
 assert.equal(data.filter(model => model.model.includes('Fable')).length,5);
 assert.ok(data.filter(model => /Fable|Astra/.test(model.model)).every(model => metricValue(model,'tasks') > 0));
-assert.equal(data.filter(model => metricValue(model,'tasks') !== null).length,38);
+assert.equal(data.filter(model => metricValue(model,'tasks') !== null).length,42);
 assert.ok(data.filter(model => model.model.includes('Fable')).every(model => metricValue(model,'bugs') > 0));
 assert.ok(html.includes('value="46" selected'));
 assert.ok(!html.includes('Download original $20 graph'));
@@ -79,7 +79,7 @@ const easy = Object.keys(weights).find(id => weights[id] === Math.min(...Object.
 const hard = Object.keys(weights).find(id => weights[id] === Math.max(...Object.values(weights).filter(weight => weight !== null)));
 assert.equal(bugScore({bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[easy]:2,[hard]:2}}}),weights[easy] + weights[hard]);
 assert.ok(html.includes('data-sort="bugScore"'));
-console.log('Report checks passed: 38 configurations, original task values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
+console.log('Report checks passed: 42 configurations, original task values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
 
 const dominates = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\ndominates',{models:data});
 const candidate = {intelligence:58,multiplier:10,bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[hard]:2},fixed:1,extras:1,cost_usd:1}};
@@ -116,7 +116,7 @@ const costPerBug = runInNewContext(valueCode + '\ncostPerBug',{models:data});
 assert.ok(costPerBug({...candidate,bugHunt:{...candidate.bugHunt,extras:3}}) < costPerBug(candidate));
 
 assert.equal(reliableBugs({model:'Claude Fable 5.1',bugHunt:{n_runs:1,coverage_runs:1,bug_hits:{1:1}}}).join(','),'1');
-assert.equal(data.filter(model => metricValue(model,'bugs') !== null).length,32);
+assert.equal(data.filter(model => metricValue(model,'bugs') !== null).length,36);
 
 assert.equal(data.filter(model => model.model === 'Claude Fable 5.1').map(model => model.tasks20).join(','),'498,396,302,196,154');
 assert.ok(data.filter(model => model.model === 'Claude Fable 5.1').every(model => model.multiplier === 58.9));
@@ -143,3 +143,35 @@ for(const [px,py,width,height] of [[82,458,120,14],[940,38,160,14],[400,250,100,
 assert.ok(!code.includes('const labels ='));
 assert.ok(code.includes('label.getBBox()'));
 console.log('General chart label bounds checks passed.');
+
+const muse = data.filter(model => model.id.startsWith('muse-'));
+assert.equal(muse.length,4);
+assert.equal(muse.map(model => model.tasks20).join(','),'136,116,1664,1426');
+for(const effort of ['xhigh','max']){
+  const standard = data.find(model => model.id === 'muse-standard-' + effort);
+  const contributor = data.find(model => model.id === 'muse-contributor-' + effort);
+  assert.equal(standard.multiplier,9.3);
+  assert.equal(contributor.multiplier,114);
+  assert.equal(standard.intelligence,contributor.intelligence);
+  assert.equal(standard.benchmarkCost,contributor.benchmarkCost);
+  assert.deepEqual(standard.bugHunt,contributor.bugHunt);
+  assert.equal(bugScore(standard),bugScore(contributor));
+  assert.ok(Math.abs(costPerBug(contributor) / costPerBug(standard) - 9.3 / 114) < 1e-12);
+  assert.ok(dominates(contributor,standard,'tasks'));
+  assert.ok(dominates(contributor,standard,'bugs'));
+  assert.equal(standard.bugHunt.n_runs,effort === 'max' ? 5 : 3);
+  assert.equal(standard.bugHunt.coverage_runs,standard.bugHunt.n_runs);
+  for(const [id,hits] of Object.entries(standard.bugHunt.bug_hits)){
+    assert.ok(Number.isInteger(Number(id)) && Number(id) >= 1 && Number(id) <= 105);
+    assert.ok(Number.isInteger(hits) && hits >= 0 && hits <= standard.bugHunt.n_runs);
+  }
+}
+assert.equal(data.find(model => model.id === 'muse-standard-xhigh').intelligence,45);
+assert.equal(data.find(model => model.id === 'muse-standard-max').intelligence,48);
+assert.equal(data.find(model => model.id === 'muse-standard-max').bugHunt.cost_usd,18.11);
+assert.ok(muse.every(model => model.sourceNote && model.aaSource && model.sourceDate === '2026-10-12'));
+console.log('Muse checks passed: shared benchmark evidence, consistent Standard pricing basis, tier multipliers, and independent configuration IDs.');
+
+const [,belowY] = labelPosition(200,200,150,14,true);
+assert.ok(belowY - 14 > 200);
+assert.ok(labelPosition(200,458,150,14,true)[1] <= 450);
