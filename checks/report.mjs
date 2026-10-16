@@ -62,7 +62,7 @@ assert.equal(data.find(model => model.id === 'sol-medium').bugHunt.fixed,29);
 assert.equal(data.find(model => model.id === 'grok-xhigh').bugHunt.n_runs,5);
 assert.equal(data.find(model => model.id === 'grok-xhigh').bugHunt.cost_kind,'floor');
 assert.equal(metricValue({tasks20:10},'bugs'),null);
-assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'bugs') !== null),'bugs').map(model => model.id).join(','),'sol-medium,sol-high,sol-xhigh,sol-max,astra-xhigh,fable-max');
+assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'bugs') !== null),'bugs').map(model => model.id).join(','),'muse-contributor-max,sol-medium,sol-high,sol-xhigh,sol-max,astra-xhigh,fable-max');
 const solMedium = data.find(model => model.id === 'sol-medium');
 assert.equal(reliableBugs(solMedium).length,25);
 assert.ok(Math.abs(metricValue(solMedium,'bugs') - 1.76 / (10.6 * (29 + 30.5))) < 1e-10);
@@ -152,21 +152,21 @@ const muse = data.filter(model => model.id.startsWith('muse-') && model.intellig
 for(const effort of ['low','medium','high']){
   const standard = data.find(model => model.id === 'muse-standard-' + effort), contributor = data.find(model => model.id === 'muse-contributor-' + effort);
   assert.deepEqual(standard.bugHunt,contributor.bugHunt);
-  assert.ok(Math.abs(costPerBug(contributor) / costPerBug(standard) - 9.3 / 114) < 1e-12);
+  assert.ok(Math.abs(costPerBug(contributor) / costPerBug(standard) - 11.1 / 137) < 1e-12);
   assert.ok(standard.sourceNote.includes('bugs mode only') && contributor.sourceNote.includes('bugs mode only'));
 }
 assert.equal(muse.length,4);
-assert.equal(muse.map(model => model.tasks20).join(','),'136,116,1664,1426');
+assert.equal(muse.map(model => model.tasks20).join(','),'162,138,2000,1712');
 for(const effort of ['xhigh','max']){
   const standard = data.find(model => model.id === 'muse-standard-' + effort);
   const contributor = data.find(model => model.id === 'muse-contributor-' + effort);
-  assert.equal(standard.multiplier,9.3);
-  assert.equal(contributor.multiplier,114);
+  assert.equal(standard.multiplier,11.1);
+  assert.equal(contributor.multiplier,137);
   assert.equal(standard.intelligence,contributor.intelligence);
   assert.equal(standard.benchmarkCost,contributor.benchmarkCost);
   assert.deepEqual(standard.bugHunt,contributor.bugHunt);
   assert.equal(bugScore(standard),bugScore(contributor));
-  assert.ok(Math.abs(costPerBug(contributor) / costPerBug(standard) - 9.3 / 114) < 1e-12);
+  assert.ok(Math.abs(costPerBug(contributor) / costPerBug(standard) - 11.1 / 137) < 1e-12);
   assert.ok(dominates(contributor,standard,'tasks'));
   assert.ok(dominates(contributor,standard,'bugs'));
   assert.equal(standard.bugHunt.n_runs,effort === 'max' ? 5 : 3);

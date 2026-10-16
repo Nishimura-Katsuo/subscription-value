@@ -15,8 +15,8 @@ A subscription multiplier estimates how much API-equivalent usage a subscription
 | Claude | 58.9× | Estimate derived from SemiAnalysis |
 | ChatGPT | 10.6× | Estimate derived from SemiAnalysis |
 | Cursor | 20.7× | Author’s metered usage exports divided by subscription spend |
-| Muse Standard | 11.1× | Muse Code Power Usage ($50/month), measured weekly allowance at Standard API prices |
-| Muse Contributor | 137× | Same plan, Contributor usage valued at Standard API prices |
+| Muse Standard | 11.1× ±0.5 | Muse Code Power Usage ($50/month), derived from the measured High Usage plan × 1.2, at Standard API prices |
+| Muse Contributor | 137× ±39 | Same plan and derivation, Contributor usage valued at Standard API prices |
 | Muse Wonder Full | 6.6× (for future use) | Preliminary user-supplied lead; not yet applied in the app |
 
 Treat these multipliers as **supplied assumptions** when reproducing the table. The repository does not contain the private Cursor exports or a complete derivation of the SemiAnalysis estimates, so the multipliers cannot be independently reconstructed from this repository alone. They are not separate measurements for each model. Cursor’s observed usage mixed Claude and Grok. Applying the full Cursor multiplier to Grok assumes both available usage pools can be allocated to it.
@@ -25,14 +25,14 @@ Treat these multipliers as **supplied assumptions** when reproducing the table. 
 
 Muse Spark 1.3 was added on 12 October 2026. AA publishes matching XHigh and Max configurations: intelligence 45 and 48, with Standard API task costs of $1.37 and $1.60 respectively. Both subscription tiers share those Standard benchmark scores, task costs, and Bug Hunt evidence. **Contributor performance is transferred from Standard by assumption**, including Max; it is not a separate benchmark run or a guarantee of availability on every account. AA publishes no Low, Medium, or High scores, so those efforts appear only in bugs mode, using their three-run Bug Hunt means (added 16 October 2026). The same applies to Grok 4.7 Medium. XHigh is below the default task floor of 46; lower that filter to include it.
 
-The [original Muse Code experiment](https://github.com/phuryn/experiments/tree/main/subscription-multipliers/04-muse-code) measured the $15/month High Usage plan on 1 October 2026: **Standard 9.3× ±0.4**, **Contributor 114× ±33**, with both valued at Standard API prices. These workload-specific weekly-allowance measurements are extrapolated to monthly value and applied across the displayed effort levels as normalization assumptions. They do not establish unchanged quotas after Meta's October 12 subscription update, or across every workload. Five-hour limits can bind before weekly limits.
+The app uses the $50/month **Power Usage** plan: **Standard 11.1× ±0.5** and **Contributor 137× ±39**, both valued at Standard API prices. These are derived, not measured. The [original Muse Code experiment](https://github.com/phuryn/experiments/tree/main/subscription-multipliers/04-muse-code) measured only the $15/month High Usage plan on 1 October 2026 (Standard 9.3× ±0.4, Contributor 114× ±33). Meta describes Power Usage as 4× High Usage's allowance for 3.33× the price, so the experiment scales each multiplier by 1.2. This assumes Meta's stated allowance ratios hold in practice. The weekly-allowance measurements are extrapolated to monthly value and applied across the displayed effort levels as normalization assumptions. They do not establish unchanged quotas after Meta's October 12 subscription update, or across every workload. Five-hour limits can bind before weekly limits.
 
 ```text
-Standard subscription cost = Standard API cost / 9.3
-Contributor subscription cost = Standard API cost / 114
+Standard subscription cost = Standard API cost / 11.1
+Contributor subscription cost = Standard API cost / 137
 ```
 
-The app retains Standard API costs as the shared input basis. It does **not** additionally apply Contributor's discounted API rates: that would count the discount twice. The experiment's 5.8× Contributor multiplier uses Contributor API prices instead and must not be paired with these Standard-priced inputs. Contributor allows Meta to train on submitted content; see [Meta's subscription documentation](https://dev.meta.ai/docs/muse-code/subscriptions).
+The app retains Standard API costs as the shared input basis. It does **not** additionally apply Contributor's discounted API rates: that would count the discount twice. The experiment's Contributor multiplier against Contributor API prices (5.8× for High Usage, 7.0× derived for Power Usage) uses different prices and must not be paired with these Standard-priced inputs. Contributor allows Meta to train on submitted content; see [Meta's subscription documentation](https://dev.meta.ai/docs/muse-code/subscriptions).
 
 Bug Hunt XHigh uses a current mean of three runs; Max uses five. Max spans different Muse Code builds, including two split-version runs, and the source explicitly marks the replication configuration unverified. Per-bug coverage is used under the existing eligibility rule, with this limitation preserved in configuration details and CSV notes. Standard and Contributor duplicate the same evidence rather than representing independent replications.
 
