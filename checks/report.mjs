@@ -12,9 +12,13 @@ const metricValue = runInNewContext(valueCode + '\nmetricValue',{models:data});
 const pareto = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\n' + code.match(/^    const pareto = .+$/m)[0] + '\npareto',{models:data});
 const expected = [1338, 1010, 880, 662, 648, 586, 544, 340, 152, 110];
 assert.deepEqual(data.slice(0,10).map(model => model.tasks20), expected);
-assert.equal(new Set(data.map(model => model.id)).size, 42);
+assert.equal(new Set(data.map(model => model.id)).size, 49);
+// Bug Hunt-only efforts have no AA score or task cost and appear in bugs mode only.
+const bugsOnly = data.filter(model => model.intelligence === null);
+assert.equal(bugsOnly.map(model => model.id).join(','),'grok-medium,muse-standard-low,muse-standard-medium,muse-standard-high,muse-contributor-low,muse-contributor-medium,muse-contributor-high');
+assert.ok(bugsOnly.every(model => model.tasks20 === null && model.benchmarkCost === null && model.bugHunt.n_runs === 3 && model.bugHunt.coverage_runs === 3));
 for (const model of data) {
-  assert.ok(Number.isFinite(model.intelligence) && model.intelligence > 0);
+  assert.ok(model.intelligence === null || (Number.isFinite(model.intelligence) && model.intelligence > 0));
   assert.ok(Number.isFinite(model.multiplier));
   if(model.tasks20 !== null) assert.ok(model.benchmarkCost > 0);
   if(model.tasks20 !== null) assert.equal(Math.round(model.multiplier / model.benchmarkCost * 10) / 10 * 20, model.tasks20);
@@ -66,7 +70,7 @@ assert.ok(html.includes('Subscription $ / bug fixed'));
 assert.equal(data.filter(model => reliableBugs(model) === null).length,6);
 assert.equal(Object.keys(weights).length,105);
 for(const [id,weight] of Object.entries(weights)){
-  const solvers = data.filter(model => reliableBugs(model)?.includes(id));
+  const solvers = data.filter(model => model.intelligence !== null && reliableBugs(model)?.includes(id));
   assert.equal(weight,solvers.length ? Math.min(...solvers.map(model => model.intelligence)) : null);
 }
 assert.equal(reliableBugs({bugHunt:{n_runs:1,coverage_runs:1,bug_hits:{1:1}}}),null);
@@ -79,7 +83,7 @@ const easy = Object.keys(weights).find(id => weights[id] === Math.min(...Object.
 const hard = Object.keys(weights).find(id => weights[id] === Math.max(...Object.values(weights).filter(weight => weight !== null)));
 assert.equal(bugScore({bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[easy]:2,[hard]:2}}}),weights[easy] + weights[hard]);
 assert.ok(html.includes('data-sort="bugScore"'));
-console.log('Report checks passed: 42 configurations, original task values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
+console.log('Report checks passed: 49 configurations, original task values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
 
 const dominates = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\ndominates',{models:data});
 const candidate = {intelligence:58,multiplier:10,bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[hard]:2},fixed:1,extras:1,cost_usd:1}};
@@ -116,7 +120,7 @@ const costPerBug = runInNewContext(valueCode + '\ncostPerBug',{models:data});
 assert.ok(costPerBug({...candidate,bugHunt:{...candidate.bugHunt,extras:3}}) < costPerBug(candidate));
 
 assert.equal(reliableBugs({model:'Claude Fable 5.1',bugHunt:{n_runs:1,coverage_runs:1,bug_hits:{1:1}}}).join(','),'1');
-assert.equal(data.filter(model => metricValue(model,'bugs') !== null).length,36);
+assert.equal(data.filter(model => metricValue(model,'bugs') !== null).length,43);
 
 assert.equal(data.filter(model => model.model === 'Claude Fable 5.1').map(model => model.tasks20).join(','),'498,396,302,196,154');
 assert.ok(data.filter(model => model.model === 'Claude Fable 5.1').every(model => model.multiplier === 58.9));
@@ -131,7 +135,7 @@ assert.equal(chartX(600,100,1100,false),511);
 assert.ok(chartX(600,100,1100,true) < 511);
 assert.ok(chartX(1100,100,1100,true) - chartX(1000,100,1100,true) > chartX(200,100,1100,true) - chartX(100,100,1100,true));
 assert.ok(Number.isFinite(chartX(100,99,101,true)));
-assert.ok(html.includes('Math.log10(1 + 9 * i / 5)'));
+assert.ok(html.includes('const tickStep = '));
 console.log('Exponential horizontal scale checks passed.');
 
 const labelPosition = runInNewContext(code.match(/^    const labelPosition = .+$/m)[0] + '\nlabelPosition');
@@ -144,7 +148,13 @@ assert.ok(!code.includes('const labels ='));
 assert.ok(code.includes('label.getBBox()'));
 console.log('General chart label bounds checks passed.');
 
-const muse = data.filter(model => model.id.startsWith('muse-'));
+const muse = data.filter(model => model.id.startsWith('muse-') && model.intelligence !== null);
+for(const effort of ['low','medium','high']){
+  const standard = data.find(model => model.id === 'muse-standard-' + effort), contributor = data.find(model => model.id === 'muse-contributor-' + effort);
+  assert.deepEqual(standard.bugHunt,contributor.bugHunt);
+  assert.ok(Math.abs(costPerBug(contributor) / costPerBug(standard) - 9.3 / 114) < 1e-12);
+  assert.ok(standard.sourceNote.includes('bugs mode only') && contributor.sourceNote.includes('bugs mode only'));
+}
 assert.equal(muse.length,4);
 assert.equal(muse.map(model => model.tasks20).join(','),'136,116,1664,1426');
 for(const effort of ['xhigh','max']){

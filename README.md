@@ -15,14 +15,15 @@ A subscription multiplier estimates how much API-equivalent usage a subscription
 | Claude | 58.9× | Estimate derived from SemiAnalysis |
 | ChatGPT | 10.6× | Estimate derived from SemiAnalysis |
 | Cursor | 20.7× | Author’s metered usage exports divided by subscription spend |
-| Muse Standard | 9.3× | Muse Code High Usage ($15/month), measured weekly allowance at Standard API prices |
-| Muse Contributor | 114× | Same plan, Contributor usage valued at Standard API prices |
+| Muse Standard | 11.1× | Muse Code Power Usage ($50/month), measured weekly allowance at Standard API prices |
+| Muse Contributor | 137× | Same plan, Contributor usage valued at Standard API prices |
+| Muse Wonder Full | 6.6× (for future use) | Preliminary user-supplied lead; not yet applied in the app |
 
 Treat these multipliers as **supplied assumptions** when reproducing the table. The repository does not contain the private Cursor exports or a complete derivation of the SemiAnalysis estimates, so the multipliers cannot be independently reconstructed from this repository alone. They are not separate measurements for each model. Cursor’s observed usage mixed Claude and Grok. Applying the full Cursor multiplier to Grok assumes both available usage pools can be allocated to it.
 
 ### Muse Standard and Contributor
 
-Muse Spark 1.3 was added on 12 October 2026. AA publishes matching XHigh and Max configurations: intelligence 45 and 48, with Standard API task costs of $1.37 and $1.60 respectively. Both subscription tiers share those Standard benchmark scores, task costs, and Bug Hunt evidence. **Contributor performance is transferred from Standard by assumption**, including Max; it is not a separate benchmark run or a guarantee of availability on every account. Low, Medium, and High are omitted because matching AA intelligence scores are not published. XHigh is below the default task floor of 46; lower that filter to include it.
+Muse Spark 1.3 was added on 12 October 2026. AA publishes matching XHigh and Max configurations: intelligence 45 and 48, with Standard API task costs of $1.37 and $1.60 respectively. Both subscription tiers share those Standard benchmark scores, task costs, and Bug Hunt evidence. **Contributor performance is transferred from Standard by assumption**, including Max; it is not a separate benchmark run or a guarantee of availability on every account. AA publishes no Low, Medium, or High scores, so those efforts appear only in bugs mode, using their three-run Bug Hunt means (added 16 October 2026). The same applies to Grok 4.7 Medium. XHigh is below the default task floor of 46; lower that filter to include it.
 
 The [original Muse Code experiment](https://github.com/phuryn/experiments/tree/main/subscription-multipliers/04-muse-code) measured the $15/month High Usage plan on 1 October 2026: **Standard 9.3× ±0.4**, **Contributor 114× ±33**, with both valued at Standard API prices. These workload-specific weekly-allowance measurements are extrapolated to monthly value and applied across the displayed effort levels as normalization assumptions. They do not establish unchanged quotas after Meta's October 12 subscription update, or across every workload. Five-hour limits can bind before weekly limits.
 
@@ -76,7 +77,7 @@ A 100% observed success rate over a small number of runs does not guarantee repe
 Bug weight = lowest AA intelligence score among qualifying solvers
 ```
 
-We use the full set of configurations in the app, including the single-run exceptions. Bugs without a qualifying solver remain unrated. Search, subscription, and floor filters do not change these weights.
+We use every configuration in the app that has an AA score, including the single-run exceptions. Bug Hunt-only configurations (Grok 4.7 Medium and Muse Low, Medium, and High) earn these weights but do not set them, because they have no intelligence score. Bugs without a qualifying solver remain unrated. Search, subscription, and floor filters do not change these weights.
 
 This is an empirical difficulty proxy: the lowest intelligence score observed solving that bug under our inclusion rule. It is not a proven minimum intelligence requirement, an official Bug Hunt score, or a calibrated difficulty scale. Adding models or runs can change weights and existing ratings.
 
@@ -105,7 +106,7 @@ The graph plots:
 - **Horizontal:** bug-fix rating.
 - **Vertical:** estimated subscription dollars per total bug fixed.
 
-The horizontal axis is **exponential**, spreading out higher ratings and compressing lower ratings. Within the displayed rating range, its normalized position is `(10^t - 1) / 9`, where `t = (rating - minimum) / (maximum - minimum)`; this changes spacing only, not ratings or Pareto membership. The vertical axis is **inverted and logarithmic**, so higher points cost less. Bugs mode defaults to all ratings; its floor choices come from the calculated results. Rating and unit cost do not scale with the subscription-spend scenario.
+The horizontal axis is **exponential**, spreading out higher ratings and compressing lower ratings. Within the displayed rating range, its normalized position is `(10^t - 1) / 9`, where `t = (rating - minimum) / (maximum - minimum)`; this changes spacing only, not ratings or Pareto membership. The vertical axis is **inverted and logarithmic**, so higher points cost less. Bugs mode defaults to all ratings; its floor choices are steps of 250 up to the highest calculated rating. Rating and unit cost do not scale with the subscription-spend scenario.
 
 ## Pareto frontier and graph lines
 
@@ -116,7 +117,7 @@ A configuration is dominated if another matching configuration is at least as go
 | Tasks | Higher intelligence | More tasks at the same spending |
 | Bugs | Higher bug-fix rating | Lower subscription cost per bug |
 
-The app recalculates the frontier within the active filters. **Upper-right is better in both graphs.** The solid line joins frontier configurations; dotted lines join a model’s visible reasoning levels in effort order. Neither line implies that intermediate configurations exist.
+The app recalculates the frontier within the active filters. **Upper-right is better in both graphs.** The solid line joins frontier configurations; dotted lines join a model’s visible reasoning levels in effort order (in bugs mode, only for the selected model). Neither line implies that intermediate configurations exist.
 
 ## Cost and execution assumptions
 
@@ -142,7 +143,7 @@ The recorded dataset is the JSON inside `<script id="comparison-data">` in [docs
 | `id`, `model`, `short` | Local identifiers and display names | Keep `id` unique and stable. |
 | `provider` | Subscription used for normalization | Claude, ChatGPT, Cursor, Muse Standard, or Muse Contributor; Grok uses Cursor here. |
 | `reasoning` | Exact source effort level | Use Low, Medium, High, XHigh, or Max; do not infer an unreported tier. |
-| `intelligence` | AA Intelligence Index for that configuration | Match model version, effort, and routing/fallback definition. |
+| `intelligence` | AA Intelligence Index for that configuration | Match model version, effort, and routing/fallback definition. `null` for Bug Hunt-only rows, with `benchmarkCost` and `tasks20` also `null`. |
 | `benchmarkCost` | AA Cost per Intelligence Index task | USD per task, not token price or total index cost. |
 | `multiplier` | Supplied provider assumption above | Apply consistently to all configurations on that subscription. |
 | `tasks20` | `20 × round(multiplier / benchmarkCost, 1 decimal)` | Stored derived value; recompute when either input changes. |
