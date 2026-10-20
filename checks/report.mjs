@@ -12,7 +12,7 @@ const metricValue = runInNewContext(valueCode + '\nmetricValue',{models:data});
 const pareto = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\n' + code.match(/^    const pareto = .+$/m)[0] + '\npareto',{models:data});
 const expected = [1338, 1010, 880, 662, 648, 586, 544, 340, 152, 110];
 assert.deepEqual(data.slice(0,10).map(model => model.tasks20), expected);
-assert.equal(new Set(data.map(model => model.id)).size, 49);
+assert.equal(new Set(data.map(model => model.id)).size, 54);
 // Bug Hunt-only efforts have no AA score or task cost and appear in bugs mode only.
 const bugsOnly = data.filter(model => model.intelligence === null);
 assert.equal(bugsOnly.map(model => model.id).join(','),'grok-medium,muse-standard-low,muse-standard-medium,muse-standard-high,muse-contributor-low,muse-contributor-medium,muse-contributor-high');
@@ -24,11 +24,11 @@ for (const model of data) {
   if(model.tasks20 !== null) assert.equal(Math.round(model.multiplier / model.benchmarkCost * 10) / 10 * 20, model.tasks20);
 }
 assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null)).map(model => model.id).join(','), 'muse-contributor-max,opus-medium,opus-high,opus-xhigh,opus-max');
-assert.equal(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null).length, 25);
+assert.equal(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null).length, 26);
 assert.ok(data.filter(model => /Luna|Haiku/.test(model.model)).every(model => model.intelligence < 46));
 assert.equal(data.filter(model => model.model.includes('Fable')).length,5);
 assert.ok(data.filter(model => /Fable|Astra/.test(model.model)).every(model => metricValue(model,'tasks') > 0));
-assert.equal(data.filter(model => metricValue(model,'tasks') !== null).length,42);
+assert.equal(data.filter(model => metricValue(model,'tasks') !== null).length,47);
 assert.ok(data.filter(model => model.model.includes('Fable')).every(model => metricValue(model,'bugs') > 0));
 assert.ok(html.includes('value="46" selected'));
 assert.ok(!html.includes('Download original $20 graph'));
@@ -51,6 +51,11 @@ const weights = runInNewContext(valueCode + '\nbugWeights',{models:data});
 const bugScore = runInNewContext(valueCode + '\nbugScore',{models:data});
 for (const model of data) {
   const bug = model.bugHunt;
+  if (!bug) {
+    assert.equal(model.id, 'sol-5-6-low');
+    assert.equal(metricValue(model,'bugs'),null);
+    continue;
+  }
   assert.ok(bug.fixed > 0 && bug.fixed <= 105 && bug.cost_usd > 0);
   assert.ok(bug.n_runs >= 1 && ['list','floor'].includes(bug.cost_kind));
   const reliable = reliableBugs(model);
@@ -62,12 +67,12 @@ assert.equal(data.find(model => model.id === 'sol-medium').bugHunt.fixed,29);
 assert.equal(data.find(model => model.id === 'grok-xhigh').bugHunt.n_runs,5);
 assert.equal(data.find(model => model.id === 'grok-xhigh').bugHunt.cost_kind,'floor');
 assert.equal(metricValue({tasks20:10},'bugs'),null);
-assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'bugs') !== null),'bugs').map(model => model.id).join(','),'muse-contributor-max,sol-medium,sol-high,sol-xhigh,sol-max,astra-xhigh,fable-max');
+assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'bugs') !== null),'bugs').map(model => model.id).join(','),'muse-contributor-max,sol-medium,sol-high,sol-xhigh,sol-max,astra-xhigh');
 const solMedium = data.find(model => model.id === 'sol-medium');
 assert.equal(reliableBugs(solMedium).length,25);
 assert.ok(Math.abs(metricValue(solMedium,'bugs') - 1.76 / (10.6 * (29 + 30.5))) < 1e-10);
 assert.ok(html.includes('Subscription $ / bug fixed'));
-assert.equal(data.filter(model => reliableBugs(model) === null).length,6);
+assert.equal(data.filter(model => reliableBugs(model) === null).length,7);
 assert.equal(Object.keys(weights).length,105);
 for(const [id,weight] of Object.entries(weights)){
   const solvers = data.filter(model => model.intelligence !== null && reliableBugs(model)?.includes(id));
@@ -83,7 +88,7 @@ const easy = Object.keys(weights).find(id => weights[id] === Math.min(...Object.
 const hard = Object.keys(weights).find(id => weights[id] === Math.max(...Object.values(weights).filter(weight => weight !== null)));
 assert.equal(bugScore({bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[easy]:2,[hard]:2}}}),weights[easy] + weights[hard]);
 assert.ok(html.includes('data-sort="bugScore"'));
-console.log('Report checks passed: 49 configurations, original task values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
+console.log('Report checks passed: 54 configurations, original task values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
 
 const dominates = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\ndominates',{models:data});
 const candidate = {intelligence:58,multiplier:10,bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[hard]:2},fixed:1,extras:1,cost_usd:1}};
@@ -114,18 +119,18 @@ for(const model of data.filter(model => model.model === 'GPT-6 Astra')){
 }
 assert.ok(data.filter(model => /Luna|Haiku/.test(model.model) && model.bugHunt.n_runs === 1).every(model => reliableBugs(model) === null));
 
-for(const model of data) assert.ok(Number.isFinite(model.bugHunt.extras) && model.bugHunt.extras >= 0);
+for(const model of data.filter(model => model.bugHunt)) assert.ok(Number.isFinite(model.bugHunt.extras) && model.bugHunt.extras >= 0);
 assert.equal(data.find(model=>model.id==='sol-medium').bugHunt.extras,30.5);
 const costPerBug = runInNewContext(valueCode + '\ncostPerBug',{models:data});
 assert.ok(costPerBug({...candidate,bugHunt:{...candidate.bugHunt,extras:3}}) < costPerBug(candidate));
 
 assert.equal(reliableBugs({model:'Claude Fable 5.1',bugHunt:{n_runs:1,coverage_runs:1,bug_hits:{1:1}}}).join(','),'1');
-assert.equal(data.filter(model => metricValue(model,'bugs') !== null).length,43);
+assert.equal(data.filter(model => metricValue(model,'bugs') !== null).length,47);
 
 assert.equal(data.filter(model => model.model === 'Claude Fable 5.1').map(model => model.tasks20).join(','),'498,396,302,196,154');
 assert.ok(data.filter(model => model.model === 'Claude Fable 5.1').every(model => model.multiplier === 58.9));
 
-for(const method of ['Tasks / subscription $ = multiplier / AA cost per task','Bug-fix rating = sum of weights of its qualifying planted fixes','source run cost / subscription multiplier / total fixes','Astra and Fable are explicit single-run exceptions']) assert.ok(readme.includes(method));
+for(const method of ['Tasks / subscription $ = multiplier / AA cost per task','Bug-fix rating = sum of weights of its qualifying planted fixes','source run cost / subscription multiplier / total fixes','Astra, Fable, and GPT-5.6 Sol are explicit single-run exceptions']) assert.ok(readme.includes(method));
 assert.ok(readme.includes('https://nishimura-katsuo.github.io/subscription-value/'));
 
 const chartX = runInNewContext(code.match(/^    const chartX = .+$/m)[0] + '\nchartX');
@@ -185,3 +190,35 @@ console.log('Muse checks passed: shared benchmark evidence, consistent Standard 
 const [,belowY] = labelPosition(200,200,150,14,true);
 assert.ok(belowY - 14 > 200);
 assert.ok(labelPosition(200,458,150,14,true)[1] <= 450);
+
+const sol56 = data.filter(model => model.model === 'GPT-5.6 Sol');
+assert.deepEqual(sol56.map(model => model.reasoning),['Low','Medium','High','XHigh','Max']);
+assert.deepEqual(sol56.map(model => model.intelligence),[33,39,42,44,47]);
+assert.deepEqual(sol56.map(model => model.benchmarkCost),[0.26,0.5,0.81,1.18,1.99]);
+assert.deepEqual(sol56.map(model => model.tasks20),[816,424,262,180,106]);
+assert.ok(sol56.every(model => model.multiplier === 10.6 && model.provider === 'ChatGPT' && model.aaSource && model.sourceDate === '2026-10-20'));
+assert.equal(metricValue(sol56[0],'bugs'),null);
+for (const [index,fixed,cost,extras] of [[1,29,15.77,24],[2,34,33.92,28],[3,39,52.75,59]]) {
+  const model = sol56[index];
+  assert.equal(model.bugHunt.n_runs,1);
+  assert.equal(model.bugHunt.coverage_runs,1);
+  assert.equal(reliableBugs(model).length,fixed);
+  assert.ok(Object.values(model.bugHunt.bug_hits).every(hits => hits === 1));
+  assert.equal(metricValue(model,'bugs'),cost / 10.6 / (fixed + extras));
+}
+const sol56Max = sol56[4];
+assert.equal(sol56Max.bugHunt.id,'GPT-5.6 Sol (max effort) - mean of 2');
+assert.equal(sol56Max.bugHunt.coverage_runs,2);
+assert.equal(reliableBugs(sol56Max).length,35);
+assert.equal(costPerBug(sol56Max),95.35 / 10.6 / (43.5 + 48.5));
+for(const [id,hits] of Object.entries(sol56Max.bugHunt.bug_hits)){
+  assert.ok(Number.isInteger(Number(id)) && Number(id) >= 1 && Number(id) <= 105);
+  assert.ok(Number.isInteger(hits) && hits >= 0 && hits <= 2);
+}
+assert.ok(sol56.every(model => model.short !== solMedium.short));
+console.log('Sol 5.6 checks passed: exact AA tiers, subscription normalization, current Max mean, and labeled single-run eligibility.');
+
+const intelligenceFloors = runInNewContext(code.match(/^    const intelligenceFloors = .+$/m)[0] + '\nintelligenceFloors',{models:data});
+assert.equal(intelligenceFloors.join(','),[...new Set([46,...data.filter(model => model.tasks20 !== null && model.intelligence !== null).map(model => model.intelligence)])].sort((a,b) => a-b).join(','));
+assert.ok([22,33,39,47,58].every(score => intelligenceFloors.includes(score)));
+console.log('AA floor checks passed: all published task scores, sorted without duplicates, plus the original floor.');

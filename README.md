@@ -38,6 +38,8 @@ Bug Hunt XHigh uses a current mean of three runs; Max uses five. Max spans diffe
 
 Sources: [AA Muse release and effort configurations](https://artificialanalysis.ai/models/releases/muse-spark-1-3), [Bug Hunt source data](https://bughunt.productcompass.pm/data/benchmark.json). Muse entries store `aaSource`, `sourceDate`, and `sourceNote`; filtered CSVs include these provenance fields.
 
+GPT-5.6 Sol was added on 20 October 2026 using the same **ChatGPT 10.6×** multiplier, AA input rounding, task-throughput formula, and Bug Hunt reliability rules as GPT-6.1 Sol. [AA’s exact effort configurations](https://artificialanalysis.ai/models/releases/gpt-5-6-sol) supply Low / Medium / High / XHigh / Max intelligence scores of **33 / 39 / 42 / 44 / 47** and task costs of **$0.26 / $0.50 / $0.81 / $1.18 / $1.99**. Only Max meets the default task floor of 46; lower the floor to see the other efforts. Inputs are a 20 October snapshot; existing models retain their recorded snapshots. Bug Hunt publishes single runs for Medium, High, and XHigh, and a complete two-run mean for Max (35 planted bugs fixed in both); all four efforts are included in bugs mode, with Medium, High, and XHigh explicitly labeled as single-run exceptions. No Low run is published. The Max source flags unverified replication configuration and an unfinished third run excluded from its mean. Bug Hunt inputs were retrieved on 20 October from the source updated 19 October. Adding these qualifying solvers also recalibrates the shared bug weights for every model.
+
 Astra and Fable use their providers’ multipliers like other models. We apply no 50% model-specific usage-allocation adjustment: this is a normalized value comparison. Availability, plan restrictions, and actual quotas still determine what an account can use.
 
 ## Tasks mode
@@ -57,7 +59,7 @@ The graph plots:
 - **Horizontal:** AA intelligence.
 - **Vertical:** estimated tasks at the selected subscription spend.
 
-The default intelligence floor is 46. This reflects the author’s experience that Grok 4.7 can complete useful math and coding work in messy codebases. It is a personal comparison threshold; mileage may vary. Lowering the filter includes lower-scoring configurations with published inputs.
+The default intelligence floor is 46. This reflects the author’s experience that Grok 4.7 can complete useful math and coding work in messy codebases. It is a personal comparison threshold; mileage may vary. Lowering the filter includes lower-scoring configurations with published inputs. Floor choices are generated from every distinct published task-configuration intelligence score, plus the original floor of 46, so newly added scores are available automatically.
 
 ## Bugs mode
 
@@ -67,7 +69,7 @@ Bug Hunt Bench supplies per-bug planted-fix coverage, aggregate fix counts, run 
 
 A planted bug qualifies for a configuration’s rating only if it was fixed in **every recorded run**. Normally, at least two runs and complete per-bug coverage are required. Partial fixes and bugs merely claimed in a report receive no credit.
 
-**Astra and Fable are explicit single-run exceptions.** Their recorded planted fixes are included in ratings and difficulty weights, with visible single-run labels. Other configurations with only one run are excluded from bugs mode. Configurations without qualifying planted fixes have no rating and are omitted.
+**Astra, Fable, and GPT-5.6 Sol are explicit single-run exceptions.** Their recorded planted fixes are included in ratings and difficulty weights, with visible single-run labels. Other configurations with only one run are excluded from bugs mode. Configurations without qualifying planted fixes have no rating and are omitted.
 
 A 100% observed success rate over a small number of runs does not guarantee repeatability.
 
@@ -155,7 +157,7 @@ The recorded dataset is the JSON inside `<script id="comparison-data">` in [docs
 | `bugHunt.coverage_runs` | Source row `coverage_runs` | Must equal `n_runs` to use repeated-run per-bug coverage. |
 | `bugHunt.bug_hits` | Source row `bug_hits` | Map of planted bug ID to number of runs that fixed it. |
 
-The current single-run exceptions match `GPT-6 Astra` and `Claude Fable 5.1` exactly. For an allowed single-run Astra or Fable row, the source may supply `fixed_bugs` instead of a coverage map. Set `coverage_runs = 1` and construct `bug_hits` with a value of `1` for each ID in `fixed_bugs`. This does not establish repeatability; retain the exception label. Do not perform this conversion for other single-run models.
+The current single-run exceptions match `GPT-6 Astra`, `Claude Fable 5.1`, and `GPT-5.6 Sol` exactly. For an allowed single-run row, the source may supply `fixed_bugs` instead of a coverage map. Set `coverage_runs = 1` and construct `bug_hits` with a value of `1` for each ID in `fixed_bugs`. This does not establish repeatability; retain the exception label. Do not perform this conversion for other single-run models.
 
 ## Selecting and validating source rows
 
