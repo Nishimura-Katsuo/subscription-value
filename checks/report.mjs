@@ -127,8 +127,24 @@ assert.ok(costPerBug({...candidate,bugHunt:{...candidate.bugHunt,extras:3}}) < c
 assert.equal(reliableBugs({model:'Claude Fable 5.1',bugHunt:{n_runs:1,coverage_runs:1,bug_hits:{1:1}}}).join(','),'1');
 assert.equal(data.filter(model => metricValue(model,'bugs') !== null).length,47);
 
-assert.equal(data.filter(model => model.model === 'Claude Fable 5.1').map(model => model.tasks20).join(','),'498,396,302,196,154');
-assert.ok(data.filter(model => model.model === 'Claude Fable 5.1').every(model => model.multiplier === 58.9));
+assert.equal(data.filter(model => model.model === 'Claude Fable 5.1').map(model => model.tasks20).join(','),'210,166,126,82,66');
+assert.equal(data.filter(model => model.model === 'GPT-6 Astra').map(model => model.tasks20).join(','),'354,188,168,126,88');
+for(const model of data){
+  if(model.model === 'Claude Fable 5.1'){
+    assert.equal(model.multiplier,12.4 / 0.5);
+    assert.ok(model.sourceNote.includes('50% plan allocation'));
+    assert.equal(costPerBug(model),model.bugHunt.cost_usd / (12.4 / 0.5) / (model.bugHunt.fixed + model.bugHunt.extras));
+  }else if(model.model === 'GPT-6 Astra'){
+    assert.equal(model.multiplier,14.5);
+    assert.ok(model.sourceNote.includes('Pro $200/month'));
+    assert.equal(costPerBug(model),model.bugHunt.cost_usd / 14.5 / (model.bugHunt.fixed + model.bugHunt.extras));
+  }else if(model.provider === 'Claude') assert.equal(model.multiplier,58.9);
+  else if(model.provider === 'ChatGPT') assert.equal(model.multiplier,10.6);
+}
+assert.ok(readme.includes('24.8× per allocated subscription dollar'));
+assert.ok(!readme.includes('Astra and Fable use their providers’ multipliers'));
+assert.ok(!html.includes('Astra and Fable use the same provider subscription multipliers'));
+assert.ok(html.includes('id="fable-normalization">Fable uses allocated subscription dollars for both graphs (full-plan equivalent).'));
 
 for(const method of ['Tasks / subscription $ = multiplier / AA cost per task','Bug-fix rating = sum of weights of its qualifying planted fixes','source run cost / subscription multiplier / total fixes','Astra, Fable, and GPT-5.6 Sol are explicit single-run exceptions']) assert.ok(readme.includes(method));
 assert.ok(readme.includes('https://nishimura-katsuo.github.io/subscription-value/'));

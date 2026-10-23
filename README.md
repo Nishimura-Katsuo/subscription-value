@@ -6,14 +6,16 @@ This project compares model configurations using subscription spending, benchmar
 
 ## What a subscription dollar means
 
-Dollar amounts represent **subscription fees**, excluding API credits and on-demand charges. API-equivalent costs are inputs used to normalize subscription value; they are not the spending being compared.
+Dollar amounts represent **subscription fees**, excluding API credits and on-demand charges. Fable’s task and bug-cost figures use dollars allocated to its half-plan share, expressed as a full-plan equivalent. API-equivalent costs are inputs used to normalize subscription value; they are not the spending being compared.
 
-A subscription multiplier estimates how much API-equivalent usage a subscription dollar buys. The same provider multiplier is applied across models and reasoning levels:
+A subscription multiplier estimates how much API-equivalent usage a subscription dollar buys. Provider defaults apply unless a model-specific multiplier is listed; each multiplier is shared across that model’s reasoning levels:
 
 | Subscription | Multiplier used | Basis |
 | --- | ---: | --- |
-| Claude | 58.9× | Estimate derived from SemiAnalysis |
-| ChatGPT | 10.6× | Estimate derived from SemiAnalysis |
+| Claude, except Fable | 58.9× | Estimate derived from SemiAnalysis |
+| Claude Fable 5.1 | 24.8× | SemiAnalysis’s rounded 12.4× for Max $200/month, divided by Fable’s 50% plan allocation |
+| ChatGPT, except Astra | 10.6× | Estimate derived from SemiAnalysis |
+| GPT-6 Astra | 14.5× | SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month |
 | Cursor | 20.7× | Author’s metered usage exports divided by subscription spend |
 | Muse Standard | 11.1× ±0.5 | Muse Code Power Usage ($50/month), derived from the measured High Usage plan × 1.2, at Standard API prices |
 | Muse Contributor | 137× ±39 | Same plan and derivation, Contributor usage valued at Standard API prices |
@@ -40,7 +42,7 @@ Sources: [AA Muse release and effort configurations](https://artificialanalysis.
 
 GPT-5.6 Sol was added on 20 October 2026 using the same **ChatGPT 10.6×** multiplier, AA input rounding, task-throughput formula, and Bug Hunt reliability rules as GPT-6.1 Sol. [AA’s exact effort configurations](https://artificialanalysis.ai/models/releases/gpt-5-6-sol) supply Low / Medium / High / XHigh / Max intelligence scores of **33 / 39 / 42 / 44 / 47** and task costs of **$0.26 / $0.50 / $0.81 / $1.18 / $1.99**. Only Max meets the default task floor of 46; lower the floor to see the other efforts. Inputs are a 20 October snapshot; existing models retain their recorded snapshots. Bug Hunt publishes single runs for Medium, High, and XHigh, and a complete two-run mean for Max (35 planted bugs fixed in both); all four efforts are included in bugs mode, with Medium, High, and XHigh explicitly labeled as single-run exceptions. No Low run is published. The Max source flags unverified replication configuration and an unfinished third run excluded from its mean. Bug Hunt inputs were retrieved on 20 October from the source updated 19 October. Adding these qualifying solvers also recalibrates the shared bug weights for every model.
 
-Astra and Fable use their providers’ multipliers like other models. We apply no 50% model-specific usage-allocation adjustment: this is a normalized value comparison. Availability, plan restrictions, and actual quotas still determine what an account can use.
+Astra and Fable multipliers were updated on 23 October 2026 from [SemiAnalysis’s 5 October study](https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x). Astra uses **14.5×** from the $200/month ChatGPT Pro example. Fable’s published **12.4×** already includes its half-plan cap; dividing that rounded multiplier by **0.5** gives **24.8× per allocated subscription dollar**. This normalization does not increase Fable’s actual allowance or include the remaining half-plan’s value. Both model-specific multipliers apply across reasoning levels. The figures describe the study’s agentic workload, not live quotas or every subscription tier; availability and actual limits still determine what an account can use.
 
 ## Tasks mode
 
@@ -147,7 +149,7 @@ The recorded dataset is the JSON inside `<script id="comparison-data">` in [docs
 | `reasoning` | Exact source effort level | Use Low, Medium, High, XHigh, or Max; do not infer an unreported tier. |
 | `intelligence` | AA Intelligence Index for that configuration | Match model version, effort, and routing/fallback definition. `null` for Bug Hunt-only rows, with `benchmarkCost` and `tasks20` also `null`. |
 | `benchmarkCost` | AA Cost per Intelligence Index task | USD per task, not token price or total index cost. |
-| `multiplier` | Supplied provider assumption above | Apply consistently to all configurations on that subscription. |
+| `multiplier` | Supplied provider default or model-specific assumption above | Apply consistently across the model’s reasoning levels; Fable is normalized per allocated subscription dollar. |
 | `tasks20` | `20 × round(multiplier / benchmarkCost, 1 decimal)` | Stored derived value; recompute when either input changes. |
 | `bugHunt.id` | Bug Hunt `runs[].id` | Preserve the exact selected source row ID for traceability. |
 | `bugHunt.fixed` | Source row `fixed` | Verified planted fixes; may be a mean with decimals. |
