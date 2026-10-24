@@ -282,6 +282,6 @@ for(const model of kimi.filter(model => model.bugHunt)){
     assert.ok(Number.isInteger(hits) && hits > 0 && hits <= model.bugHunt.n_runs);
   }
 }
-assert.ok(html.includes('<option>Kimi</option>') && html.includes("Kimi:'#d6a1ff'"));
+assert.ok(html.includes('type="checkbox" value="Kimi" checked') && html.includes("Kimi:'#d6a1ff'"));
 assert.ok(readme.includes('unspecified Bug Hunt effort is assigned to the highest published effort'));
 console.log('Kimi checks passed: 11× normalization, exact AA inputs, Default mapped to Max, single-run labels, repeated coverage, bill provenance, and recalibrated ratings.');
