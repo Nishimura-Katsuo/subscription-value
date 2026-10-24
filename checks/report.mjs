@@ -12,7 +12,7 @@ const metricValue = runInNewContext(valueCode + '\nmetricValue',{models:data,con
 const pareto = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\n' + code.match(/^    const pareto = .+$/m)[0] + '\npareto',{models:data,controls:{'early-resets':{checked:false}}});
 const expected = [1338, 1010, 880, 662, 648, 586, 544, 340, 152, 110];
 assert.deepEqual(data.slice(0,10).map(model => model.tasks20), expected);
-assert.equal(new Set(data.map(model => model.id)).size, 54);
+assert.equal(new Set(data.map(model => model.id)).size, 57);
 // Bug Hunt-only efforts have no AA score or task cost and appear in bugs mode only.
 const bugsOnly = data.filter(model => model.intelligence === null);
 assert.equal(bugsOnly.map(model => model.id).join(','),'grok-medium,muse-standard-low,muse-standard-medium,muse-standard-high,muse-contributor-low,muse-contributor-medium,muse-contributor-high');
@@ -24,11 +24,11 @@ for (const model of data) {
   if(model.tasks20 !== null) assert.equal(Math.round(model.multiplier / model.benchmarkCost * 10) / 10 * 20, model.tasks20);
 }
 assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null)).map(model => model.id).join(','), 'muse-contributor-max,opus-medium,opus-high,opus-xhigh,opus-max');
-assert.equal(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null).length, 26);
+assert.equal(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null).length, 27);
 assert.ok(data.filter(model => /Luna|Haiku/.test(model.model)).every(model => model.intelligence < 46));
 assert.equal(data.filter(model => model.model.includes('Fable')).length,5);
 assert.ok(data.filter(model => /Fable|Astra/.test(model.model)).every(model => metricValue(model,'tasks') > 0));
-assert.equal(data.filter(model => metricValue(model,'tasks') !== null).length,47);
+assert.equal(data.filter(model => metricValue(model,'tasks') !== null).length,50);
 assert.ok(data.filter(model => model.model.includes('Fable')).every(model => metricValue(model,'bugs') > 0));
 assert.ok(html.includes('value="46" selected'));
 assert.ok(!html.includes('Download original $20 graph'));
@@ -52,12 +52,12 @@ const bugScore = runInNewContext(valueCode + '\nbugScore',{models:data,controls:
 for (const model of data) {
   const bug = model.bugHunt;
   if (!bug) {
-    assert.equal(model.id, 'sol-5-6-low');
+    assert.ok(['sol-5-6-low','kimi-k3-low'].includes(model.id));
     assert.equal(metricValue(model,'bugs'),null);
     continue;
   }
   assert.ok(bug.fixed > 0 && bug.fixed <= 105 && bug.cost_usd > 0);
-  assert.ok(bug.n_runs >= 1 && ['list','floor'].includes(bug.cost_kind));
+  assert.ok(bug.n_runs >= 1 && ['list','floor','bill'].includes(bug.cost_kind));
   const reliable = reliableBugs(model);
   assert.equal(metricValue(model,'bugs'),reliable === null ? null : bug.cost_usd / model.multiplier / (bug.fixed + bug.extras));
   assert.equal(metricValue(model,'tasks'),model.tasks20);
@@ -67,12 +67,12 @@ assert.equal(data.find(model => model.id === 'sol-medium').bugHunt.fixed,29);
 assert.equal(data.find(model => model.id === 'grok-xhigh').bugHunt.n_runs,5);
 assert.equal(data.find(model => model.id === 'grok-xhigh').bugHunt.cost_kind,'floor');
 assert.equal(metricValue({tasks20:10},'bugs'),null);
-assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'bugs') !== null),'bugs').map(model => model.id).join(','),'muse-contributor-max,sol-medium,sol-high,sol-xhigh,sol-max,astra-xhigh');
+assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'bugs') !== null),'bugs').map(model => model.id).join(','),'muse-contributor-max,sol-medium,sol-high,sol-xhigh,sol-max,astra-xhigh,fable-max');
 const solMedium = data.find(model => model.id === 'sol-medium');
 assert.equal(reliableBugs(solMedium).length,25);
 assert.ok(Math.abs(metricValue(solMedium,'bugs') - 1.76 / (10.6 * (29 + 30.5))) < 1e-10);
 assert.ok(html.includes('Subscription $ / bug fixed'));
-assert.equal(data.filter(model => reliableBugs(model) === null).length,7);
+assert.equal(data.filter(model => reliableBugs(model) === null).length,8);
 assert.equal(Object.keys(weights).length,105);
 for(const [id,weight] of Object.entries(weights)){
   const solvers = data.filter(model => model.intelligence !== null && reliableBugs(model)?.includes(id));
@@ -88,7 +88,7 @@ const easy = Object.keys(weights).find(id => weights[id] === Math.min(...Object.
 const hard = Object.keys(weights).find(id => weights[id] === Math.max(...Object.values(weights).filter(weight => weight !== null)));
 assert.equal(bugScore({bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[easy]:2,[hard]:2}}}),weights[easy] + weights[hard]);
 assert.ok(html.includes('data-sort="bugScore"'));
-console.log('Report checks passed: 54 configurations, original task values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
+console.log('Report checks passed: 57 configurations, original task values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
 
 const dominates = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\ndominates',{models:data,controls:{'early-resets':{checked:false}}});
 const candidate = {intelligence:58,multiplier:10,bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[hard]:2},fixed:1,extras:1,cost_usd:1}};
@@ -125,7 +125,7 @@ const costPerBug = runInNewContext(valueCode + '\ncostPerBug',{models:data,contr
 assert.ok(costPerBug({...candidate,bugHunt:{...candidate.bugHunt,extras:3}}) < costPerBug(candidate));
 
 assert.equal(reliableBugs({model:'Claude Fable 5.1',bugHunt:{n_runs:1,coverage_runs:1,bug_hits:{1:1}}}).join(','),'1');
-assert.equal(data.filter(model => metricValue(model,'bugs') !== null).length,47);
+assert.equal(data.filter(model => metricValue(model,'bugs') !== null).length,49);
 
 assert.equal(data.filter(model => model.model === 'Claude Fable 5.1').map(model => model.tasks20).join(','),'210,166,126,82,66');
 assert.equal(data.filter(model => model.model === 'GPT-6 Astra').map(model => model.tasks20).join(','),'354,188,168,126,88');
@@ -146,7 +146,7 @@ assert.ok(!readme.includes('Astra and Fable use their providers’ multipliers')
 assert.ok(!html.includes('Astra and Fable use the same provider subscription multipliers'));
 assert.ok(html.includes('id="fable-normalization">Fable uses allocated subscription dollars for both graphs (full-plan equivalent).'));
 
-for(const method of ['Tasks / subscription $ = multiplier / AA cost per task','Bug-fix rating = sum of weights of its qualifying planted fixes','source run cost / subscription multiplier / total fixes','Astra, Fable, and GPT-5.6 Sol are explicit single-run exceptions']) assert.ok(readme.includes(method));
+for(const method of ['Tasks / subscription $ = multiplier / AA cost per task','Bug-fix rating = sum of weights of its qualifying planted fixes','source run cost / subscription multiplier / total fixes','Astra, Fable, GPT-5.6 Sol, and Kimi K3 are explicit single-run exceptions']) assert.ok(readme.includes(method));
 assert.ok(readme.includes('https://nishimura-katsuo.github.io/subscription-value/'));
 
 const chartX = runInNewContext(code.match(/^    const chartX = .+$/m)[0] + '\nchartX');
@@ -252,3 +252,36 @@ for (const model of data) {
 resetControls['early-resets'].checked = false;
 for (const model of data) assert.equal(adjusted.metricValue(model,'tasks'),model.tasks20);
 console.log('Early reset checks passed: ChatGPT costs ×3/7, throughput ×7/3, unchanged ratings and other subscriptions, reversible toggle.');
+
+const kimi = data.filter(model => model.provider === 'Kimi');
+assert.deepEqual(kimi.map(model => model.id),['kimi-k3-low','kimi-k3-max','kimi-k3-1-pro-max']);
+assert.deepEqual(kimi.map(model => model.intelligence),[30,44,55]);
+assert.deepEqual(kimi.map(model => model.benchmarkCost),[1.15,2,2.11]);
+assert.deepEqual(kimi.map(model => model.tasks20),[192,110,104]);
+assert.ok(kimi.every(model => model.multiplier === 11 && model.sourceDate === '2026-10-23' && model.aaSource && model.sourceNote.includes('not a measured current allowance')));
+assert.equal(metricValue(kimi[0],'bugs'),null);
+assert.equal(kimi[1].reasoning,'Max');
+assert.equal(kimi[1].bugHunt.source_effort,'default');
+assert.equal(kimi[1].bugHunt.id,'Kimi K3');
+assert.equal(kimi[1].bugHunt.n_runs,1);
+assert.equal(reliableBugs(kimi[1]).length,21);
+assert.equal(bugScore(kimi[1]),801);
+assert.equal(costPerBug(kimi[1]),25.27 / 11 / 27);
+assert.ok(kimi[1].sourceNote.includes('highest published effort') && kimi[1].sourceNote.includes('not a verified effort match') && kimi[1].sourceNote.includes('repeatability is unverified'));
+assert.equal(kimi[2].bugHunt.source_effort,'max');
+assert.equal(kimi[2].bugHunt.n_runs,3);
+assert.equal(kimi[2].bugHunt.coverage_runs,3);
+assert.equal(kimi[2].bugHunt.cost_kind,'bill');
+assert.equal(reliableBugs(kimi[2]).length,25);
+assert.equal(bugScore(kimi[2]),945);
+assert.equal(costPerBug(kimi[2]),13.76 / 11 / (36 + 29.3));
+assert.ok(kimi[2].sourceNote.includes('failed repo-2 attempt'));
+for(const model of kimi.filter(model => model.bugHunt)){
+  for(const [id,hits] of Object.entries(model.bugHunt.bug_hits)){
+    assert.ok(Number.isInteger(Number(id)) && Number(id) >= 1 && Number(id) <= 105);
+    assert.ok(Number.isInteger(hits) && hits > 0 && hits <= model.bugHunt.n_runs);
+  }
+}
+assert.ok(html.includes('<option>Kimi</option>') && html.includes("Kimi:'#d6a1ff'"));
+assert.ok(readme.includes('unspecified Bug Hunt effort is assigned to the highest published effort'));
+console.log('Kimi checks passed: 11× normalization, exact AA inputs, Default mapped to Max, single-run labels, repeated coverage, bill provenance, and recalibrated ratings.');

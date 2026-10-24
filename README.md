@@ -16,12 +16,21 @@ A subscription multiplier estimates how much API-equivalent usage a subscription
 | Claude Fable 5.1 | 24.8× | SemiAnalysis’s rounded 12.4× for Max $200/month, divided by Fable’s 50% plan allocation |
 | ChatGPT, except Astra | 10.6× | Estimate derived from SemiAnalysis |
 | GPT-6 Astra | 14.5× | SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month |
+| Kimi | 11× | User-supplied estimate based on legacy-plan reports; not a measured current allowance |
 | Cursor | 20.7× | Author’s metered usage exports divided by subscription spend |
 | Muse Standard | 11.1× ±0.5 | Muse Code Power Usage ($50/month), derived from the measured High Usage plan × 1.2, at Standard API prices |
 | Muse Contributor | 137× ±39 | Same plan and derivation, Contributor usage valued at Standard API prices |
 | Muse Wonder Full | 6.6× (for future use) | Preliminary user-supplied lead; not yet applied in the app |
 
 Treat these multipliers as **supplied assumptions** when reproducing the table. The repository does not contain the private Cursor exports or a complete derivation of the SemiAnalysis estimates, so the multipliers cannot be independently reconstructed from this repository alone. They are not separate measurements for each model. Cursor’s observed usage mixed Claude and Grok. Applying the full Cursor multiplier to Grok assumes both available usage pools can be allocated to it.
+
+### Kimi
+
+Added on 23 October 2026 using the user-supplied **11×** subscription multiplier. This slightly generous estimate is based on legacy-plan community reports, not a measurement of current plans. [AA K3](https://artificialanalysis.ai/models/releases/kimi-k3) supplies Low / Max intelligence **30 / 44** and task costs **$1.15 / $2.00**; [AA K3.1 Pro](https://artificialanalysis.ai/models/kimi-k3-1-pro) supplies intelligence **55** and current model-page task cost **$2.11**. These produce **192 / 110 / 104 tasks per $20** respectively. Only K3.1 Pro clears the default floor of 46. AA's launch article gives an earlier $1.98 task cost for K3.1 Pro; the app uses the current model page instead.
+
+Per user instruction, **unspecified Bug Hunt effort is assigned to the highest published effort for that exact model**. K3's July 26 Default-effort run is therefore mapped to Max, preserving `bugHunt.source_effort = "default"` and its source row ID. This is an inferred mapping, not verification that the run used Max. It is admitted as a labeled single-run exception: **21 planted fixes, 6 extras, $25.27** source cost. K3 Low has no matching bug run.
+
+K3.1 Pro's single AA configuration is assigned to Max using [Kimi's documented default](https://www.kimi.com/code/docs/en/third-party-tools/opencode.html). Its [Bug Hunt](https://bughunt.productcompass.pm/data/benchmark.json) row is the current three-run Max mean: **36 planted fixes, 29.3 extras, $13.76** verified API bill, complete coverage, and **25 bugs fixed in all three runs**. One failed repo-2 attempt was rerun; counting the failed attempt as zero lowers mean planted fixes to 32. At 11×, K3 Max and K3.1 Pro cost approximately **8.51¢ / 1.92¢ per total fix**. API benchmark performance is transferred to Kimi Code by assumption; subscription context limits still apply. K3's single-run fixes participate in the shared difficulty calibration, so adding it can change other models' bug ratings. Existing model snapshots are retained.
 
 ### Muse Standard and Contributor
 
@@ -73,7 +82,7 @@ Bug Hunt Bench supplies per-bug planted-fix coverage, aggregate fix counts, run 
 
 A planted bug qualifies for a configuration’s rating only if it was fixed in **every recorded run**. Normally, at least two runs and complete per-bug coverage are required. Partial fixes and bugs merely claimed in a report receive no credit.
 
-**Astra, Fable, and GPT-5.6 Sol are explicit single-run exceptions.** Their recorded planted fixes are included in ratings and difficulty weights, with visible single-run labels. Other configurations with only one run are excluded from bugs mode. Configurations without qualifying planted fixes have no rating and are omitted.
+**Astra, Fable, GPT-5.6 Sol, and Kimi K3 are explicit single-run exceptions.** Their recorded planted fixes are included in ratings and difficulty weights, with visible single-run labels. Other configurations with only one run are excluded from bugs mode. Configurations without qualifying planted fixes have no rating and are omitted.
 
 A 100% observed success rate over a small number of runs does not guarantee repeatability.
 
@@ -147,8 +156,8 @@ The recorded dataset is the JSON inside `<script id="comparison-data">` in [docs
 | App field | Source or derivation | Notes |
 | --- | --- | --- |
 | `id`, `model`, `short` | Local identifiers and display names | Keep `id` unique and stable. |
-| `provider` | Subscription used for normalization | Claude, ChatGPT, Cursor, Muse Standard, or Muse Contributor; Grok uses Cursor here. |
-| `reasoning` | Exact source effort level | Use Low, Medium, High, XHigh, or Max; do not infer an unreported tier. |
+| `provider` | Subscription used for normalization | Claude, ChatGPT, Cursor, Muse Standard, Muse Contributor, or Kimi; Grok uses Cursor here. |
+| `reasoning` | Displayed effort level | Use Low, Medium, High, XHigh, or Max. Unspecified Bug Hunt effort is assigned to the highest published effort for the exact model by user instruction; preserve the original in `bugHunt.source_effort` and disclose the inference. |
 | `intelligence` | AA Intelligence Index for that configuration | Match model version, effort, and routing/fallback definition. `null` for Bug Hunt-only rows, with `benchmarkCost` and `tasks20` also `null`. |
 | `benchmarkCost` | AA Cost per Intelligence Index task | USD per task, not token price or total index cost. |
 | `multiplier` | Supplied provider default or model-specific assumption above | Apply consistently across the model’s reasoning levels; Fable is normalized per allocated subscription dollar. |
@@ -156,16 +165,16 @@ The recorded dataset is the JSON inside `<script id="comparison-data">` in [docs
 | `bugHunt.id` | Bug Hunt `runs[].id` | Preserve the exact selected source row ID for traceability. |
 | `bugHunt.fixed` | Source row `fixed` | Verified planted fixes; may be a mean with decimals. |
 | `bugHunt.extras` | Source row `extras` | Source-reported genuine unplanted fixes; may be a mean. |
-| `bugHunt.cost_usd`, `cost_kind` | Source row fields with the same names | Keep the cost type; never silently convert a lower bound into an exact cost. |
+| `bugHunt.cost_usd`, `cost_kind` | Source row fields with the same names | Keep the cost type; never silently convert a lower bound into an exact cost. `bill` denotes a verified API bill, still normalized to an estimated subscription cost. |
 | `bugHunt.n_runs`, `date` | Source row fields with the same names | Run count and the row’s recorded date. |
 | `bugHunt.coverage_runs` | Source row `coverage_runs` | Must equal `n_runs` to use repeated-run per-bug coverage. |
 | `bugHunt.bug_hits` | Source row `bug_hits` | Map of planted bug ID to number of runs that fixed it. |
 
-The current single-run exceptions match `GPT-6 Astra`, `Claude Fable 5.1`, and `GPT-5.6 Sol` exactly. For an allowed single-run row, the source may supply `fixed_bugs` instead of a coverage map. Set `coverage_runs = 1` and construct `bug_hits` with a value of `1` for each ID in `fixed_bugs`. This does not establish repeatability; retain the exception label. Do not perform this conversion for other single-run models.
+The current single-run exceptions match `GPT-6 Astra`, `Claude Fable 5.1`, `GPT-5.6 Sol`, and `Kimi K3` exactly. For an allowed single-run row, the source may supply `fixed_bugs` instead of a coverage map. Set `coverage_runs = 1` and construct `bug_hits` with a value of `1` for each ID in `fixed_bugs`. This does not establish repeatability; retain the exception label. Do not perform this conversion for other single-run models.
 
 ## Selecting and validating source rows
 
-1. **Match identity before values.** Match model version and exact effort. Normalize effort capitalization only. AA inputs must describe the recorded fallback/routing configuration; do not substitute a nearby model or the family’s highest intelligence score.
+1. **Match identity before values.** Match model version and exact effort. Normalize effort capitalization; for unspecified effort, apply the documented highest-effort assumption and retain the source label. AA inputs must describe the recorded fallback/routing configuration; do not substitute a nearby model or the family’s highest intelligence score.
 2. **Use current Bug Hunt rows.** Within `runs`, omit rows with a nonempty `superseded` field. Select the published current mean for that exact configuration when available; do not also count its component runs. Do not pick the highest-scoring run. If multiple current rows represent different routes or conditions, resolve and document the intended match rather than averaging them together or choosing arbitrarily.
 3. **Keep cost and fix counts together.** Take `fixed`, `extras`, cost, and coverage from the same row. Keep published means at their supplied precision; the app does not reconstruct unrounded means from individual runs.
 4. **Validate coverage.** For repeated runs, require a complete per-bug map, `coverage_runs == n_runs`, and integer hit counts between zero and `n_runs`. Do not treat `fixed_bugs` on a mean row as an intersection: it may include bugs fixed in only some runs. A qualifying bug has `bug_hits[id] == n_runs`.

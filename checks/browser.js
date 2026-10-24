@@ -8,7 +8,7 @@
   };
   const mode = name => document.querySelector('[data-metric="' + name + '"]').click();
   const rowCount = () => get('rows').querySelectorAll('.model-button').length;
-  assert(rowCount() === 26, 'Default task configurations');
+  assert(rowCount() === 27, 'Default task configurations');
   const taskFloors = [...get('floor').options].map(option => Number(option.value));
   const taskScores = [...new Set([0,46,...JSON.parse(get('comparison-data').textContent).filter(model => model.tasks20 !== null && model.intelligence !== null).map(model => model.intelligence)])].sort((a,b) => a-b);
   assert(taskFloors.join(',') === taskScores.join(','), 'AA floor covers every published task score in order');
@@ -44,7 +44,7 @@
   change('budget', '20', 'input');
   assert(get('budget-error').hidden, 'Valid spend clears feedback');
   mode('bugs');
-  assert(rowCount() === 47 && get('floor').value === '0', 'Bug mode includes all rated configurations');
+  assert(rowCount() === 49 && get('floor').value === '0', 'Bug mode includes all rated configurations');
   assert(get('budget').closest('label').hidden, 'Spend is irrelevant in bug mode');
   assert(document.querySelector('[data-metric="bugs"]').getAttribute('aria-pressed') === 'true', 'Mode switch exposes selection');
   change('provider', 'Claude|ChatGPT');
@@ -53,7 +53,7 @@
   assert(rowCount() === 0 && get('export').disabled, 'Empty results disable export');
   assert(get('detail').textContent.includes('No matching models'), 'Empty result guidance');
   get('reset').click();
-  assert(rowCount() === 26 && get('metric').value === 'tasks' && get('budget').value === '20', 'Reset restores defaults');
+  assert(rowCount() === 27 && get('metric').value === 'tasks' && get('budget').value === '20', 'Reset restores defaults');
   change('search', 'GPT-5.6 Sol', 'input');
   assert(rowCount() === 1 && get('rows').textContent.includes('Max'), 'Sol 5.6 Max clears the default intelligence floor');
   change('floor', '0');
@@ -62,6 +62,17 @@
   assert(rowCount() === 4 && document.querySelectorAll('#rows .caveat').length === 3, 'Four Sol 5.6 bug efforts, with three single-run labels');
   get('rows').querySelector('[data-id="sol-5-6-medium"]').click();
   assert(get('detail').textContent.includes('29 / 105') && get('detail').textContent.includes('repeatability unverified'), 'Single-run Sol 5.6 evidence is explicit');
+  get('reset').click();
+  change('provider', 'Kimi');
+  assert(rowCount() === 1 && get('rows').textContent.includes('Kimi K3.1 Pro'), 'K3.1 Pro clears the default floor');
+  change('floor', '0');
+  assert(rowCount() === 3 && document.querySelectorAll('.chart-point').length === 3, 'All three Kimi task configurations plot');
+  mode('bugs');
+  assert(rowCount() === 2 && document.querySelectorAll('#rows .caveat').length === 1, 'Two Kimi bug configurations, one single-run label');
+  get('rows').querySelector('[data-id="kimi-k3-max"]').click();
+  assert(get('detail').textContent.includes('21 / 105') && get('detail').textContent.includes('unspecified (default) effort') && get('detail').textContent.includes('Max'), 'K3 effort inference and single-run evidence remain visible');
+  get('rows').querySelector('[data-id="kimi-k3-1-pro-max"]').click();
+  assert(get('detail').textContent.includes('25 / 105') && get('detail').textContent.includes('verified source API bill'), 'K3.1 Pro coverage and bill provenance');
   get('reset').click();
   const point = document.querySelector('.chart-point[data-id="opus-medium"]');
   point.focus();
