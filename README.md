@@ -44,6 +44,8 @@ GPT-5.6 Sol was added on 20 October 2026 using the same **ChatGPT 10.6×** multi
 
 Astra and Fable multipliers were updated on 23 October 2026 from [SemiAnalysis’s 5 October study](https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x). Astra uses **14.5×** from the $200/month ChatGPT Pro example. Fable’s published **12.4×** already includes its half-plan cap; dividing that rounded multiplier by **0.5** gives **24.8× per allocated subscription dollar**. This normalization does not increase Fable’s actual allowance or include the remaining half-plan’s value. Both model-specific multipliers apply across reasoning levels. The figures describe the study’s agentic workload, not live quotas or every subscription tier; availability and actual limits still determine what an account can use.
 
+The optional **Count early resets** toggle is off by default. It uses the supplied assumption that Tibo from OpenAI resets limits every 3 days on average instead of 7. Enabling it multiplies ChatGPT subscription costs by **3/7**, task throughput by **7/3** (after the existing task rounding), and effective subscription multipliers by **7/3**. It applies across ChatGPT models and efforts; other subscriptions and benchmark ratings stay unchanged. Charts, sorting, Pareto membership, details, and CSV exports use the adjustment. CSVs include the applied cost factor. Reset turns it off. This is a scenario assumption, not a verified quota or reset schedule.
+
 ## Tasks mode
 
 Inputs are the Artificial Analysis (AA) Intelligence Index score and benchmark cost per task for the exact model and reasoning configuration.

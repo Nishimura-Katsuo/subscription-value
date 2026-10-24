@@ -19,6 +19,18 @@
   assert(get('floor').value === '50', 'Clicking the active metric preserves filters');
   get('reset').click();
   assert([...get('floor').options].map(option => Number(option.value)).join(',') === taskFloors.join(','), 'Reset restores generated AA floors');
+  change('search', 'GPT-6.1 Sol', 'input');
+  const baseTasks = estimate(shown[0]), baseMultiplier = effectiveMultiplier(shown[0]);
+  get('early-resets').click();
+  assert(Math.abs(estimate(shown[0]) / baseTasks - 7 / 3) < 1e-12, 'Early resets increase ChatGPT throughput');
+  assert(Math.abs(effectiveMultiplier(shown[0]) / baseMultiplier - 7 / 3) < 1e-12, 'Early resets update the effective multiplier');
+  mode('bugs');
+  const adjustedBugCost = estimate(shown[0]);
+  get('early-resets').click();
+  assert(Math.abs(adjustedBugCost / estimate(shown[0]) - 3 / 7) < 1e-12, 'Early resets reduce ChatGPT bug cost');
+  get('early-resets').click();
+  get('reset').click();
+  assert(!get('early-resets').checked, 'Reset disables early resets');
   const initialValue = document.querySelector('.detail-value').textContent;
   change('budget', '40', 'input');
   assert(document.querySelector('.detail-value').textContent !== initialValue, 'Spend scales task estimates');
