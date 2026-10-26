@@ -124,7 +124,7 @@
   change('budget', '1', 'input');
   assert(get('budget-error').hidden, 'Valid spend clears feedback');
   mode('bugs');
-  assert(rowCount() === 60 && get('floor').value === '0', 'Bug mode includes all rated configurations');
+  assert(rowCount() === 63 && get('floor').value === '0', 'Bug mode includes all rated configurations');
   assert(get('budget').closest('label').hidden, 'Spend is irrelevant in bug mode');
   assert(document.querySelector('[data-metric="bugs"]').getAttribute('aria-pressed') === 'true', 'Mode switch exposes selection');
   change('search','claude,chatgpt','input');
@@ -156,7 +156,9 @@
   get('early-resets').click();
   assert(Math.abs(estimate(shown[0]) / terraTasks - 7 / 3) < 1e-12, 'Terra participates in the ChatGPT reset scenario');
   mode('bugs');
-  assert(rowCount() === 0 && document.querySelectorAll('.chart-point').length === 0 && get('export').disabled, 'Unpublished Terra bug evidence produces no rows, points, or export');
+  assert(rowCount() === 3 && document.querySelectorAll('.chart-point').length === 3 && !get('export').disabled, 'Published Terra High, XHigh, and Max bug evidence produces rows, points, and export');
+  get('rows').querySelector('[data-id="terra-max"]').click();
+  assert(get('detail').textContent.includes('25 / 105') && get('detail').textContent.includes('long-context rate'), 'Terra Max shows its every-run fixes and cost caveat');
   get('reset').click();
   change('search','kimi','input');
   assert(rowCount() === 2 && get('rows').textContent.includes('Kimi K3.1 Pro'), 'K3.1 Pro clears the default floor');

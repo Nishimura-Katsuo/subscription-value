@@ -40,7 +40,7 @@ Added 26 October 2026 from [AA's five reasoning configurations](https://artifici
 | XHigh | 45 | $0.19 | 1,116 |
 | Max | 48 | $0.40 | 530 |
 
-Only Max clears the default intelligence floor of 46; lower the floor to see the other four configurations. All five appear in task charts, tables, filters, details, and CSV exports, including the optional ChatGPT early-reset scenario. The current [Bug Hunt source](https://bughunt.productcompass.pm/data/benchmark.json), updated 23 October and retrieved 26 October 2026, contains no GPT-6.1 Terra runs. Terra therefore remains tasks-only and does not change bug weights or ratings. Existing model snapshots are retained.
+Only Max clears the default intelligence floor of 46; lower the floor to see the other four configurations. All five appear in task charts, tables, filters, details, and CSV exports, including the optional ChatGPT early-reset scenario. The current [Bug Hunt source](https://bughunt.productcompass.pm/data/benchmark.json), updated and retrieved 26 October 2026, publishes complete three-run means for High / XHigh / Max: 9.7 / 11.3 / 40.7 planted fixes, 6.7 / 17 / 48 extras, and $0.56 / $0.75 / $3.88 list-rate costs. Bugs fixed in every run: 7 / 5 / 25. Planted-fix ranges are 8–11 / 9–14 / 34–46 of 105; these are observed spreads, not reliability guarantees. Max cost includes long-context request pricing. Max is below the account’s Ultra tier; no Ultra Bug Hunt result is published. Low and Medium remain tasks-only. These qualifying solvers participate in shared bug-weight calibration. Existing model snapshots are retained.
 
 ### DeepSeek Flash 1017 Max via OpenCode Go
 

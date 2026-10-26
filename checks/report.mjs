@@ -64,7 +64,7 @@ const bugScore = runInNewContext(valueCode + '\nbugScore',{models:data,controls:
 for (const model of data) {
   const bug = model.bugHunt;
   if (!bug) {
-    assert.ok(['sol-5-6-low','kimi-k3-low','go-minimax-m3-1-flash','go-step-5-preview','go-qwen3-8-max-0902','terra-low','terra-medium','terra-high','terra-xhigh','terra-max'].includes(model.id));
+    assert.ok(['sol-5-6-low','kimi-k3-low','go-minimax-m3-1-flash','go-step-5-preview','go-qwen3-8-max-0902','terra-low','terra-medium'].includes(model.id));
     assert.equal(metricValue(model,'bugs'),null);
     continue;
   }
@@ -84,7 +84,7 @@ const solMedium = data.find(model => model.id === 'sol-medium');
 assert.equal(reliableBugs(solMedium).length,25);
 assert.ok(Math.abs(metricValue(solMedium,'bugs') - 1.76 / (10.6 * (29 + 30.5))) < 1e-10);
 assert.ok(html.includes('Subscription $ / bug fixed'));
-assert.equal(data.filter(model => reliableBugs(model) === null).length,10);
+assert.equal(data.filter(model => reliableBugs(model) === null).length,7);
 assert.equal(Object.keys(weights).length,105);
 for(const [id,weight] of Object.entries(weights)){
   const solvers = data.filter(model => model.intelligence !== null && reliableBugs(model)?.includes(id));
@@ -140,7 +140,7 @@ const costPerBug = runInNewContext(valueCode + '\ncostPerBug',{models:data,contr
 assert.ok(costPerBug({...candidate,bugHunt:{...candidate.bugHunt,extras:3}}) < costPerBug(candidate));
 
 assert.equal(reliableBugs({model:'Claude Fable 5.1',bugHunt:{n_runs:1,coverage_runs:1,bug_hits:{1:1}}}).join(','),'1');
-assert.equal(data.filter(model => metricValue(model,'bugs') !== null).length,60);
+assert.equal(data.filter(model => metricValue(model,'bugs') !== null).length,63);
 
 assert.equal(data.filter(model => model.model === 'Claude Fable 5.1').map(model => model.tasks20).join(','),'210,166,126,82,66');
 assert.equal(data.filter(model => model.model === 'GPT-6 Astra').map(model => model.tasks20).join(','),'354,188,168,126,88');
@@ -377,9 +377,22 @@ assert.deepEqual(terra.map(model => [model.id,model.reasoning,model.intelligence
   ['terra-max','Max',48,0.40,530]
 ]);
 assert.ok(terra.every(model => model.provider === 'ChatGPT' && model.multiplier === 10.6 && model.sourceDate === '2026-10-26' && model.aaSource && model.sourceNote.includes('not a Terra-specific allowance measurement')));
-assert.ok(terra.every(model => model.bugHunt === null && metricValue(model,'bugs') === null && model.sourceNote.includes('no GPT-6.1 Terra runs')));
+assert.ok(terra.slice(0,2).every(model => model.bugHunt === null && metricValue(model,'bugs') === null && model.sourceNote.includes('no matching Low or Medium run')));
+for(const [id,fixed,extras,cost,reliable] of [['terra-high',9.7,6.7,0.56,7],['terra-xhigh',11.3,17,0.75,5],['terra-max',40.7,48,3.88,25]]){
+  const model = terra.find(model => model.id === id), bug = model.bugHunt;
+  assert.deepEqual([bug.fixed,bug.extras,bug.cost_usd,bug.n_runs,bug.coverage_runs,bug.cost_kind],[fixed,extras,cost,3,3,'list']);
+  assert.equal(bug.id,'GPT-6.1 Terra (' + model.reasoning.toLowerCase() + ' effort) - mean of 3');
+  assert.equal(bug.date,'2026-10-26');
+  assert.equal(reliableBugs(model).length,reliable);
+  assert.ok(Object.entries(bug.bug_hits).every(([id,hits]) => Number(id) >= 1 && Number(id) <= 105 && Number.isInteger(hits) && hits > 0 && hits <= 3));
+  assert.ok(Math.abs(Object.values(bug.bug_hits).reduce((sum,hits) => sum + hits,0) / 3 - fixed) < 0.051);
+  assert.equal(metricValue(model,'bugs'),cost / 10.6 / (fixed + extras));
+  assert.ok(model.sourceNote.includes('list estimate') || model.sourceNote.includes('list-rate estimate'));
+}
+assert.ok(terra[4].sourceNote.includes('long-context rate'));
+assert.ok(readme.includes('7 / 5 / 25'));
 assert.deepEqual(terra.filter(model => model.intelligence >= 46).map(model => model.id),['terra-max']);
 const effortOrder = runInNewContext(code.match(/^    const effortOrder = .+$/m)[0] + '\neffortOrder');
 assert.deepEqual(terra.map(model => model.reasoning).sort((a,b) => effortOrder.indexOf(a) - effortOrder.indexOf(b)),terra.map(model => model.reasoning));
 assert.ok(!effortOrder.includes('None') && data.every(model => model.reasoning !== 'None'));
-console.log('Terra checks passed: all five AA reasoning configurations, task rounding, ChatGPT normalization, effort ordering, provenance, and exclusion of unpublished bug evidence.');
+console.log('Terra checks passed: all five AA reasoning configurations, task rounding, ChatGPT normalization, effort ordering, provenance, and three-run bug coverage and costs, and exclusion of unpublished Low/Medium bug evidence.');
