@@ -30,18 +30,17 @@ Treat these multipliers as **supplied assumptions** when reproducing the table. 
 
 ### GPT-6.1 Terra
 
-Added 26 October 2026 from [AA's six exact configurations](https://artificialanalysis.ai/models/releases/gpt-6-1-terra). Terra uses the existing **ChatGPT 10.6×** multiplier as a supplied assumption, not a Terra-specific allowance measurement. Intelligence scores are rounded to whole numbers and task costs to cents, matching the existing inputs.
+Added 26 October 2026 from [AA's five reasoning configurations](https://artificialanalysis.ai/models/releases/gpt-6-1-terra). Terra uses the existing **ChatGPT 10.6×** multiplier as a supplied assumption, not a Terra-specific allowance measurement. Intelligence scores are rounded to whole numbers and task costs to cents, matching the existing inputs.
 
 | Reasoning | AA intelligence | AA cost/task | Tasks/$20 |
 | --- | ---: | ---: | ---: |
-| None (AA Non-reasoning) | 33 | $0.11 | 1,928 |
 | Low | 36 | $0.05 | 4,240 |
 | Medium | 41 | $0.10 | 2,120 |
 | High | 44 | $0.13 | 1,630 |
 | XHigh | 45 | $0.19 | 1,116 |
 | Max | 48 | $0.40 | 530 |
 
-Only Max clears the default intelligence floor of 46; lower the floor to see the other five configurations. **None** matches [OpenAI's `none` effort](https://developers.openai.com/api/docs/models/gpt-6.1-terra) and AA's Non-reasoning configuration. All six appear in task charts, tables, filters, details, and CSV exports, including the optional ChatGPT early-reset scenario. The current [Bug Hunt source](https://bughunt.productcompass.pm/data/benchmark.json), updated 23 October and retrieved 26 October 2026, contains no GPT-6.1 Terra runs. Terra therefore remains tasks-only and does not change bug weights or ratings. Existing model snapshots are retained.
+Only Max clears the default intelligence floor of 46; lower the floor to see the other four configurations. All five appear in task charts, tables, filters, details, and CSV exports, including the optional ChatGPT early-reset scenario. The current [Bug Hunt source](https://bughunt.productcompass.pm/data/benchmark.json), updated 23 October and retrieved 26 October 2026, contains no GPT-6.1 Terra runs. Terra therefore remains tasks-only and does not change bug weights or ratings. Existing model snapshots are retained.
 
 ### DeepSeek Flash 1017 Max via OpenCode Go
 
@@ -201,7 +200,7 @@ The recorded dataset is the JSON inside `<script id="comparison-data">` in [docs
 | `id`, `model`, `short` | Local identifiers and display names | Keep `id` unique and stable. |
 | `provider` | Subscription used for normalization | Claude, ChatGPT, Cursor, Muse Standard, Muse Contributor, Kimi, or OpenCode Go; Grok uses Cursor here. |
 | `country` | Country of the model developer | Use the full country name. Origin follows the developer even when accessed through OpenCode Go or another subscription. Current origins are China (DeepSeek, Moonshot/Kimi, Xiaomi/MiMo, Z.ai/GLM, MiniMax, Alibaba/Qwen, StepFun) and United States (Anthropic/Claude, OpenAI/GPT, xAI/Grok, Meta/Muse). |
-| `reasoning` | Displayed effort level | Use Default, None, Low, Medium, High, XHigh, or Max. None is an explicitly non-reasoning configuration; Default retains an unnamed AA reasoning configuration and does not assert a graduated effort tier. Unspecified Bug Hunt effort is assigned to the highest published effort for the exact model by user instruction; preserve the original in `bugHunt.source_effort` and disclose the inference. |
+| `reasoning` | Displayed effort level | Use Default, Low, Medium, High, XHigh, or Max. Default retains an unnamed AA reasoning configuration and does not assert a graduated effort tier. Unspecified Bug Hunt effort is assigned to the highest published effort for the exact model by user instruction; preserve the original in `bugHunt.source_effort` and disclose the inference. |
 | `intelligence` | AA Intelligence Index for that configuration | Match model version, effort, and routing/fallback definition. `null` for Bug Hunt-only rows, with `benchmarkCost` and `tasks20` also `null`. |
 | `benchmarkCost` | AA Cost per Intelligence Index task | USD per task, not token price or total index cost. |
 | `multiplier` | Supplied provider default or model-specific assumption above | Apply consistently across the model’s reasoning levels; Fable is normalized per allocated subscription dollar. |

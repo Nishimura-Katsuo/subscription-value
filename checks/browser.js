@@ -146,12 +146,12 @@
   change('search','GPT-6.1 Terra','input');
   assert(rowCount() === 1 && document.querySelectorAll('.chart-point').length === 1 && shown[0].id === 'terra-max', 'Terra Max clears the default intelligence floor and plots');
   change('floor','0');
-  assert(rowCount() === 6 && document.querySelectorAll('.chart-point').length === 6, 'All six Terra configurations appear with no floor');
+  assert(rowCount() === 5 && document.querySelectorAll('.chart-point').length === 5, 'All five Terra reasoning configurations appear with no floor');
   document.querySelector('[data-sort="reasoning"]').click();
-  assert([...get('rows').querySelectorAll('.model-button')].map(button => button.dataset.id).join(',') === 'terra-none,terra-low,terra-medium,terra-high,terra-xhigh,terra-max', 'Terra reasoning sort starts with None');
-  assert(document.querySelector('.effort-line title').textContent.includes('None to Max'), 'Terra effort line includes the non-reasoning configuration');
-  get('rows').querySelector('[data-id="terra-none"]').click();
-  assert(get('detail').textContent.includes('AA Non-reasoning') && get('detail').textContent.includes('not a Terra-specific allowance measurement'), 'Terra configuration and subscription assumptions are visible');
+  assert([...get('rows').querySelectorAll('.model-button')].map(button => button.dataset.id).join(',') === 'terra-low,terra-medium,terra-high,terra-xhigh,terra-max', 'Terra reasoning sort starts with Low');
+  assert(document.querySelector('.effort-line title').textContent.includes('Low to Max'), 'Terra effort line covers Low through Max');
+  get('rows').querySelector('[data-id="terra-low"]').click();
+  assert(get('detail').textContent.includes('Low reasoning') && get('detail').textContent.includes('not a Terra-specific allowance measurement'), 'Terra configuration and subscription assumptions are visible');
   const terraTasks = estimate(shown[0]);
   get('early-resets').click();
   assert(Math.abs(estimate(shown[0]) / terraTasks - 7 / 3) < 1e-12, 'Terra participates in the ChatGPT reset scenario');
