@@ -12,7 +12,19 @@ const metricValue = runInNewContext(valueCode + '\nmetricValue',{models:data,con
 const pareto = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\n' + code.match(/^    const pareto = .+$/m)[0] + '\npareto',{models:data,controls:{'early-resets':{checked:false}}});
 const expected = [1338, 1010, 880, 662, 648, 586, 544, 340, 152, 110];
 assert.deepEqual(data.slice(0,10).map(model => model.tasks20), expected);
-assert.equal(new Set(data.map(model => model.id)).size, 57);
+assert.equal(new Set(data.map(model => model.id)).size, 65);
+const matchesSearch = runInNewContext(code.match(/^    const matchesSearch = .+$/m)[0] + '\nmatchesSearch');
+for(const model of data){
+  const expectedCountry = /^(DeepSeek |GLM-|Kimi |MiMo-|MiniMax |Qwen|Step )/.test(model.model) ? 'China' : 'United States';
+  assert.equal(model.country,expectedCountry);
+  assert.ok(matchesSearch(model,model.provider.toLowerCase()));
+  assert.equal(matchesSearch(model,'china'),expectedCountry === 'China');
+  for(const alias of ['us','usa','united states']) assert.equal(matchesSearch(model,alias),expectedCountry === 'United States');
+}
+assert.ok(data.some(model => model.provider === 'OpenCode Go' && model.country === 'China'));
+assert.ok(matchesSearch({model:'Mistral Large',reasoning:'Default',country:'France'},'france'));
+assert.ok(!matchesSearch({model:'Mistral Large',reasoning:'Default',country:'France'},'us'));
+assert.ok(!html.includes('id="provider"') && !code.includes('controls.provider'));
 // Bug Hunt-only efforts have no AA score or task cost and appear in bugs mode only.
 const bugsOnly = data.filter(model => model.intelligence === null);
 assert.equal(bugsOnly.map(model => model.id).join(','),'grok-medium,muse-standard-low,muse-standard-medium,muse-standard-high,muse-contributor-low,muse-contributor-medium,muse-contributor-high');
@@ -24,11 +36,11 @@ for (const model of data) {
   if(model.tasks20 !== null) assert.equal(Math.round(model.multiplier / model.benchmarkCost * 10) / 10 * 20, model.tasks20);
 }
 assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null)).map(model => model.id).join(','), 'muse-contributor-max,opus-medium,opus-high,opus-xhigh,opus-max');
-assert.equal(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null).length, 27);
+assert.equal(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null).length, 29);
 assert.ok(data.filter(model => /Luna|Haiku/.test(model.model)).every(model => model.intelligence < 46));
 assert.equal(data.filter(model => model.model.includes('Fable')).length,5);
 assert.ok(data.filter(model => /Fable|Astra/.test(model.model)).every(model => metricValue(model,'tasks') > 0));
-assert.equal(data.filter(model => metricValue(model,'tasks') !== null).length,50);
+assert.equal(data.filter(model => metricValue(model,'tasks') !== null).length,58);
 assert.ok(data.filter(model => model.model.includes('Fable')).every(model => metricValue(model,'bugs') > 0));
 assert.ok(html.includes('value="46" selected'));
 assert.ok(!html.includes('Download original $20 graph'));
@@ -42,7 +54,7 @@ assert.equal(chartY(1000,1000,1,true),38);
 assert.equal(chartY(0,1000,1,false),458);
 for (const model of data) {
   if(model.tasks20 === null) continue;
-  const py = chartY(model.tasks20,70000,10,true);
+  const py = chartY(model.tasks20,70000,1,true);
   assert.ok(Number.isFinite(py) && py >= 38 && py <= 458);
 }
 assert.ok(html.includes('.chart-point[aria-pressed="true"] .chart-label'));
@@ -52,14 +64,14 @@ const bugScore = runInNewContext(valueCode + '\nbugScore',{models:data,controls:
 for (const model of data) {
   const bug = model.bugHunt;
   if (!bug) {
-    assert.ok(['sol-5-6-low','kimi-k3-low'].includes(model.id));
+    assert.ok(['sol-5-6-low','kimi-k3-low','go-minimax-m3-1-flash','go-step-5-preview','go-qwen3-8-max-0902'].includes(model.id));
     assert.equal(metricValue(model,'bugs'),null);
     continue;
   }
   assert.ok(bug.fixed > 0 && bug.fixed <= 105 && bug.cost_usd > 0);
   assert.ok(bug.n_runs >= 1 && ['list','floor','bill'].includes(bug.cost_kind));
   const reliable = reliableBugs(model);
-  assert.equal(metricValue(model,'bugs'),reliable === null ? null : bug.cost_usd / model.multiplier / (bug.fixed + bug.extras));
+  assert.equal(metricValue(model,'bugs'),reliable === null ? null : bug.cost_usd * (bug.price_factor ?? 1) / model.multiplier / (bug.fixed + bug.extras));
   assert.equal(metricValue(model,'tasks'),model.tasks20);
 }
 assert.equal(data.find(model => model.id === 'sol-medium').bugHunt.cost_usd,1.76);
@@ -72,13 +84,14 @@ const solMedium = data.find(model => model.id === 'sol-medium');
 assert.equal(reliableBugs(solMedium).length,25);
 assert.ok(Math.abs(metricValue(solMedium,'bugs') - 1.76 / (10.6 * (29 + 30.5))) < 1e-10);
 assert.ok(html.includes('Subscription $ / bug fixed'));
-assert.equal(data.filter(model => reliableBugs(model) === null).length,8);
+assert.equal(data.filter(model => reliableBugs(model) === null).length,5);
 assert.equal(Object.keys(weights).length,105);
 for(const [id,weight] of Object.entries(weights)){
   const solvers = data.filter(model => model.intelligence !== null && reliableBugs(model)?.includes(id));
   assert.equal(weight,solvers.length ? Math.min(...solvers.map(model => model.intelligence)) : null);
 }
-assert.equal(reliableBugs({bugHunt:{n_runs:1,coverage_runs:1,bug_hits:{1:1}}}),null);
+assert.equal(reliableBugs({model:'Any model',bugHunt:{n_runs:1,coverage_runs:1,bug_hits:{1:1}}}).join(','),'1');
+assert.equal(reliableBugs({bugHunt:{n_runs:1,coverage_runs:0,bug_hits:{}}}),null);
 assert.equal(reliableBugs({bugHunt:{n_runs:3,coverage_runs:2,bug_hits:{1:2}}}),null);
 assert.equal(reliableBugs({bugHunt:{n_runs:3,coverage_runs:3,bug_hits:{1:3,2:2}}}).join(','),'1');
 assert.equal(bugScore({bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{}}}),null);
@@ -88,7 +101,7 @@ const easy = Object.keys(weights).find(id => weights[id] === Math.min(...Object.
 const hard = Object.keys(weights).find(id => weights[id] === Math.max(...Object.values(weights).filter(weight => weight !== null)));
 assert.equal(bugScore({bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[easy]:2,[hard]:2}}}),weights[easy] + weights[hard]);
 assert.ok(html.includes('data-sort="bugScore"'));
-console.log('Report checks passed: 57 configurations, original task values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
+console.log('Report checks passed: 65 configurations, original task values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
 
 const dominates = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\ndominates',{models:data,controls:{'early-resets':{checked:false}}});
 const candidate = {intelligence:58,multiplier:10,bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[hard]:2},fixed:1,extras:1,cost_usd:1}};
@@ -117,7 +130,9 @@ for(const model of data.filter(model => model.model === 'GPT-6 Astra')){
  assert.ok(reliableBugs(model).length > 0);
  if(model.bugHunt.n_runs === 1) assert.equal(reliableBugs(model).length,model.bugHunt.fixed);
 }
-assert.ok(data.filter(model => /Luna|Haiku/.test(model.model) && model.bugHunt.n_runs === 1).every(model => reliableBugs(model) === null));
+const newlyAdmitted = data.filter(model => /Luna|Haiku/.test(model.model) && model.bugHunt.n_runs === 1);
+assert.equal(newlyAdmitted.length,6);
+assert.ok(newlyAdmitted.every(model => model.bugHunt.coverage_runs === 1 && reliableBugs(model).length === model.bugHunt.fixed));
 
 for(const model of data.filter(model => model.bugHunt)) assert.ok(Number.isFinite(model.bugHunt.extras) && model.bugHunt.extras >= 0);
 assert.equal(data.find(model=>model.id==='sol-medium').bugHunt.extras,30.5);
@@ -125,7 +140,7 @@ const costPerBug = runInNewContext(valueCode + '\ncostPerBug',{models:data,contr
 assert.ok(costPerBug({...candidate,bugHunt:{...candidate.bugHunt,extras:3}}) < costPerBug(candidate));
 
 assert.equal(reliableBugs({model:'Claude Fable 5.1',bugHunt:{n_runs:1,coverage_runs:1,bug_hits:{1:1}}}).join(','),'1');
-assert.equal(data.filter(model => metricValue(model,'bugs') !== null).length,49);
+assert.equal(data.filter(model => metricValue(model,'bugs') !== null).length,60);
 
 assert.equal(data.filter(model => model.model === 'Claude Fable 5.1').map(model => model.tasks20).join(','),'210,166,126,82,66');
 assert.equal(data.filter(model => model.model === 'GPT-6 Astra').map(model => model.tasks20).join(','),'354,188,168,126,88');
@@ -146,7 +161,7 @@ assert.ok(!readme.includes('Astra and Fable use their providers’ multipliers')
 assert.ok(!html.includes('Astra and Fable use the same provider subscription multipliers'));
 assert.ok(html.includes('id="fable-normalization">Fable uses allocated subscription dollars for both graphs (full-plan equivalent).'));
 
-for(const method of ['Tasks / subscription $ = multiplier / AA cost per task','Bug-fix rating = sum of weights of its qualifying planted fixes','source run cost / subscription multiplier / total fixes','Astra, Fable, GPT-5.6 Sol, and Kimi K3 are explicit single-run exceptions']) assert.ok(readme.includes(method));
+for(const method of ['Tasks / subscription $ = multiplier / AA cost per task','Bug-fix rating = sum of weights of its qualifying planted fixes','source run cost × token-price conversion factor / subscription multiplier / total fixes','Single-run results are allowed for every model']) assert.ok(readme.includes(method));
 assert.ok(readme.includes('https://nishimura-katsuo.github.io/subscription-value/'));
 
 const chartX = runInNewContext(code.match(/^    const chartX = .+$/m)[0] + '\nchartX');
@@ -265,7 +280,7 @@ assert.equal(kimi[1].bugHunt.source_effort,'default');
 assert.equal(kimi[1].bugHunt.id,'Kimi K3');
 assert.equal(kimi[1].bugHunt.n_runs,1);
 assert.equal(reliableBugs(kimi[1]).length,21);
-assert.equal(bugScore(kimi[1]),801);
+assert.equal(bugScore(kimi[1]),681);
 assert.equal(costPerBug(kimi[1]),25.27 / 11 / 27);
 assert.ok(kimi[1].sourceNote.includes('highest published effort') && kimi[1].sourceNote.includes('not a verified effort match') && kimi[1].sourceNote.includes('repeatability is unverified'));
 assert.equal(kimi[2].bugHunt.source_effort,'max');
@@ -273,7 +288,7 @@ assert.equal(kimi[2].bugHunt.n_runs,3);
 assert.equal(kimi[2].bugHunt.coverage_runs,3);
 assert.equal(kimi[2].bugHunt.cost_kind,'bill');
 assert.equal(reliableBugs(kimi[2]).length,25);
-assert.equal(bugScore(kimi[2]),945);
+assert.equal(bugScore(kimi[2]),813);
 assert.equal(costPerBug(kimi[2]),13.76 / 11 / (36 + 29.3));
 assert.ok(kimi[2].sourceNote.includes('failed repo-2 attempt'));
 for(const model of kimi.filter(model => model.bugHunt)){
@@ -282,6 +297,73 @@ for(const model of kimi.filter(model => model.bugHunt)){
     assert.ok(Number.isInteger(hits) && hits > 0 && hits <= model.bugHunt.n_runs);
   }
 }
-assert.ok(html.includes('type="checkbox" value="Kimi" checked') && html.includes("Kimi:'#d6a1ff'"));
+assert.ok(html.includes("Kimi:'#ff8f80'") && html.includes("Kimi:'star'"));
 assert.ok(readme.includes('unspecified Bug Hunt effort is assigned to the highest published effort'));
 console.log('Kimi checks passed: 11× normalization, exact AA inputs, Default mapped to Max, single-run labels, repeated coverage, bill provenance, and recalibrated ratings.');
+
+const flash = data.find(model => model.id === 'deepseek-flash-1017-max');
+assert.equal(flash.provider,'OpenCode Go');
+assert.equal(flash.reasoning,'Max');
+assert.equal(flash.intelligence,45);
+assert.equal(flash.benchmarkCost,0.26);
+assert.equal(flash.multiplier,80 / 10);
+assert.equal(flash.tasks20,616);
+assert.equal(flash.bugHunt.id,'DeepSeek V4.1 Flash 1017 (max effort, OpenCode) - mean of 5');
+assert.equal(flash.bugHunt.n_runs,5);
+assert.equal(flash.bugHunt.coverage_runs,5);
+assert.equal(flash.bugHunt.cost_kind,'bill');
+assert.equal(flash.bugHunt.fixed,37.6);
+assert.equal(flash.bugHunt.extras,36.2);
+assert.equal(flash.bugHunt.cost_usd,0.96);
+assert.equal(reliableBugs(flash).length,21);
+assert.equal(costPerBug(flash),0.96 / 8 / (37.6 + 36.2));
+assert.ok(Object.entries(flash.bugHunt.bug_hits).every(([id,hits]) => Number(id) >= 1 && Number(id) <= 105 && Number.isInteger(hits) && hits >= 0 && hits <= 5));
+assert.ok(flash.sourceNote.includes('not measured consumption') && flash.sourceNote.includes('off-peak') && flash.sourceNote.includes('by assumption'));
+assert.ok(html.includes("'OpenCode Go':'#a9dc76'") && html.includes("'OpenCode Go':'plus'"));
+// Every subscription keeps its own marker shape, so identity never depends on hue alone.
+const shapes = runInNewContext('(' + code.match(/^    const shapes = ({.+});$/m)[1] + ')');
+assert.deepEqual(Object.keys(shapes).sort(),[...new Set(data.map(model => model.provider))].sort());
+assert.equal(new Set(Object.values(shapes)).size,Object.keys(shapes).length);
+console.log('Flash 1017 checks passed: Go allowance, task rounding, exact OpenCode Max mean, complete coverage, and subscription cost.');
+
+const goAdded = data.filter(model => model.id.startsWith('go-'));
+assert.deepEqual(goAdded.map(model => [model.id,model.reasoning,model.intelligence,model.benchmarkCost,model.multiplier,model.tasks20]),[
+  ['go-mimo-v2-6-pro','Default',46,0.13,1.5,230],
+  ['go-glm-5-3-flash-max','Max',42,0.28,6,428],
+  ['go-minimax-m3-1-flash','Default',43,0.22,2,182],
+  ['go-step-5-preview','Default',44,1.03,1.5,30],
+  ['go-kimi-k3-1-pro-max','Max',55,2.11,1.5,14],
+  ['go-glm-5-3-max','Max',45,2.01,1.5,14],
+  ['go-qwen3-8-max-0902','Default',45,5.41,1.5,6]
+]);
+assert.ok(goAdded.every(model => model.provider === 'OpenCode Go' && model.sourceDate === '2026-10-26' && model.aaSource && model.sourceNote.includes('not measured consumption') && model.sourceNote.includes('by assumption')));
+assert.ok(goAdded.every(model => !/Claude|GPT|Muse|Gemini|Grok/.test(model.model)));
+const byId = id => data.find(model => model.id === id);
+for(const [id,count,fixed,extras,cost] of [
+  ['go-mimo-v2-6-pro',14,22.7,5.3,0.86],
+  ['go-glm-5-3-flash-max',12,17.7,3.3,1.03],
+  ['go-kimi-k3-1-pro-max',25,36,29.3,13.76],
+  ['go-glm-5-3-max',19,19,2,15.93]
+]){
+  const model = byId(id), bug = model.bugHunt;
+  assert.equal(reliableBugs(model).length,count);
+  assert.equal(bug.fixed,fixed);assert.equal(bug.extras,extras);assert.equal(bug.cost_usd,cost);
+  assert.equal(costPerBug(model),cost * (bug.price_factor ?? 1) / model.multiplier / (fixed + extras));
+  assert.equal(bug.coverage_runs,bug.n_runs);
+  assert.ok(Object.entries(bug.bug_hits).every(([id,hits]) => Number.isInteger(Number(id)) && Number(id) >= 1 && Number(id) <= 105 && Number.isInteger(hits) && hits >= 0 && hits <= bug.n_runs));
+}
+assert.equal(byId('go-mimo-v2-6-pro').bugHunt.source_effort,'default');
+assert.ok(byId('go-mimo-v2-6-pro').sourceNote.includes('mixed judges'));
+assert.ok(byId('go-glm-5-3-flash-max').sourceNote.includes('Replication configuration is unverified'));
+assert.equal(byId('go-glm-5-3-flash-max').bugHunt.price_factor,2);
+assert.equal(costPerBug(byId('go-glm-5-3-flash-max')),2.06 / 6 / 21);
+assert.equal(byId('go-glm-5-3-max').bugHunt.n_runs,1);
+assert.ok(byId('go-glm-5-3-max').sourceNote.includes('repeatability is unverified'));
+assert.equal(bugScore(byId('go-glm-5-3-max')),605);
+assert.deepEqual(byId('go-kimi-k3-1-pro-max').bugHunt,kimi[2].bugHunt);
+assert.equal(bugScore(byId('go-kimi-k3-1-pro-max')),bugScore(kimi[2]));
+for(const id of ['go-minimax-m3-1-flash','go-step-5-preview','go-qwen3-8-max-0902']) assert.equal(metricValue(byId(id),'bugs'),null);
+assert.ok(byId('go-qwen3-8-max-0902').sourceNote.includes('revision cannot') || byId('go-qwen3-8-max-0902').sourceNote.includes('cannot establish'));
+assert.ok(html.includes('Single-run results are included and labeled; repeatability is unverified.'));
+assert.ok(code.includes("'Single run; repeatability unverified'"));
+console.log('Go additions passed: seven allowed models, exact task inputs, complete source coverage, one-run inclusion, shared benchmark ratings, and missing-revision exclusions.');

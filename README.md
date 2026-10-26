@@ -16,6 +16,10 @@ A subscription multiplier estimates how much API-equivalent usage a subscription
 | Claude Fable 5.1 | 24.8× | SemiAnalysis’s rounded 12.4× for Max $200/month, divided by Fable’s 50% plan allocation |
 | ChatGPT, except Astra | 10.6× | Estimate derived from SemiAnalysis |
 | GPT-6 Astra | 14.5× | SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month |
+| OpenCode Go · DeepSeek Flash 1017 Max | 8× | Derived from the published $80 monthly Flash allowance / $10 subscription; not measured consumption |
+| OpenCode Go · GLM-5.3 Flash | 6× | $60 monthly model allowance / $10 subscription |
+| OpenCode Go · MiniMax M3.1 Flash | 2× | $20 monthly model allowance / $10 subscription |
+| OpenCode Go · MiMo Pro, Step 5, Kimi K3.1 Pro, GLM Max, Qwen Max 0902 | 1.5× | $15 monthly model allowance / $10 subscription |
 | Kimi | 11× | User-supplied estimate based on legacy-plan reports; not a measured current allowance |
 | Cursor | 20.7× | Author’s metered usage exports divided by subscription spend |
 | Muse Standard | 11.1× ±0.5 | Muse Code Power Usage ($50/month), derived from the measured High Usage plan × 1.2, at Standard API prices |
@@ -24,11 +28,35 @@ A subscription multiplier estimates how much API-equivalent usage a subscription
 
 Treat these multipliers as **supplied assumptions** when reproducing the table. The repository does not contain the private Cursor exports or a complete derivation of the SemiAnalysis estimates, so the multipliers cannot be independently reconstructed from this repository alone. They are not separate measurements for each model. Cursor’s observed usage mixed Claude and Grok. Applying the full Cursor multiplier to Grok assumes both available usage pools can be allocated to it.
 
+### DeepSeek Flash 1017 Max via OpenCode Go
+
+Added 26 October 2026. OpenCode Go ($10/month), not a DeepSeek subscription. The published $80 monthly Flash allowance implies a derived 8× multiplier, not measured consumption. Five-hour and weekly limits are 20% and 50% of monthly allowance. AA task cost uses peak token prices; Bug Hunt bills use off-peak prices, each matched to the corresponding Go token-price basis. Direct DeepSeek API benchmark performance is transferred to the Go route by assumption; the subscription must serve the same 1017 model and Max effort. Existing model snapshots are retained. [OpenCode terms](https://opencode.ai/v2/docs/console/go/) and [AA configuration](https://artificialanalysis.ai/models/deepseek-v4-1-flash-1017) supply the inputs. AA intelligence **45**, task cost **$0.26**, and multiplier **8×** produce **616 tasks per $20**; lower the default floor to 45 to see it.
+
+The current [Bug Hunt source](https://bughunt.productcompass.pm/data/benchmark.json) OpenCode Max mean has **5 runs**, **37.6 planted fixes**, **36.2 extras**, a **$0.96** off-peak API bill, complete coverage, and **21 bugs fixed in every run**. Estimated subscription cost is **0.163 cents per total fix**. This qualifying solver participates in the shared bug-weight calibration. No other harness rows are combined with it.
+
+### Additional OpenCode Go configurations
+
+Added 26 October 2026 from the supplied model list, excluding Anthropic, OpenAI, Meta, and Google additions. All use the **$10/month Go plan** and its [published token prices and allowances](https://opencode.ai/v2/docs/console/go/). These are derived allowance multipliers, not measured consumption; five-hour and weekly limits remain 20% and 50% of monthly allowance. Performance transfers from the source benchmark route to Go by assumption. Duplicate Kimi rows reuse the same evidence across subscription scenarios, not independent replications.
+
+| Configuration | AA intelligence | AA cost/task | Multiplier | Tasks/$20 | Bug evidence |
+| --- | ---: | ---: | ---: | ---: | --- |
+| [MiMo-V2.6-Pro · Default](https://artificialanalysis.ai/models/mimo-v2-6-pro) | 46 | $0.13 | 1.5× | 230 | 3 runs; default effort, mixed judges |
+| [GLM-5.3 Flash · Max](https://artificialanalysis.ai/models/glm-5-3-flash) | 42 | $0.28 | 6× | 428 | 3 runs; replication configuration unverified |
+| [MiniMax M3.1 Flash · Default](https://artificialanalysis.ai/models/minimax-m3-1-flash) | 43 | $0.22 | 2× | 182 | Tasks only; no matching run |
+| [Step 5 Preview · Default](https://artificialanalysis.ai/models/step-5) | 44 | $1.03 | 1.5× | 30 | Tasks only; no matching run |
+| [Kimi K3.1 Pro · Max](https://artificialanalysis.ai/models/kimi-k3-1-pro) | 55 | $2.11 | 1.5× | 14 | 3 runs; one failed attempt rerun |
+| [GLM-5.3 · Max](https://artificialanalysis.ai/models/glm-5-3) | 45 | $2.01 | 1.5× | 14 | 1 run; repeatability unverified |
+| [Qwen3.8 Max (0902) · Default](https://artificialanalysis.ai/models/qwen3-8-max) | 45 | $5.41 | 1.5× | 6 | Tasks only; bug-run revision unverified |
+
+AA’s unnamed reasoning configurations display **Default**. MiMo’s source effort is retained as `default`: its reasoning toggle has no graduated effort ladder and the aggregator’s effort field was inert. GLM Flash’s single AA configuration is assigned to the documented Max default by assumption; its repeated-run context conditions cannot be verified, and CLI versions differ. Kimi Max retains the failed-attempt caveat; its published API rates match Go. Raw source run costs are retained. GLM Flash’s $1.03 source estimate uses 50% launch rates ($0.075 input / $0.015 cache read / $0.25 output per million); `bugHunt.price_factor = 2` converts it to current Go rates ($0.15 / $0.03 / $0.50). The published rounded mean is scaled to $2.06 before division by the 6× subscription multiplier; it is not reconstructed from unrounded legs. See the [repo 1](https://github.com/phuryn/bug-hunt-bench/blob/main/results/repo1-metrics.csv) and [repo 2](https://github.com/phuryn/bug-hunt-bench/blob/main/results/repo2-metrics.csv) token-price receipts. CSV exports include the raw source cost and token-price conversion factor.
+
+Qwen’s AA model is explicitly **0902**, while Go lists an undated alias; that alias matching 0902 is an assumption. Its Bug Hunt receipts refer to an undated model and an August 3 run, so the revision cannot be matched and the row remains tasks-only. MiniMax and Step have no matching Bug Hunt runs. GLM Max’s single complete run is admitted with a visible repeatability warning. New qualifying solvers can recalibrate shared bug weights across all subscriptions. [Bug Hunt source](https://bughunt.productcompass.pm/data/benchmark.json).
+
 ### Kimi
 
 Added on 23 October 2026 using the user-supplied **11×** subscription multiplier. This slightly generous estimate is based on legacy-plan community reports, not a measurement of current plans. [AA K3](https://artificialanalysis.ai/models/releases/kimi-k3) supplies Low / Max intelligence **30 / 44** and task costs **$1.15 / $2.00**; [AA K3.1 Pro](https://artificialanalysis.ai/models/kimi-k3-1-pro) supplies intelligence **55** and current model-page task cost **$2.11**. These produce **192 / 110 / 104 tasks per $20** respectively. Only K3.1 Pro clears the default floor of 46. AA's launch article gives an earlier $1.98 task cost for K3.1 Pro; the app uses the current model page instead.
 
-Per user instruction, **unspecified Bug Hunt effort is assigned to the highest published effort for that exact model**. K3's July 26 Default-effort run is therefore mapped to Max, preserving `bugHunt.source_effort = "default"` and its source row ID. This is an inferred mapping, not verification that the run used Max. It is admitted as a labeled single-run exception: **21 planted fixes, 6 extras, $25.27** source cost. K3 Low has no matching bug run.
+Per user instruction, **unspecified Bug Hunt effort is assigned to the highest published effort for that exact model**. K3's July 26 Default-effort run is therefore mapped to Max, preserving `bugHunt.source_effort = "default"` and its source row ID. This is an inferred mapping, not verification that the run used Max. It is admitted as a labeled single-run result: **21 planted fixes, 6 extras, $25.27** source cost. K3 Low has no matching bug run.
 
 K3.1 Pro's single AA configuration is assigned to Max using [Kimi's documented default](https://www.kimi.com/code/docs/en/third-party-tools/opencode.html). Its [Bug Hunt](https://bughunt.productcompass.pm/data/benchmark.json) row is the current three-run Max mean: **36 planted fixes, 29.3 extras, $13.76** verified API bill, complete coverage, and **25 bugs fixed in all three runs**. One failed repo-2 attempt was rerun; counting the failed attempt as zero lowers mean planted fixes to 32. At 11×, K3 Max and K3.1 Pro cost approximately **8.51¢ / 1.92¢ per total fix**. API benchmark performance is transferred to Kimi Code by assumption; subscription context limits still apply. K3's single-run fixes participate in the shared difficulty calibration, so adding it can change other models' bug ratings. Existing model snapshots are retained.
 
@@ -49,11 +77,11 @@ Bug Hunt XHigh uses a current mean of three runs; Max uses five. Max spans diffe
 
 Sources: [AA Muse release and effort configurations](https://artificialanalysis.ai/models/releases/muse-spark-1-3), [Bug Hunt source data](https://bughunt.productcompass.pm/data/benchmark.json). Muse entries store `aaSource`, `sourceDate`, and `sourceNote`; filtered CSVs include these provenance fields.
 
-GPT-5.6 Sol was added on 20 October 2026 using the same **ChatGPT 10.6×** multiplier, AA input rounding, task-throughput formula, and Bug Hunt reliability rules as GPT-6.1 Sol. [AA’s exact effort configurations](https://artificialanalysis.ai/models/releases/gpt-5-6-sol) supply Low / Medium / High / XHigh / Max intelligence scores of **33 / 39 / 42 / 44 / 47** and task costs of **$0.26 / $0.50 / $0.81 / $1.18 / $1.99**. Only Max meets the default task floor of 46; lower the floor to see the other efforts. Inputs are a 20 October snapshot; existing models retain their recorded snapshots. Bug Hunt publishes single runs for Medium, High, and XHigh, and a complete two-run mean for Max (35 planted bugs fixed in both); all four efforts are included in bugs mode, with Medium, High, and XHigh explicitly labeled as single-run exceptions. No Low run is published. The Max source flags unverified replication configuration and an unfinished third run excluded from its mean. Bug Hunt inputs were retrieved on 20 October from the source updated 19 October. Adding these qualifying solvers also recalibrates the shared bug weights for every model.
+GPT-5.6 Sol was added on 20 October 2026 using the same **ChatGPT 10.6×** multiplier, AA input rounding, task-throughput formula, and Bug Hunt reliability rules as GPT-6.1 Sol. [AA’s exact effort configurations](https://artificialanalysis.ai/models/releases/gpt-5-6-sol) supply Low / Medium / High / XHigh / Max intelligence scores of **33 / 39 / 42 / 44 / 47** and task costs of **$0.26 / $0.50 / $0.81 / $1.18 / $1.99**. Only Max meets the default task floor of 46; lower the floor to see the other efforts. Inputs are a 20 October snapshot; existing models retain their recorded snapshots. Bug Hunt publishes single runs for Medium, High, and XHigh, and a complete two-run mean for Max (35 planted bugs fixed in both); all four efforts are included in bugs mode, with Medium, High, and XHigh explicitly labeled as single-run results. No Low run is published. The Max source flags unverified replication configuration and an unfinished third run excluded from its mean. Bug Hunt inputs were retrieved on 20 October from the source updated 19 October. Adding these qualifying solvers also recalibrates the shared bug weights for every model.
 
 Astra and Fable multipliers were updated on 23 October 2026 from [SemiAnalysis’s 5 October study](https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x). Astra uses **14.5×** from the $200/month ChatGPT Pro example. Fable’s published **12.4×** already includes its half-plan cap; dividing that rounded multiplier by **0.5** gives **24.8× per allocated subscription dollar**. This normalization does not increase Fable’s actual allowance or include the remaining half-plan’s value. Both model-specific multipliers apply across reasoning levels. The figures describe the study’s agentic workload, not live quotas or every subscription tier; availability and actual limits still determine what an account can use.
 
-The optional **Count early resets** toggle is off by default. It uses the supplied assumption that Tibo from OpenAI resets limits every 3 days on average instead of 7. Enabling it multiplies ChatGPT subscription costs by **3/7**, task throughput by **7/3** (after the existing task rounding), and effective subscription multipliers by **7/3**. It applies across ChatGPT models and efforts; other subscriptions and benchmark ratings stay unchanged. Charts, sorting, Pareto membership, details, and CSV exports use the adjustment. CSVs include the applied cost factor. Reset turns it off. This is a scenario assumption, not a verified quota or reset schedule.
+The optional **Assume ChatGPT limits reset every 3 days** toggle is off by default. It uses the supplied assumption that Tibo from OpenAI resets limits every 3 days on average instead of 7. Enabling it multiplies ChatGPT subscription costs by **3/7**, task throughput by **7/3** (after the existing task rounding), and effective subscription multipliers by **7/3**. It applies across ChatGPT models and efforts; other subscriptions and benchmark ratings stay unchanged. Charts, sorting, Pareto membership, details, and CSV exports use the adjustment. CSVs include the applied cost factor. Reset turns it off. This is a scenario assumption, not a verified quota or reset schedule.
 
 ## Tasks mode
 
@@ -65,7 +93,7 @@ Displayed tasks at subscription spend B
   = B × round(Tasks / subscription $, 1 decimal)
 ```
 
-The app rounds tasks per subscription dollar before scaling by spending. The default spending scenario is $20; changing it scales throughput linearly. It does not imply that every service offers that plan or quota.
+The app rounds tasks per subscription dollar before scaling by spending. The default spending scenario is $1; changing it scales throughput linearly. It does not imply that every service offers that plan or quota.
 
 The graph plots:
 
@@ -80,9 +108,9 @@ Bug Hunt Bench supplies per-bug planted-fix coverage, aggregate fix counts, run 
 
 ### 1. Select qualifying planted fixes
 
-A planted bug qualifies for a configuration’s rating only if it was fixed in **every recorded run**. Normally, at least two runs and complete per-bug coverage are required. Partial fixes and bugs merely claimed in a report receive no credit.
+A planted bug qualifies for a configuration’s rating only if it was fixed in **every recorded run**. At least one run and complete per-bug coverage are required. Partial fixes and bugs merely claimed in a report receive no credit.
 
-**Astra, Fable, GPT-5.6 Sol, and Kimi K3 are explicit single-run exceptions.** Their recorded planted fixes are included in ratings and difficulty weights, with visible single-run labels. Other configurations with only one run are excluded from bugs mode. Configurations without qualifying planted fixes have no rating and are omitted.
+**Single-run results are allowed for every model.** The six previously unrated Luna Low/Medium/High/XHigh and Haiku Low/Medium rows now use the complete `fixed_bugs` lists from their exact original source rows; counts, costs, and run dates are unchanged. Their verified planted fixes participate in ratings and difficulty weights, with visible single-run labels and a repeatability-unverified note. Partial coverage is excluded. Configurations without qualifying planted fixes have no rating and are omitted.
 
 A 100% observed success rate over a small number of runs does not guarantee repeatability.
 
@@ -92,7 +120,7 @@ A 100% observed success rate over a small number of runs does not guarantee repe
 Bug weight = lowest AA intelligence score among qualifying solvers
 ```
 
-We use every configuration in the app that has an AA score, including the single-run exceptions. Bug Hunt-only configurations (Grok 4.7 Medium and Muse Low, Medium, and High) earn these weights but do not set them, because they have no intelligence score. Bugs without a qualifying solver remain unrated. Search, subscription, and floor filters do not change these weights.
+We use every configuration in the app that has an AA score, including the single-run results. Bug Hunt-only configurations (Grok 4.7 Medium and Muse Low, Medium, and High) earn these weights but do not set them, because they have no intelligence score. Bugs without a qualifying solver remain unrated. Text search and floor filters do not change these weights.
 
 This is an empirical difficulty proxy: the lowest intelligence score observed solving that bug under our inclusion rule. It is not a proven minimum intelligence requirement, an official Bug Hunt score, or a calibrated difficulty scale. Adding models or runs can change weights and existing ratings.
 
@@ -109,10 +137,10 @@ The rating rewards both the number of qualifying fixes and their inferred diffic
 ```text
 Total fixes = source planted fixes + source unplanted extra fixes
 Subscription $ / bug fixed
-  = source run cost / subscription multiplier / total fixes
+  = source run cost × token-price conversion factor / subscription multiplier / total fixes
 ```
 
-For repeated runs, we use the source’s published mean fix counts and mean run cost. This is a ratio of means, not an average of each run’s cost per fix. For single-run exceptions, we use that run’s counts and cost.
+For repeated runs, we use the source’s published mean fix counts and mean run cost. This is a ratio of means, not an average of each run’s cost per fix. For single-run results, we use that run’s counts and cost.
 
 **The two axes use different fix sets.** The horizontal rating requires qualifying planted fixes. The vertical cost includes all source-reported completed planted fixes and genuine unplanted extras, including fixes that did not happen in every run. Partial fixes and claimed-only bugs are excluded. Extras are not graded against the planted answer key, and their repeatability cannot be established from aggregate counts.
 
@@ -132,7 +160,7 @@ A configuration is dominated if another matching configuration is at least as go
 | Tasks | Higher intelligence | More tasks at the same spending |
 | Bugs | Higher bug-fix rating | Lower subscription cost per bug |
 
-The app recalculates the frontier within the active filters. **Upper-right is better in both graphs.** The solid line joins frontier configurations; dotted lines join a model’s visible reasoning levels in effort order (in bugs mode, only for the selected model). Neither line implies that intermediate configurations exist.
+The app normally recalculates the frontier within the active filters. The `pareto` search term instead includes the full-dataset frontier for the active metric, before text or floor filtering. The selected floor still limits its displayed points and solid line, without recalculating frontier membership; other terms combine with it using OR. The early-reset scenario still affects the comparison. **Upper-right is better in both graphs.** The solid line joins frontier configurations; dotted lines join a model’s visible reasoning levels in effort order (in bugs mode, only for the selected model). Neither line implies that intermediate configurations exist.
 
 ## Cost and execution assumptions
 
@@ -156,8 +184,9 @@ The recorded dataset is the JSON inside `<script id="comparison-data">` in [docs
 | App field | Source or derivation | Notes |
 | --- | --- | --- |
 | `id`, `model`, `short` | Local identifiers and display names | Keep `id` unique and stable. |
-| `provider` | Subscription used for normalization | Claude, ChatGPT, Cursor, Muse Standard, Muse Contributor, or Kimi; Grok uses Cursor here. |
-| `reasoning` | Displayed effort level | Use Low, Medium, High, XHigh, or Max. Unspecified Bug Hunt effort is assigned to the highest published effort for the exact model by user instruction; preserve the original in `bugHunt.source_effort` and disclose the inference. |
+| `provider` | Subscription used for normalization | Claude, ChatGPT, Cursor, Muse Standard, Muse Contributor, Kimi, or OpenCode Go; Grok uses Cursor here. |
+| `country` | Country of the model developer | Use the full country name. Origin follows the developer even when accessed through OpenCode Go or another subscription. Current origins are China (DeepSeek, Moonshot/Kimi, Xiaomi/MiMo, Z.ai/GLM, MiniMax, Alibaba/Qwen, StepFun) and United States (Anthropic/Claude, OpenAI/GPT, xAI/Grok, Meta/Muse). |
+| `reasoning` | Displayed effort level | Use Default, Low, Medium, High, XHigh, or Max. Default retains an unnamed AA reasoning configuration; it does not assert a graduated effort tier. Unspecified Bug Hunt effort is assigned to the highest published effort for the exact model by user instruction; preserve the original in `bugHunt.source_effort` and disclose the inference. |
 | `intelligence` | AA Intelligence Index for that configuration | Match model version, effort, and routing/fallback definition. `null` for Bug Hunt-only rows, with `benchmarkCost` and `tasks20` also `null`. |
 | `benchmarkCost` | AA Cost per Intelligence Index task | USD per task, not token price or total index cost. |
 | `multiplier` | Supplied provider default or model-specific assumption above | Apply consistently across the model’s reasoning levels; Fable is normalized per allocated subscription dollar. |
@@ -166,11 +195,12 @@ The recorded dataset is the JSON inside `<script id="comparison-data">` in [docs
 | `bugHunt.fixed` | Source row `fixed` | Verified planted fixes; may be a mean with decimals. |
 | `bugHunt.extras` | Source row `extras` | Source-reported genuine unplanted fixes; may be a mean. |
 | `bugHunt.cost_usd`, `cost_kind` | Source row fields with the same names | Keep the cost type; never silently convert a lower bound into an exact cost. `bill` denotes a verified API bill, still normalized to an estimated subscription cost. |
+| `bugHunt.price_factor` | Optional conversion from source token prices to the subscription’s token-price basis | Defaults to 1; GLM Flash Go uses 2 for its launch-rate source estimate. Does not change benchmark fixes or ratings. |
 | `bugHunt.n_runs`, `date` | Source row fields with the same names | Run count and the row’s recorded date. |
 | `bugHunt.coverage_runs` | Source row `coverage_runs` | Must equal `n_runs` to use repeated-run per-bug coverage. |
 | `bugHunt.bug_hits` | Source row `bug_hits` | Map of planted bug ID to number of runs that fixed it. |
 
-The current single-run exceptions match `GPT-6 Astra`, `Claude Fable 5.1`, `GPT-5.6 Sol`, and `Kimi K3` exactly. For an allowed single-run row, the source may supply `fixed_bugs` instead of a coverage map. Set `coverage_runs = 1` and construct `bug_hits` with a value of `1` for each ID in `fixed_bugs`. This does not establish repeatability; retain the exception label. Do not perform this conversion for other single-run models.
+For any single-run row, the source may supply `fixed_bugs` instead of a coverage map. Verify that the unique bug IDs match the published planted-fix count, set `coverage_runs = 1`, and construct `bug_hits` with a value of `1` for each ID in `fixed_bugs`. This does not establish repeatability; retain the single-run label and warning. Missing per-bug coverage still prevents a rating.
 
 ## Selecting and validating source rows
 
@@ -178,7 +208,7 @@ The current single-run exceptions match `GPT-6 Astra`, `Claude Fable 5.1`, `GPT-
 2. **Use current Bug Hunt rows.** Within `runs`, omit rows with a nonempty `superseded` field. Select the published current mean for that exact configuration when available; do not also count its component runs. Do not pick the highest-scoring run. If multiple current rows represent different routes or conditions, resolve and document the intended match rather than averaging them together or choosing arbitrarily.
 3. **Keep cost and fix counts together.** Take `fixed`, `extras`, cost, and coverage from the same row. Keep published means at their supplied precision; the app does not reconstruct unrounded means from individual runs.
 4. **Validate coverage.** For repeated runs, require a complete per-bug map, `coverage_runs == n_runs`, and integer hit counts between zero and `n_runs`. Do not treat `fixed_bugs` on a mean row as an intersection: it may include bugs fixed in only some runs. A qualifying bug has `bug_hits[id] == n_runs`.
-5. **Do not fill gaps by guessing.** Missing AA intelligence prevents difficulty calibration and tasks plotting. Missing task cost omits tasks mode. Missing coverage or run cost omits bugs mode unless the explicit single-run conversion applies. Missing `extras` is not automatically zero. Record unresolved inputs and omit the affected result until they can be verified.
+5. **Do not fill gaps by guessing.** Missing AA intelligence prevents difficulty calibration and tasks plotting. Missing task cost omits tasks mode. Missing coverage or run cost omits bugs mode unless a complete single-run `fixed_bugs` list supports the conversion. Missing `extras` is not automatically zero. Record unresolved inputs and omit the affected result until they can be verified.
 6. **Check numeric and identity consistency.** Costs and multipliers must be finite and positive; fix counts must be finite and nonnegative. Use globally consistent planted bug IDs. The current implementation assumes the source’s 105-bug set; a change to that set requires updating the weighting range and checks, not just copying new rows.
 
 ## Worked calculations
@@ -224,8 +254,8 @@ The denominator is 59.5 total fixes, not its 25 qualifying planted fixes. The ap
 
 1. Use the embedded dataset from the Git commit you want to reproduce. Re-fetching live sources may yield different values. The private usage exports are unnecessary if you accept the supplied multipliers.
 2. Recompute `tasks20` from its inputs. For bugs, apply the coverage/exception rules, calculate each planted bug’s minimum solver intelligence, then sum each configuration’s qualifying weights and calculate cost from total fixes.
-3. Apply the selected mode, search, subscription, and floor filters. The subscription picker accepts any combination, including separate Muse Standard and Contributor selections. It starts with all checked; Clear selects none, Select all restores every subscription, and Reset also closes the picker. Selections carry between graph modes and apply to the table, Pareto frontier, and CSV exports. Tasks mode defaults to intelligence ≥46 and $20 spending; bugs mode defaults to all ratings. Configurations without valid values in that mode are omitted. Difficulty weights are calculated **before** these filters.
-4. Recompute Pareto membership among the filtered configurations. Tasks mode defaults to descending throughput; bugs mode defaults to ascending cost. Equal numerical values retain dataset order unless another column is selected for sorting. The optional “Frontier only” control then limits the displayed rows.
+3. Apply the selected mode, text search, and floor filters. Search is case-insensitive; comma-separated terms match any model name, reasoning level, subscription name, or country (for example, `opencode go,chatgpt` or `china,haiku`). `us` and `usa` are exact aliases for `United States`; other countries use their full recorded names. `pareto` adds the full-dataset frontier points and line alongside other matches, while the selected intelligence or bug-rating floor still applies to every displayed point. Subscription names use the same text input; clearing it shows all subscriptions and Reset clears the search. Spaces around terms and empty terms are ignored. The text query carries between graph modes and applies to the table, Pareto frontier, and CSV exports. Tasks mode defaults to intelligence ≥46 and $1 spending; bugs mode defaults to all ratings. Configurations without valid values in that mode are omitted. Difficulty weights are calculated **before** these filters.
+4. Recompute Pareto membership among the filtered configurations, except when the `pareto` search term requests the full-dataset frontier. Tasks mode defaults to descending throughput; bugs mode defaults to ascending cost. Equal numerical values retain dataset order unless another column is selected for sorting. The optional “Frontier only” control then limits the displayed rows.
 5. Compare your output with the app’s filtered CSV, keeping full precision until formatting. Task screen values use up to one decimal and bug costs up to four decimals; CSV task values use one decimal and bug costs six. A displayed cost can therefore hide a difference used in Pareto comparisons.
 
 ## Maintaining the comparison
@@ -239,7 +269,7 @@ The denominator is 59.5 total fixes, not its 25 qualifying planted fixes. The ap
 
 [checks/report.mjs](checks/report.mjs) contains both method checks and snapshot expectations:
 
-- **Retain method checks:** calculation identities, coverage eligibility, single-run exceptions, weight minima, cost direction, rounding, inverted/logarithmic coordinates, empty sets, and tie handling. Changing data should not require weakening these rules.
+- **Retain method checks:** calculation identities, coverage eligibility, single-run results, weight minima, cost direction, rounding, inverted/logarithmic coordinates, empty sets, and tie handling. Changing data should not require weakening these rules.
 - **Review snapshot expectations:** configuration counts, eligible counts, expected frontier ID lists, selected source values/run counts, and model-specific task values. When inputs or inclusion change, independently recalculate these expectations and update them deliberately.
 - The `expected` array checks the original first ten task values by position. If those values are refreshed or the dataset is reordered, update that fixture after verifying the calculation. If the model set changes, also review model-name assertions, exception lists, and hard-coded plotted ranges in the checks.
 - The checks compile and exercise calculation helpers, but do not fully test the browser or validate downloaded sources. Preview both modes and inspect CSV output after a data refresh.
