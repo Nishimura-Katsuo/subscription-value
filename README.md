@@ -28,6 +28,21 @@ A subscription multiplier estimates how much API-equivalent usage a subscription
 
 Treat these multipliers as **supplied assumptions** when reproducing the table. The repository does not contain the private Cursor exports or a complete derivation of the SemiAnalysis estimates, so the multipliers cannot be independently reconstructed from this repository alone. They are not separate measurements for each model. Cursor’s observed usage mixed Claude and Grok. Applying the full Cursor multiplier to Grok assumes both available usage pools can be allocated to it.
 
+### GPT-6.1 Terra
+
+Added 26 October 2026 from [AA's six exact configurations](https://artificialanalysis.ai/models/releases/gpt-6-1-terra). Terra uses the existing **ChatGPT 10.6×** multiplier as a supplied assumption, not a Terra-specific allowance measurement. Intelligence scores are rounded to whole numbers and task costs to cents, matching the existing inputs.
+
+| Reasoning | AA intelligence | AA cost/task | Tasks/$20 |
+| --- | ---: | ---: | ---: |
+| None (AA Non-reasoning) | 33 | $0.11 | 1,928 |
+| Low | 36 | $0.05 | 4,240 |
+| Medium | 41 | $0.10 | 2,120 |
+| High | 44 | $0.13 | 1,630 |
+| XHigh | 45 | $0.19 | 1,116 |
+| Max | 48 | $0.40 | 530 |
+
+Only Max clears the default intelligence floor of 46; lower the floor to see the other five configurations. **None** matches [OpenAI's `none` effort](https://developers.openai.com/api/docs/models/gpt-6.1-terra) and AA's Non-reasoning configuration. All six appear in task charts, tables, filters, details, and CSV exports, including the optional ChatGPT early-reset scenario. The current [Bug Hunt source](https://bughunt.productcompass.pm/data/benchmark.json), updated 23 October and retrieved 26 October 2026, contains no GPT-6.1 Terra runs. Terra therefore remains tasks-only and does not change bug weights or ratings. Existing model snapshots are retained.
+
 ### DeepSeek Flash 1017 Max via OpenCode Go
 
 Added 26 October 2026. OpenCode Go ($10/month), not a DeepSeek subscription. The published $80 monthly Flash allowance implies a derived 8× multiplier, not measured consumption. Five-hour and weekly limits are 20% and 50% of monthly allowance. AA task cost uses peak token prices; Bug Hunt bills use off-peak prices, each matched to the corresponding Go token-price basis. Direct DeepSeek API benchmark performance is transferred to the Go route by assumption; the subscription must serve the same 1017 model and Max effort. Existing model snapshots are retained. [OpenCode terms](https://opencode.ai/v2/docs/console/go/) and [AA configuration](https://artificialanalysis.ai/models/deepseek-v4-1-flash-1017) supply the inputs. AA intelligence **45**, task cost **$0.26**, and multiplier **8×** produce **616 tasks per $20**; lower the default floor to 45 to see it.
@@ -186,7 +201,7 @@ The recorded dataset is the JSON inside `<script id="comparison-data">` in [docs
 | `id`, `model`, `short` | Local identifiers and display names | Keep `id` unique and stable. |
 | `provider` | Subscription used for normalization | Claude, ChatGPT, Cursor, Muse Standard, Muse Contributor, Kimi, or OpenCode Go; Grok uses Cursor here. |
 | `country` | Country of the model developer | Use the full country name. Origin follows the developer even when accessed through OpenCode Go or another subscription. Current origins are China (DeepSeek, Moonshot/Kimi, Xiaomi/MiMo, Z.ai/GLM, MiniMax, Alibaba/Qwen, StepFun) and United States (Anthropic/Claude, OpenAI/GPT, xAI/Grok, Meta/Muse). |
-| `reasoning` | Displayed effort level | Use Default, Low, Medium, High, XHigh, or Max. Default retains an unnamed AA reasoning configuration; it does not assert a graduated effort tier. Unspecified Bug Hunt effort is assigned to the highest published effort for the exact model by user instruction; preserve the original in `bugHunt.source_effort` and disclose the inference. |
+| `reasoning` | Displayed effort level | Use Default, None, Low, Medium, High, XHigh, or Max. None is an explicitly non-reasoning configuration; Default retains an unnamed AA reasoning configuration and does not assert a graduated effort tier. Unspecified Bug Hunt effort is assigned to the highest published effort for the exact model by user instruction; preserve the original in `bugHunt.source_effort` and disclose the inference. |
 | `intelligence` | AA Intelligence Index for that configuration | Match model version, effort, and routing/fallback definition. `null` for Bug Hunt-only rows, with `benchmarkCost` and `tasks20` also `null`. |
 | `benchmarkCost` | AA Cost per Intelligence Index task | USD per task, not token price or total index cost. |
 | `multiplier` | Supplied provider default or model-specific assumption above | Apply consistently across the model’s reasoning levels; Fable is normalized per allocated subscription dollar. |

@@ -12,7 +12,7 @@ const metricValue = runInNewContext(valueCode + '\nmetricValue',{models:data,con
 const pareto = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\n' + code.match(/^    const pareto = .+$/m)[0] + '\npareto',{models:data,controls:{'early-resets':{checked:false}}});
 const expected = [1338, 1010, 880, 662, 648, 586, 544, 340, 152, 110];
 assert.deepEqual(data.slice(0,10).map(model => model.tasks20), expected);
-assert.equal(new Set(data.map(model => model.id)).size, 65);
+assert.equal(new Set(data.map(model => model.id)).size, 71);
 const matchesSearch = runInNewContext(code.match(/^    const matchesSearch = .+$/m)[0] + '\nmatchesSearch');
 for(const model of data){
   const expectedCountry = /^(DeepSeek |GLM-|Kimi |MiMo-|MiniMax |Qwen|Step )/.test(model.model) ? 'China' : 'United States';
@@ -36,11 +36,11 @@ for (const model of data) {
   if(model.tasks20 !== null) assert.equal(Math.round(model.multiplier / model.benchmarkCost * 10) / 10 * 20, model.tasks20);
 }
 assert.equal(pareto(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null)).map(model => model.id).join(','), 'muse-contributor-max,opus-medium,opus-high,opus-xhigh,opus-max');
-assert.equal(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null).length, 29);
+assert.equal(data.filter(model => model.intelligence >= 46 && metricValue(model,'tasks') !== null).length, 30);
 assert.ok(data.filter(model => /Luna|Haiku/.test(model.model)).every(model => model.intelligence < 46));
 assert.equal(data.filter(model => model.model.includes('Fable')).length,5);
 assert.ok(data.filter(model => /Fable|Astra/.test(model.model)).every(model => metricValue(model,'tasks') > 0));
-assert.equal(data.filter(model => metricValue(model,'tasks') !== null).length,58);
+assert.equal(data.filter(model => metricValue(model,'tasks') !== null).length,64);
 assert.ok(data.filter(model => model.model.includes('Fable')).every(model => metricValue(model,'bugs') > 0));
 assert.ok(html.includes('value="46" selected'));
 assert.ok(!html.includes('Download original $20 graph'));
@@ -64,7 +64,7 @@ const bugScore = runInNewContext(valueCode + '\nbugScore',{models:data,controls:
 for (const model of data) {
   const bug = model.bugHunt;
   if (!bug) {
-    assert.ok(['sol-5-6-low','kimi-k3-low','go-minimax-m3-1-flash','go-step-5-preview','go-qwen3-8-max-0902'].includes(model.id));
+    assert.ok(['sol-5-6-low','kimi-k3-low','go-minimax-m3-1-flash','go-step-5-preview','go-qwen3-8-max-0902','terra-none','terra-low','terra-medium','terra-high','terra-xhigh','terra-max'].includes(model.id));
     assert.equal(metricValue(model,'bugs'),null);
     continue;
   }
@@ -84,7 +84,7 @@ const solMedium = data.find(model => model.id === 'sol-medium');
 assert.equal(reliableBugs(solMedium).length,25);
 assert.ok(Math.abs(metricValue(solMedium,'bugs') - 1.76 / (10.6 * (29 + 30.5))) < 1e-10);
 assert.ok(html.includes('Subscription $ / bug fixed'));
-assert.equal(data.filter(model => reliableBugs(model) === null).length,5);
+assert.equal(data.filter(model => reliableBugs(model) === null).length,11);
 assert.equal(Object.keys(weights).length,105);
 for(const [id,weight] of Object.entries(weights)){
   const solvers = data.filter(model => model.intelligence !== null && reliableBugs(model)?.includes(id));
@@ -101,7 +101,7 @@ const easy = Object.keys(weights).find(id => weights[id] === Math.min(...Object.
 const hard = Object.keys(weights).find(id => weights[id] === Math.max(...Object.values(weights).filter(weight => weight !== null)));
 assert.equal(bugScore({bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[easy]:2,[hard]:2}}}),weights[easy] + weights[hard]);
 assert.ok(html.includes('data-sort="bugScore"'));
-console.log('Report checks passed: 65 configurations, original task values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
+console.log('Report checks passed: 71 configurations, original task values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
 
 const dominates = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\ndominates',{models:data,controls:{'early-resets':{checked:false}}});
 const candidate = {intelligence:58,multiplier:10,bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[hard]:2},fixed:1,extras:1,cost_usd:1}};
@@ -367,3 +367,20 @@ assert.ok(byId('go-qwen3-8-max-0902').sourceNote.includes('revision cannot') || 
 assert.ok(html.includes('Single-run results are included and labeled; repeatability is unverified.'));
 assert.ok(code.includes("'Single run; repeatability unverified'"));
 console.log('Go additions passed: seven allowed models, exact task inputs, complete source coverage, one-run inclusion, shared benchmark ratings, and missing-revision exclusions.');
+
+const terra = data.filter(model => model.model === 'GPT-6.1 Terra');
+assert.deepEqual(terra.map(model => [model.id,model.reasoning,model.intelligence,model.benchmarkCost,model.tasks20]),[
+  ['terra-none','None',33,0.11,1928],
+  ['terra-low','Low',36,0.05,4240],
+  ['terra-medium','Medium',41,0.10,2120],
+  ['terra-high','High',44,0.13,1630],
+  ['terra-xhigh','XHigh',45,0.19,1116],
+  ['terra-max','Max',48,0.40,530]
+]);
+assert.ok(terra.every(model => model.provider === 'ChatGPT' && model.multiplier === 10.6 && model.sourceDate === '2026-10-26' && model.aaSource && model.sourceNote.includes('not a Terra-specific allowance measurement')));
+assert.ok(terra.every(model => model.bugHunt === null && metricValue(model,'bugs') === null && model.sourceNote.includes('no GPT-6.1 Terra runs')));
+assert.deepEqual(terra.filter(model => model.intelligence >= 46).map(model => model.id),['terra-max']);
+const effortOrder = runInNewContext(code.match(/^    const effortOrder = .+$/m)[0] + '\neffortOrder');
+assert.deepEqual(terra.map(model => model.reasoning).sort((a,b) => effortOrder.indexOf(a) - effortOrder.indexOf(b)),terra.map(model => model.reasoning));
+assert.ok(effortOrder.includes('None') && readme.includes('None (AA Non-reasoning)'));
+console.log('Terra checks passed: all six exact AA configurations, task rounding, ChatGPT normalization, effort ordering, provenance, and exclusion of unpublished bug evidence.');

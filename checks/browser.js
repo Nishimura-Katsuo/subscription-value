@@ -8,7 +8,7 @@
   };
   const mode = name => document.querySelector('[data-metric="' + name + '"]').click();
   const rowCount = () => get('rows').querySelectorAll('.model-button').length;
-  assert(rowCount() === 29, 'Default task configurations');
+  assert(rowCount() === 30, 'Default task configurations');
   assert(get('budget').value === '1' && budget === 1 && estimate(shown[0]) === metricValue(shown[0],'tasks') / 20, 'Default spend is one subscription dollar');
   assert(get('task-sort-label').textContent.includes('Tasks / $1 subscription spend'), 'Default throughput labels use one dollar');
   assert(!get('provider'), 'The separate subscription picker is removed');
@@ -69,7 +69,7 @@
   assert(get('chart-status').textContent.includes('unfiltered frontier'), 'Global frontier scope is visible');
   get('reset').click();
   change('search','','input');
-  assert(rowCount() === 29 && !get('frontier-only').checked, 'Clearing the keyword restores all matches without changing checkbox state');
+  assert(rowCount() === 30 && !get('frontier-only').checked, 'Clearing the keyword restores all matches without changing checkbox state');
   change('search','china,haiku','input');
   const ordinaryMatches = shown.map(model => model.id);
   change('search','china,haiku,pareto','input');
@@ -133,7 +133,7 @@
   assert(rowCount() === 0 && get('export').disabled, 'Empty results disable export');
   assert(get('detail').textContent.includes('No matching models'), 'Empty result guidance');
   get('reset').click();
-  assert(rowCount() === 29 && get('metric').value === 'tasks' && get('budget').value === '1', 'Reset restores defaults');
+  assert(rowCount() === 30 && get('metric').value === 'tasks' && get('budget').value === '1', 'Reset restores defaults');
   change('search', 'GPT-5.6 Sol', 'input');
   assert(rowCount() === 1 && get('rows').textContent.includes('Max'), 'Sol 5.6 Max clears the default intelligence floor');
   change('floor', '0');
@@ -142,6 +142,21 @@
   assert(rowCount() === 4 && document.querySelectorAll('#rows .caveat').length === 3, 'Four Sol 5.6 bug efforts, with three single-run labels');
   get('rows').querySelector('[data-id="sol-5-6-medium"]').click();
   assert(get('detail').textContent.includes('29 / 105') && get('detail').textContent.includes('repeatability unverified'), 'Single-run Sol 5.6 evidence is explicit');
+  get('reset').click();
+  change('search','GPT-6.1 Terra','input');
+  assert(rowCount() === 1 && document.querySelectorAll('.chart-point').length === 1 && shown[0].id === 'terra-max', 'Terra Max clears the default intelligence floor and plots');
+  change('floor','0');
+  assert(rowCount() === 6 && document.querySelectorAll('.chart-point').length === 6, 'All six Terra configurations appear with no floor');
+  document.querySelector('[data-sort="reasoning"]').click();
+  assert([...get('rows').querySelectorAll('.model-button')].map(button => button.dataset.id).join(',') === 'terra-none,terra-low,terra-medium,terra-high,terra-xhigh,terra-max', 'Terra reasoning sort starts with None');
+  assert(document.querySelector('.effort-line title').textContent.includes('None to Max'), 'Terra effort line includes the non-reasoning configuration');
+  get('rows').querySelector('[data-id="terra-none"]').click();
+  assert(get('detail').textContent.includes('AA Non-reasoning') && get('detail').textContent.includes('not a Terra-specific allowance measurement'), 'Terra configuration and subscription assumptions are visible');
+  const terraTasks = estimate(shown[0]);
+  get('early-resets').click();
+  assert(Math.abs(estimate(shown[0]) / terraTasks - 7 / 3) < 1e-12, 'Terra participates in the ChatGPT reset scenario');
+  mode('bugs');
+  assert(rowCount() === 0 && document.querySelectorAll('.chart-point').length === 0 && get('export').disabled, 'Unpublished Terra bug evidence produces no rows, points, or export');
   get('reset').click();
   change('search','kimi','input');
   assert(rowCount() === 2 && get('rows').textContent.includes('Kimi K3.1 Pro'), 'K3.1 Pro clears the default floor');
@@ -199,7 +214,7 @@
   change('search','opencode go,haiku','input');
   assert(shown.length > 0 && shown.every(model => model.provider === 'OpenCode Go' || model.model.includes('Haiku')), 'Subscription and model terms share the text filter');
   get('reset').click();
-  assert(get('search').value === '' && rowCount() === 29, 'Reset clears all subscription filtering through the text input');
+  assert(get('search').value === '' && rowCount() === 30, 'Reset clears all subscription filtering through the text input');
   const point = document.querySelector('.chart-point[data-id="opus-medium"]');
   point.focus();
   assert(document.activeElement === point && point.getAttribute('aria-pressed') === 'true', 'Keyboard selection preserves focus');
