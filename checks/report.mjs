@@ -6,10 +6,12 @@ const html = readFileSync(new URL('../docs/index.html', import.meta.url), 'utf8'
 const readme = readFileSync(new URL('../README.md', import.meta.url), 'utf8');
 const data = JSON.parse(html.match(/<script id="comparison-data" type="application\/json">([\s\S]*?)<\/script>/)[1]);
 const code = html.match(/<script id="report-code">([\s\S]*?)<\/script>/)[1];
+const defaultPenaltyStrength = Number(html.match(/id="penalty"[^>]*value="([^"]+)"/)[1]);
+assert.equal(defaultPenaltyStrength,2);
 new Script(code); // Compile the actual dashboard script to catch syntax errors.
-const valueCode = ['resetCostFactor','effectiveMultiplier','reliableBugs','bugWeights','bugScore','totalFixes','costPerBug','metricValue','rating'].map(name => code.match(new RegExp('^    const ' + name + ' = .+$','m'))[0]).join('\n');
-const metricValue = runInNewContext(valueCode + '\nmetricValue',{models:data,controls:{'early-resets':{checked:false}}});
-const pareto = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\n' + code.match(/^    const pareto = .+$/m)[0] + '\npareto',{models:data,controls:{'early-resets':{checked:false}}});
+const valueCode = ['resetCostFactor','effectiveMultiplier','reliableBugs','bugWeights','minimumBugWeight','bugMissWeights','bugCredit','bugPenalty','bugScore','totalFixes','costPerBug','metricValue','rating'].map(name => code.match(new RegExp('^    const ' + name + ' = .+$','m'))[0]).join('\n');
+const metricValue = runInNewContext(valueCode + '\nmetricValue',{penaltyStrength:defaultPenaltyStrength,models:data,controls:{'early-resets':{checked:false}}});
+const pareto = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\n' + code.match(/^    const pareto = .+$/m)[0] + '\npareto',{penaltyStrength:defaultPenaltyStrength,models:data,controls:{'early-resets':{checked:false}}});
 const expected = [1338, 1010, 880, 662, 648, 586, 544, 340, 152, 110];
 assert.deepEqual(data.slice(0,10).map(model => model.tasks20), expected);
 assert.equal(new Set(data.map(model => model.id)).size, 70);
@@ -58,9 +60,10 @@ for (const model of data) {
   assert.ok(Number.isFinite(py) && py >= 38 && py <= 458);
 }
 assert.ok(html.includes('.chart-point[aria-pressed="true"] .chart-label'));
-const reliableBugs = runInNewContext(valueCode + '\nreliableBugs',{models:data,controls:{'early-resets':{checked:false}}});
-const weights = runInNewContext(valueCode + '\nbugWeights',{models:data,controls:{'early-resets':{checked:false}}});
-const bugScore = runInNewContext(valueCode + '\nbugScore',{models:data,controls:{'early-resets':{checked:false}}});
+const reliableBugs = runInNewContext(valueCode + '\nreliableBugs',{penaltyStrength:defaultPenaltyStrength,models:data,controls:{'early-resets':{checked:false}}});
+const weights = runInNewContext(valueCode + '\nbugWeights',{penaltyStrength:defaultPenaltyStrength,models:data,controls:{'early-resets':{checked:false}}});
+const bugScore = runInNewContext(valueCode + '\nbugScore',{penaltyStrength:defaultPenaltyStrength,models:data,controls:{'early-resets':{checked:false}}});
+const {bugCredit,bugPenalty} = runInNewContext(valueCode + '\n({bugCredit,bugPenalty})',{penaltyStrength:defaultPenaltyStrength,models:data,controls:{'early-resets':{checked:false}}});
 for (const model of data) {
   const bug = model.bugHunt;
   if (!bug) {
@@ -96,14 +99,42 @@ assert.equal(reliableBugs({bugHunt:{n_runs:3,coverage_runs:2,bug_hits:{1:2}}}),n
 assert.equal(reliableBugs({bugHunt:{n_runs:3,coverage_runs:3,bug_hits:{1:3,2:2}}}).join(','),'1');
 assert.equal(bugScore({bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{}}}),null);
 console.log('Rated bugs:',Object.values(weights).filter(weight => weight !== null).length);
-assert.equal(bugScore(solMedium),reliableBugs(solMedium).reduce((sum,id) => sum + weights[id],0));
+assert.equal(bugCredit(solMedium),reliableBugs(solMedium).reduce((sum,id) => sum + weights[id],0));
 const easy = Object.keys(weights).find(id => weights[id] === Math.min(...Object.values(weights).filter(weight => weight !== null)));
 const hard = Object.keys(weights).find(id => weights[id] === Math.max(...Object.values(weights).filter(weight => weight !== null)));
-assert.equal(bugScore({bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[easy]:2,[hard]:2}}}),weights[easy] + weights[hard]);
+assert.equal(bugCredit({bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[easy]:2,[hard]:2}}}),weights[easy] + weights[hard]);
+const minimumWeight = Math.min(...Object.values(weights).filter(weight => weight !== null));
+for(const model of data.filter(model => bugScore(model) !== null)){
+  const missed = Object.entries(weights).filter(([id,weight]) => weight !== null && !reliableBugs(model).includes(id));
+  const expectedPenalty = defaultPenaltyStrength * missed.reduce((sum,[,weight]) => sum + minimumWeight ** 2 / weight,0);
+  assert.ok(Math.abs(bugPenalty(model) - expectedPenalty) < 1e-10);
+  assert.equal(bugScore(model),bugCredit(model) - bugPenalty(model));
+  assert.equal(bugScore({...model,intelligence:null}),bugScore(model));
+}
+const withFixes = ids => ({bugHunt:{n_runs:2,coverage_runs:2,bug_hits:Object.fromEntries(ids.map(id => [id,2]))}});
+const calibration = [20,40,80].map((intelligence,index) => ({...withFixes([String(index + 1)]),intelligence}));
+const sample = runInNewContext(valueCode + '\n({bugScore,bugCredit,bugPenalty,bugMissWeights})',{penaltyStrength:1,models:calibration,controls:{'early-resets':{checked:false}}});
+assert.equal(Object.keys(sample.bugMissWeights).length,3); // The other 102 bugs are uncalibrated.
+assert.deepEqual(Object.values(sample.bugMissWeights),[20,10,5]);
+assert.equal(sample.bugScore(withFixes(['1'])),5);
+assert.equal(sample.bugScore(withFixes(['2'])),15);
+assert.equal(sample.bugScore(withFixes(['3'])),50); // Hard fixes must not collapse to the same score as easy fixes.
+assert.equal(sample.bugScore(withFixes(['1','2'])),55);
+assert.equal(sample.bugScore(withFixes(['1','2','3'])),140);
+assert.equal(sample.bugPenalty(withFixes(['1','2','3'])),0);
+assert.equal(sample.bugScore(withFixes(['104'])),null);
+assert.equal(sample.bugScore(withFixes([])),null);
+assert.equal(sample.bugScore({bugHunt:{n_runs:2,coverage_runs:1,bug_hits:{1:1}}}),null);
+assert.ok(sample.bugScore(withFixes(['2','3'])) > sample.bugScore(withFixes(['1','3'])));
+assert.ok(sample.bugPenalty(withFixes(['2','3'])) > sample.bugPenalty(withFixes(['1','2'])));
+const zeroSample = runInNewContext(valueCode + '\nbugScore',{penaltyStrength:1,models:[{...withFixes(['1']),intelligence:20},{...withFixes(['2']),intelligence:20}],controls:{'early-resets':{checked:false}}});
+assert.equal(zeroSample(withFixes(['1'])),0); // A zero rating is valid, distinct from missing evidence.
+assert.ok(data.some(model => bugScore(model) !== null && bugScore(model) < 0));
+console.log('Miss penalty checks passed: inverse difficulty, harder-fix credit, additional fixes, signed and zero ratings, shared calibration, and unrated exclusions.');
 assert.ok(html.includes('data-sort="bugScore"'));
 console.log('Report checks passed: 70 configurations, original task values, default floor, rounding, script syntax, reliable fix weights, and Pareto dominance.');
 
-const dominates = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\ndominates',{models:data,controls:{'early-resets':{checked:false}}});
+const dominates = runInNewContext(valueCode + '\n' + code.match(/^    const dominates = .+$/m)[0] + '\ndominates',{penaltyStrength:defaultPenaltyStrength,models:data,controls:{'early-resets':{checked:false}}});
 const candidate = {intelligence:58,multiplier:10,bugHunt:{n_runs:2,coverage_runs:2,bug_hits:{[hard]:2},fixed:1,extras:1,cost_usd:1}};
 assert.ok(dominates(candidate,{...candidate,bugHunt:{...candidate.bugHunt,cost_usd:2}},'bugs'));
 assert.ok(!dominates({...candidate,bugHunt:{...candidate.bugHunt,cost_usd:2}},candidate,'bugs'));
@@ -117,13 +148,23 @@ assert.ok(html.includes('Higher bug-fix rating · lower subscription cost / bug'
 assert.ok(html.includes('Higher intelligence · more tasks / subscription $'));
 
 const floorCode = ['bugFloors','defaultBugFloor'].map(name => code.match(new RegExp('^    const ' + name + ' = .+$','m'))[0]).join('\n');
-const bugFloors = runInNewContext(valueCode + '\n' + floorCode + '\nbugFloors',{models:data,controls:{'early-resets':{checked:false}}});
-const defaultBugFloor = runInNewContext(valueCode + '\n' + floorCode + '\ndefaultBugFloor',{models:data,controls:{'early-resets':{checked:false}}});
+const bugFloors = runInNewContext(valueCode + '\n' + floorCode + '\nbugFloors()',{penaltyStrength:defaultPenaltyStrength,models:data,controls:{'early-resets':{checked:false}}});
+const defaultBugFloor = runInNewContext(valueCode + '\n' + floorCode + '\ndefaultBugFloor',{penaltyStrength:defaultPenaltyStrength,models:data,controls:{'early-resets':{checked:false}}});
 assert.equal(bugFloors.join(','),[...new Set(data.map(bugScore).filter(score => score !== null))].sort((a,b) => a-b).join(','));
-assert.equal(defaultBugFloor,0);
+assert.equal(defaultBugFloor,-Infinity);
 assert.ok(data.filter(model => model.model === 'Claude Haiku 5.5' && bugScore(model) !== null).every(model => bugScore(model) >= defaultBugFloor));
 assert.ok(code.includes('rating(model,controls.metric.value) >= Number(controls.floor.value)'));
 console.log('Default bug floor:',defaultBugFloor,'rating options:',bugFloors.length);
+const strengthContext = {penaltyStrength:defaultPenaltyStrength,models:data,controls:{'early-resets':{checked:false}}};
+const adjustable = runInNewContext(valueCode + '\n' + floorCode + '\n' + code.match(/^    const bugFloorSteps = .+$/m)[0] + '\n({bugPenalty,bugScore,bugFloorSteps})',strengthContext);
+const basePenalty = bugPenalty(solMedium) / defaultPenaltyStrength;
+for(const strength of [0,.25,1,defaultPenaltyStrength,defaultPenaltyStrength * 2,1e6]){
+  strengthContext.penaltyStrength = strength;
+  assert.equal(adjustable.bugPenalty(solMedium),strength * basePenalty);
+  assert.equal(adjustable.bugScore(solMedium),bugCredit(solMedium) - strength * basePenalty);
+  assert.ok(adjustable.bugFloorSteps().length <= 21);
+}
+console.log('Penalty strength checks passed: off, fractional, default, doubled, and large values with bounded floor options.');
 
 assert.equal(reliableBugs({model:'GPT-6 Astra',bugHunt:{n_runs:1,coverage_runs:1,bug_hits:{1:1}}}).join(','),'1');
 for(const model of data.filter(model => model.model === 'GPT-6 Astra')){
@@ -136,7 +177,7 @@ assert.ok(newlyAdmitted.every(model => model.bugHunt.coverage_runs === 1 && reli
 
 for(const model of data.filter(model => model.bugHunt)) assert.ok(Number.isFinite(model.bugHunt.extras) && model.bugHunt.extras >= 0);
 assert.equal(data.find(model=>model.id==='sol-medium').bugHunt.extras,30.5);
-const costPerBug = runInNewContext(valueCode + '\ncostPerBug',{models:data,controls:{'early-resets':{checked:false}}});
+const costPerBug = runInNewContext(valueCode + '\ncostPerBug',{penaltyStrength:defaultPenaltyStrength,models:data,controls:{'early-resets':{checked:false}}});
 assert.ok(costPerBug({...candidate,bugHunt:{...candidate.bugHunt,extras:3}}) < costPerBug(candidate));
 
 assert.equal(reliableBugs({model:'Claude Fable 5.1',bugHunt:{n_runs:1,coverage_runs:1,bug_hits:{1:1}}}).join(','),'1');
@@ -161,7 +202,7 @@ assert.ok(!readme.includes('Astra and Fable use their providers’ multipliers')
 assert.ok(!html.includes('Astra and Fable use the same provider subscription multipliers'));
 assert.ok(html.includes('id="fable-normalization">Fable uses allocated subscription dollars for both graphs (full-plan equivalent).'));
 
-for(const method of ['Tasks / subscription $ = multiplier / AA cost per task','Bug-fix rating = sum of weights of its qualifying planted fixes','source run cost × token-price conversion factor / subscription multiplier / total fixes','Single-run results are allowed for every model']) assert.ok(readme.includes(method));
+for(const method of ['Tasks / subscription $ = multiplier / AA cost per task','Bug-fix rating = Difficulty credit − sum of penalties for missed rated bugs','source run cost × token-price conversion factor / subscription multiplier / total fixes','Single-run results are allowed for every model']) assert.ok(readme.includes(method));
 assert.ok(readme.includes('https://nishimura-katsuo.github.io/subscription-value/'));
 
 const chartX = runInNewContext(code.match(/^    const chartX = .+$/m)[0] + '\nchartX');
@@ -249,13 +290,13 @@ for(const [id,hits] of Object.entries(sol56Max.bugHunt.bug_hits)){
 assert.ok(sol56.every(model => model.short !== solMedium.short));
 console.log('Sol 5.6 checks passed: exact AA tiers, subscription normalization, current Max mean, and labeled single-run eligibility.');
 
-const intelligenceFloors = runInNewContext(code.match(/^    const intelligenceFloors = .+$/m)[0] + '\nintelligenceFloors',{models:data,controls:{'early-resets':{checked:false}}});
+const intelligenceFloors = runInNewContext(code.match(/^    const intelligenceFloors = .+$/m)[0] + '\nintelligenceFloors',{penaltyStrength:defaultPenaltyStrength,models:data,controls:{'early-resets':{checked:false}}});
 assert.equal(intelligenceFloors.join(','),[...new Set([46,...data.filter(model => model.tasks20 !== null && model.intelligence !== null).map(model => model.intelligence)])].sort((a,b) => a-b).join(','));
 assert.ok([22,33,39,47,58].every(score => intelligenceFloors.includes(score)));
 console.log('AA floor checks passed: all published task scores, sorted without duplicates, plus the original floor.');
 
 const resetControls = {'early-resets':{checked:true}};
-const adjusted = runInNewContext(valueCode + '\n({metricValue,resetCostFactor,effectiveMultiplier,bugScore})',{models:data,controls:resetControls});
+const adjusted = runInNewContext(valueCode + '\n({metricValue,resetCostFactor,effectiveMultiplier,bugScore})',{penaltyStrength:defaultPenaltyStrength,models:data,controls:resetControls});
 for (const model of data) {
   const factor = model.provider === 'ChatGPT' ? 3 / 7 : 1;
   assert.equal(adjusted.resetCostFactor(model),factor);
@@ -280,7 +321,7 @@ assert.equal(kimi[1].bugHunt.source_effort,'default');
 assert.equal(kimi[1].bugHunt.id,'Kimi K3');
 assert.equal(kimi[1].bugHunt.n_runs,1);
 assert.equal(reliableBugs(kimi[1]).length,21);
-assert.equal(bugScore(kimi[1]),681);
+assert.equal(bugCredit(kimi[1]),681);
 assert.equal(costPerBug(kimi[1]),25.27 / 11 / 27);
 assert.ok(kimi[1].sourceNote.includes('highest published effort') && kimi[1].sourceNote.includes('not a verified effort match') && kimi[1].sourceNote.includes('repeatability is unverified'));
 assert.equal(kimi[2].bugHunt.source_effort,'max');
@@ -288,7 +329,7 @@ assert.equal(kimi[2].bugHunt.n_runs,3);
 assert.equal(kimi[2].bugHunt.coverage_runs,3);
 assert.equal(kimi[2].bugHunt.cost_kind,'bill');
 assert.equal(reliableBugs(kimi[2]).length,25);
-assert.equal(bugScore(kimi[2]),813);
+assert.equal(bugCredit(kimi[2]),813);
 assert.equal(costPerBug(kimi[2]),13.76 / 11 / (36 + 29.3));
 assert.ok(kimi[2].sourceNote.includes('failed repo-2 attempt'));
 for(const model of kimi.filter(model => model.bugHunt)){
@@ -359,7 +400,7 @@ assert.equal(byId('go-glm-5-3-flash-max').bugHunt.price_factor,2);
 assert.equal(costPerBug(byId('go-glm-5-3-flash-max')),2.06 / 6 / 21);
 assert.equal(byId('go-glm-5-3-max').bugHunt.n_runs,1);
 assert.ok(byId('go-glm-5-3-max').sourceNote.includes('repeatability is unverified'));
-assert.equal(bugScore(byId('go-glm-5-3-max')),605);
+assert.equal(bugCredit(byId('go-glm-5-3-max')),605);
 assert.deepEqual(byId('go-kimi-k3-1-pro-max').bugHunt,kimi[2].bugHunt);
 assert.equal(bugScore(byId('go-kimi-k3-1-pro-max')),bugScore(kimi[2]));
 for(const id of ['go-minimax-m3-1-flash','go-step-5-preview','go-qwen3-8-max-0902']) assert.equal(metricValue(byId(id),'bugs'),null);

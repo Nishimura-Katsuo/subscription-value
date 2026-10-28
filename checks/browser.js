@@ -1,5 +1,5 @@
 // Run after report-code in a browser; throw if the comparison regresses.
-(() => {
+(async () => {
   const get = id => document.getElementById(id);
   const assert = (condition, message) => { if (!condition) throw new Error(message); };
   const change = (id, value, event = 'change') => {
@@ -124,7 +124,52 @@
   change('budget', '1', 'input');
   assert(get('budget-error').hidden, 'Valid spend clears feedback');
   mode('bugs');
-  assert(rowCount() === 63 && get('floor').value === '0', 'Bug mode includes all rated configurations');
+  assert(rowCount() === 63 && get('floor').value === '-Infinity', 'Bug mode includes all rated configurations');
+  assert(shown.some(model => bugScore(model) < 0), 'No floor includes negative ratings');
+  assert([...get('floor').options].some(option => Number(option.value) < 0 && Number.isFinite(Number(option.value))), 'Negative rating floors are available');
+  assert(get('detail').textContent.includes('Difficulty credit') && get('detail').textContent.includes('Miss penalty'), 'Details explain the rating deduction');
+  assert(get('bug-weights').querySelector('tr').cells.length === 3, 'The method table includes per-bug miss penalties');
+  const allBugIds = shown.map(model => model.id).sort().join(',');
+  const unchangedRating = bugScore(models.find(model => model.id === 'sol-medium'));
+  change('floor','0');
+  assert(shown.length < 63 && shown.every(model => bugScore(model) >= 0), 'A zero floor explicitly excludes negative ratings');
+  change('floor','-Infinity');
+  assert(shown.map(model => model.id).sort().join(',') === allBugIds, 'No floor restores negative configurations');
+  change('search','haiku','input');
+  assert(bugScore(models.find(model => model.id === 'sol-medium')) === unchangedRating, 'Filters leave calibration and deductions unchanged');
+  change('search','','input');
+  assert(!get('penalty').closest('label').hidden && get('penalty').value === '2', 'Penalty strength is visible in bugs mode and defaults to two');
+  assert(document.documentElement.scrollWidth <= innerWidth, 'Penalty controls fit the viewport');
+  const probe = models.find(model => model.id === 'sol-medium'), basePenalty = bugPenalty(probe) / penaltyStrength, baseCost = costPerBug(probe);
+  for(const strength of [0,.5,4]){
+    change('penalty',String(strength),'input');
+    assert(bugPenalty(probe) === strength * basePenalty && bugScore(probe) === bugCredit(probe) - strength * basePenalty, 'Input scales only the missed-bug deduction: ' + strength);
+    assert(costPerBug(probe) === baseCost, 'Penalty strength leaves cost per fix unchanged');
+    assert(frontier.map(model => model.id).join(',') === pareto(shown,'bugs').map(model => model.id).join(','), 'Frontier updates with penalty strength');
+    if(strength === 0) assert(shown.every(model => bugScore(model) === bugCredit(model)), 'Zero strength restores credit-only ratings');
+    const penaltyBug = Object.keys(bugMissWeights)[0];
+    assert(get('bug-weights').rows[Number(penaltyBug) - 1].cells[2].textContent === number(strength * bugMissWeights[penaltyBug]), 'Per-bug miss deductions update with the input');
+  }
+  const lastValidScore = bugScore(probe);
+  for(const invalid of ['', '-1', '1e308']){
+    change('penalty',invalid,'input');
+    assert(!get('penalty-error').hidden && get('penalty').getAttribute('aria-invalid') === 'true', 'Invalid penalty has accessible feedback: ' + invalid);
+    assert(bugScore(probe) === lastValidScore, 'Invalid input retains the last valid rating');
+  }
+  change('penalty','1','input');
+  change('floor','1250');
+  change('penalty','2','input');
+  assert(get('floor').value === '1250' && shown.length === 0, 'Changing strength preserves a selected floor outside the new range');
+  mode('tasks');
+  assert(get('penalty').closest('label').hidden && penaltyStrength === 2, 'Tasks mode hides the input and remembers its setting');
+  mode('bugs');
+  assert(get('penalty').value === '2' && get('floor').value === '1250', 'Returning to bugs preserves strength and floor');
+  change('floor','-Infinity');
+  change('penalty','1000000','input');
+  assert(get('floor').options.length <= 22 && shown.length === 63 && !/NaN|Infinity/.test(get('chart').innerHTML), 'Large strengths keep floor options bounded and chart coordinates finite');
+  get('reset').click();
+  assert(get('penalty').value === '2' && penaltyStrength === 2 && !get('penalty').hasAttribute('aria-invalid') && get('penalty-error').hidden, 'Reset restores the penalty default and clears validation');
+  mode('bugs');
   assert(get('budget').closest('label').hidden, 'Spend is irrelevant in bug mode');
   assert(document.querySelector('[data-metric="bugs"]').getAttribute('aria-pressed') === 'true', 'Mode switch exposes selection');
   change('search','claude,chatgpt','input');
@@ -234,9 +279,21 @@
     HTMLAnchorElement.prototype.click = function () { downloads.push(this.download); };
     get('export').click();
     mode('bugs');
+    change('penalty','3','input');
     get('export').click();
     assert(urls.length === 2 && urls.every(blob => blob.size > 1000), 'Both CSV exports have content');
     assert(downloads[0].includes('tasks-1-subscription') && downloads[1].includes('bug-cost'), 'Mode-specific export filenames');
+    const csv = (await urls[1].text()).split('\r\n').map(line => [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""','"')));
+    const column = name => csv[0].indexOf(name);
+    assert(['Bug-fix rating','Difficulty credit','Miss penalty','Minimum calibrated difficulty','Calibrated planted bugs','Bug rating method','Penalty strength'].every(name => column(name) >= 0), 'Bug CSV includes rating components and calibration');
+    for(const row of csv.slice(1)){
+      const model = shown.find(model => model.model === row[0] && model.reasoning === row[1] && model.provider === row[3]);
+      assert(row.length === csv[0].length && model, 'CSV columns and configuration identity agree');
+      assert(Number(row[column('Bug-fix rating')]) === bugScore(model), 'CSV retains full signed rating precision');
+      assert(Number(row[column('Difficulty credit')]) === bugCredit(model) && Number(row[column('Miss penalty')]) === bugPenalty(model), 'CSV rating components agree with calculations');
+      assert(Number(row[column('Penalty strength')]) === 3, 'CSV records the selected nondefault penalty strength');
+    }
+    assert(csv.slice(1).some(row => Number(row[column('Bug-fix rating')]) < 0), 'CSV preserves negative ratings');
   } finally {
     URL.createObjectURL = createURL;
     URL.revokeObjectURL = revokeURL;

@@ -141,10 +141,19 @@ This is an empirical difficulty proxy: the lowest intelligence score observed so
 ### 3. Calculate a configuration’s bug-fix rating
 
 ```text
-Bug-fix rating = sum of weights of its qualifying planted fixes
+Difficulty credit = sum of weights of its qualifying planted fixes
+Minimum difficulty = lowest calibrated bug weight across all planted bugs
+Miss penalty per bug = Penalty strength × Minimum difficulty² / that bug's difficulty weight
+Bug-fix rating = Difficulty credit − sum of penalties for missed rated bugs
 ```
 
-The rating rewards both the number of qualifying fixes and their inferred difficulty. Unplanted bugs receive no weight because they lack the benchmark’s withheld answer key.
+The rating rewards qualifying fixes and deducts points for every rated planted bug not fixed in every run. Easier misses cost more, with no intelligence ceiling defining an easy bug. **Miss penalty (×)** sets the strength: `0` turns deductions off, `1` applies the base penalty, and **`2` is the default**, applying twice the base penalty. Fractional, nonnegative values are supported. Invalid or overflowing values retain the last valid setting, and Reset all restores `2`. The setting persists when switching graph modes and changes ratings, sorting, Pareto membership, floor choices, details, and per-bug penalty values; task scores and cost per fix are unaffected.
+
+At strength `1`, the easiest observed bug's miss penalty equals its fix credit; the inverse-difficulty formula makes harder misses progressively cheaper. This data-derived anchor keeps harder fixes worth more than easier fixes at strengths up to `1`; higher strengths increasingly prioritize easier-bug coverage. Every additional fix increases the rating at every supported strength. The same weights and penalties apply to every configuration, regardless of its own AA score or whether it has one.
+
+Ratings can be negative: this means the missed-bug penalties exceed the difficulty credit, not that the model fixed no bugs. **No floor** includes these results by default. Configurations with no qualifying calibrated fixes remain unrated. Bugs without a calibrated difficulty receive neither credit nor penalty; unplanted extras also receive neither because they lack the benchmark’s withheld answer key. Single-run results retain the existing eligibility rule and repeatability caveat. Adding evidence can change both difficulty weights and the minimum that anchors every penalty; filters and subscription scenarios cannot.
+
+Configuration details show difficulty credit, miss penalty, and the resulting rating. The per-bug method table lists the deduction for each miss at the selected strength. Bug CSV exports include the components, minimum calibrated difficulty, calibration size, formula, and penalty strength at full precision.
 
 ### 4. Estimate subscription cost per total bug fixed
 
@@ -163,7 +172,7 @@ The graph plots:
 - **Horizontal:** bug-fix rating.
 - **Vertical:** estimated subscription dollars per total bug fixed.
 
-The horizontal axis is **exponential**, spreading out higher ratings and compressing lower ratings. Within the displayed rating range, its normalized position is `(10^t - 1) / 9`, where `t = (rating - minimum) / (maximum - minimum)`; this changes spacing only, not ratings or Pareto membership. The vertical axis is **inverted and logarithmic**, so higher points cost less. Bugs mode defaults to all ratings; its floor choices are steps of 250 up to the highest calculated rating. Rating and unit cost do not scale with the subscription-spend scenario.
+The horizontal axis is **exponential**, spreading out higher ratings and compressing lower ratings. Within the displayed rating range, its normalized position is `(10^t - 1) / 9`, where `t = (rating - minimum) / (maximum - minimum)`; this changes spacing only, not ratings or Pareto membership. It supports negative ratings. The vertical axis is **inverted and logarithmic**, so higher points cost less. Bugs mode defaults to all ratings; floor choices use steps of 250, widening for large penalty strengths, and preserve the selected cutoff. Rating and unit cost do not scale with the subscription-spend scenario.
 
 ## Pareto frontier and graph lines
 
@@ -245,10 +254,13 @@ Languages that round exact ties to even may give a different stored value.
 
 ### Bug rating and cost
 
-For a fictional three-run configuration, suppose three planted bugs have weights `38`, `46`, and `51`, with hit counts `3`, `3`, and `2`. Only the first two qualify:
+For a fictional three-bug benchmark, suppose the calibrated weights are `20`, `40`, and `80`. A three-run configuration has hit counts `3`, `3`, and `2`, so only the first two qualify:
 
 ```text
-Bug-fix rating = 38 + 46 = 84
+Difficulty credit = 20 + 40 = 60
+Minimum difficulty = 20
+Miss penalty = 2 × 20² / 80 = 10
+Bug-fix rating = 60 − 10 = 50
 ```
 
 Each weight must first be calculated across the full eligible dataset. For example, if a bug’s qualifying solvers have intelligence scores `38` and `52`, its weight is `38`.
@@ -267,7 +279,7 @@ The denominator is 59.5 total fixes, not its 25 qualifying planted fixes. The ap
 ## Reproducing a recorded table
 
 1. Use the embedded dataset from the Git commit you want to reproduce. Re-fetching live sources may yield different values. The private usage exports are unnecessary if you accept the supplied multipliers.
-2. Recompute `tasks20` from its inputs. For bugs, apply the coverage/exception rules, calculate each planted bug’s minimum solver intelligence, then sum each configuration’s qualifying weights and calculate cost from total fixes.
+2. Recompute `tasks20` from its inputs. For bugs, apply the coverage/exception rules, calculate each planted bug’s minimum solver intelligence, sum each configuration’s qualifying weights, and subtract inverse-difficulty penalties for its missed rated bugs. Calculate cost separately from total fixes.
 3. Apply the selected mode, text search, and floor filters. Search is case-insensitive; comma-separated terms match any model name, reasoning level, subscription name, or country (for example, `opencode go,chatgpt` or `china,haiku`). `us` and `usa` are exact aliases for `United States`; other countries use their full recorded names. `pareto` adds the full-dataset frontier points and line alongside other matches, while the selected intelligence or bug-rating floor still applies to every displayed point. Subscription names use the same text input; clearing it shows all subscriptions and Reset clears the search. Spaces around terms and empty terms are ignored. The text query carries between graph modes and applies to the table, Pareto frontier, and CSV exports. Tasks mode defaults to intelligence ≥46 and $1 spending; bugs mode defaults to all ratings. Configurations without valid values in that mode are omitted. Difficulty weights are calculated **before** these filters.
 4. Recompute Pareto membership among the filtered configurations, except when the `pareto` search term requests the full-dataset frontier. Tasks mode defaults to descending throughput; bugs mode defaults to ascending cost. Equal numerical values retain dataset order unless another column is selected for sorting. The optional “Frontier only” control then limits the displayed rows.
 5. Compare your output with the app’s filtered CSV, keeping full precision until formatting. Task screen values use up to one decimal and bug costs up to four decimals; CSV task values use one decimal and bug costs six. A displayed cost can therefore hide a difference used in Pareto comparisons.
