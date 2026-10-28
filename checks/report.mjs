@@ -9,17 +9,17 @@ const code = html.match(/<script id="report-code">([\s\S]*?)<\/script>/)[1];
 new Script(code);
 // Independent Python refresh calculations, kept here so checks do not require source receipts or network access.
 const expected = {
-  "count": 53,
-  "noBugIds": ["go-minimax-m3-1-flash","go-step-5-preview","go-qwen3-8-max-0902"],
+  "count": 55,
+  "noBugIds": ["go-minimax-m3-1-flash","go-step-5-preview","go-qwen3-8-max-0902","antigravity-ultra-5x-carbon-high"],
   "firstTenTasks": [718.0,588.0,480.0,360.0,340.0,288.0,278.0,194.0,66.0,56.0],
   "bases": {
     "intelligence": {
       "defaultFloor": 38,
-      "defaultTaskCount": 27,
-      "allTaskFrontier": ["luna-low","haiku-low","haiku-medium","haiku-high","haiku-xhigh","haiku-max","terra-medium","terra-high","sol-medium","opus-medium","sol-high","opus-high","opus-xhigh","opus-max"],
-      "defaultTaskFrontier": ["terra-medium","terra-high","sol-medium","opus-medium","sol-high","opus-high","opus-xhigh","opus-max"],
-      "bugCount": 50,
-      "ratedBugs": 56,
+      "defaultTaskCount": 29,
+      "allTaskFrontier": ["luna-low","haiku-low","haiku-medium","haiku-high","haiku-xhigh","haiku-max","terra-medium","terra-high","sol-medium","opus-medium","sol-high","opus-high","opus-xhigh","opus-max","antigravity-ultra-5x-carbon-high"],
+      "defaultTaskFrontier": ["terra-medium","terra-high","sol-medium","opus-medium","sol-high","opus-high","opus-xhigh","opus-max","antigravity-ultra-5x-carbon-high"],
+      "bugCount": 51,
+      "ratedBugs": 62,
       "minimumWeight": 10,
       "weights": {
         "1":null,"2":null,"3":null,"4":null,"5":null,"6":null,"7":null,
@@ -31,76 +31,77 @@ const expected = {
         "43":19,"44":32,"45":19,"46":48,"47":23,"48":null,"49":10,
         "50":23,"51":52,"52":null,"53":null,"54":null,"55":null,"56":null,
         "57":null,"58":null,"59":49,"60":34,"61":41,"62":23,"63":null,
-        "64":null,"65":null,"66":null,"67":null,"68":35,"69":50,"70":30,
+        "64":50,"65":null,"66":null,"67":null,"68":35,"69":50,"70":30,
         "71":19,"72":null,"73":51,"74":51,"75":null,"76":19,"77":18,
-        "78":49,"79":null,"80":43,"81":null,"82":32,"83":21,"84":19,
-        "85":null,"86":null,"87":null,"88":null,"89":null,"90":null,"91":47,
-        "92":23,"93":null,"94":null,"95":49,"96":49,"97":19,"98":19,
-        "99":10,"100":10,"101":null,"102":32,"103":null,"104":null,"105":null
+        "78":49,"79":50,"80":43,"81":null,"82":32,"83":21,"84":19,
+        "85":null,"86":null,"87":null,"88":null,"89":null,"90":50,"91":47,
+        "92":23,"93":50,"94":50,"95":49,"96":49,"97":19,"98":19,
+        "99":10,"100":10,"101":null,"102":32,"103":null,"104":null,"105":50
       },
       "allBugFrontier": ["luna-high","luna-max","luna-xhigh","deepseek-flash-1017-max","sol-medium","sol-high","sol-xhigh","sol-max","astra-xhigh","fable-max"],
-      "negativeRatings": 16,
-      "scoreRange": [-306.56113900345406,1203.1966021279675],
+      "negativeRatings": 18,
+      "scoreRange": [-330.56113900345406,1179.1966021279675],
       "scores": {
-        "sonnet-high": 573.2837129742852,
-        "sol-medium": 409.9615354362685,
-        "opus-medium": 370.93917187604654,
-        "sol-high": 558.9024059036947,
-        "opus-high": 437.4147785947065,
-        "sonnet-xhigh": 424.84096440083675,
-        "sol-xhigh": 832.9260383300198,
-        "opus-xhigh": 524.8989354153296,
-        "grok-high": -77.23302111226815,
-        "grok-xhigh": 77.9040607227542,
-        "sonnet-low": -3.011939918785856,
-        "sonnet-medium": 27.51186960502369,
-        "sonnet-max": 873.2753289675405,
-        "opus-low": 22.18568276110227,
-        "opus-max": 783.2490606789312,
-        "sol-low": 41.611747924009535,
-        "sol-max": 893.8129878466686,
-        "astra-low": 531.9921368808979,
-        "astra-medium": 797.8132588777404,
-        "astra-high": 813.6640015003709,
-        "astra-xhigh": 1165.2049626381972,
-        "astra-max": 856.220593399011,
-        "luna-low": -304.7833612256763,
-        "luna-medium": -306.56113900345406,
-        "luna-high": -156.5694932223346,
-        "luna-xhigh": -1.1494576260976146,
-        "luna-max": -153.17818887450846,
-        "haiku-low": -98.57283490988681,
-        "haiku-medium": -63.81870320381,
-        "haiku-high": -67.57534117555093,
-        "haiku-xhigh": -98.92956005608562,
-        "haiku-max": 138.5593252005342,
-        "grok-low": -234.69682768752983,
-        "fable-low": 553.1154224604318,
-        "fable-medium": 288.47578789367736,
-        "fable-high": 719.0132739529802,
-        "fable-xhigh": 550.282664345498,
-        "fable-max": 1203.1966021279675,
-        "muse-standard-max": 67.45752177893672,
-        "muse-contributor-max": 67.45752177893672,
-        "kimi-k3-1-pro-max": 394.7919447929936,
-        "deepseek-flash-1017-max": 252.28939312396597,
-        "go-mimo-v2-6-pro": 14.652474741052146,
-        "go-kimi-k3-1-pro-max": 394.7919447929936,
-        "go-glm-5-3-max": 191.42879053052584,
-        "terra-low": -305.2570454362026,
-        "terra-medium": -232.81260099175813,
-        "terra-high": -202.81260099175813,
-        "terra-xhigh": -273.5613932622895,
-        "terra-max": 449.26878125734885
+        "sonnet-high": 549.2837129742852,
+        "sol-medium": 385.9615354362685,
+        "opus-medium": 346.93917187604654,
+        "sol-high": 534.9024059036947,
+        "opus-high": 413.4147785947065,
+        "sonnet-xhigh": 400.84096440083675,
+        "sol-xhigh": 808.9260383300198,
+        "opus-xhigh": 500.8989354153295,
+        "grok-high": -101.23302111226815,
+        "grok-xhigh": 53.904060722754195,
+        "sonnet-low": -27.011939918785856,
+        "sonnet-medium": 3.511869605023662,
+        "sonnet-max": 849.2753289675405,
+        "opus-low": -1.8143172388977291,
+        "opus-max": 759.2490606789312,
+        "sol-low": 17.611747924009535,
+        "sol-max": 869.8129878466686,
+        "astra-low": 507.9921368808979,
+        "astra-medium": 773.8132588777404,
+        "astra-high": 789.6640015003709,
+        "astra-xhigh": 1141.2049626381972,
+        "astra-max": 832.220593399011,
+        "luna-low": -328.7833612256763,
+        "luna-medium": -330.56113900345406,
+        "luna-high": -180.5694932223346,
+        "luna-xhigh": -25.149457626097615,
+        "luna-max": -177.17818887450846,
+        "haiku-low": -122.57283490988681,
+        "haiku-medium": -87.81870320381,
+        "haiku-high": -91.57534117555093,
+        "haiku-xhigh": -122.92956005608562,
+        "haiku-max": 114.5593252005342,
+        "grok-low": -258.69682768752983,
+        "fable-low": 529.1154224604318,
+        "fable-medium": 264.47578789367736,
+        "fable-high": 695.0132739529802,
+        "fable-xhigh": 526.282664345498,
+        "fable-max": 1179.1966021279675,
+        "muse-standard-max": 43.45752177893672,
+        "muse-contributor-max": 43.45752177893672,
+        "kimi-k3-1-pro-max": 370.7919447929936,
+        "deepseek-flash-1017-max": 228.28939312396597,
+        "go-mimo-v2-6-pro": -9.347525258947826,
+        "go-kimi-k3-1-pro-max": 370.7919447929936,
+        "go-glm-5-3-max": 167.42879053052584,
+        "terra-low": -329.2570454362026,
+        "terra-medium": -256.81260099175813,
+        "terra-high": -226.81260099175813,
+        "terra-xhigh": -297.5613932622895,
+        "terra-max": 425.26878125734885,
+        "antigravity-ultra-5x-argon-high": 732.4824435057461
       }
     },
     "engineering": {
       "defaultFloor": 43,
-      "defaultTaskCount": 30,
+      "defaultTaskCount": 32,
       "allTaskFrontier": ["luna-low","haiku-low","haiku-medium","haiku-high","haiku-xhigh","haiku-max","terra-medium","muse-contributor-max","terra-high","sol-medium","opus-medium","sol-high","opus-high","opus-xhigh","opus-max"],
       "defaultTaskFrontier": ["terra-medium","muse-contributor-max","terra-high","sol-medium","opus-medium","sol-high","opus-high","opus-xhigh","opus-max"],
-      "bugCount": 50,
-      "ratedBugs": 56,
+      "bugCount": 51,
+      "ratedBugs": 62,
       "minimumWeight": 19,
       "weights": {
         "1":null,"2":null,"3":null,"4":null,"5":null,"6":null,"7":null,
@@ -112,72 +113,73 @@ const expected = {
         "43":27,"44":37,"45":27,"46":54,"47":29,"48":null,"49":19,
         "50":29,"51":57,"52":null,"53":null,"54":null,"55":null,"56":null,
         "57":null,"58":null,"59":57,"60":41,"61":46,"62":29,"63":null,
-        "64":null,"65":null,"66":null,"67":null,"68":42,"69":55,"70":34,
+        "64":57,"65":null,"66":null,"67":null,"68":42,"69":55,"70":34,
         "71":27,"72":null,"73":57,"74":57,"75":null,"76":27,"77":25,
-        "78":57,"79":null,"80":50,"81":null,"82":37,"83":27,"84":27,
-        "85":null,"86":null,"87":null,"88":null,"89":null,"90":null,"91":54,
-        "92":29,"93":null,"94":null,"95":57,"96":57,"97":27,"98":27,
-        "99":19,"100":19,"101":null,"102":38,"103":null,"104":null,"105":null
+        "78":57,"79":57,"80":50,"81":null,"82":37,"83":27,"84":27,
+        "85":null,"86":null,"87":null,"88":null,"89":null,"90":57,"91":54,
+        "92":29,"93":57,"94":57,"95":57,"96":57,"97":27,"98":27,
+        "99":19,"100":19,"101":null,"102":38,"103":null,"104":null,"105":57
       },
       "allBugFrontier": ["luna-high","luna-xhigh","deepseek-flash-1017-max","sol-medium","sol-high","sol-xhigh","sol-max","astra-xhigh","fable-max"],
-      "negativeRatings": 25,
-      "scoreRange": [-927.704207705177,1366.570524182938],
+      "negativeRatings": 27,
+      "scoreRange": [-1003.7042077051772,1290.570524182938],
       "scores": {
-        "sonnet-high": 514.6896776220915,
-        "sol-medium": 239.5949317313407,
-        "opus-medium": 188.71426223088986,
-        "sol-high": 464.8643769759583,
-        "opus-high": 298.9594729588592,
-        "sonnet-xhigh": 291.30384816570904,
-        "sol-xhigh": 848.213085684667,
-        "opus-xhigh": 454.33224573163193,
-        "grok-high": -539.9354751311396,
-        "grok-xhigh": -270.76433847724434,
-        "sonnet-low": -385.5878719336689,
-        "sonnet-medium": -331.84713119292815,
-        "sonnet-max": 913.080768085377,
-        "opus-low": -376.0400441312214,
-        "opus-max": 787.7696868238397,
-        "sol-low": -369.5378796290569,
-        "sol-max": 920.6525251241064,
-        "astra-low": 385.0938612026839,
-        "astra-medium": 795.5057377097328,
-        "astra-high": 836.8028805668757,
-        "astra-xhigh": 1331.6408757107179,
-        "astra-max": 901.152765624347,
-        "luna-low": -921.464207705177,
-        "luna-medium": -927.704207705177,
-        "luna-high": -652.6212447422141,
-        "luna-xhigh": -386.4142971049216,
-        "luna-max": -658.8281412939383,
-        "haiku-low": -548.5382817792512,
-        "haiku-medium": -493.6807115365947,
-        "haiku-high": -491.5382817792512,
-        "haiku-xhigh": -545.0005040014734,
-        "haiku-max": -157.17774035112348,
-        "grok-low": -816.451165572135,
-        "fable-low": 467.025683997484,
-        "fable-medium": 27.84670530856613,
-        "fable-high": 708.2985757127286,
-        "fable-xhigh": 465.472778746713,
-        "fable-max": 1366.570524182938,
-        "muse-standard-max": -277.95057946879024,
-        "muse-contributor-max": -277.95057946879024,
-        "kimi-k3-1-pro-max": 234.45879795050098,
-        "deepseek-flash-1017-max": 0.7620094436516638,
-        "go-mimo-v2-6-pro": -379.27806992439423,
-        "go-kimi-k3-1-pro-max": 234.45879795050098,
-        "go-glm-5-3-max": -97.77489663077984,
-        "terra-low": -924.7234669644364,
-        "terra-medium": -817.3728787291423,
-        "terra-high": -760.3728787291423,
-        "terra-xhigh": -870.8269152402984,
-        "terra-max": 272.9929974919064
+        "sonnet-high": 438.68967762209144,
+        "sol-medium": 163.5949317313407,
+        "opus-medium": 112.71426223088986,
+        "sol-high": 388.8643769759583,
+        "opus-high": 222.95947295885912,
+        "sonnet-xhigh": 215.30384816570904,
+        "sol-xhigh": 772.213085684667,
+        "opus-xhigh": 378.33224573163193,
+        "grok-high": -615.9354751311396,
+        "grok-xhigh": -346.76433847724434,
+        "sonnet-low": -461.5878719336689,
+        "sonnet-medium": -407.84713119292815,
+        "sonnet-max": 837.080768085377,
+        "opus-low": -452.0400441312214,
+        "opus-max": 711.7696868238397,
+        "sol-low": -445.5378796290569,
+        "sol-max": 844.6525251241064,
+        "astra-low": 309.0938612026839,
+        "astra-medium": 719.5057377097328,
+        "astra-high": 760.8028805668757,
+        "astra-xhigh": 1255.6408757107179,
+        "astra-max": 825.152765624347,
+        "luna-low": -997.4642077051772,
+        "luna-medium": -1003.7042077051772,
+        "luna-high": -728.6212447422141,
+        "luna-xhigh": -462.4142971049216,
+        "luna-max": -734.8281412939383,
+        "haiku-low": -624.5382817792512,
+        "haiku-medium": -569.6807115365947,
+        "haiku-high": -567.5382817792512,
+        "haiku-xhigh": -621.0005040014734,
+        "haiku-max": -233.17774035112348,
+        "grok-low": -892.4511655721349,
+        "fable-low": 391.025683997484,
+        "fable-medium": -48.15329469143387,
+        "fable-high": 632.2985757127287,
+        "fable-xhigh": 389.472778746713,
+        "fable-max": 1290.570524182938,
+        "muse-standard-max": -353.95057946879024,
+        "muse-contributor-max": -353.95057946879024,
+        "kimi-k3-1-pro-max": 158.45879795050098,
+        "deepseek-flash-1017-max": -75.23799055634834,
+        "go-mimo-v2-6-pro": -455.27806992439423,
+        "go-kimi-k3-1-pro-max": 158.45879795050098,
+        "go-glm-5-3-max": -173.77489663077984,
+        "terra-low": -1000.7234669644363,
+        "terra-medium": -893.3728787291423,
+        "terra-high": -836.3728787291423,
+        "terra-xhigh": -946.8269152402984,
+        "terra-max": 196.9929974919064,
+        "antigravity-ultra-5x-argon-high": 597.318088884437
       }
     }
   }
 };
-// Published v5 inputs and converted task costs from the 2026-10-27 AA snapshot.
+// Published v5 inputs and converted task costs from the 2026-10-27/28 AA snapshots.
 const inputs = [
   ["sonnet-high",41,46,1.64,718.0,41.115109087048,45.7934013528139,1.6361294399784785,1],
   ["sol-medium",46,52,0.36,588.0,46.1468797067114,51.8526137445887,0.3593898648025732,1],
@@ -231,7 +233,9 @@ const inputs = [
   ["terra-medium",38,43,0.17,1248.0,38.1152076677975,42.5620279761905,0.16880458238389412,1],
   ["terra-high",42,46,0.26,816.0,42.3344508712563,46.324690530303,0.2592796466169722,1],
   ["terra-xhigh",45,49,0.4,530.0,44.950051789066,49.1166886904762,0.40068900166662513,1],
-  ["terra-max",51,54,0.96,220.0,50.9765188577015,54.3859752164502,0.961108031081634,1]
+  ["terra-max",51,54,0.96,220.0,50.9765188577015,54.3859752164502,0.961108031081634,1],
+  ["antigravity-ultra-5x-argon-high",50,57,3.84,46,50.4121935905389,57.3015892857143,7.682671372515551,0.5],
+  ["antigravity-ultra-5x-carbon-high",59,65,3.88,44,59.425738829526,64.7103995670996,7.755545745286556,0.5]
 ];
 const plain = value => JSON.parse(JSON.stringify(value));
 const near = (actual,wanted) => assert.ok(Math.abs(actual - wanted) < 1e-9,`${actual} != ${wanted}`);
@@ -244,7 +248,7 @@ const create = (models = data,basis = 'intelligence',strength = 2) => {
 };
 assert.equal(Number(html.match(/id="penalty"[^>]*value="([^"]+)"/)[1]),2);
 assert.equal(data.length,expected.count);
-assert.equal(new Set(data.map(model => model.id)).size,53);
+assert.equal(new Set(data.map(model => model.id)).size,expected.count);
 assert.deepEqual(data.map(m => ['id','intelligence','engineering','benchmarkCost','tasks20','aaIntelligenceExact','aaEngineeringExact','aaTaskCostExact','taskPriceFactor'].map(key => m[key])),inputs);
 assert.deepEqual(data.slice(0,10).map(m => m.tasks20),expected.firstTenTasks);
 assert.deepEqual(data.filter(m => !m.bugHunt).map(m => m.id),expected.noBugIds);
@@ -254,7 +258,7 @@ for(const model of data){
   assert.equal(model.aaIndexVersion,'5.0');
   assert.equal(model.intelligence,Math.round(model.aaIntelligenceExact));
   assert.equal(model.engineering,Math.round(model.aaEngineeringExact));
-  assert.ok(model.benchmarkCost > 0 && model.multiplier > 0 && model.aaSource && model.sourceDate === '2026-10-27');
+  assert.ok(model.benchmarkCost > 0 && model.multiplier > 0 && model.aaSource && model.sourceDate === (model.provider === 'Antigravity Ultra 5x' ? '2026-10-28' : '2026-10-27'));
   assert.equal(model.tasks20,20 * Math.round(model.multiplier / model.benchmarkCost * 10) / 10);
   assert.ok(matchesSearch(model,model.provider.toLowerCase()));
   assert.equal(matchesSearch(model,'china'),model.country === 'China');
@@ -267,6 +271,19 @@ for(const model of data){
   for(const [id,hits] of Object.entries(bug.bug_hits)) assert.ok(Number.isInteger(+id) && +id >= 1 && +id <= 105 && Number.isInteger(hits) && hits >= 0 && hits <= bug.n_runs);
 }
 const byId = id => data.find(m => m.id === id);
+const argon = byId('antigravity-ultra-5x-argon-high');
+assert.deepEqual([argon.provider,argon.reasoning,argon.multiplier,argon.taskPriceFactor,argon.benchmarkCost,argon.tasks20],['Antigravity Ultra 5x','High',8.7,.5,3.84,46]);
+assert.equal(argon.multiplier,Math.round(200 * (30.4375 / 7) / 99.99 * 10) / 10);
+assert.ok(!data.some(model => model.model.startsWith('Gemini') && model.provider === 'OpenCode Go'));
+near(argon.benchmarkCost,Math.round(argon.aaTaskCostExact * argon.taskPriceFactor * 100) / 100);
+assert.deepEqual([argon.bugHunt.id,argon.bugHunt.fixed,argon.bugHunt.extras,argon.bugHunt.cost_usd,argon.bugHunt.n_runs,argon.bugHunt.coverage_runs,argon.bugHunt.date],['Gemini 4 Argon (high effort, Antigravity CLI) - mean of 3',40.7,7.3,7.16,3,3,'2026-10-14']);
+assert.equal(create().reliableBugs(argon).length,31);
+near(create().metricValue(argon,'bugs'),7.16 / 8.7 / 48);
+const carbon = byId('antigravity-ultra-5x-carbon-high');
+assert.deepEqual([carbon.reasoning,carbon.benchmarkCost,carbon.tasks20,carbon.bugHunt],['High',3.88,44,undefined]);
+near(carbon.benchmarkCost,Math.round(carbon.aaTaskCostExact * carbon.taskPriceFactor * 100) / 100);
+for(const model of data.filter(model => /^Gemini 4 (Argon|Carbon)$/.test(model.model))) assert.deepEqual([model.provider,model.multiplier,model.taskPriceFactor],['Antigravity Ultra 5x',argon.multiplier,.5]);
+assert.ok(carbon.sourceNote.includes('User-directed') && carbon.sourceNote.includes('subscription availability are not verified'));
 assert.equal(byId('luna-low').benchmarkCost,.0051);
 assert.deepEqual(data.filter(m => m.id.startsWith('terra-')).map(m => m.benchmarkCost),[.07,.17,.26,.40,.96]);
 for(const [id,fixed,extras,cost,reliable] of [['terra-low',6,5,.30,4],['terra-medium',7.3,7.3,.31,6],['terra-high',9.7,6.7,.56,7],['terra-xhigh',11.3,17,.75,5],['terra-max',40.7,48,3.88,25]]){
@@ -353,7 +370,7 @@ assert.equal(zero.bugScore(withFixes(['1'])),0);
 assert.equal(zero.reliableBugs({bugHunt:{n_runs:1,coverage_runs:1,bug_hits:{1:1}}}).join(','),'1');
 assert.equal(zero.reliableBugs({bugHunt:{n_runs:1,coverage_runs:0,bug_hits:{}}}),null);
 assert.equal(zero.reliableBugs({bugHunt:{n_runs:3,coverage_runs:3,bug_hits:{1:3,2:2}}}).join(','),'1');
-const {chartX,chartY,labelPosition,shapes,effortOrder} = runInNewContext(['chartX','chartY','labelPosition','shapes','effortOrder'].map(declaration).join('\n') + '\n({chartX,chartY,labelPosition,shapes,effortOrder})');
+const {chartX,chartY,labelPosition,shapes,effortOrder,markerPath} = runInNewContext(['chartX','chartY','labelPosition','shapes','effortOrder','polygon','markerPath'].map(declaration).join('\n') + '\n({chartX,chartY,labelPosition,shapes,effortOrder,markerPath})');
 assert.equal(chartX(100,100,1100,true),82);assert.equal(chartX(1100,100,1100,true),940);assert.equal(chartX(600,100,1100,false),511);
 assert.ok(chartX(600,100,1100,true) < 511);
 assert.ok(chartX(1100,100,1100,true)-chartX(1000,100,1100,true) > chartX(200,100,1100,true)-chartX(100,100,1100,true));
@@ -365,10 +382,11 @@ for(const [px,py,width,height] of [[82,458,120,14],[940,38,160,14],[400,250,100,
 assert.ok(labelPosition(200,200,150,14,true)[1]-14 > 200);
 assert.deepEqual(plain(Object.keys(shapes).sort()),[...new Set(data.map(m => m.provider))].sort());
 assert.equal(new Set(Object.values(shapes)).size,Object.keys(shapes).length);
+assert.equal(new Set(Object.values(shapes).map(shape => markerPath(shape,0,0,5))).size,Object.keys(shapes).length);
 assert.deepEqual(plain(effortOrder),['Default','Low','Medium','High','XHigh','Max']);
 assert.ok(code.includes('label.getBBox()') && html.includes('.chart-point[aria-pressed="true"] .chart-label'));
 assert.ok(!html.includes('id="provider"') && !html.includes('id="scale"'));
 assert.ok(readme.includes('https://nishimura-katsuo.github.io/subscription-value/'));
 assert.ok(readme.includes('https://artificialanalysis.ai/indexes/engineering'));
-assert.ok(readme.includes('v5') && readme.includes('53') && readme.includes('50'));
-console.log('Report checks passed: 53 exact v5 inputs, both calibration bases and full frontiers, 50 evidence records, signed/zero ratings, inverse penalties, cost direction, task conversion, resets, search, and chart geometry.');
+assert.ok(readme.includes('v5') && readme.includes('55') && readme.includes('51'));
+console.log('Report checks passed: 55 exact v5 inputs, both calibration bases and full frontiers, 51 evidence records, signed/zero ratings, inverse penalties, cost direction, task conversion, resets, search, and chart geometry.');

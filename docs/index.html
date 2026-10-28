@@ -215,9 +215,9 @@ td.tasks-cell{white-space:nowrap}
     </section>
     <section class="table-section" aria-labelledby="table-title"><div class="section-title"><div><h2 id="table-title">Compare configurations</h2><p id="table-meta" class="table-meta">Sorted by tasks per $1 of subscription spend · descending</p></div><button class="export" id="export" type="button">Export filtered CSV ↓</button></div><div class="panel table-scroll" role="region" aria-label="Configuration comparison" tabindex="0"><table><caption class="sr-only">Filtered model, subscription, and reasoning configurations. Column buttons change sort order. Model buttons select chart points.</caption><thead><tr><th scope="col">#</th><th scope="col" id="sort-model" aria-sort="none"><button data-sort="model" type="button">Model ↕</button></th><th scope="col" class="sub-col" id="sort-provider" aria-sort="none"><button data-sort="provider" type="button">Subscription ↕</button></th><th scope="col" class="opt-col" id="sort-reasoning" aria-sort="none"><button data-sort="reasoning" type="button">Reasoning ↕</button></th><th scope="col" class="num opt-col" id="sort-intelligence" aria-sort="none"><button data-sort="intelligence" type="button">Intelligence ↕</button></th><th scope="col" class="num opt-col" id="sort-multiplier" aria-sort="none"><button data-sort="multiplier" type="button">Multiplier ↕</button></th><th scope="col" class="num opt-col" id="sort-bugScore" aria-sort="none" hidden><button data-sort="bugScore" type="button">Bug-fix rating ↕</button></th><th scope="col" class="num" id="sort-tasks20" aria-sort="descending"><button data-sort="tasks20" type="button" id="task-sort-label">Tasks / $1 subscription spend ↓</button></th></tr></thead><tbody id="rows"></tbody></table></div></section>
     <details class="method" id="method"><summary>Method, assumptions &amp; sources</summary><div class="method-grid"><div>
-<h3>Current intelligence snapshot</h3><p>Artificial Analysis v5.0 inputs checked 27 October 2026: 53 configurations with both General Intelligence and Engineering Intelligence scores; 50 also have matching Bug Hunt results. Configurations without published v5.0 scores are excluded from both modes. Scores are rounded to whole numbers. <a href="https://artificialanalysis.ai/methodology/intelligence-benchmarking">General Intelligence methodology</a> · <a href="https://artificialanalysis.ai/indexes/engineering">Engineering Index</a>. Engineering combines seven evaluations across broad engineering work; it is not solely a software engineering score.</p>
+<h3>Current intelligence snapshot</h3><p>Artificial Analysis v5.0 inputs checked 27–28 October 2026: 55 configurations with both General Intelligence and Engineering Intelligence scores; 51 also have matching Bug Hunt results. Gemini Argon and Carbon were added on 28 October; other inputs retain their 27 October snapshot. Configurations without published v5.0 scores are excluded from both modes. Scores are rounded to whole numbers. <a href="https://artificialanalysis.ai/methodology/intelligence-benchmarking">General Intelligence methodology</a> · <a href="https://artificialanalysis.ai/indexes/engineering">Engineering Index</a>. Engineering combines seven evaluations across broad engineering work; it is not solely a software engineering score.</p>
 <p>The selector changes task capability, bug difficulty calibration, ratings, floors, sorting, and Pareto frontiers. Task throughput and task costs continue to use the General Intelligence benchmark workload; bug costs use Bug Hunt run evidence. Each metric and basis remembers its own floor. The default task floors are General ≥38 and Engineering ≥43. Bugs default to No floor.</p>
-<h3>A common spending denominator</h3><div class="formula">Tasks / subscription $ = multiplier ÷ matched benchmark cost / task<br>Tasks / $20 = 20 × rounded tasks / subscription $</div><p>Task cost is rounded to cents, or four decimals for sub-cent values; tasks per dollar are rounded to one decimal before multiplying by 20. Spend scenarios scale these estimates linearly and represent subscription fees only, excluding API credits and on-demand charges. CSV preserves exact AA inputs and the task-price conversion factor. MiMo and Qwen task costs are repriced to OpenCode Go using AA’s weighted token-cost breakdown under the same-cache assumption; the displayed benchmark cost already includes that conversion. DeepSeek task inputs use peak prices and Bug Hunt bills use off-peak prices, each matched to Go rates.</p>
+<h3>A common spending denominator</h3><div class="formula">Tasks / subscription $ = multiplier ÷ matched benchmark cost / task<br>Tasks / $20 = 20 × rounded tasks / subscription $</div><p>Task cost is rounded to cents, or four decimals for sub-cent values; tasks per dollar are rounded to one decimal before multiplying by 20. Spend scenarios scale these estimates linearly and represent subscription fees only, excluding API credits and on-demand charges. CSV preserves exact AA inputs and the task-price conversion factor. MiMo and Qwen task costs are repriced to OpenCode Go; Gemini Argon and Carbon task costs are repriced to launch API prices for Antigravity. Each uses AA’s weighted token-cost breakdown under the same-cache assumption; the displayed benchmark cost already includes that conversion. DeepSeek task inputs use peak prices and Bug Hunt bills use off-peak prices, each matched to Go rates.</p>
 <h3>Reliable bug-fix capability</h3><div class="formula">Bug weight = lowest selected-index score of a reliable solver<br>Difficulty credit = sum of reliable fixed-bug weights<br>Miss penalty = strength × sum(lowest weight² ÷ missed-bug weight)<br>Bug-fix rating = difficulty credit − miss penalty<br>Subscription $ / bug fixed = source cost × price factor<br>÷ multiplier ÷ (planted fixes + extra fixes)</div><p>A reliable fix is verified in every recorded run of an exact model and effort, with complete per-bug coverage. Single runs count and can calibrate weights, but are labeled because repeatability is unverified. Both bases are calibrated once from the full dataset; search, floors, and penalty strength do not recalibrate them. Bugs without a reliable solver receive neither credit nor penalty. Configurations without calibrated reliable fixes are unrated. Extras affect cost only; their coverage cannot be verified across runs from aggregate counts.</p>
 <p>Penalty strength defaults to 2; 0 disables it. At 1×, the easiest miss costs its fix credit; harder misses cost less without an intelligence cutoff. Higher strengths increasingly favor coverage of easier bugs. Negative ratings remain included under No floor. This empirical difficulty proxy is not an official benchmark score. Repeated runs use published mean costs and fixes; partial and claimed-only fixes are excluded. Observed reliability does not guarantee future performance. Rating and unit cost do not change with spend.</p>
 <details><summary>Difficulty weights for all 105 bugs</summary><p>Weights and penalties use the selected intelligence basis. Unrated bugs contribute no points.</p><div class="table-scroll"><table><thead><tr><th>Bug</th><th id="bug-weight-basis">Lowest reliable solver General Intelligence</th><th>Penalty if missed</th></tr></thead><tbody id="bug-weights"></tbody></table></div></details>
@@ -226,8 +226,10 @@ td.tasks-cell{white-space:nowrap}
 <p>Cursor’s 20.7× comes from the author’s usage exports, which include Grok and Claude. Allocating both pools to Grok is assumed. Grok Bug Hunt costs are reconstructed lower bounds. Source costs elsewhere are bills or list-rate estimates. First-party harness performance is assumed transferable; no Grok Build versus Cursor adjustment is made.</p>
 <p>Muse Standard 11.1× ±0.5 and Contributor 137× ±39 describe the $50/month Power Usage plan, derived by scaling measured High Usage multipliers by 1.2 (4× allowance for 3.33× price). They use Standard API prices without an additional Contributor discount. Contributor permits Meta to train on submitted content and inherits Standard benchmark results by assumption. Workload mixes differ; weekly allowance was measured and five-hour limits may bind first. Max combines harness versions, including split-version runs; replication configuration is unverified. <a href="https://github.com/phuryn/experiments/tree/main/subscription-multipliers/04-muse-code">Measurements and logs</a> · <a href="https://dev.meta.ai/docs/muse-code/subscriptions">Muse subscription terms</a>.</p>
 <p>OpenCode Go is a $10/month plan. Its model-specific multipliers are derived from published allowances, not measured consumption; five-hour and weekly limits may bind first. Direct benchmark performance transfers to Go by assumption. Reused benchmark rows across subscriptions are not independent runs. MiMo runs use default effort and mixed judges; GLM replication is unverified. Qwen’s undated Go alias is assumed to serve AA’s 0902 revision, but Bug Hunt receipts cannot establish that revision, so it remains tasks-only alongside MiniMax and Step. <a href="https://opencode.ai/v2/docs/console/go/">Go allowances and token prices</a>.</p>
+<p>All Argon and Carbon variants use the same provisional 8.7× Antigravity Ultra 5x multiplier until better evidence is available, as requested. Currently only High has matching AA v5.0 evidence for each model. The Argon estimate uses Antigravity Ultra 5x ($99.99/month). A community measurement implies $200/week at launch API prices; $200 × (30.4375 / 7) / $99.99 gives a rounded 8.7× multiplier. Only weekly usage enters the monthly estimate; five-hour windows are excluded. The sampled Gemini weekly pool is shared: Argon’s inferred 3× quota burn per launch-price API dollar is a price conversion, not a fractional cap like Fable’s. No verified Argon allocation share is published, so the full fee is used without an allocation uplift, and separate Claude/GPT usage is not valued. <a href="https://www.reddit.com/r/google_antigravity/comments/1xfnvds/measured_antigravity_bills_gemini_4_argon_at_3x/">Token/quota measurement</a> · <a href="https://discuss.ai.google.dev/t/gemini-4-argon-draws-antigravity-quota-at-3x-gemini-3-8-flash-per-published-dollar-clean-a-b-same-bucket/196351">High cross-check</a> · <a href="https://one.google.com/intl/en/about/google-ai-plans/?gl=US">Plan price</a>. Task costs include a 0.5× conversion from AA standard to launch API prices through 30 November 2026; Bug Hunt already uses launch API prices and is not halved again. Its Antigravity CLI/API-gateway mean of three has 31 planted fixes achieved in every run; transfer to the subscription route is assumed. Adding Argon calibrates six previously unrated bugs, changing all bug ratings. Low/Medium lack matching AA v5.0 scores. Pro’s dedicated Argon weekly pool has only a rough one-task dollar estimate, so it remains unranked; no spending allocation fraction is verified for normalization. <a href="https://discuss.ai.google.dev/t/estimating-updated-quota-for-claude-gemini-4-argon/191879">Pro estimate</a>.</p>
+<p>Gemini 4 Carbon High is included as a user-directed subscription scenario, transferring Argon’s 8.7× multiplier and Antigravity Ultra 5x route assumption; Carbon availability and quota behavior are unverified. Its own AA v5.0 scores are General 59 / Engineering 65. Its $7.755545745286556 standard-price task cost becomes $3.88 at launch API prices, using a 0.5× conversion. No matching Carbon Bug Hunt run exists, so it appears in tasks mode only. Carbon’s launch discount has no confirmed end date. <a href="https://artificialanalysis.ai/models/gemini-4-carbon">Carbon AA evidence</a> · <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/">Google’s phased-access announcement</a>.</p>
 <p>Kimi uses the supplied 11× subscription-value estimate. K3.1 Pro is assigned its documented Max default, with direct API performance transferred to Kimi Code by assumption; plan context limits apply. Its three-run Bug Hunt mean reran one failed attempt; counting the failure as zero lowers mean planted fixes from 36 to 32. <a href="https://www.kimi.com/code/docs/en/third-party-tools/opencode.html">Kimi model and effort defaults</a>. Terra now has complete three-run Bug Hunt means at all five efforts; Max includes long-context pricing and is below the account’s Ultra tier.</p>
-<p>Configuration details and exported CSV retain exact AA configuration links and individual assumptions. Bug Hunt inputs were checked 27 October 2026: <a href="https://bughunt.productcompass.pm/">results and run details</a> · <a href="https://bughunt.productcompass.pm/data/benchmark.json">source data</a> · <a href="https://bughunt.productcompass.pm/method">method and caveats</a> · <a href="https://github.com/phuryn/bug-hunt-bench/blob/main/results/repo1-metrics.csv">token-price receipts</a>. These are workload estimates, not usage guarantees.</p>
+<p>Configuration details and exported CSV retain exact AA configuration links and individual assumptions. Bug Hunt inputs were checked 28 October 2026 against the source’s 27 October update: <a href="https://bughunt.productcompass.pm/">results and run details</a> · <a href="https://bughunt.productcompass.pm/data/benchmark.json">source data</a> · <a href="https://bughunt.productcompass.pm/method">method and caveats</a> · <a href="https://github.com/phuryn/bug-hunt-bench/blob/main/results/repo1-metrics.csv">token-price receipts</a>. These are workload estimates, not usage guarantees.</p>
 </div></div></details>
   </main>
   <script id="comparison-data" type="application/json">
@@ -3565,18 +3567,123 @@ td.tasks-cell{white-space:nowrap}
     "aaEngineeringExact": 54.3859752164502,
     "aaTaskCostExact": 0.961108031081634,
     "taskPriceFactor": 1
+  },
+  {
+    "id": "antigravity-ultra-5x-argon-high",
+    "model": "Gemini 4 Argon",
+    "short": "Argon",
+    "provider": "Antigravity Ultra 5x",
+    "country": "United States",
+    "reasoning": "High",
+    "intelligence": 50,
+    "multiplier": 8.7,
+    "benchmarkCost": 3.84,
+    "tasks20": 46,
+    "aaSource": "https://artificialanalysis.ai/models/gemini-4-argon",
+    "sourceDate": "2026-10-28",
+    "sourceNote": "AA v5.0 and Engineering Index checked 28 October 2026 for Gemini 4 Argon (High). Antigravity Google AI Ultra 5x costs $99.99/month. A 26 October community experiment estimates $200/week of Argon API-equivalent usage at launch prices: $200 × (30.4375 / 7) / $99.99 = 8.6973×, rounded to 8.7×. Weekly-to-monthly extrapolation assumes all Gemini weekly usage is spent on Argon; five-hour windows are excluded. This is a sampled quota estimate, not a published Google allowance. The shared Gemini pool meters Argon at an inferred $6 input / $30 output / $0.30 cached read per million tokens, versus launch API prices $2 / $10 / $0.10. This is a burn-rate difference, not evidence of a fractional Argon cap. No verified Fable-like allocation fraction exists, so the full subscription fee is used without an allocation uplift; separate Claude/GPT usage is not valued. AA uses standard $4 / $20 / $0.20 prices: taskPriceFactor 0.5 reprices the same token usage and cache behavior to launch API prices; benchmarkCost already includes it. Bug Hunt already uses launch API prices: its raw $7.16 list estimate is not halved again. Its selected Antigravity CLI/API-gateway High mean of three has 40, 45 and 37 planted fixes. One run resumed after a billing limit; costs may be low if long-context premiums apply. Quota evidence includes Medium and a High cross-check, but quota behavior across efforts and performance transfer from API-gateway to subscription are assumed. Launch API prices run through 30 November 2026; refresh the price basis and quota estimate thereafter. No matching AA Low/Medium v5.0 configurations were found.",
+    "bugHunt": {
+      "id": "Gemini 4 Argon (high effort, Antigravity CLI) - mean of 3",
+      "fixed": 40.7,
+      "extras": 7.3,
+      "cost_usd": 7.16,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "date": "2026-10-14",
+      "coverage_runs": 3,
+      "bug_hits": {
+        "13": 3,
+        "16": 3,
+        "20": 3,
+        "21": 1,
+        "22": 3,
+        "23": 2,
+        "26": 2,
+        "27": 3,
+        "30": 3,
+        "33": 3,
+        "34": 3,
+        "39": 3,
+        "40": 1,
+        "43": 3,
+        "45": 3,
+        "47": 3,
+        "49": 1,
+        "50": 2,
+        "51": 1,
+        "55": 2,
+        "59": 1,
+        "60": 2,
+        "61": 1,
+        "62": 3,
+        "64": 3,
+        "66": 1,
+        "69": 1,
+        "70": 3,
+        "71": 2,
+        "76": 3,
+        "77": 3,
+        "78": 1,
+        "79": 3,
+        "80": 2,
+        "82": 2,
+        "83": 3,
+        "84": 3,
+        "88": 1,
+        "90": 3,
+        "91": 3,
+        "92": 3,
+        "93": 3,
+        "94": 3,
+        "95": 1,
+        "96": 3,
+        "97": 3,
+        "98": 2,
+        "99": 3,
+        "100": 3,
+        "102": 3,
+        "105": 3
+      }
+    },
+    "engineering": 57,
+    "aaIndexVersion": "5.0",
+    "aaIntelligenceExact": 50.4121935905389,
+    "aaEngineeringExact": 57.3015892857143,
+    "aaTaskCostExact": 7.682671372515551,
+    "taskPriceFactor": 0.5
+  },
+  {
+    "id": "antigravity-ultra-5x-carbon-high",
+    "model": "Gemini 4 Carbon",
+    "short": "Carbon",
+    "provider": "Antigravity Ultra 5x",
+    "country": "United States",
+    "reasoning": "High",
+    "intelligence": 59,
+    "multiplier": 8.7,
+    "benchmarkCost": 3.88,
+    "tasks20": 44,
+    "aaSource": "https://artificialanalysis.ai/models/gemini-4-carbon",
+    "sourceDate": "2026-10-28",
+    "sourceNote": "User-directed comparison scenario: use the same provisional 8.7× multiplier for all Argon and Carbon variants until better evidence is available. This transfers the Antigravity Ultra 5x Argon weekly estimate to Carbon; Carbon-specific quota behavior and subscription availability are not verified. The Argon baseline is $200/week at launch API prices × (30.4375 / 7) / $99.99 monthly fee, rounded to 8.7×. Five-hour windows are excluded. No verified fractional cap supports a Fable-style allocation uplift. AA v5.0 and Engineering Index checked 28 October 2026 for Gemini 4 Carbon (High); scores and task costs are Carbon-specific, not copied from Argon. AA standard $4 input / $20 output / $0.20 cached read rates are converted to the $2 / $10 / $0.10 launch API price basis with taskPriceFactor 0.5, assuming identical token usage and cache behavior; benchmarkCost already includes this conversion. No confirmed end date for Carbon launch pricing was found. No matching Carbon Bug Hunt run is published; tasks only. No matching AA Low/Medium v5.0 configurations were found.",
+    "engineering": 65,
+    "aaIndexVersion": "5.0",
+    "aaIntelligenceExact": 59.425738829526,
+    "aaEngineeringExact": 64.7103995670996,
+    "aaTaskCostExact": 7.755545745286556,
+    "taskPriceFactor": 0.5
   }
 ]
   </script>
   <script id="report-code">
     'use strict';
     const models = JSON.parse(document.getElementById('comparison-data').textContent);
-    const colors = {Claude:'#bba7ff',ChatGPT:'#69dbc2',Cursor:'#f3b87b','Muse Standard':'#82b5ff','Muse Contributor':'#ef99c7',Kimi:'#ff8f80','OpenCode Go':'#a9dc76'};
+    const colors = {Claude:'#bba7ff',ChatGPT:'#69dbc2',Cursor:'#f3b87b','Muse Standard':'#82b5ff','Muse Contributor':'#ef99c7',Kimi:'#ff8f80','OpenCode Go':'#a9dc76','Antigravity Ultra 5x':'#85c9ff'};
     // Marker shapes repeat subscription identity, so similar hues never carry it alone.
-    const shapes = {Claude:'circle',ChatGPT:'diamond',Cursor:'square','Muse Standard':'triangle','Muse Contributor':'down',Kimi:'star','OpenCode Go':'plus'};
+    const shapes = {Claude:'circle',ChatGPT:'diamond',Cursor:'square','Muse Standard':'triangle','Muse Contributor':'down',Kimi:'star','OpenCode Go':'plus','Antigravity Ultra 5x':'hexagon'};
     const legendNames = {Cursor:'Cursor / Grok'};
     const polygon = points => 'M' + points.map(([px,py]) => px + ' ' + py).join('L') + 'Z';
-    const markerPath = (shape,x,y,r) => shape === 'star' ? polygon(Array.from({length:10},(_,i) => {const radius = (i % 2 ? .62 : 1.45) * r, angle = Math.PI * i / 5 - Math.PI / 2;return [x + radius * Math.cos(angle),y + .08 * r + radius * Math.sin(angle)];})) : shape === 'plus' ? polygon([[-.42,-1.2],[.42,-1.2],[.42,-.42],[1.2,-.42],[1.2,.42],[.42,.42],[.42,1.2],[-.42,1.2],[-.42,.42],[-1.2,.42],[-1.2,-.42],[-.42,-.42]].map(([dx,dy]) => [x + dx * r,y + dy * r])) : shape === 'square' ? 'M' + (x - .86 * r) + ' ' + (y - .86 * r) + 'h' + 1.72 * r + 'v' + 1.72 * r + 'h' + -1.72 * r + 'Z' : shape === 'diamond' ? 'M' + x + ' ' + (y - 1.2 * r) + 'L' + (x + 1.2 * r) + ' ' + y + 'L' + x + ' ' + (y + 1.2 * r) + 'L' + (x - 1.2 * r) + ' ' + y + 'Z' : shape === 'triangle' || shape === 'down' ? (d => 'M' + x + ' ' + (y - d * 1.3 * r) + 'L' + (x + 1.2 * r) + ' ' + (y + d * .75 * r) + 'L' + (x - 1.2 * r) + ' ' + (y + d * .75 * r) + 'Z')(shape === 'down' ? -1 : 1) : 'M' + (x - r) + ' ' + y + 'a' + r + ' ' + r + ' 0 1 0 ' + 2 * r + ' 0a' + r + ' ' + r + ' 0 1 0 ' + -2 * r + ' 0Z';
+    const markerPath = (shape,x,y,r) => shape === 'hexagon' ? polygon([[0,-1.2],[1.04,-.6],[1.04,.6],[0,1.2],[-1.04,.6],[-1.04,-.6]].map(([dx,dy]) => [x + dx * r,y + dy * r])) : shape === 'star' ? polygon(Array.from({length:10},(_,i) => {const radius = (i % 2 ? .62 : 1.45) * r, angle = Math.PI * i / 5 - Math.PI / 2;return [x + radius * Math.cos(angle),y + .08 * r + radius * Math.sin(angle)];})) : shape === 'plus' ? polygon([[-.42,-1.2],[.42,-1.2],[.42,-.42],[1.2,-.42],[1.2,.42],[.42,.42],[.42,1.2],[-.42,1.2],[-.42,.42],[-1.2,.42],[-1.2,-.42],[-.42,-.42]].map(([dx,dy]) => [x + dx * r,y + dy * r])) : shape === 'square' ? 'M' + (x - .86 * r) + ' ' + (y - .86 * r) + 'h' + 1.72 * r + 'v' + 1.72 * r + 'h' + -1.72 * r + 'Z' : shape === 'diamond' ? 'M' + x + ' ' + (y - 1.2 * r) + 'L' + (x + 1.2 * r) + ' ' + y + 'L' + x + ' ' + (y + 1.2 * r) + 'L' + (x - 1.2 * r) + ' ' + y + 'Z' : shape === 'triangle' || shape === 'down' ? (d => 'M' + x + ' ' + (y - d * 1.3 * r) + 'L' + (x + 1.2 * r) + ' ' + (y + d * .75 * r) + 'L' + (x - 1.2 * r) + ' ' + (y + d * .75 * r) + 'Z')(shape === 'down' ? -1 : 1) : 'M' + (x - r) + ' ' + y + 'a' + r + ' ' + r + ' 0 1 0 ' + 2 * r + ' 0a' + r + ' ' + r + ' 0 1 0 ' + -2 * r + ' 0Z';
     const markIcon = provider => '<svg class="mark" viewBox="-7 -7 14 14" aria-hidden="true" focusable="false"><path d="' + markerPath(shapes[provider],0,0,5) + '" fill="' + colors[provider] + '"/></svg>';
     const sharedShorts = new Set(models.filter(model => models.some(other => other.short === model.short && other.provider !== model.provider)).map(model => model.short));
     const pointLabel = model => model.short + ' · ' + model.reasoning + (sharedShorts.has(model.short) ? ' · ' + model.provider : '');

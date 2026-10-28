@@ -21,6 +21,26 @@
   assert(!get('provider'), 'The separate subscription picker is removed');
   change('floor','0');
   assertRows(taskModels, 'Removing the task floor shows all task configurations');
+  const argonModels = taskModels.filter(model => model.model === 'Gemini 4 Argon');
+  const carbonModels = taskModels.filter(model => model.model === 'Gemini 4 Carbon');
+  const geminiModels = [...argonModels,...carbonModels];
+  change('search','gemini','input');
+  assert(argonModels.length === 1 && carbonModels.length === 1, 'Both Gemini models have their published High configuration');
+  assertRows(geminiModels, 'Gemini search shows Argon and Carbon High');
+  change('search','antigravity','input');
+  assertRows(geminiModels, 'Antigravity subscription search shows both Gemini models');
+  assert(get('detail').textContent.includes('8.7×') && get('provider-legend').textContent.includes('Antigravity Ultra 5x'), 'Antigravity multiplier and legend are visible');
+  change('search','carbon','input');
+  assertRows(carbonModels, 'Carbon has its own task result');
+  assert(get('detail').textContent.includes('User-directed') && get('detail').textContent.includes('subscription availability are not verified'), 'Carbon details disclose the assumed multiplier and subscription route');
+  mode('bugs');
+  assertRows([], 'Carbon has no invented bug result');
+  mode('tasks');
+  change('search','gemini','input');
+  mode('bugs');
+  assertRows(argonModels, 'Argon High also has a bug result');
+  assert(get('detail').textContent.includes('not halved again'), 'Argon details explain the separate task and bug price bases');
+  mode('tasks');
   change('search','haiku,luna,deepseek','input');
   assertRows(taskModels.filter(familyMatch), 'Comma-separated search matches any requested model family');
   change('search',' , HaIkU ,, LuNa, deepseek, ','input');
@@ -366,7 +386,7 @@
       assert(Number(row[column('Bug-fix rating')]) === bugScore(model), 'CSV retains full signed rating precision');
       assert(Number(row[column('Difficulty credit')]) === bugCredit(model) && Number(row[column('Miss penalty')]) === bugPenalty(model), 'CSV rating components agree with calculations');
       assert(Number(row[column('General Intelligence')]) === model.intelligence && Number(row[column('Engineering Index')]) === model.engineering && row[column('Intelligence basis')] === 'Engineering Intelligence' && row[column('AA index version')] === '5.0', 'CSV records both scores and active basis');
-      assert(Number(row[column('Minimum calibrated difficulty')]) === 19 && Number(row[column('Calibrated planted bugs')]) === 56, 'CSV calibration follows Engineering');
+      assert(Number(row[column('Minimum calibrated difficulty')]) === 19 && Number(row[column('Calibrated planted bugs')]) === 62, 'CSV calibration follows Engineering');
       assert(Number(row[column('AA General Intelligence exact')]) === model.aaIntelligenceExact && Number(row[column('AA Engineering Intelligence exact')]) === model.aaEngineeringExact && Number(row[column('Task benchmark cost used (USD)')]) === model.benchmarkCost, 'CSV preserves raw AA provenance and converted task cost');
       assert(Number(row[column('Penalty strength')]) === 3, 'CSV records the selected nondefault penalty strength');
     }
