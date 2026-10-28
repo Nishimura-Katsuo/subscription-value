@@ -14,10 +14,10 @@ const expected = {
   "firstTenTasks": [718.0,588.0,480.0,360.0,340.0,288.0,278.0,194.0,66.0,56.0],
   "bases": {
     "intelligence": {
-      "defaultFloor": 35,
-      "defaultTaskCount": 33,
+      "defaultFloor": 38,
+      "defaultTaskCount": 27,
       "allTaskFrontier": ["luna-low","haiku-low","haiku-medium","haiku-high","haiku-xhigh","haiku-max","terra-medium","terra-high","sol-medium","opus-medium","sol-high","opus-high","opus-xhigh","opus-max"],
-      "defaultTaskFrontier": ["haiku-max","terra-medium","terra-high","sol-medium","opus-medium","sol-high","opus-high","opus-xhigh","opus-max"],
+      "defaultTaskFrontier": ["terra-medium","terra-high","sol-medium","opus-medium","sol-high","opus-high","opus-xhigh","opus-max"],
       "bugCount": 50,
       "ratedBugs": 56,
       "minimumWeight": 10,
@@ -95,10 +95,10 @@ const expected = {
       }
     },
     "engineering": {
-      "defaultFloor": 41,
-      "defaultTaskCount": 34,
+      "defaultFloor": 43,
+      "defaultTaskCount": 30,
       "allTaskFrontier": ["luna-low","haiku-low","haiku-medium","haiku-high","haiku-xhigh","haiku-max","terra-medium","muse-contributor-max","terra-high","sol-medium","opus-medium","sol-high","opus-high","opus-xhigh","opus-max"],
-      "defaultTaskFrontier": ["haiku-max","terra-medium","muse-contributor-max","terra-high","sol-medium","opus-medium","sol-high","opus-high","opus-xhigh","opus-max"],
+      "defaultTaskFrontier": ["terra-medium","muse-contributor-max","terra-high","sol-medium","opus-medium","sol-high","opus-high","opus-xhigh","opus-max"],
       "bugCount": 50,
       "ratedBugs": 56,
       "minimumWeight": 19,

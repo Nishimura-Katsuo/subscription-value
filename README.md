@@ -16,7 +16,7 @@ The embedded JSON in [docs/index.html](docs/index.html), configuration details, 
 
 The **General / Engineering** selector chooses the score used for task comparisons and bug difficulty calibration. General uses `intelligence` (AA Intelligence Index v5.0); Engineering uses `engineering` (AA Engineering Index). Changing the basis updates task ratings, rating sorting and filters, bug weights and minimum penalty anchor, bug ratings, rankings, Pareto frontiers, details, and CSV exports.
 
-General is the default. The default task floors are **35 General** and **41 Engineering**, anchored to the exact **Grok 4.7 High** configuration. This reflects the author's experience with useful math and coding work in messy codebases; it is a personal comparison threshold. Each metric/basis combination remembers its own floor. Bugs mode defaults to **No floor** in both bases. Reset all restores General, the default floors, and penalty strength `2`.
+General is the default. The default task floors are **38 General** and **43 Engineering**, selected as comparison thresholds. Each metric/basis combination remembers its own floor. Bugs mode defaults to **No floor** in both bases. Reset all restores General, the default floors, and penalty strength `2`.
 
 **Task throughput always uses AA's General Intelligence Index workload cost**, including when Engineering is selected. The Engineering setting changes the capability comparison and bug calibration; it does not turn that cost into an engineering-specific task cost.
 

@@ -8,7 +8,7 @@
   };
   const mode = name => document.querySelector('[data-metric="' + name + '"]').click();
   const rowCount = () => get('rows').querySelectorAll('.model-button').length;
-  assert(rowCount() === 33, 'Default task configurations');
+  assert(rowCount() === 27, 'Default task configurations');
   assert(get('budget').value === '1' && budget === 1 && estimate(shown[0]) === metricValue(shown[0],'tasks') / 20, 'Default spend is one subscription dollar');
   assert(get('task-sort-label').textContent.includes('Tasks / $1 subscription spend'), 'Default throughput labels use one dollar');
   assert(!get('provider'), 'The separate subscription picker is removed');
@@ -26,7 +26,7 @@
   assert(rowCount() === 5, 'An unmatched alternative does not hide matching terms');
   get('reset').click();
   change('search','haiku,luna,deepseek','input');
-  assert(shown.length < unfilteredTaskCount && shown.every(model => model.intelligence >= 35), 'Intelligence floor still applies to OR searches');
+  assert(shown.length < unfilteredTaskCount && shown.every(model => model.intelligence >= 38), 'Intelligence floor still applies to OR searches');
   change('floor','0');
   change('search',' , , ','input');
   assert(rowCount() === unfilteredTaskCount, 'Only empty terms means no text filter');
@@ -47,13 +47,13 @@
   assert(rowCount() === 4 && shown.every(model => model.country === 'China'), 'Origin follows developer rather than subscription provider');
   get('reset').click();
   change('search','china','input');
-  assert(shown.length > 0 && shown.every(model => model.country === 'China' && model.intelligence >= 35), 'Country search respects the intelligence floor');
+  assert(shown.length > 0 && shown.every(model => model.country === 'China' && model.intelligence >= 38), 'Country search respects the intelligence floor');
   get('reset').click();
   const unfilteredTaskFrontier = pareto(models.filter(model => metricValue(model,'tasks') !== null));
   const unfilteredTaskIds = unfilteredTaskFrontier.map(model => model.id).sort().join(',');
-  const aboveDefaultFloor = unfilteredTaskFrontier.filter(model => model.intelligence >= 35);
+  const aboveDefaultFloor = unfilteredTaskFrontier.filter(model => model.intelligence >= 38);
   const aboveDefaultIds = aboveDefaultFloor.map(model => model.id).sort().join(',');
-  assert(unfilteredTaskFrontier.some(model => model.intelligence < 35), 'Fixture distinguishes unfiltered frontier from the default floor');
+  assert(unfilteredTaskFrontier.some(model => model.intelligence < 38), 'Fixture distinguishes unfiltered frontier from the default floor');
   for(const term of ['pareto',' PaReTo ']){
     change('search',term,'input');
     assert(shown.map(model => model.id).sort().join(',') === aboveDefaultIds, 'Pareto search uses global membership and respects the default intelligence floor: ' + term);
@@ -69,7 +69,7 @@
   assert(get('chart-status').textContent.includes('unfiltered frontier'), 'Global frontier scope is visible');
   get('reset').click();
   change('search','','input');
-  assert(rowCount() === 33 && !get('frontier-only').checked, 'Clearing the keyword restores all matches without changing checkbox state');
+  assert(rowCount() === 27 && !get('frontier-only').checked, 'Clearing the keyword restores all matches without changing checkbox state');
   change('search','china,haiku','input');
   const ordinaryMatches = shown.map(model => model.id);
   change('search','china,haiku,pareto','input');
@@ -90,7 +90,7 @@
   assert(get('frontier-only').checked && shown.every(model => frontier.includes(model)), 'Keyword changes preserve a manually selected frontier-only checkbox');
   get('reset').click();
   const taskFloors = [...get('floor').options].map(option => Number(option.value));
-  const taskScores = [...new Set([0,35,...JSON.parse(get('comparison-data').textContent).filter(model => model.tasks20 !== null && model.intelligence !== null).map(model => model.intelligence)])].sort((a,b) => a-b);
+  const taskScores = [...new Set([0,38,...JSON.parse(get('comparison-data').textContent).filter(model => model.tasks20 !== null && model.intelligence !== null).map(model => model.intelligence)])].sort((a,b) => a-b);
   assert(taskFloors.join(',') === taskScores.join(','), 'AA floor covers every published task score in order');
   change('floor', '47');
   assert([...get('rows').querySelectorAll('tr')].every(row => Number(row.cells[4].textContent) >= 47), 'New AA floor cutoff filters configurations');
@@ -178,12 +178,12 @@
   assert(rowCount() === 0 && get('export').disabled, 'Empty results disable export');
   assert(get('detail').textContent.includes('No matching models'), 'Empty result guidance');
   get('reset').click();
-  assert(rowCount() === 33 && get('metric').value === 'tasks' && get('budget').value === '1', 'Reset restores defaults');
+  assert(rowCount() === 27 && get('metric').value === 'tasks' && get('budget').value === '1', 'Reset restores defaults');
   change('search','GPT-5.6 Sol','input');
   assert(rowCount() === 0, 'Configurations without published v5 scores are omitted entirely');
   get('reset').click();
   change('search','GPT-6.1 Terra','input');
-  assert(shown.length > 0 && shown.every(model => model.intelligence >= 35), 'Terra default view follows the refreshed floor');
+  assert(shown.length > 0 && shown.every(model => model.intelligence >= 38), 'Terra default view follows the refreshed floor');
   change('floor','0');
   assert(rowCount() === 5 && document.querySelectorAll('.chart-point').length === 5, 'All five Terra reasoning configurations appear with no floor');
   document.querySelector('[data-sort="reasoning"]').click();
@@ -213,7 +213,7 @@
   assert(get('detail').textContent.includes('25 / 105') && get('detail').textContent.includes('verified source API bill'), 'K3.1 Pro coverage and bill provenance');
   get('reset').click();
   change('search','opencode go','input');
-  assert(shown.every(model => model.intelligence >= 35), 'Go task rows respect the v5 floor');
+  assert(shown.every(model => model.intelligence >= 38), 'Go task rows respect the v5 floor');
   change('floor','0');
   assert(get('rows').querySelector('[data-id="deepseek-flash-1017-max"]'), 'Flash task row appears without a floor');
   get('rows').querySelector('[data-id="deepseek-flash-1017-max"]').click();
@@ -249,7 +249,7 @@
   get('reset').click();
   change('search','chatgpt','input');
   const subscriptionMatches = shown.map(model => model.id);
-  const globalMatches = pareto(models.filter(model => metricValue(model,'tasks') !== null)).filter(model => model.intelligence >= 35).map(model => model.id);
+  const globalMatches = pareto(models.filter(model => metricValue(model,'tasks') !== null)).filter(model => model.intelligence >= 38).map(model => model.id);
   change('search','chatgpt,pareto','input');
   assert(shown.map(model => model.id).sort().join(',') === [...new Set([...subscriptionMatches,...globalMatches])].sort().join(','), 'Subscription terms combine with the global Pareto frontier using OR');
   change('search','opencode go','input');
@@ -257,7 +257,7 @@
   change('search','opencode go,haiku','input');
   assert(shown.length > 0 && shown.every(model => model.provider === 'OpenCode Go' || model.model.includes('Haiku')), 'Subscription and model terms share the text filter');
   get('reset').click();
-  assert(get('search').value === '' && rowCount() === 33, 'Reset clears all subscription filtering through the text input');
+  assert(get('search').value === '' && rowCount() === 27, 'Reset clears all subscription filtering through the text input');
   const point = document.querySelector('.chart-point[data-id="opus-medium"]');
   point.focus();
   assert(document.activeElement === point && point.getAttribute('aria-pressed') === 'true', 'Keyboard selection preserves focus');
@@ -268,13 +268,13 @@
   const axis = document.querySelector('.chart-axis');
   assert(parseFloat(getComputedStyle(axis).fontSize) * get('chart').getBoundingClientRect().width / 1000 >= 11.9, 'Chart type remains at least 12 CSS pixels');
   get('reset').click();
-  assert(get('intelligence-basis').value === 'intelligence' && get('floor').value === '35', 'Reset uses General Intelligence and the Grok High anchor');
+  assert(get('intelligence-basis').value === 'intelligence' && get('floor').value === '38', 'Reset uses General Intelligence and its configured default floor');
   const probeBasis = models.find(model => model.id === 'sol-medium');
   const generalTasks = metricValue(probeBasis,'tasks'), generalCost = metricValue(probeBasis,'bugs'), generalRating = bugScore(probeBasis);
   change('floor','50');
   change('intelligence-basis','engineering');
-  assert(get('floor').value === '41' && rowCount() === 34, 'Engineering starts at its independent Grok High anchor');
-  assert(shown.every(model => model.engineering >= 41), 'Engineering filters use the active score');
+  assert(get('floor').value === '43' && rowCount() === 30, 'Engineering starts at its independent default floor');
+  assert(shown.every(model => model.engineering >= 43), 'Engineering filters use the active score');
   assert(get('chart').textContent.includes('Engineering'), 'Chart identifies Engineering Intelligence');
   assert([...get('rows').querySelectorAll('tr')].every(row => Number(row.cells[4].textContent) === models.find(model => model.id === row.querySelector('.model-button').dataset.id).engineering), 'Table score column uses Engineering Intelligence');
   assert([...document.querySelectorAll('.chart-point')].every(point => point.getAttribute('aria-label').includes('engineering intelligence')), 'Chart accessible names identify the active task basis');
@@ -312,7 +312,7 @@
   get('early-resets').click();
   assert(Math.abs(metricValue(probeBasis,'tasks') / generalTasks - 7/3) < 1e-12 && bugScore(probeBasis) === engineeringScore, 'Engineering early resets alter cost and throughput, preserving ratings');
   get('reset').click();
-  assert(get('intelligence-basis').value === 'intelligence' && get('floor').value === '35' && !get('early-resets').checked && get('penalty').value === '2' && rowCount() === 33, 'Reset clears basis, all floor memories, reset scenario, and penalty');
+  assert(get('intelligence-basis').value === 'intelligence' && get('floor').value === '38' && !get('early-resets').checked && get('penalty').value === '2' && rowCount() === 27, 'Reset clears basis, all floor memories, reset scenario, and penalty');
   const urls = [], downloads = [];
   const createURL = URL.createObjectURL, revokeURL = URL.revokeObjectURL, click = HTMLAnchorElement.prototype.click;
   try {
