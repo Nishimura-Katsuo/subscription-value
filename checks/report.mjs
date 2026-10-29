@@ -11,13 +11,13 @@ new Script(code);
 const expected = {
   "count": 55,
   "noBugIds": ["go-minimax-m3-1-flash","go-step-5-preview","go-qwen3-8-max-0902","antigravity-ultra-5x-carbon-high"],
-  "firstTenTasks": [718.0,588.0,480.0,360.0,340.0,288.0,278.0,194.0,66.0,56.0],
+  "firstTenTasks": [718.0,1178,480.0,718,340.0,288.0,558,194.0,66.0,56.0],
   "bases": {
     "intelligence": {
       "defaultFloor": 38,
       "defaultTaskCount": 29,
-      "allTaskFrontier": ["luna-low","haiku-low","haiku-medium","haiku-high","haiku-xhigh","haiku-max","terra-medium","terra-high","sol-medium","opus-medium","sol-high","opus-high","opus-xhigh","opus-max","antigravity-ultra-5x-carbon-high"],
-      "defaultTaskFrontier": ["terra-medium","terra-high","sol-medium","opus-medium","sol-high","opus-high","opus-xhigh","opus-max","antigravity-ultra-5x-carbon-high"],
+      "allTaskFrontier": ["luna-low","haiku-low","haiku-medium","haiku-high","haiku-xhigh","haiku-max","terra-medium","terra-high","sol-medium","sol-high","sol-xhigh","sol-max","opus-xhigh","opus-max","antigravity-ultra-5x-carbon-high"],
+      "defaultTaskFrontier": ["terra-medium","terra-high","sol-medium","sol-high","sol-xhigh","sol-max","opus-xhigh","opus-max","antigravity-ultra-5x-carbon-high"],
       "bugCount": 51,
       "ratedBugs": 62,
       "minimumWeight": 10,
@@ -38,7 +38,7 @@ const expected = {
         "92":23,"93":50,"94":50,"95":49,"96":49,"97":19,"98":19,
         "99":10,"100":10,"101":null,"102":32,"103":null,"104":null,"105":50
       },
-      "allBugFrontier": ["luna-high","luna-max","luna-xhigh","deepseek-flash-1017-max","sol-medium","sol-high","sol-xhigh","sol-max","astra-xhigh","fable-max"],
+      "allBugFrontier": ["luna-high","luna-max","luna-xhigh","sol-low","sol-medium","sol-high","sol-xhigh","sol-max","astra-xhigh","fable-max"],
       "negativeRatings": 18,
       "scoreRange": [-330.56113900345406,1179.1966021279675],
       "scores": {
@@ -98,8 +98,8 @@ const expected = {
     "engineering": {
       "defaultFloor": 43,
       "defaultTaskCount": 32,
-      "allTaskFrontier": ["luna-low","haiku-low","haiku-medium","haiku-high","haiku-xhigh","haiku-max","terra-medium","muse-contributor-max","terra-high","sol-medium","opus-medium","sol-high","opus-high","opus-xhigh","opus-max"],
-      "defaultTaskFrontier": ["terra-medium","muse-contributor-max","terra-high","sol-medium","opus-medium","sol-high","opus-high","opus-xhigh","opus-max"],
+      "allTaskFrontier": ["luna-low","haiku-low","haiku-medium","haiku-high","haiku-xhigh","haiku-max","terra-medium","terra-high","sol-medium","sol-high","sol-xhigh","opus-high","sol-max","opus-xhigh","opus-max"],
+      "defaultTaskFrontier": ["terra-medium","terra-high","sol-medium","sol-high","sol-xhigh","opus-high","sol-max","opus-xhigh","opus-max"],
       "bugCount": 51,
       "ratedBugs": 62,
       "minimumWeight": 19,
@@ -120,7 +120,7 @@ const expected = {
         "92":29,"93":57,"94":57,"95":57,"96":57,"97":27,"98":27,
         "99":19,"100":19,"101":null,"102":38,"103":null,"104":null,"105":57
       },
-      "allBugFrontier": ["luna-high","luna-xhigh","deepseek-flash-1017-max","sol-medium","sol-high","sol-xhigh","sol-max","astra-xhigh","fable-max"],
+      "allBugFrontier": ["luna-high","luna-xhigh","sol-low","sol-medium","sol-high","sol-xhigh","sol-max","astra-xhigh","fable-max"],
       "negativeRatings": 27,
       "scoreRange": [-1003.7042077051772,1290.570524182938],
       "scores": {
@@ -182,12 +182,12 @@ const expected = {
 // Published v5 inputs and converted task costs from the 2026-10-27/28 AA snapshots.
 const inputs = [
   ["sonnet-high",41,46,1.64,718.0,41.115109087048,45.7934013528139,1.6361294399784785,1],
-  ["sol-medium",46,52,0.36,588.0,46.1468797067114,51.8526137445887,0.3593898648025732,1],
+  ["sol-medium",46,52,0.36,1178,46.1468797067114,51.8526137445887,0.3593898648025732,1],
   ["opus-medium",48,54,2.45,480.0,48.0581024960691,53.5990511363636,2.4510894376611723,1],
-  ["sol-high",50,55,0.59,360.0,50.2291231936536,55.2761563311688,0.5909853515780825,1],
+  ["sol-high",50,55,0.59,718,50.2291231936536,55.2761563311688,0.5909853515780825,1],
   ["opus-high",52,58,3.46,340.0,51.6859958227294,57.6955251623377,3.4646622820973185,1],
   ["sonnet-xhigh",50,53,4.09,288.0,49.5740327787242,53.479033495671,4.091984916321919,1],
-  ["sol-xhigh",52,57,0.76,278.0,52.308219253291,57.3006561688312,0.7639949356156494,1],
+  ["sol-xhigh",52,57,0.76,558,52.308219253291,57.3006561688312,0.7639949356156494,1],
   ["opus-xhigh",57,62,6.05,194.0,56.9947060170507,62.4715042207792,6.047194490848774,1],
   ["grok-high",35,41,6.18,66.0,35.0122962959703,41.4663142857143,6.18359556537658,1],
   ["grok-xhigh",34,41,7.51,56.0,34.3350117067196,40.9513249458874,7.511769586408455,1],
@@ -196,18 +196,18 @@ const inputs = [
   ["sonnet-max",54,58,10.02,118.0,54.24133407109,58.1996613636364,10.020621343395753,1],
   ["opus-low",35,43,0.98,1202.0,34.502785007759,42.9668683982684,0.9755293224458845,1],
   ["opus-max",58,65,10.04,118.0,58.4060336078904,64.5760308441558,10.036409719512749,1],
-  ["sol-low",35,42,0.16,1326.0,34.502924431456,42.2704755952381,0.16147357831822573,1],
-  ["sol-max",55,59,1.27,166.0,54.5087338138148,59.2526158549784,1.2720632679446995,1],
-  ["astra-low",43,50,1.42,204.0,43.0349823228524,49.5239466991342,1.4237229635663595,1],
-  ["astra-medium",51,57,2.73,106.0,51.4548393864113,56.6978924242424,2.732438933013427,1],
-  ["astra-high",55,60,3.24,90.0,54.849838322506,59.9769976190476,3.2385719685518306,1],
-  ["astra-xhigh",55,60,3.66,80.0,55.2557468569681,60.3287090367965,3.6589264906126227,1],
-  ["astra-max",57,62,6.24,46.0,56.8538559596797,61.7947113636364,6.244666943602518,1],
-  ["luna-low",10,19,0.0051,41568.0,9.66610812336462,18.7273721861472,0.005115255188520391,1],
-  ["luna-medium",18,25,0.04,5300.0,18.3042156192416,24.7770749458874,0.042201836106537785,1],
-  ["luna-high",21,27,0.07,3028.0,21.3790170864582,27.207087012987,0.07294776473194697,1],
-  ["luna-xhigh",23,29,0.1,2120.0,23.3008728089378,28.8393617965368,0.10409320921120957,1],
-  ["luna-max",28,33,0.15,1414.0,27.7552004938153,33.198545508658,0.15195575732105837,1],
+  ["sol-low",35,42,0.16,2650,34.502924431456,42.2704755952381,0.16147357831822573,1],
+  ["sol-max",55,59,1.27,334,54.5087338138148,59.2526158549784,1.2720632679446995,1],
+  ["astra-low",43,50,1.42,408,43.0349823228524,49.5239466991342,1.4237229635663595,1],
+  ["astra-medium",51,57,2.73,212,51.4548393864113,56.6978924242424,2.732438933013427,1],
+  ["astra-high",55,60,3.24,180,54.849838322506,59.9769976190476,3.2385719685518306,1],
+  ["astra-xhigh",55,60,3.66,158,55.2557468569681,60.3287090367965,3.6589264906126227,1],
+  ["astra-max",57,62,6.24,92,56.8538559596797,61.7947113636364,6.244666943602518,1],
+  ["luna-low",10,19,0.0051,83138,9.66610812336462,18.7273721861472,0.005115255188520391,1],
+  ["luna-medium",18,25,0.04,10600,18.3042156192416,24.7770749458874,0.042201836106537785,1],
+  ["luna-high",21,27,0.07,6058,21.3790170864582,27.207087012987,0.07294776473194697,1],
+  ["luna-xhigh",23,29,0.1,4240,23.3008728089378,28.8393617965368,0.10409320921120957,1],
+  ["luna-max",28,33,0.15,2826,27.7552004938153,33.198545508658,0.15195575732105837,1],
   ["haiku-low",19,27,0.04,29450.0,18.6180055310996,26.8470458874459,0.043757686381988486,1],
   ["haiku-medium",25,32,0.09,13088.0,24.5513254343023,31.7947239718615,0.0917645584066771,1],
   ["haiku-high",30,36,0.16,7362.0,29.624315467743,36.2529166666667,0.15856031956679498,1],
@@ -229,11 +229,11 @@ const inputs = [
   ["go-kimi-k3-1-pro-max",46,50,3.68,8.0,46.0026236744189,50.4437710497835,3.6812002895742055,1],
   ["go-glm-5-3-max",32,38,5.01,6.0,31.653381843882,37.59005254329,5.009264601719954,1],
   ["go-qwen3-8-max-0902",34,39,10.85,2.0,33.5545627367888,39.1803852813853,10.023891571541945,1.0827208279785372],
-  ["terra-low",29,35,0.07,3028.0,29.2169280792131,35.0157104437229,0.07133756205169729,1],
-  ["terra-medium",38,43,0.17,1248.0,38.1152076677975,42.5620279761905,0.16880458238389412,1],
-  ["terra-high",42,46,0.26,816.0,42.3344508712563,46.324690530303,0.2592796466169722,1],
-  ["terra-xhigh",45,49,0.4,530.0,44.950051789066,49.1166886904762,0.40068900166662513,1],
-  ["terra-max",51,54,0.96,220.0,50.9765188577015,54.3859752164502,0.961108031081634,1],
+  ["terra-low",29,35,0.07,6058,29.2169280792131,35.0157104437229,0.07133756205169729,1],
+  ["terra-medium",38,43,0.17,2494,38.1152076677975,42.5620279761905,0.16880458238389412,1],
+  ["terra-high",42,46,0.26,1630,42.3344508712563,46.324690530303,0.2592796466169722,1],
+  ["terra-xhigh",45,49,0.4,1060,44.950051789066,49.1166886904762,0.40068900166662513,1],
+  ["terra-max",51,54,0.96,442,50.9765188577015,54.3859752164502,0.961108031081634,1],
   ["antigravity-ultra-5x-argon-high",50,57,3.84,46,50.4121935905389,57.3015892857143,7.682671372515551,0.5],
   ["antigravity-ultra-5x-carbon-high",59,65,3.88,44,59.425738829526,64.7103995670996,7.755545745286556,0.5]
 ];
@@ -293,9 +293,9 @@ for(const [id,fixed,extras,cost,reliable] of [['terra-low',6,5,.30,4],['terra-me
 }
 for(const model of data){
   if(model.model === 'Claude Fable 5.1') assert.equal(model.multiplier,24.8);
-  else if(model.model === 'GPT-6 Astra') assert.equal(model.multiplier,14.5);
+  else if(model.model === 'GPT-6 Astra') assert.equal(model.multiplier,29);
   else if(model.provider === 'Claude') assert.equal(model.multiplier,58.9);
-  else if(model.provider === 'ChatGPT') assert.equal(model.multiplier,10.6);
+  else if(model.provider === 'ChatGPT') assert.equal(model.multiplier,21.2);
 }
 assert.deepEqual(byId('go-kimi-k3-1-pro-max').bugHunt,byId('kimi-k3-1-pro-max').bugHunt);
 assert.deepEqual(byId('muse-standard-max').bugHunt,byId('muse-contributor-max').bugHunt);

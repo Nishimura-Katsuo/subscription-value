@@ -222,7 +222,7 @@ td.tasks-cell{white-space:nowrap}
 <p>Penalty strength defaults to 2; 0 disables it. At 1×, the easiest miss costs its fix credit; harder misses cost less without an intelligence cutoff. Higher strengths increasingly favor coverage of easier bugs. Negative ratings remain included under No floor. This empirical difficulty proxy is not an official benchmark score. Repeated runs use published mean costs and fixes; partial and claimed-only fixes are excluded. Observed reliability does not guarantee future performance. Rating and unit cost do not change with spend.</p>
 <details><summary>Difficulty weights for all 105 bugs</summary><p>Weights and penalties use the selected intelligence basis. Unrated bugs contribute no points.</p><div class="table-scroll"><table><thead><tr><th>Bug</th><th id="bug-weight-basis">Lowest reliable solver General Intelligence</th><th>Penalty if missed</th></tr></thead><tbody id="bug-weights"></tbody></table></div></details>
 <h3>What counts as Pareto optimal?</h3><p>Task dominance means at least as high a selected intelligence score and throughput; bug dominance means at least as high a rating and at most as much cost per fix. One dimension must improve strictly. The frontier normally uses matches to search and floor. Add <code>pareto</code> to include the full-dataset frontier alongside search matches, still applying the floor to displayed points and line. The active basis and early-reset scenario apply throughout.</p>
-</div><div><h3>Subscription and source caveats</h3><p>Multipliers are comparison assumptions, not live quotas. Claude uses 58.9× and ChatGPT 10.6× from the 5 October 2026 <a href="https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x">SemiAnalysis study</a>. Astra uses 14.5×. Fable uses 24.8× per allocated subscription dollar: the source’s 12.4× divided by its half-plan share. Its actual allowance remains capped at half the plan. Multipliers transfer across displayed efforts; Terra’s 10.6× is not a Terra-specific allowance measurement. Optional ChatGPT early resets assume limits reset every 3 days rather than 7: costs ×3/7 and tasks ×7/3.</p>
+</div><div><h3>Subscription and source caveats</h3><p>Multipliers are comparison assumptions, not live quotas. Claude uses 58.9× from the 5 October 2026 <a href="https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x">SemiAnalysis study</a>. ChatGPT uses 21.2× and Astra 29×: the original 10.6× and 14.5× estimates doubled on 29 October by user direction following the reported usage-limit increase for $100/$200/$500 tiers. Fable uses 24.8× per allocated subscription dollar: the source’s 12.4× divided by its half-plan share. Its actual allowance remains capped at half the plan. Multipliers transfer across displayed efforts; Terra’s 21.2× is not a Terra-specific allowance measurement. Optional ChatGPT early resets assume limits reset every 3 days rather than 7: costs ×3/7 and tasks ×7/3.</p>
 <p>Cursor’s 20.7× comes from the author’s usage exports, which include Grok and Claude. Allocating both pools to Grok is assumed. Grok Bug Hunt costs are reconstructed lower bounds. Source costs elsewhere are bills or list-rate estimates. First-party harness performance is assumed transferable; no Grok Build versus Cursor adjustment is made.</p>
 <p>Muse Standard 11.1× ±0.5 and Contributor 137× ±39 describe the $50/month Power Usage plan, derived by scaling measured High Usage multipliers by 1.2 (4× allowance for 3.33× price). They use Standard API prices without an additional Contributor discount. Contributor permits Meta to train on submitted content and inherits Standard benchmark results by assumption. Workload mixes differ; weekly allowance was measured and five-hour limits may bind first. Max combines harness versions, including split-version runs; replication configuration is unverified. <a href="https://github.com/phuryn/experiments/tree/main/subscription-multipliers/04-muse-code">Measurements and logs</a> · <a href="https://dev.meta.ai/docs/muse-code/subscriptions">Muse subscription terms</a>.</p>
 <p>OpenCode Go is a $10/month plan. Its model-specific multipliers are derived from published allowances, not measured consumption; five-hour and weekly limits may bind first. Direct benchmark performance transfers to Go by assumption. Reused benchmark rows across subscriptions are not independent runs. MiMo runs use default effort and mixed judges; GLM replication is unverified. Qwen’s undated Go alias is assumed to serve AA’s 0902 revision, but Bug Hunt receipts cannot establish that revision, so it remains tasks-only alongside MiniMax and Step. <a href="https://opencode.ai/v2/docs/console/go/">Go allowances and token prices</a>.</p>
@@ -314,9 +314,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Medium",
     "intelligence": 46,
-    "multiplier": 10.6,
+    "multiplier": 21.2,
     "benchmarkCost": 0.36,
-    "tasks20": 588.0,
+    "tasks20": 1178.0,
     "bugHunt": {
       "id": "GPT-6.1 Sol (medium effort) - mean of 2",
       "fixed": 29,
@@ -370,7 +370,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-1-sol-medium",
     "sourceDate": "2026-10-27",
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Sol (Medium). ChatGPT 10.6× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Sol (Medium). ChatGPT 21.2× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers."
   },
   {
     "id": "opus-medium",
@@ -449,9 +449,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "High",
     "intelligence": 50,
-    "multiplier": 10.6,
+    "multiplier": 21.2,
     "benchmarkCost": 0.59,
-    "tasks20": 360.0,
+    "tasks20": 718.0,
     "bugHunt": {
       "id": "GPT-6.1 Sol (high effort) - mean of 2",
       "fixed": 36.5,
@@ -516,7 +516,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-1-sol-high",
     "sourceDate": "2026-10-27",
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Sol (High). ChatGPT 10.6× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Sol (High). ChatGPT 21.2× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers."
   },
   {
     "id": "opus-high",
@@ -673,9 +673,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "XHigh",
     "intelligence": 52,
-    "multiplier": 10.6,
+    "multiplier": 21.2,
     "benchmarkCost": 0.76,
-    "tasks20": 278.0,
+    "tasks20": 558.0,
     "bugHunt": {
       "id": "GPT-6.1 Sol (xhigh effort) - mean of 3",
       "fixed": 42.7,
@@ -748,7 +748,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-1-sol-xhigh",
     "sourceDate": "2026-10-27",
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Sol (Xhigh). ChatGPT 10.6× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Sol (Xhigh). ChatGPT 21.2× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers."
   },
   {
     "id": "opus-xhigh",
@@ -1339,9 +1339,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Low",
     "intelligence": 35,
-    "multiplier": 10.6,
+    "multiplier": 21.2,
     "benchmarkCost": 0.16,
-    "tasks20": 1326.0,
+    "tasks20": 2650.0,
     "bugHunt": {
       "id": "GPT-6.1 Sol (low effort) - mean of 2",
       "fixed": 22.5,
@@ -1393,7 +1393,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-1-sol-low",
     "sourceDate": "2026-10-27",
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Sol (Low). ChatGPT 10.6× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload. Bug Hunt Low uses two runs with observed spread 17; replication configuration is unverified."
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Sol (Low). ChatGPT 21.2× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload. Bug Hunt Low uses two runs with observed spread 17; replication configuration is unverified. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers."
   },
   {
     "id": "sol-max",
@@ -1403,9 +1403,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Max",
     "intelligence": 55,
-    "multiplier": 10.6,
+    "multiplier": 21.2,
     "benchmarkCost": 1.27,
-    "tasks20": 166.0,
+    "tasks20": 334.0,
     "bugHunt": {
       "id": "GPT-6.1 Sol (max effort) - mean of 3",
       "fixed": 44.3,
@@ -1480,7 +1480,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-1-sol",
     "sourceDate": "2026-10-27",
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Sol (Max). ChatGPT 10.6× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Sol (Max). ChatGPT 21.2× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers."
   },
   {
     "id": "astra-low",
@@ -1490,10 +1490,10 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Low",
     "intelligence": 43,
-    "multiplier": 14.5,
+    "multiplier": 29.0,
     "benchmarkCost": 1.42,
-    "tasks20": 204.0,
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Astra (Low). Astra uses 14.5×, SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month. This is a workload/plan assumption shared across efforts, not a current quota measurement.",
+    "tasks20": 408.0,
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Astra (Low). Astra uses 29×, SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month. This is a workload/plan assumption shared across efforts, not a current quota measurement. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
     "bugHunt": {
       "id": "GPT-6 Astra (low effort)",
       "fixed": 27,
@@ -1550,10 +1550,10 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Medium",
     "intelligence": 51,
-    "multiplier": 14.5,
+    "multiplier": 29.0,
     "benchmarkCost": 2.73,
-    "tasks20": 106.0,
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Astra (Medium). Astra uses 14.5×, SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month. This is a workload/plan assumption shared across efforts, not a current quota measurement.",
+    "tasks20": 212.0,
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Astra (Medium). Astra uses 29×, SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month. This is a workload/plan assumption shared across efforts, not a current quota measurement. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
     "bugHunt": {
       "id": "GPT-6 Astra (medium effort)",
       "fixed": 34,
@@ -1617,10 +1617,10 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "High",
     "intelligence": 55,
-    "multiplier": 14.5,
+    "multiplier": 29.0,
     "benchmarkCost": 3.24,
-    "tasks20": 90.0,
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Astra (High). Astra uses 14.5×, SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month. This is a workload/plan assumption shared across efforts, not a current quota measurement.",
+    "tasks20": 180.0,
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Astra (High). Astra uses 29×, SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month. This is a workload/plan assumption shared across efforts, not a current quota measurement. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
     "bugHunt": {
       "id": "GPT-6 Astra (high effort)",
       "fixed": 35,
@@ -1685,10 +1685,10 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "XHigh",
     "intelligence": 55,
-    "multiplier": 14.5,
+    "multiplier": 29.0,
     "benchmarkCost": 3.66,
-    "tasks20": 80.0,
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Astra (Xhigh). Astra uses 14.5×, SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month. This is a workload/plan assumption shared across efforts, not a current quota measurement.",
+    "tasks20": 158.0,
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Astra (Xhigh). Astra uses 29×, SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month. This is a workload/plan assumption shared across efforts, not a current quota measurement. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
     "bugHunt": {
       "id": "GPT-6 Astra (xhigh effort)",
       "fixed": 43,
@@ -1761,10 +1761,10 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Max",
     "intelligence": 57,
-    "multiplier": 14.5,
+    "multiplier": 29.0,
     "benchmarkCost": 6.24,
-    "tasks20": 46.0,
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Astra (Max). Astra uses 14.5×, SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month. This is a workload/plan assumption shared across efforts, not a current quota measurement.",
+    "tasks20": 92.0,
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Astra (Max). Astra uses 29×, SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month. This is a workload/plan assumption shared across efforts, not a current quota measurement. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
     "bugHunt": {
       "id": "GPT-6 Astra (max effort) - mean of 3",
       "fixed": 45,
@@ -1849,9 +1849,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Low",
     "intelligence": 10,
-    "multiplier": 10.6,
+    "multiplier": 21.2,
     "benchmarkCost": 0.0051,
-    "tasks20": 41568.0,
+    "tasks20": 83138.0,
     "bugHunt": {
       "id": "GPT-6 Luna (low effort)",
       "fixed": 4,
@@ -1876,7 +1876,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-luna-low",
     "sourceDate": "2026-10-27",
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Luna (Low). ChatGPT 10.6× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Luna (Low). ChatGPT 21.2× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers."
   },
   {
     "id": "luna-medium",
@@ -1886,9 +1886,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Medium",
     "intelligence": 18,
-    "multiplier": 10.6,
+    "multiplier": 21.2,
     "benchmarkCost": 0.04,
-    "tasks20": 5300.0,
+    "tasks20": 10600.0,
     "bugHunt": {
       "id": "GPT-6 Luna (medium effort)",
       "fixed": 4,
@@ -1913,7 +1913,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-luna-medium",
     "sourceDate": "2026-10-27",
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Luna (Medium). ChatGPT 10.6× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Luna (Medium). ChatGPT 21.2× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers."
   },
   {
     "id": "luna-high",
@@ -1923,9 +1923,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "High",
     "intelligence": 21,
-    "multiplier": 10.6,
+    "multiplier": 21.2,
     "benchmarkCost": 0.07,
-    "tasks20": 3028.0,
+    "tasks20": 6058.0,
     "bugHunt": {
       "id": "GPT-6 Luna (high effort)",
       "fixed": 9,
@@ -1955,7 +1955,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-luna-high",
     "sourceDate": "2026-10-27",
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Luna (High). ChatGPT 10.6× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Luna (High). ChatGPT 21.2× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers."
   },
   {
     "id": "luna-xhigh",
@@ -1965,9 +1965,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "XHigh",
     "intelligence": 23,
-    "multiplier": 10.6,
+    "multiplier": 21.2,
     "benchmarkCost": 0.1,
-    "tasks20": 2120.0,
+    "tasks20": 4240.0,
     "bugHunt": {
       "id": "GPT-6 Luna (xhigh effort)",
       "fixed": 14,
@@ -2002,7 +2002,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-luna-xhigh",
     "sourceDate": "2026-10-27",
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Luna (Xhigh). ChatGPT 10.6× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Luna (Xhigh). ChatGPT 21.2× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers."
   },
   {
     "id": "luna-max",
@@ -2012,9 +2012,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Max",
     "intelligence": 28,
-    "multiplier": 10.6,
+    "multiplier": 21.2,
     "benchmarkCost": 0.15,
-    "tasks20": 1414.0,
+    "tasks20": 2826.0,
     "bugHunt": {
       "id": "GPT-6 Luna (max effort) - mean of 3",
       "fixed": 18.3,
@@ -2064,7 +2064,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-luna",
     "sourceDate": "2026-10-27",
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Luna (Max). ChatGPT 10.6× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6 Luna (Max). ChatGPT 21.2× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers."
   },
   {
     "id": "haiku-low",
@@ -3309,12 +3309,12 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Low",
     "intelligence": 29,
-    "multiplier": 10.6,
+    "multiplier": 21.2,
     "benchmarkCost": 0.07,
-    "tasks20": 3028.0,
+    "tasks20": 6058.0,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-1-terra-low",
     "sourceDate": "2026-10-27",
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Terra (Low). ChatGPT 10.6× is a supplied subscription-value assumption, not a Terra-specific allowance measurement. All five efforts now have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier.",
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Terra (Low). ChatGPT 21.2× is a supplied subscription-value assumption, not a Terra-specific allowance measurement. All five efforts now have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
     "bugHunt": {
       "id": "GPT-6.1 Terra (low effort) - mean of 3",
       "fixed": 6,
@@ -3350,12 +3350,12 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Medium",
     "intelligence": 38,
-    "multiplier": 10.6,
+    "multiplier": 21.2,
     "benchmarkCost": 0.17,
-    "tasks20": 1248.0,
+    "tasks20": 2494.0,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-1-terra-medium",
     "sourceDate": "2026-10-27",
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Terra (Medium). ChatGPT 10.6× is a supplied subscription-value assumption, not a Terra-specific allowance measurement. All five efforts now have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier.",
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Terra (Medium). ChatGPT 21.2× is a supplied subscription-value assumption, not a Terra-specific allowance measurement. All five efforts now have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
     "bugHunt": {
       "id": "GPT-6.1 Terra (medium effort) - mean of 3",
       "fixed": 7.3,
@@ -3391,12 +3391,12 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "High",
     "intelligence": 42,
-    "multiplier": 10.6,
+    "multiplier": 21.2,
     "benchmarkCost": 0.26,
-    "tasks20": 816.0,
+    "tasks20": 1630.0,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-1-terra-high",
     "sourceDate": "2026-10-27",
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Terra (High). ChatGPT 10.6× is a supplied subscription-value assumption, not a Terra-specific allowance measurement. All five efforts now have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier.",
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Terra (High). ChatGPT 21.2× is a supplied subscription-value assumption, not a Terra-specific allowance measurement. All five efforts now have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
     "bugHunt": {
       "id": "GPT-6.1 Terra (high effort) - mean of 3",
       "fixed": 9.7,
@@ -3437,12 +3437,12 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "XHigh",
     "intelligence": 45,
-    "multiplier": 10.6,
+    "multiplier": 21.2,
     "benchmarkCost": 0.4,
-    "tasks20": 530.0,
+    "tasks20": 1060.0,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-1-terra-xhigh",
     "sourceDate": "2026-10-27",
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Terra (Xhigh). ChatGPT 10.6× is a supplied subscription-value assumption, not a Terra-specific allowance measurement. All five efforts now have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier.",
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Terra (Xhigh). ChatGPT 21.2× is a supplied subscription-value assumption, not a Terra-specific allowance measurement. All five efforts now have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
     "bugHunt": {
       "id": "GPT-6.1 Terra (xhigh effort) - mean of 3",
       "fixed": 11.3,
@@ -3487,12 +3487,12 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Max",
     "intelligence": 51,
-    "multiplier": 10.6,
+    "multiplier": 21.2,
     "benchmarkCost": 0.96,
-    "tasks20": 220.0,
+    "tasks20": 442.0,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-1-terra",
     "sourceDate": "2026-10-27",
-    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Terra (Max). ChatGPT 10.6× is a supplied subscription-value assumption, not a Terra-specific allowance measurement. All five efforts now have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier.",
+    "sourceNote": "AA v5.0 and Engineering Index checked 27 October 2026 for GPT-6.1 Terra (Max). ChatGPT 21.2× is a supplied subscription-value assumption, not a Terra-specific allowance measurement. All five efforts now have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
     "bugHunt": {
       "id": "GPT-6.1 Terra (max effort) - mean of 3",
       "fixed": 40.7,

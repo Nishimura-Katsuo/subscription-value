@@ -30,8 +30,8 @@ A multiplier estimates how much API-equivalent usage a subscription dollar buys.
 | --- | ---: | --- |
 | Claude, except Fable | 58.9× | Supplied estimate derived from SemiAnalysis |
 | Claude Fable 5.1 | 24.8× | SemiAnalysis's rounded 12.4× for Max $200/month, divided by Fable's 50% plan allocation |
-| ChatGPT, except Astra | 10.6× | Supplied estimate derived from SemiAnalysis |
-| GPT-6 Astra | 14.5× | SemiAnalysis's rounded agentic value for ChatGPT Pro $200/month |
+| ChatGPT, except Astra | 21.2× | Original 10.6× SemiAnalysis estimate ×2 for the user-reported limit increase |
+| GPT-6 Astra | 29× | Original 14.5× agentic value for ChatGPT Pro $200/month ×2 |
 | OpenCode Go · DeepSeek Flash 1017 Max | 8× | Published $80 monthly model allowance / $10 subscription |
 | OpenCode Go · MiniMax M3.1 Flash | 2× | $20 monthly model allowance / $10 subscription |
 | Antigravity Ultra 5x · all Argon and Carbon variants | 8.7× | Argon weekly estimate transferred to all variants by user direction until better evidence is available |
@@ -41,6 +41,8 @@ A multiplier estimates how much API-equivalent usage a subscription dollar buys.
 | Muse Standard | 11.1× ±0.5 | Derived Power Usage value at Standard API prices |
 | Muse Contributor | 137× ±39 | Same plan and derivation, valued at Standard API prices |
 | Muse Wonder Full | 6.6× (future lead) | Preliminary user estimate; not applied in the app |
+
+On **29 October 2026**, all OpenAI model multipliers were doubled by user direction following the reported usage-limit increase for the **$100/$200/$500 tiers**. Task throughput is recalculated from the new multipliers before rounding; subscription cost per bug fixed is halved. The optional early-reset scenario applies on top of these updated baselines. Benchmark scores and recorded run costs retain their original snapshots.
 
 These remain **supplied assumptions**, not separate current measurements for every model. The public [SemiAnalysis study of 5 October](https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x) is paywalled; the repository does not contain a complete derivation or the private Cursor exports. Cursor and Kimi allowances cannot be independently refreshed from these public sources. Cursor's observed usage mixed Claude and Grok; applying its full multiplier to Grok assumes both available usage pools can be allocated to it. Fable's allocation normalization does not increase its allowance or include the remaining half-plan's value. Model availability and actual account limits still apply.
 
@@ -95,7 +97,7 @@ tasks20 = 20 × round(multiplier / benchmarkCost, 1 decimal)
 
 The app rounds tasks per subscription dollar before scaling by spending. Default spending is `$1`; changing it scales throughput linearly without implying that each service offers that plan or quota. The horizontal axis is the selected intelligence score, and the vertical axis is estimated tasks at the selected spend. Floor choices include each distinct score and the basis default.
 
-For example, using multiplier `10.6` and Terra Low's stored task cost `$0.07` gives `151.4` tasks per dollar and `3,028` tasks per `$20`. Reproduce rounding with JavaScript's `Math.round(multiplier / benchmarkCost * 10) / 10 * 20`; languages using ties-to-even can differ.
+For example, using multiplier `21.2` and Terra Low's stored task cost `$0.07` gives `302.9` tasks per dollar and `6,058` tasks per `$20`. Reproduce rounding with JavaScript's `Math.round(multiplier / benchmarkCost * 10) / 10 * 20`; languages using ties-to-even can differ.
 
 ## Bugs mode
 
@@ -145,7 +147,7 @@ Repeated-run results use the source's published mean fix counts and mean cost: a
 
 **The axes use different fix sets.** Rating requires qualifying planted fixes. Cost includes all source-reported completed planted fixes and genuine unplanted extras, including fixes not achieved in every run. Partial fixes and claimed-only bugs are excluded. Extras are not checked against the planted answer key, and aggregate counts cannot establish their repeatability.
 
-For example, Sol Medium's source mean has `29` planted fixes, `30.5` extras, and `$1.76` run cost. At `10.6×`, cost per total fix is `1.76 / 10.6 / 59.5 ≈ $0.00279055`, displayed near `$0.0028`. The denominator is `59.5`, not its `25` qualifying planted fixes. Costs have no intermediate rounding.
+For example, Sol Medium's source mean has `29` planted fixes, `30.5` extras, and `$1.76` run cost. At `21.2×`, cost per total fix is `1.76 / 21.2 / 59.5 ≈ $0.00139527`, displayed near `$0.0014`. The denominator is `59.5`, not its `25` qualifying planted fixes. Costs have no intermediate rounding.
 
 The horizontal axis is bug-fix rating with exponential spacing: `(10^t − 1) / 9`, where `t = (rating − minimum) / (maximum − minimum)`. It supports negative ratings and changes spacing only. The vertical cost axis is inverted and logarithmic, so higher points cost less. Bug-floor steps are 250, widening for large strengths while preserving the selected cutoff. Ratings and unit costs do not scale with the spending scenario.
 
