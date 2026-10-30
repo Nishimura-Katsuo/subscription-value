@@ -16,7 +16,7 @@
   const goTasks = taskModels.filter(model => model.provider === 'OpenCode Go');
   const goBugs = bugModels.filter(model => model.provider === 'OpenCode Go');
   assertRows(defaultTasks, 'Default task configurations');
-  assert(get('budget').value === '1' && budget === 1 && estimate(shown[0]) === metricValue(shown[0],'tasks') / 20, 'Default spend is one subscription dollar');
+  assert(get('budget').value === '30' && budget === 30 && estimate(shown[0]) === metricValue(shown[0],'tasks') / 20, 'Default range is $20–$30, with values per subscription dollar');
   assert(get('task-sort-label').textContent.includes('Tasks / $1 subscription spend'), 'Default throughput labels use one dollar');
   assert(!get('provider'), 'The separate subscription picker is removed');
   change('floor','0');
@@ -139,17 +139,53 @@
   get('early-resets').click();
   get('reset').click();
   assert(!get('early-resets').checked, 'Reset disables early resets');
+  change('floor','0');
+  change('search','cursor','input');
+  assert(shown.length === 3 && shown.every(model => model.provider === 'X Subscription'), 'Cursor search finds the new X Subscription route');
+  for(const [amount,multiplier,tier] of [[15,20.7,'Plus'],[30,22.08,'Premium'],[100,24.84,'Super'],[500,41.4,'Ultra']]){
+    change('budget',String(amount));
+    assert(Math.abs(effectiveMultiplier(shown[0]) - multiplier) < 1e-10, 'X tier updates its multiplier');
+    assert(get('detail').textContent.includes(tier + ' (provisional)'), 'X tier is visibly provisional');
+    assert(get('task-sort-label').textContent.includes('Tasks / $1'), 'X budget keeps task units normalized');
+  }
+  get('reset').click();
+  change('floor','0');
+  change('search','muse standard','input');
+  change('budget','5');
+  assert(effectiveMultiplier(shown[0]) === 5.6, 'Muse Everyday applies in the $5 range');
+  change('budget','15');
+  assert(effectiveMultiplier(shown[0]) === 9.3, 'Muse High applies exactly at its price');
+  change('budget','60');
+  assert(effectiveMultiplier(shown[0]) === 11.1 && get('detail').textContent.includes('Power Usage'), 'Muse Power updates multiplier and tier details');
+  change('budget','500');
+  assert(effectiveMultiplier(shown[0]) === 11.1 && get('detail').textContent.includes('Maximum'), 'Muse Maximum retains the derived per-dollar value');
+  change('budget','5');
+  change('search','chatgpt','input');
+  assert(get('detail').textContent.includes('above cost range'), 'Above-range plan is disclosed');
+  get('reset').click();
   const initialValue = document.querySelector('.detail-value').textContent;
-  change('budget', '40', 'input');
-  assert(document.querySelector('.detail-value').textContent !== initialValue, 'Spend scales task estimates');
+  change('budget', '60');
+  assert(document.querySelector('.detail-value').textContent === initialValue, 'Budget within a tier never scales task estimates');
+  change('search','GPT-6.1 Sol','input');
+  const tierProbe = shown[0], lowTierTasks = estimate(tierProbe), lowTierBugs = costPerBug(tierProbe);
+  change('budget','60');
+  assert(estimate(tierProbe) === lowTierTasks, 'Midrange retains ChatGPT Plus values');
+  change('budget','100');
+  assert(effectiveMultiplier(tierProbe) === 21.2 && costPerBug(tierProbe) === lowTierBugs / 2, 'Pro threshold doubles multiplier and halves bug cost');
+  assert(get('detail').textContent.includes('Pro $100'), 'Details show selected tier');
+  mode('bugs');
+  change('budget','30');
+  assert(effectiveMultiplier(tierProbe) === 10.6 && !get('budget').closest('label').hidden, 'Budget affects bugs mode');
+  mode('tasks');
+  change('search','','input');
   const validValue = document.querySelector('.detail-value').textContent;
-  for (const invalid of ['', '0', '1001', '2.5']) {
-    change('budget', invalid, 'input');
+  for (const invalid of ['', '0', '1001']) {
+    change('budget', invalid);
     assert(!get('budget-error').hidden, 'Invalid spend has visible feedback: ' + invalid);
     assert(get('budget').getAttribute('aria-invalid') === 'true', 'Invalid spend is exposed to assistive technology');
     assert(document.querySelector('.detail-value').textContent === validValue, 'Invalid spend retains last valid estimate');
   }
-  change('budget', '1', 'input');
+  change('budget', '30');
   assert(get('budget-error').hidden, 'Valid spend clears feedback');
   mode('bugs');
   assertRows(bugModels, 'Bug mode includes all rated configurations');
@@ -200,7 +236,7 @@
   get('reset').click();
   assert(get('penalty').value === '2' && penaltyStrength === 2 && !get('penalty').hasAttribute('aria-invalid') && get('penalty-error').hidden, 'Reset restores the penalty default and clears validation');
   mode('bugs');
-  assert(get('budget').closest('label').hidden, 'Spend is irrelevant in bug mode');
+  assert(!get('budget').closest('label').hidden, 'Tier budget remains available in bug mode');
   assert(document.querySelector('[data-metric="bugs"]').getAttribute('aria-pressed') === 'true', 'Mode switch exposes selection');
   change('search','claude,chatgpt','input');
   assert([...get('rows').querySelectorAll('.model-button')].every(button => /Claude|GPT/.test(button.textContent)), 'Combined subscription filter');
@@ -209,7 +245,7 @@
   assert(get('detail').textContent.includes('No matching models'), 'Empty result guidance');
   get('reset').click();
   assertRows(defaultTasks, 'Reset restores default task configurations');
-  assert(get('metric').value === 'tasks' && get('budget').value === '1', 'Reset restores mode and budget defaults');
+  assert(get('metric').value === 'tasks' && get('budget').value === '30', 'Reset restores mode and budget defaults');
   change('search','GPT-5.6 Sol','input');
   assert(rowCount() === 0, 'Configurations without published v5 scores are omitted entirely');
   get('reset').click();
@@ -283,7 +319,7 @@
   assert(visibleEffortLines.every(line => line.dataset.model === multiEffort.model && line.dataset.provider === multiEffort.provider), 'Selected effort lines stay within the selected model and subscription');
   get('reset').click();
   change('floor','0');
-  for(const subscription of ['ChatGPT','Cursor','OpenCode Go','Muse Standard','Muse Contributor']){
+  for(const subscription of ['ChatGPT','X Subscription','OpenCode Go','Muse Standard','Muse Contributor']){
     change('search',subscription,'input');
     const expected = models.filter(model => model.provider === subscription && metricValue(model,'tasks') !== null).map(model => model.id).sort().join(',');
     assert(shown.map(model => model.id).sort().join(',') === expected, 'Subscription names are searchable: ' + subscription);
@@ -376,13 +412,14 @@
     change('penalty','3','input');
     get('export').click();
     assert(urls.length === 2 && urls.every(blob => blob.size > 1000), 'Both CSV exports have content');
-    assert(downloads[0].includes('tasks-1-subscription') && downloads[1].includes('bug-cost'), 'Mode-specific export filenames');
+    assert(downloads[0].includes('tasks-per-dollar-budget-30') && downloads[1].includes('bug-cost'), 'Mode-specific export filenames');
     const csv = (await urls[1].text()).split('\r\n').map(line => [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""','"')));
     const column = name => csv[0].indexOf(name);
-    assert(['Bug-fix rating','Difficulty credit','Miss penalty','Minimum calibrated difficulty','Calibrated planted bugs','Bug rating method','Penalty strength','Engineering Index','Intelligence basis','AA index version','AA General Intelligence exact','AA Engineering Intelligence exact','AA task cost exact (USD)','Task price factor','Task benchmark cost used (USD)'].every(name => column(name) >= 0), 'Bug CSV includes rating components and calibration');
+    assert(['Bug-fix rating','Difficulty credit','Miss penalty','Minimum calibrated difficulty','Calibrated planted bugs','Bug rating method','Penalty strength','Engineering Index','Intelligence basis','AA index version','AA General Intelligence exact','AA Engineering Intelligence exact','AA task cost exact (USD)','Task price factor','Task benchmark cost used (USD)','Monthly cost range','Cost range ceiling (USD)','Selected multiplier tier','Tier monthly price (USD)'].every(name => column(name) >= 0), 'Bug CSV includes rating components and calibration');
     for(const row of csv.slice(1)){
       const model = shown.find(model => model.model === row[0] && model.reasoning === row[1] && model.provider === row[3]);
       assert(row.length === csv[0].length && model, 'CSV columns and configuration identity agree');
+      assert(row[column('Monthly cost range')] === get('budget').selectedOptions[0].textContent && Number(row[column('Cost range ceiling (USD)')]) === budget && row[column('Selected multiplier tier')] === tierLabel(model), 'CSV records selected budget and tier');
       assert(Number(row[column('Bug-fix rating')]) === bugScore(model), 'CSV retains full signed rating precision');
       assert(Number(row[column('Difficulty credit')]) === bugCredit(model) && Number(row[column('Miss penalty')]) === bugPenalty(model), 'CSV rating components agree with calculations');
       assert(Number(row[column('General Intelligence')]) === model.intelligence && Number(row[column('Engineering Index')]) === model.engineering && row[column('Intelligence basis')] === 'Engineering Intelligence' && row[column('AA index version')] === '5.0', 'CSV records both scores and active basis');

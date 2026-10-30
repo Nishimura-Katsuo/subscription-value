@@ -240,10 +240,10 @@ const inputs = [
 const plain = value => JSON.parse(JSON.stringify(value));
 const near = (actual,wanted) => assert.ok(Math.abs(actual - wanted) < 1e-9,`${actual} != ${wanted}`);
 const declaration = name => {const match = code.match(new RegExp('^    const ' + name + ' = .+$','m'));assert.ok(match, name + ' declaration');return match[0];};
-const names = ['intelligenceScore','reliableBugs','bugCalibrations','calibration','bugCredit','bugPenalty','bugScore','totalFixes','resetCostFactor','effectiveMultiplier','costPerBug','metricValue','rating','bugFloors','defaultBugFloor','bugFloorSteps','defaultIntelligenceFloor','intelligenceFloors','dominates','pareto'];
+const names = ['intelligenceScore','reliableBugs','bugCalibrations','calibration','bugCredit','bugPenalty','bugScore','totalFixes','resetCostFactor','subscriptionTiers','selectedTier','tierMultiplier','tierLabel','effectiveMultiplier','costPerBug','metricValue','rating','bugFloors','defaultBugFloor','bugFloorSteps','defaultIntelligenceFloor','intelligenceFloors','dominates','pareto'];
 const valueCode = names.map(declaration).join('\n');
 const create = (models = data,basis = 'intelligence',strength = 2) => {
-  const context = {models,penaltyStrength:strength,controls:{'intelligence-basis':{value:basis},'early-resets':{checked:false}}};
+  const context = {models,budget:200,penaltyStrength:strength,controls:{'intelligence-basis':{value:basis},'early-resets':{checked:false}}};
   return {context,...runInNewContext(valueCode + '\n({' + names.join(',') + '})',context)};
 };
 assert.equal(Number(html.match(/id="penalty"[^>]*value="([^"]+)"/)[1]),2);
@@ -271,6 +271,9 @@ for(const model of data){
   for(const [id,hits] of Object.entries(bug.bug_hits)) assert.ok(Number.isInteger(+id) && +id >= 1 && +id <= 105 && Number.isInteger(hits) && hits >= 0 && hits <= bug.n_runs);
 }
 const byId = id => data.find(m => m.id === id);
+// At the $200 validation budget, Go Plus differs from recorded Go baselines.
+const expectedMultiplier = model => model.provider === 'X Subscription' ? 41.4 : model.id === 'deepseek-flash-1017-max' ? 4 : model.id === 'go-glm-5-3-max' ? 3 : model.multiplier;
+const expectedTasks = model => 20 * Math.round(expectedMultiplier(model) / model.benchmarkCost * 10) / 10;
 const argon = byId('antigravity-ultra-5x-argon-high');
 assert.deepEqual([argon.provider,argon.reasoning,argon.multiplier,argon.taskPriceFactor,argon.benchmarkCost,argon.tasks20],['Antigravity Ultra 5x','High',8.7,.5,3.84,46]);
 assert.equal(argon.multiplier,Math.round(200 * (30.4375 / 7) / 99.99 * 10) / 10);
@@ -315,13 +318,13 @@ for(const [basis,facts] of Object.entries(expected.bases)){
   assert.deepEqual(plain(api.intelligenceFloors()),[...new Set(data.map(m => m[basis]))].sort((a,b) => a-b));
   for(const model of data){
     assert.equal(rating(model),model[basis]);
-    assert.equal(metricValue(model),model.tasks20);
+    assert.equal(metricValue(model),expectedTasks(model));
     if(!model.bugHunt){assert.equal(bugScore(model),null);assert.equal(metricValue(model,'bugs'),null);continue;}
     near(bugScore(model),facts.scores[model.id]);
     const fixes = reliableBugs(model), missed = Object.entries(facts.weights).filter(([id,w]) => w !== null && !fixes.includes(id));
     near(bugCredit(model),fixes.reduce((sum,id) => sum + (facts.weights[id] ?? 0),0));
     near(bugPenalty(model),2 * missed.reduce((sum,[,w]) => sum + facts.minimumWeight ** 2 / w,0));
-    near(metricValue(model,'bugs'),model.bugHunt.cost_usd * (model.bugHunt.price_factor ?? 1) / model.multiplier / (model.bugHunt.fixed + model.bugHunt.extras));
+    near(metricValue(model,'bugs'),model.bugHunt.cost_usd * (model.bugHunt.price_factor ?? 1) / expectedMultiplier(model) / (model.bugHunt.fixed + model.bugHunt.extras));
   }
   assert.equal(api.defaultBugFloor,-Infinity);
   const probe = byId('sol-medium'), basePenalty = bugPenalty(probe) / 2, baseCost = metricValue(probe,'bugs');
@@ -337,17 +340,17 @@ for(const [basis,facts] of Object.entries(expected.bases)){
   for(const model of data){
     const factor = model.provider === 'ChatGPT' ? 3/7 : 1;
     assert.equal(api.resetCostFactor(model),factor);
-    assert.equal(api.effectiveMultiplier(model),model.multiplier / factor);
-    assert.equal(metricValue(model),model.tasks20 / factor);
-    if(model.bugHunt) near(metricValue(model,'bugs'),model.bugHunt.cost_usd * (model.bugHunt.price_factor ?? 1) / model.multiplier / (model.bugHunt.fixed + model.bugHunt.extras) * factor);
+    assert.equal(api.effectiveMultiplier(model),expectedMultiplier(model) / factor);
+    assert.equal(metricValue(model),expectedTasks(model) / factor);
+    if(model.bugHunt) near(metricValue(model,'bugs'),model.bugHunt.cost_usd * (model.bugHunt.price_factor ?? 1) / expectedMultiplier(model) / (model.bugHunt.fixed + model.bugHunt.extras) * factor);
     if(model.bugHunt) near(bugScore(model),facts.scores[model.id]);
   }
   context.controls['early-resets'].checked = false;
   assert.equal(metricValue(probe),probe.tasks20);
   assert.equal(pareto([]).length,0);
-  const tied = {intelligence:40,engineering:50,tasks20:100};
+  const tied = {intelligence:40,engineering:50,tasks20:100,multiplier:5,benchmarkCost:1};
   assert.equal(pareto([tied,{...tied}]).length,2);
-  assert.equal(pareto([tied,{...tied,tasks20:101}]).length,1);
+  assert.equal(pareto([tied,{...tied,tasks20:102,multiplier:5.1}]).length,1);
   const costly = {...probe,bugHunt:{...probe.bugHunt,cost_usd:probe.bugHunt.cost_usd * 2}};
   assert.ok(api.dominates(probe,costly,'bugs'));
   assert.ok(!api.dominates(costly,probe,'bugs'));
@@ -390,3 +393,74 @@ assert.ok(readme.includes('https://nishimura-katsuo.github.io/subscription-value
 assert.ok(readme.includes('https://artificialanalysis.ai/indexes/engineering'));
 assert.ok(readme.includes('v5') && readme.includes('55') && readme.includes('51'));
 console.log('Report checks passed: 55 exact v5 inputs, both calibration bases and full frontiers, 51 evidence records, signed/zero ratings, inverse penalties, cost direction, task conversion, resets, search, and chart geometry.');
+
+// Tier boundaries change value, never multiply it by the entered budget.
+const tierAPI = create(data,'intelligence',2), sol = byId('sol-medium'), astra = byId('astra-low');
+for(const amount of [1,20,50,99.99]){
+  tierAPI.context.budget = amount;
+  assert.equal(tierAPI.tierMultiplier(sol),10.6);
+  assert.equal(tierAPI.tierMultiplier(astra),14.5);
+}
+for(const amount of [100,199.99,200,499.99,500,1000]){
+  tierAPI.context.budget = amount;
+  assert.equal(tierAPI.tierMultiplier(sol),21.2);
+  assert.equal(tierAPI.tierMultiplier(astra),29);
+}
+for(const [id,values] of [['muse-standard-max',[5.6,9.3,11.1,11.1]],['muse-contributor-max',[68.4,114,137,137]]]){
+  const model = byId(id);
+  for(const [i,amount] of [5,15,50,200].entries()){
+    tierAPI.context.budget = amount;
+    assert.equal(tierAPI.tierMultiplier(model),values[i]);
+    near(tierAPI.metricValue(model),20 * Math.round(values[i] / model.benchmarkCost * 10) / 10);
+    near(tierAPI.costPerBug(model),model.bugHunt.cost_usd / values[i] / (model.bugHunt.fixed + model.bugHunt.extras));
+    tierAPI.context.budget = amount - .01;
+    assert.equal(tierAPI.tierMultiplier(model),values[Math.max(0,i-1)]);
+  }
+}
+tierAPI.context.budget = 20;
+const lowCost = tierAPI.costPerBug(sol), lowTasks = tierAPI.metricValue(sol), ratingBefore = tierAPI.bugScore(sol);
+tierAPI.context.budget = 99.99;
+assert.equal(tierAPI.metricValue(sol),lowTasks);
+tierAPI.context.budget = 100;
+near(tierAPI.costPerBug(sol),lowCost / 2);
+assert.equal(tierAPI.bugScore(sol),ratingBefore);
+tierAPI.context.controls['early-resets'].checked = true;
+near(tierAPI.effectiveMultiplier(sol),21.2 * 7 / 3);
+near(tierAPI.costPerBug(sol),lowCost / 2 * 3 / 7);
+assert.equal(tierAPI.selectedTier(byId('kimi-k3-1-pro-max')),undefined);
+console.log('Tier checks passed: boundaries, task rounding, bug costs, reset composition, unchanged ratings, and fixed unknown tiers.');
+
+for(const model of data.filter(model => model.provider === 'OpenCode Go')){
+  tierAPI.context.budget = 39.99;
+  assert.equal(tierAPI.tierMultiplier(model),model.multiplier);
+  tierAPI.context.budget = 40;
+  const expected = model.id === 'deepseek-flash-1017-max' ? 4 : model.id === 'go-glm-5-3-max' ? 3 : model.multiplier;
+  assert.equal(tierAPI.tierMultiplier(model),expected);
+}
+
+const grok = byId('grok-high');
+for(const [amount,price,multiplier] of [[1,8,20.7],[8,8,20.7],[29.99,8,20.7],[30,30,22.08],[99.99,30,22.08],[100,100,24.84],[199.99,100,24.84],[200,200,41.4],[1000,200,41.4]]){
+  tierAPI.context.budget = amount;
+  near(tierAPI.tierMultiplier(grok),multiplier);
+  assert.equal(tierAPI.selectedTier(grok).price,price);
+  assert.ok(tierAPI.tierLabel(grok).includes('provisional'));
+  near(tierAPI.metricValue(grok),20 * Math.round(multiplier / grok.benchmarkCost * 10) / 10);
+  near(tierAPI.costPerBug(grok),grok.bugHunt.cost_usd / multiplier / (grok.bugHunt.fixed + grok.bugHunt.extras));
+  assert.ok(matchesSearch(grok,'cursor') && matchesSearch(grok,'xai'));
+}
+console.log('X Subscription checks passed: inferred tier boundaries, normalized tasks, bug costs, labels, and legacy search alias.');
+
+const costOptions = [...html.match(/<select[^>]*id="budget"[^>]*>([\s\S]*?)<\/select>/)[1].matchAll(/<option value="(\d+)"( selected)?>([^<]+)<\/option>/g)];
+assert.deepEqual(costOptions.map(option => +option[1]),[5,15,30,60,100,500]);
+assert.equal(costOptions.find(option => option[2])[1],'30');
+const rangeAPI = create();
+for(const [ceiling,chat,muse,contributor,x,deepseek,glm] of [[5,10.6,5.6,68.4,20.7,8,1.5],[15,10.6,9.3,114,20.7,8,1.5],[30,10.6,9.3,114,22.08,8,1.5],[60,10.6,11.1,137,22.08,4,3],[100,21.2,11.1,137,24.84,4,3],[500,21.2,11.1,137,41.4,4,3]]){
+  rangeAPI.context.budget = ceiling;
+  for(const [id,multiplier] of [['sol-medium',chat],['muse-standard-max',muse],['muse-contributor-max',contributor],['grok-high',x],['deepseek-flash-1017-max',deepseek],['go-glm-5-3-max',glm]]){
+    const model = byId(id);
+    near(rangeAPI.tierMultiplier(model),multiplier);
+    near(rangeAPI.metricValue(model),20 * Math.round(multiplier / model.benchmarkCost * 10) / 10);
+    near(rangeAPI.costPerBug(model),model.bugHunt.cost_usd * (model.bugHunt.price_factor ?? 1) / multiplier / (model.bugHunt.fixed + model.bugHunt.extras));
+  }
+}
+console.log('Cost range checks passed: six actionable options and expected subscription multipliers in both metrics.');

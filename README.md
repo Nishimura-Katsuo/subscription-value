@@ -24,7 +24,7 @@ General is the default. The default task floors are **38 General** and **43 Engi
 
 Dollar amounts represent **subscription fees**, excluding API credits and on-demand charges. Fable's figures use dollars allocated to its half-plan share, expressed as a full-plan equivalent. API-equivalent costs normalize subscription value; they are not the spending being compared.
 
-A multiplier estimates how much API-equivalent usage a subscription dollar buys. Provider defaults apply unless a model-specific multiplier is listed; each is shared across the model's reasoning levels:
+A multiplier estimates how much API-equivalent usage a subscription dollar buys. The following are recorded baseline estimates, shared across reasoning levels. The monthly budget selects the tier overrides below; it never multiplies graph values:
 
 | Subscription | Multiplier used | Basis |
 | --- | ---: | --- |
@@ -37,20 +37,20 @@ A multiplier estimates how much API-equivalent usage a subscription dollar buys.
 | Antigravity Ultra 5x · all Argon and Carbon variants | 8.7× | Argon weekly estimate transferred to all variants by user direction until better evidence is available |
 | OpenCode Go · MiMo Pro, Step 5, Kimi K3.1 Pro, GLM Max, Qwen Max 0902 | 1.5× | $15 monthly model allowance / $10 subscription |
 | Kimi | 11× | User estimate based on legacy-plan reports; not a measured current allowance |
-| Cursor | 20.7× | Author's metered usage exports divided by subscription spend |
+| X Subscription (provisional) | Tier-dependent; legacy anchor 20.7× | Author's $60 Cursor Pro+ exports, transferred using Cursor's minimum 2× allowance claim |
 | Muse Standard | 11.1× ±0.5 | Derived Power Usage value at Standard API prices |
 | Muse Contributor | 137× ±39 | Same plan and derivation, valued at Standard API prices |
 | Muse Wonder Full | 6.6× (future lead) | Preliminary user estimate; not applied in the app |
 
-On **29 October 2026**, all OpenAI model multipliers were doubled by user direction following the reported usage-limit increase for the **$100/$200/$500 tiers**. Task throughput is recalculated from the new multipliers before rounding; subscription cost per bug fixed is halved. The optional early-reset scenario applies on top of these updated baselines. Benchmark scores and recorded run costs retain their original snapshots.
+On **29 October 2026**, the recorded OpenAI baseline multipliers were doubled by user direction following the reported usage-limit increase for the **$100/$200/$500 tiers**. Only budgets of **$100 and above** select those doubled multipliers. Below $100, ChatGPT uses **10.6×**, or **14.5× for Astra**. Task throughput is recalculated from the selected multiplier before rounding; subscription cost per bug fixed uses the same tier. The optional early-reset scenario applies on top of these updated baselines. Benchmark scores and recorded run costs retain their original snapshots.
 
-These remain **supplied assumptions**, not separate current measurements for every model. The public [SemiAnalysis study of 5 October](https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x) is paywalled; the repository does not contain a complete derivation or the private Cursor exports. Cursor and Kimi allowances cannot be independently refreshed from these public sources. Cursor's observed usage mixed Claude and Grok; applying its full multiplier to Grok assumes both available usage pools can be allocated to it. Fable's allocation normalization does not increase its allowance or include the remaining half-plan's value. Model availability and actual account limits still apply.
+These remain **supplied assumptions**, not separate current measurements for every model. The public [SemiAnalysis study of 5 October](https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x) is paywalled; the repository does not contain a complete derivation or the private Cursor exports. The X Subscription allowance is inferred below rather than independently measured; Kimi retains its legacy estimate. Cursor's observed usage mixed Claude and Grok; applying its full multiplier to Grok assumes both available usage pools can be allocated to it. Fable's allocation normalization does not increase its allowance or include the remaining half-plan's value. Model availability and actual account limits still apply.
 
 For a verified model sub-limit with spending allocation fraction `f`, use the same normalization as Fable: divide the model's full-fee multiplier by `f`, and describe spending as allocated subscription dollars. A separate quota pool or higher per-token quota weight alone does not establish `f`; do not invent an allocation uplift. Antigravity's estimate uses weekly usage extrapolated to monthly value, with five-hour windows excluded as requested.
 
 ### OpenCode Go routes and prices
 
-All Go rows use the **$10/month Go plan** and its [current published terms](https://opencode.ai/v2/docs/console/go/). Allowance multipliers are derived, not measured consumption. Five-hour and weekly limits are 20% and 50% of monthly allowance; Go Plus $40 limits do not apply. Source benchmark performance transfers to the Go route by assumption, requiring the same model revision, reasoning behavior, and applicable context limits.
+Recorded Go baselines use the **$10/month Go plan** and its [current published terms](https://opencode.ai/v2/docs/console/go/). Allowance multipliers are derived, not measured consumption. Five-hour and weekly limits are 20% and 50% of monthly allowance; Go Plus $40 overrides apply when selected by the monthly budget; see the tier table below. Source benchmark performance transfers to the Go route by assumption, requiring the same model revision, reasoning behavior, and applicable context limits.
 
 MiMo and Qwen task costs are conditionally repriced from AA's weighted token-cost breakdown to current Go rates at identical token usage and cache behavior. AA's cache-write rate is inferred as the input rate from complete token/cost accounting, rather than an explicit rate quote. MiMo's exact AA cost is about `$0.25718036`, the Go-matched cost about `$0.25747725`, and the stored rounded task cost `$0.26`. Qwen's corresponding values are `$10.02389157`, `$10.85307618`, and `$10.85`. Their conversion factors are retained in `taskPriceFactor`. **`benchmarkCost` already includes this conversion; never multiply by the factor again.** DeepSeek Flash uses AA peak rates for tasks and the corresponding off-peak basis for Bug Hunt bills.
 
@@ -64,11 +64,11 @@ Raw historical Bug Hunt bills remain source evidence. Do not reprice them withou
 
 The report observes Argon and Flash sharing the Gemini weekly pool, calibrated at about $600/week using Flash's API prices. Argon's inferred internal quota rates are `$6 / $30 / $0.30` per million input / output / cached-read tokens, three times its launch API prices. That yields `$600 / 3 = $200/week` of Argon API value. The 3× burn rate is **not a one-third maximum allocation**. No verified Fable-like fractional Argon cap was found, so the app uses the full subscription fee without an allocation uplift. All Gemini weekly usage is assumed available for Argon; the separate Claude/GPT pool and other bundle benefits are not valued. The experiment did not exhaust the pool to rule out an undisclosed additional cap. Its quota observations include Medium, with a [separate High cross-check](https://discuss.ai.google.dev/t/gemini-4-argon-draws-antigravity-quota-at-3x-gemini-3-8-flash-per-published-dollar-clean-a-b-same-bucket/196351); transferring quota behavior across efforts remains an assumption.
 
-AA's exact standard-price task cost is `$7.682671372515551`. To match the multiplier's launch-price basis of `$2 / $10 / $0.10`, half AA's `$4 / $20 / $0.20`, `taskPriceFactor = 0.5` gives `$3.84` per task after rounding. The stored multiplier and task cost imply **46 tasks per $20** after the app's throughput rounding. Do not apply an additional quota-weight or allocation multiplier. Launch API prices run through **30 November 2026**; refresh both pricing and quota evidence thereafter.
+AA's exact standard-price task cost is `$7.682671372515551`. To match the multiplier's launch-price basis of `$2 / $10 / $0.10`, half AA's `$4 / $20 / $0.20`, `taskPriceFactor = 0.5` gives `$3.84` per task after rounding. The recorded baseline is **tasks20 = 46**, or **2.3 tasks per subscription dollar**, after throughput rounding. Do not apply an additional quota-weight or allocation multiplier. Launch API prices run through **30 November 2026**; refresh both pricing and quota evidence thereafter.
 
 Argon uses the current **Antigravity CLI High mean of three** in [Bug Hunt's source data](https://bughunt.productcompass.pm/data/benchmark.json): **40.7 planted fixes, 7.3 extras, $7.16**, with **31 planted bugs fixed in every run**. The raw source cost already uses launch rates and is **not halved again**. This is a list estimate; one run resumed after a billing limit, and possible long-context premiums remain a source caveat. The separate Gemini CLI run is not combined with it. Transfer of model revision, High reasoning, harness performance, and cache behavior from the source's Antigravity CLI/API gateway to the subscription route is assumed. Argon supplies reliable coverage for six previously unrated bugs, increasing calibration from 56 to **62 bugs** and changing existing ratings in both bases. Low and Medium have Bug Hunt runs but no matching published AA v5.0 configurations, so they remain excluded.
 
-[Gemini 4 Carbon High](https://artificialanalysis.ai/models/gemini-4-carbon) is included in **tasks mode as a user-directed Antigravity Ultra 5x scenario** with Argon's **8.7× multiplier**. Its own AA v5.0 scores are rounded **59 / 65**. Its exact standard-price task cost `$7.755545745286556` becomes `$3.88` after applying `taskPriceFactor = 0.5` to match the multiplier's launch API price basis. That gives **44 tasks per $20** after throughput rounding. Carbon has no matching Bug Hunt run, so it remains excluded from bugs mode and does not alter bug calibration. No end date for Carbon's launch discount was confirmed; Argon's 30 November expiry is not assumed to apply to Carbon.
+[Gemini 4 Carbon High](https://artificialanalysis.ai/models/gemini-4-carbon) is included in **tasks mode as a user-directed Antigravity Ultra 5x scenario** with Argon's **8.7× multiplier**. Its own AA v5.0 scores are rounded **59 / 65**. Its exact standard-price task cost `$7.755545745286556` becomes `$3.88` after applying `taskPriceFactor = 0.5` to match the multiplier's launch API price basis. That gives recorded **tasks20 = 44**, or **2.2 tasks per subscription dollar**, after throughput rounding. Carbon has no matching Bug Hunt run, so it remains excluded from bugs mode and does not alter bug calibration. No end date for Carbon's launch discount was confirmed; Argon's 30 November expiry is not assumed to apply to Carbon.
 
 **Carbon's subscription availability and quota behavior are unverified.** [Google's launch announcement](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/) describes phased access through Fairwind, with wider product access coming later; Carbon is absent from Antigravity's [published model list](https://antigravity.google/docs/models). Its inclusion is a comparison assumption, not a claim of current access. [Antigravity's published quota terms](https://antigravity.google/docs/plans) give no API-dollar allowance. Pro's dedicated Argon weekly pool has a [rough $12/week estimate from one task](https://discuss.ai.google.dev/t/estimating-updated-quota-for-claude-gemini-4-argon/191879), which is too weak to rank here. No spending allocation fraction is verified for a Fable-style normalization. Ultra 20x remains unranked because no equally supported measurement was found; its allowance is not inferred by scaling the plan name.
 
@@ -76,7 +76,16 @@ Argon uses the current **Antigravity CLI High mean of three** in [Bug Hunt's sou
 
 Only Muse Spark 1.3 **Max** has current matching v5.0 evidence. Standard and Contributor share its AA scores, Standard API task cost, and Bug Hunt evidence. Contributor performance transfers from Standard by assumption, including availability; these are not independent benchmark runs.
 
-The app uses the **$50/month Power Usage** plan. The [original experiment](https://github.com/phuryn/experiments/tree/main/subscription-multipliers/04-muse-code) measured the $15/month High Usage plan on 1 October 2026: Standard `9.3× ±0.4`, Contributor `114× ±33`. [Meta's terms](https://dev.meta.ai/docs/muse-code/subscriptions) describe Power Usage as 20× Everyday versus High Usage's 5×, a 4× allowance ratio for 3.33× the price. Scaling by `1.2` gives the app's rounded `11.1× ±0.5` and `137× ±39`. These are derived values; weekly measurements are extrapolated to monthly value, and five-hour limits can bind sooner. They do not establish unchanged measured quotas after the October subscription update or for every workload.
+The recorded baseline is the **$50/month Power** plan. The [original experiment](https://github.com/phuryn/experiments/tree/main/subscription-multipliers/04-muse-code) measured High ($15) on 1 October 2026. Current [official plans](https://dev.meta.ai/products/muse-code) list Everyday / High / Power / Maximum at $5 / $15 / $50 / $200 with allowance ratios 1 / 5 / 20 / 80. Only High was measured; the other tiers are derived from its measurement, using `High multiplier × (tier quota / 5) × (15 / tier fee)`. The recorded Power values retain the experiment's rounding from its less-rounded measurements.
+
+| Monthly tier | Standard multiplier | Contributor multiplier |
+| --- | ---: | ---: |
+| Everyday $5 | 5.6× | 68.4× |
+| High $15 | 9.3× | 114× |
+| Power $50 | 11.1× | 137× |
+| Maximum $200 | 11.1× | 137× |
+
+High's original uncertainties are ±0.4 / ±33; Power's are approximately ±0.5 / ±39. Derived ratios do not eliminate measurement uncertainty. Weekly measurements are extrapolated to monthly value, and five-hour limits can bind sooner. Wonder Full is a **different model**, available on Power/Maximum with no API endpoint; Spark's tier ratios do not establish its API-dollar multiplier. The preliminary 6.6× Wonder Full estimate remains unapplied. [Model availability](https://dev.meta.ai/docs/models).
 
 The input basis remains Standard API prices. Do not additionally apply Contributor's discounted API rates: that counts the discount twice. The experiment's multipliers against Contributor API prices use a different price basis. **Contributor allows Meta to train on submitted content.** Muse Max's five-run Bug Hunt mean spans different Muse Code builds, including split-version runs; replication configuration is explicitly unverified.
 
@@ -90,14 +99,62 @@ Inputs are the selected AA intelligence score and the General Intelligence Index
 
 ```text
 Tasks / subscription $ = multiplier / benchmarkCost
-Displayed tasks at subscription spend B
-  = B × round(Tasks / subscription $, 1 decimal)
-tasks20 = 20 × round(multiplier / benchmarkCost, 1 decimal)
+Displayed tasks / subscription $ = round(selected multiplier / benchmarkCost, 1 decimal)
+tasks20 = 20 × round(recorded baseline multiplier / benchmarkCost, 1 decimal)
 ```
 
-The app rounds tasks per subscription dollar before scaling by spending. Default spending is `$1`; changing it scales throughput linearly without implying that each service offers that plan or quota. The horizontal axis is the selected intelligence score, and the vertical axis is estimated tasks at the selected spend. Floor choices include each distinct score and the basis default.
+**Default monthly cost range is $20–$30.** The dropdown offers **$5, $8–$15, $20–$30, $40–$60, $100, and $200–$500**. These groups follow the researched multiplier changes rather than arbitrary dollar increments. The separate $5 option preserves Muse Everyday, while $8–$15 includes Muse High and OpenCode Go. $40–$60 includes Go Plus and Muse Power. $100 introduces ChatGPT Pro and X Super; $200–$500 combines X Ultra, Muse Maximum, and the ChatGPT Pro tiers that share the same value multiplier.
 
-For example, using multiplier `21.2` and Terra Low's stored task cost `$0.07` gives `302.9` tasks per dollar and `6,058` tasks per `$20`. Reproduce rounding with JavaScript's `Math.round(multiplier / benchmarkCost * 10) / 10 * 20`; languages using ties-to-even can differ.
+Each range selects the highest researched tier whose monthly fee is at or below the **upper end**, without multiplying graph values. Thus $20–$30 uses ChatGPT Plus $20 and X Premium $30. Lower-priced plans remain alternatives; below the cheapest researched tier, its estimate stays visible with an **above cost range** label. This is a value comparison, not an affordability filter. The control stays visible in bugs mode because tiers affect both metrics. Task charts, tables, details, and exports always show tasks per **$1**, and bug charts show subscription dollars per fix. Fixed estimates remain where tier differences are unverified.
+
+The embedded `multiplier` and `tasks20` remain baseline evidence snapshots. Runtime calculations use `tierMultiplier` and recalculate throughput from the selected multiplier and the matched rounded task cost. Early resets apply after throughput rounding. The active multiplier, cost range, numeric range ceiling, tier name, and tier fee are exported to CSV. Intelligence scores and bug difficulty calibration are independent of tiers.
+
+For example, Terra Low at the $20 ChatGPT tier uses `10.6 / $0.07`, rounded to **151.4 tasks per subscription dollar**. At $100, it uses `21.2 / $0.07`, rounded to **302.9**. The $200–$500 range retains the same ChatGPT value as the $100 option.
+
+### Other researched tiers and limits
+
+[Official OpenAI pricing](https://learn.chatgpt.com/docs/pricing) confirms Plus $20 and Pro $100/$200/$500. The October 29 doubling and its scope remain the user's supplied assumption; the public pricing page does not establish that measured API-dollar value. Both lower and higher tier estimates transfer across the recorded model configurations; this does not verify every model's availability on each tier.
+
+[OpenCode Go's current allowance table](https://opencode.ai/v2/docs/console/go/) supports model-specific overrides at **$40**:
+
+| Model group | Go $10 multiplier | Go Plus $40 multiplier |
+| --- | ---: | ---: |
+| DeepSeek Flash | 8× | 4× |
+| MiniMax Flash | 2× | 2× |
+| GLM Max | 1.5× | 3× |
+| Other included Go models | 1.5× | 1.5× |
+
+Monthly allowances are divided by the actual tier fee; a larger total quota does not necessarily improve value per dollar. Go Teams is a separate per-seat product, so the personal budget does not select it. Independent model pools and five-hour/weekly limits still apply.
+
+For the following subscriptions, the app explicitly labels **fixed estimates; tier differences unverified**, rather than inventing dollar multipliers:
+
+- **Claude:** [Max terms](https://support.claude.com/en/articles/11049741-what-is-the-max-plan) define $100/$200 plans as 5×/20× Pro's **session** allowance. Weekly caps can also bind; these ratios do not verify monthly scaling from the supplied 58.9× baseline. Fable retains its separate allocation-normalized baseline.
+- **Kimi:** current Plus/Pro/Max/Ultra prices are $19/$39/$99/$199, with advertised Agent-credit ratios 1/2/5/10. Those are not established Code quota ratios. [Dedicated Code membership rules](https://www.kimi.com/code/docs/en/kimi-code/membership.html) distinguish new and legacy caps and exclude coding quota from Go; the 11× legacy estimate is not transferred to current tiers. [Pricing resource](https://www.kimi.ai/resources/kimi-k2-7-code-pricing).
+- **Antigravity:** the [May plan announcement](https://antigravity.google/blog/changes-to-antigravity-plans/) gives broad 1/5/20 token ratios, but predates Argon. [Current quota terms](https://antigravity.google/docs/plans) do not verify these ratios for Argon's separate weekly pools. The sampled Ultra 5x 8.7× estimate stays fixed; Pro/Ultra 20x are not inferred from old ratios.
+
+
+### Provisional X Subscription value — researched 29 October 2026
+
+[Cursor's current legacy-plan comparison](https://prod.cursor.com/docs/account/pricing/legacy-cursor-plans) maps **Pro+ $60 → Super $100**, and says each comparable new paid plan includes **at least twice the coding usage with Cursor models**. This establishes a conditional bridge that the launch-day forum answers did not quantify for Pro+. It does not establish identical model pricing, cache treatment, or consumption across products.
+
+Using **exactly 2× as the provisional scenario anchor**, Super's multiplier is `20.7 × 60 × 2 / 100 = 24.84`. Other tiers follow [xAI's official quota ratios](https://docs.x.ai/x-subscription/pricing), 1 / 4 / 15 / 50:
+
+| Monthly tier | Quota relative to Plus | Provisional API-dollar multiplier |
+| --- | ---: | ---: |
+| Plus $8 | 1 | 20.7× |
+| Premium $30 | 4 | 22.08× |
+| Super $100 | 15 | 24.84× |
+| Ultra $200 | 50 | 41.4× |
+
+For tier fee `P` and relative quota `q`, `M = 20.7 × 60 × 2 × (q / 15) / P`. The app uses the full values before normal task rounding, across all recorded Grok efforts. These are **provisional estimates, not measured new-plan allowances or guaranteed lower bounds**. The minimum provider claim does not make the historical allocation assumption a guaranteed floor.
+
+The old 20.7× combined Claude and Grok API-equivalent usage. The scenario retains the existing assumption that this entire value can be assigned to the first-party pool. If fraction `f` of that old dollar value belonged to first-party usage, **multiply every new multiplier by `f`**. The repository preserves the aggregate multiplier, not the raw exports needed to establish `f`; dividing by the $60 fee alone cannot recover it. Claude and other third-party usage are excluded from the new included pool and billed separately. Plus has fixed model settings, so the displayed effort configurations are transfer scenarios rather than verified Plus configurations.
+
+[Usage terms](https://docs.x.ai/x-subscription/usage-limits) say the pool is shared across Cursor, Grok and Grok Bot, with product-dependent consumption. Monthly extrapolation assumes using the available weekly pools; unused usage does not roll over. No value is assigned to X benefits or third-party top-ups. Annual discounts and temporary promotions are excluded.
+
+A [public Ultra usage-meter thread](https://forum.cursor.com/t/usage-meter-after-plan-change-doesnt-match-token-usage-same-model-same-cache-rate/175736) contains token receipts, but does not establish a reliable new-plan dollar allowance. Its 22 October opening post reports 148.2M cached / 2.8M input / 0.8M output tokens for 2.8% of an Ultra allowance; the comparison to legacy 3×/20× plans leaves the plan identity and reset interval unclear. A separate 27 October reply explicitly names the new Ultra/X weekly pool, but lacks a full token-price breakdown. Neither is used to calibrate this scenario.
+
+Legacy subscriptions are closed to new signups, but the [current official policy](https://docs.x.ai/x-subscription/do-i-have-to-switch) permits existing plans to continue; no firm mandatory migration date was found. Cursor staff have said future migration would receive advance notice. This distinction matters when comparing an existing $60 account with a new purchase.
 
 ## Bugs mode
 
@@ -149,7 +206,7 @@ Repeated-run results use the source's published mean fix counts and mean cost: a
 
 For example, Sol Medium's source mean has `29` planted fixes, `30.5` extras, and `$1.76` run cost. At `21.2×`, cost per total fix is `1.76 / 21.2 / 59.5 ≈ $0.00139527`, displayed near `$0.0014`. The denominator is `59.5`, not its `25` qualifying planted fixes. Costs have no intermediate rounding.
 
-The horizontal axis is bug-fix rating with exponential spacing: `(10^t − 1) / 9`, where `t = (rating − minimum) / (maximum − minimum)`. It supports negative ratings and changes spacing only. The vertical cost axis is inverted and logarithmic, so higher points cost less. Bug-floor steps are 250, widening for large strengths while preserving the selected cutoff. Ratings and unit costs do not scale with the spending scenario.
+The horizontal axis is bug-fix rating with exponential spacing: `(10^t − 1) / 9`, where `t = (rating − minimum) / (maximum − minimum)`. It supports negative ratings and changes spacing only. The vertical cost axis is inverted and logarithmic, so higher points cost less. Bug-floor steps are 250, widening for large strengths while preserving the selected cutoff. Changing the cost range leaves ratings fixed and applies the selected plan multipliers to unit costs.
 
 ## Pareto frontier and graph lines
 
@@ -184,7 +241,7 @@ The dataset is JSON inside `<script id="comparison-data">` in [docs/index.html](
 | App field | Source or derivation | Notes |
 | --- | --- | --- |
 | `id`, `model`, `short` | Local identifiers and names | IDs remain unique and stable. |
-| `provider` | Subscription used for normalization | Grok uses Cursor; duplicate subscription scenarios can share benchmark evidence. |
+| `provider` | Subscription used for normalization | Grok uses the provisional X Subscription route through Cursor; duplicate subscription scenarios can share benchmark evidence. |
 | `country` | Model developer's country | Origin remains the developer's even through another subscription; full names support filtering. |
 | `reasoning` | Recorded effort | Default, Low, Medium, High, XHigh, or Max. Default preserves an unnamed AA configuration. Document inferred effort mappings. |
 | `intelligence`, `engineering` | Rounded AA General v5.0 and Engineering scores | Match version, exact effort, and routing/fallback definition. |
@@ -193,7 +250,7 @@ The dataset is JSON inside `<script id="comparison-data">` in [docs/index.html](
 | `aaTaskCostExact` | Unrounded AA General workload cost | Before any Go repricing. |
 | `taskPriceFactor` | General workload token-price conversion | Provenance; `benchmarkCost` already includes it. Defaults to 1. |
 | `benchmarkCost` | Rounded matched General workload cost per task | USD per task, not token price or total index cost; cents except four decimals below one cent. |
-| `multiplier` | Supplied assumption above | Apply across reasoning levels; Fable is per allocated subscription dollar. |
+| `multiplier` | Recorded baseline assumption above | Apply across reasoning levels; Fable is per allocated subscription dollar. |
 | `tasks20` | `20 × round(multiplier / benchmarkCost, 1 decimal)` | Recompute when either input changes. |
 | `aaSource`, `sourceDate`, `sourceNote` | Exact AA URL, input-check date, caveats | Preserve route, inferred mapping, pricing, and subscription assumptions. |
 | `bugHunt.id` | Selected source `runs[].id` | Preserve exact row identity. |
@@ -216,7 +273,7 @@ The dataset is JSON inside `<script id="comparison-data">` in [docs/index.html](
 ## Reproducing a recorded table
 
 1. Use the embedded dataset from the desired Git commit. Live sources can change; private exports are unnecessary if you accept the supplied multipliers.
-2. Select General or Engineering and recompute `tasks20` from the already matched rounded `benchmarkCost`. For bugs, calibrate weights globally in that basis, sum qualifying credit, subtract inverse-difficulty miss penalties, and calculate cost separately from all completed fixes.
+2. Select General or Engineering and the monthly budget. Resolve its researched tier multiplier and recompute tasks per dollar from the already matched rounded `benchmarkCost`. For bugs, calibrate weights globally in that basis, sum qualifying credit, subtract inverse-difficulty miss penalties, and calculate cost separately from all completed fixes.
 3. Apply scenario, mode, search, and floor settings. Search is case-insensitive and comma-separated terms use OR across model, effort, subscription, and country. For example, `opencode go,chatgpt` or `china,haiku`; `us` and `usa` exactly alias United States. Empty terms and surrounding spaces are ignored. Query carries across modes and affects tables, graphs, and exports. `pareto` includes the full-dataset active-basis frontier while preserving the displayed floor.
 4. Recompute filtered Pareto membership unless `pareto` requests full-dataset membership. Default task sorting is descending throughput; default bug sorting is ascending cost. Equal numeric sort values retain dataset order. Frontier only limits displayed rows afterward.
 5. Compare with filtered CSV output at full precision until formatting. Task screen values use up to one decimal and bug costs up to four; CSV task values use one decimal and bug costs six. Display rounding can hide differences used in dominance comparisons.
