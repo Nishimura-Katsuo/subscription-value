@@ -16,7 +16,7 @@ The embedded JSON in [docs/index.html](docs/index.html), configuration details, 
 
 The **General / Engineering** selector chooses the score used for task comparisons and bug difficulty calibration. General uses `intelligence` (AA Intelligence Index v5.0); Engineering uses `engineering` (AA Engineering Index). Changing the basis updates task ratings, rating sorting and filters, bug weights and minimum penalty anchor, bug ratings, rankings, Pareto frontiers, details, and CSV exports.
 
-General is the default. The default task floors are **38 General** and **43 Engineering**, selected as comparison thresholds. Each metric/basis combination remembers its own floor. Bugs mode defaults to **No floor** in both bases. Reset all restores General, the default floors, and penalty strength `2`.
+Engineering is the default. The default task floors are **38 General** and **43 Engineering**, selected as comparison thresholds. Each metric/basis combination remembers its own floor. Bugs mode defaults to **No floor** in both bases. Reset all restores Engineering, the default floors, and penalty strength `2`.
 
 **Task throughput always uses AA's General Intelligence Index workload cost**, including when Engineering is selected. The Engineering setting changes the capability comparison and bug calibration; it does not turn that cost into an engineering-specific task cost.
 
@@ -24,7 +24,7 @@ General is the default. The default task floors are **38 General** and **43 Engi
 
 Dollar amounts represent **subscription fees**, excluding API credits and on-demand charges. Fable's figures use dollars allocated to its half-plan share, expressed as a full-plan equivalent. API-equivalent costs normalize subscription value; they are not the spending being compared.
 
-A multiplier estimates how much API-equivalent usage a subscription dollar buys. The following are recorded baseline estimates, shared across reasoning levels. The monthly budget selects the tier overrides below; it never multiplies graph values:
+A multiplier estimates how much API-equivalent usage a subscription dollar buys. The following are recorded baseline estimates, shared across reasoning levels. Best selects each configuration’s highest recorded multiplier; a specific monthly cost range selects the best matching tier below. Neither setting multiplies graph values:
 
 | Subscription | Multiplier used | Basis |
 | --- | ---: | --- |
@@ -36,21 +36,21 @@ A multiplier estimates how much API-equivalent usage a subscription dollar buys.
 | OpenCode Go · MiniMax M3.1 Flash | 2× | $20 monthly model allowance / $10 subscription |
 | Antigravity Ultra 5x · all Argon and Carbon variants | 8.7× | Argon weekly estimate transferred to all variants by user direction until better evidence is available |
 | OpenCode Go · MiMo Pro, Step 5, Kimi K3.1 Pro, GLM Max, Qwen Max 0902 | 1.5× | $15 monthly model allowance / $10 subscription |
-| Kimi | 11× | User estimate based on legacy-plan reports; not a measured current allowance |
+| Kimi | 11× baseline | User estimate anchored to Plus $19; other tiers scale by relative credits per dollar |
 | X Subscription (provisional) | Tier-dependent; legacy anchor 20.7× | Author's $60 Cursor Pro+ exports, transferred using Cursor's minimum 2× allowance claim |
 | Muse Standard | 11.1× ±0.5 | Derived Power Usage value at Standard API prices |
 | Muse Contributor | 137× ±39 | Same plan and derivation, valued at Standard API prices |
 | Muse Wonder Full | 6.6× (future lead) | Preliminary user estimate; not applied in the app |
 
-On **29 October 2026**, the recorded OpenAI baseline multipliers were doubled by user direction following the reported usage-limit increase for the **$100/$200/$500 tiers**. Only budgets of **$100 and above** select those doubled multipliers. Below $100, ChatGPT uses **10.6×**, or **14.5× for Astra**. Task throughput is recalculated from the selected multiplier before rounding; subscription cost per bug fixed uses the same tier. The optional early-reset scenario applies on top of these updated baselines. Benchmark scores and recorded run costs retain their original snapshots.
+On **29 October 2026**, the recorded OpenAI baseline multipliers were doubled by user direction following the reported usage-limit increase for the **$100/$200/$500 tiers**. **Best**, **$99–$100**, and **$199–$500** select those doubled multipliers. The **$19–$30** range selects ChatGPT Plus at **10.6×**, or **14.5× for Astra**. Other specific ranges exclude ChatGPT. Task throughput is recalculated from the selected multiplier before rounding; subscription cost per bug fixed uses the same tier. The optional early-reset scenario applies on top of these updated baselines. Benchmark scores and recorded run costs retain their original snapshots.
 
-These remain **supplied assumptions**, not separate current measurements for every model. The public [SemiAnalysis study of 5 October](https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x) is paywalled; the repository does not contain a complete derivation or the private Cursor exports. The X Subscription allowance is inferred below rather than independently measured; Kimi retains its legacy estimate. Cursor's observed usage mixed Claude and Grok; applying its full multiplier to Grok assumes both available usage pools can be allocated to it. Fable's allocation normalization does not increase its allowance or include the remaining half-plan's value. Model availability and actual account limits still apply.
+These remain **supplied assumptions**, not separate current measurements for every model. The public [SemiAnalysis study of 5 October](https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x) is paywalled; the repository does not contain a complete derivation or the private Cursor exports. The X Subscription allowance is inferred below rather than independently measured; Kimi uses its legacy estimate as the user-confirmed Plus $19 anchor for tier scaling. Cursor's observed usage mixed Claude and Grok; applying its full multiplier to Grok assumes both available usage pools can be allocated to it. Fable's allocation normalization does not increase its allowance or include the remaining half-plan's value. Model availability and actual account limits still apply.
 
 For a verified model sub-limit with spending allocation fraction `f`, use the same normalization as Fable: divide the model's full-fee multiplier by `f`, and describe spending as allocated subscription dollars. A separate quota pool or higher per-token quota weight alone does not establish `f`; do not invent an allocation uplift. Antigravity's estimate uses weekly usage extrapolated to monthly value, with five-hour windows excluded as requested.
 
 ### OpenCode Go routes and prices
 
-Recorded Go baselines use the **$10/month Go plan** and its [current published terms](https://opencode.ai/v2/docs/console/go/). Allowance multipliers are derived, not measured consumption. Five-hour and weekly limits are 20% and 50% of monthly allowance; Go Plus $40 overrides apply when selected by the monthly budget; see the tier table below. Source benchmark performance transfers to the Go route by assumption, requiring the same model revision, reasoning behavior, and applicable context limits.
+Recorded Go baselines use the **$10/month Go plan** and its [current published terms](https://opencode.ai/v2/docs/console/go/). Allowance multipliers are derived, not measured consumption. Five-hour and weekly limits are 20% and 50% of monthly allowance; Go Plus $40 overrides apply in the $39–$60 range, or under Best when they improve that model’s multiplier; see the tier table below. Source benchmark performance transfers to the Go route by assumption, requiring the same model revision, reasoning behavior, and applicable context limits.
 
 MiMo and Qwen task costs are conditionally repriced from AA's weighted token-cost breakdown to current Go rates at identical token usage and cache behavior. AA's cache-write rate is inferred as the input rate from complete token/cost accounting, rather than an explicit rate quote. MiMo's exact AA cost is about `$0.25718036`, the Go-matched cost about `$0.25747725`, and the stored rounded task cost `$0.26`. Qwen's corresponding values are `$10.02389157`, `$10.85307618`, and `$10.85`. Their conversion factors are retained in `taskPriceFactor`. **`benchmarkCost` already includes this conversion; never multiply by the factor again.** DeepSeek Flash uses AA peak rates for tasks and the corresponding off-peak basis for Bug Hunt bills.
 
@@ -103,13 +103,15 @@ Displayed tasks / subscription $ = round(selected multiplier / benchmarkCost, 1 
 tasks20 = 20 × round(recorded baseline multiplier / benchmarkCost, 1 decimal)
 ```
 
-**Default monthly cost range is $20–$30.** The dropdown offers **$5, $8–$15, $20–$30, $40–$60, $100, and $200–$500**. These groups follow the researched multiplier changes rather than arbitrary dollar increments. The separate $5 option preserves Muse Everyday, while $8–$15 includes Muse High and OpenCode Go. $40–$60 includes Go Plus and Muse Power. $100 introduces ChatGPT Pro and X Super; $200–$500 combines X Ultra, Muse Maximum, and the ChatGPT Pro tiers that share the same value multiplier.
+**Best is the default monthly cost option**, followed by **$5, $8–$15, $19–$30, $39–$60, $99–$100, and $199–$500**. Best uses the highest recorded multiplier for each model/subscription configuration across its known price points. When values tie, the cheapest plan wins. DeepSeek uses Go $10 at 8×, while GLM uses Go Plus $40 at 3×; Muse uses Power $50, and ChatGPT uses Pro $100.
 
-Each range selects the highest researched tier whose monthly fee is at or below the **upper end**, without multiplying graph values. Thus $20–$30 uses ChatGPT Plus $20 and X Premium $30. Lower-priced plans remain alternatives; below the cheapest researched tier, its estimate stays visible with an **above cost range** label. This is a value comparison, not an affordability filter. The control stays visible in bugs mode because tiers affect both metrics. Task charts, tables, details, and exports always show tasks per **$1**, and bug charts show subscription dollars per fix. Fixed estimates remain where tier differences are unverified.
+A specific range shows **only configurations with a recorded plan price inside that range**, using the highest multiplier among matching price points. Thus $19–$30 includes Kimi Plus $19, Claude Pro $20, ChatGPT Plus $20, and X Premium $30; $39–$60 includes Kimi Pro $39, Go Plus $40, and Muse Power $50. Antigravity Ultra 5x $99.99 falls in $99–$100. Claude’s $20/$100/$200 plans retain the same per-model multiplier by user direction, including Fable’s separate allocation-normalized value. Kimi’s tiers use the user-confirmed scaling below.
 
-The embedded `multiplier` and `tasks20` remain baseline evidence snapshots. Runtime calculations use `tierMultiplier` and recalculate throughput from the selected multiplier and the matched rounded task cost. Early resets apply after throughput rounding. The active multiplier, cost range, numeric range ceiling, tier name, and tier fee are exported to CSV. Intelligence scores and bug difficulty calibration are independent of tiers.
+The control applies to both metrics, search (including `pareto`), charts, tables, details, and exports. The Pareto search uses the frontier within the selected price range before text and floor filtering. Task values stay per **$1**, and bug values remain subscription dollars per fix.
 
-For example, Terra Low at the $20 ChatGPT tier uses `10.6 / $0.07`, rounded to **151.4 tasks per subscription dollar**. At $100, it uses `21.2 / $0.07`, rounded to **302.9**. The $200–$500 range retains the same ChatGPT value as the $100 option.
+The embedded `multiplier` and `tasks20` remain baseline evidence snapshots. Runtime calculations use `tierMultiplier` and recalculate throughput from the selected multiplier and the matched rounded task cost. Early resets apply after throughput rounding. The active multiplier, cost range, numeric range ceiling (blank under Best), tier name, and tier fee are exported to CSV. Intelligence scores and bug difficulty calibration are independent of tiers.
+
+For example, Terra Low at the $20 ChatGPT tier uses `10.6 / $0.07`, rounded to **151.4 tasks per subscription dollar**. At $100, it uses `21.2 / $0.07`, rounded to **302.9**. The $199–$500 range retains the same ChatGPT value as the $99–$100 option.
 
 ### Other researched tiers and limits
 
@@ -126,11 +128,20 @@ For example, Terra Low at the $20 ChatGPT tier uses `10.6 / $0.07`, rounded to *
 
 Monthly allowances are divided by the actual tier fee; a larger total quota does not necessarily improve value per dollar. Go Teams is a separate per-seat product, so the personal budget does not select it. Independent model pools and five-hour/weekly limits still apply.
 
-For the following subscriptions, the app explicitly labels **fixed estimates; tier differences unverified**, rather than inventing dollar multipliers:
+Claude’s **Pro $20, Max $100, and Max $200** plans use the same existing per-model multiplier by user direction: **58.9×** for Sonnet/Opus/Haiku and **24.8×** for Fable. Best selects Pro $20 because equal multipliers prefer the cheapest plan. These are comparison assumptions applied across the recorded configurations.
 
-- **Claude:** [Max terms](https://support.claude.com/en/articles/11049741-what-is-the-max-plan) define $100/$200 plans as 5×/20× Pro's **session** allowance. Weekly caps can also bind; these ratios do not verify monthly scaling from the supplied 58.9× baseline. Fable retains its separate allocation-normalized baseline.
-- **Kimi:** current Plus/Pro/Max/Ultra prices are $19/$39/$99/$199, with advertised Agent-credit ratios 1/2/5/10. Those are not established Code quota ratios. [Dedicated Code membership rules](https://www.kimi.com/code/docs/en/kimi-code/membership.html) distinguish new and legacy caps and exclude coding quota from Go; the 11× legacy estimate is not transferred to current tiers. [Pricing resource](https://www.kimi.ai/resources/kimi-k2-7-code-pricing).
-- **Antigravity:** the [May plan announcement](https://antigravity.google/blog/changes-to-antigravity-plans/) gives broad 1/5/20 token ratios, but predates Argon. [Current quota terms](https://antigravity.google/docs/plans) do not verify these ratios for Argon's separate weekly pools. The sampled Ultra 5x 8.7× estimate stays fixed; Pro/Ultra 20x are not inferred from old ratios.
+Kimi’s **Plus $19, Pro $39, Max $99, and Ultra $199** plans use the supplied screenshot’s **1/2/5/10** relative-credit ratios. The user confirmed **Plus $19 = the existing 11× multiplier**. Each tier uses `11 × relative credits × 19 / monthly price`; it scales API-equivalent allowance and divides by the actual fee.
+
+| Kimi plan | Monthly price | Relative credits | Estimated multiplier |
+| --- | ---: | ---: | ---: |
+| Plus | $19 | 1 | 11× |
+| Pro | $39 | 2 | 10.72× |
+| Max | $99 | 5 | 10.56× |
+| Ultra | $199 | 10 | 10.50× |
+
+Best selects Plus because it has the highest value per dollar. Calculations retain full precision. This is a user-directed transfer scenario from the existing estimate and supplied package ratios, rather than a separate usage measurement for each tier. The Kimi subscription scenario does not change the distinct OpenCode Go route.
+
+**Antigravity:** the [May plan announcement](https://antigravity.google/blog/changes-to-antigravity-plans/) gives broad 1/5/20 token ratios, but predates Argon. [Current quota terms](https://antigravity.google/docs/plans) do not verify these ratios for Argon's separate weekly pools. The sampled Ultra 5x 8.7× estimate stays fixed; Pro/Ultra 20x are not inferred from old ratios.
 
 
 ### Provisional X Subscription value — researched 29 October 2026
@@ -217,7 +228,7 @@ A configuration is dominated when another matching configuration is at least as 
 | Tasks | Higher selected-basis intelligence | More tasks at the same spend |
 | Bugs | Higher selected-basis bug-fix rating | Lower subscription cost per bug |
 
-Equal values on both axes do not dominate one another. The frontier normally recalculates within active filters. The `pareto` search term instead includes the full-dataset frontier for the active metric and basis before text/floor filtering. The selected floor still limits displayed points and the solid line without recalculating membership; other search terms combine with it using OR. The early-reset scenario still applies. **Upper-right is better in both graphs.** Solid lines join frontier points; dotted lines join visible efforts in effort order (only for the selected model in bugs mode). Lines do not imply intermediate configurations exist.
+Equal values on both axes do not dominate one another. The frontier normally recalculates within active filters. The `pareto` search term instead includes the frontier within the selected cost range (the full dataset under Best) for the active metric and basis before text/floor filtering. The selected floor still limits displayed points and the solid line without recalculating membership; other search terms combine with it using OR. The early-reset scenario still applies. **Upper-right is better in both graphs.** Solid lines join frontier points; dotted lines join visible efforts in effort order (only for the selected model in bugs mode). Lines do not imply intermediate configurations exist.
 
 ## Cost and execution assumptions
 
@@ -273,9 +284,9 @@ The dataset is JSON inside `<script id="comparison-data">` in [docs/index.html](
 ## Reproducing a recorded table
 
 1. Use the embedded dataset from the desired Git commit. Live sources can change; private exports are unnecessary if you accept the supplied multipliers.
-2. Select General or Engineering and the monthly budget. Resolve its researched tier multiplier and recompute tasks per dollar from the already matched rounded `benchmarkCost`. For bugs, calibrate weights globally in that basis, sum qualifying credit, subtract inverse-difficulty miss penalties, and calculate cost separately from all completed fixes.
-3. Apply scenario, mode, search, and floor settings. Search is case-insensitive and comma-separated terms use OR across model, effort, subscription, and country. For example, `opencode go,chatgpt` or `china,haiku`; `us` and `usa` exactly alias United States. Empty terms and surrounding spaces are ignored. Query carries across modes and affects tables, graphs, and exports. `pareto` includes the full-dataset active-basis frontier while preserving the displayed floor.
-4. Recompute filtered Pareto membership unless `pareto` requests full-dataset membership. Default task sorting is descending throughput; default bug sorting is ascending cost. Equal numeric sort values retain dataset order. Frontier only limits displayed rows afterward.
+2. Select General or Engineering and Best or a monthly cost range. Filter to plans in the selected range and resolve each configuration’s best matching multiplier, then recompute tasks per dollar from the already matched rounded `benchmarkCost`. For bugs, calibrate weights globally in that basis, sum qualifying credit, subtract inverse-difficulty miss penalties, and calculate cost separately from all completed fixes.
+3. Apply scenario, mode, search, and floor settings. Search is case-insensitive and comma-separated terms use OR across model, effort, subscription, and country. For example, `opencode go,chatgpt` or `china,haiku`; `us` and `usa` exactly alias United States. Empty terms and surrounding spaces are ignored. Query carries across modes and affects tables, graphs, and exports. `pareto` includes the active-basis frontier within the selected cost range while preserving the displayed floor.
+4. Recompute filtered Pareto membership unless `pareto` requests frontier membership before text/floor filtering. Default task sorting is descending throughput; default bug sorting is ascending cost. Equal numeric sort values retain dataset order. Frontier only limits displayed rows afterward.
 5. Compare with filtered CSV output at full precision until formatting. Task screen values use up to one decimal and bug costs up to four; CSV task values use one decimal and bug costs six. Display rounding can hide differences used in dominance comparisons.
 
 ## Maintaining the comparison

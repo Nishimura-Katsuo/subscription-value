@@ -11,14 +11,88 @@
   const assertRows = (expected,message) => assert([...get('rows').querySelectorAll('.model-button')].map(button => button.dataset.id).sort().join(',') === expected.map(model => model.id).sort().join(','),message);
   const taskModels = models.filter(model => metricValue(model,'tasks') !== null);
   const bugModels = models.filter(model => metricValue(model,'bugs') !== null);
-  const defaultTasks = taskModels.filter(model => model.intelligence >= 38);
+  const defaultTasks = taskModels.filter(model => model.engineering >= 43);
   const familyMatch = model => /Haiku|Luna|DeepSeek/.test(model.model);
   const goTasks = taskModels.filter(model => model.provider === 'OpenCode Go');
   const goBugs = bugModels.filter(model => model.provider === 'OpenCode Go');
-  assertRows(defaultTasks, 'Default task configurations');
-  assert(get('budget').value === '30' && budget === 30 && estimate(shown[0]) === metricValue(shown[0],'tasks') / 20, 'Default range is $20–$30, with values per subscription dollar');
+  assert(get('intelligence-basis').value === 'engineering' && get('floor').value === '43', 'Engineering and its default floor are selected on load');
+  assertRows(defaultTasks, 'Default Engineering task configurations');
+  assert(get('budget').options[0].value === 'best' && get('budget').value === 'best' && budget === 'best' && estimate(shown[0]) === metricValue(shown[0],'tasks') / 20, 'Best is the first and default cost option, with values per subscription dollar');
   assert(get('task-sort-label').textContent.includes('Tasks / $1 subscription spend'), 'Default throughput labels use one dollar');
   assert(!get('provider'), 'The separate subscription picker is removed');
+  const bestCases = [
+    ['deepseek-flash-1017-max',10,8],['go-glm-5-3-max',40,3],
+    ['sol-medium',100,21.2],
+    [models.find(model => model.provider === 'ChatGPT' && model.model.includes('Astra')).id,100,29],
+    [models.find(model => model.provider === 'X Subscription').id,200,41.4],
+    [models.find(model => model.provider === 'Muse Standard').id,50,11.1],
+    [models.find(model => model.provider === 'Muse Contributor').id,50,137],
+    [models.find(model => model.provider === 'Claude' && !model.model.includes('Fable')).id,20,58.9],
+    [models.find(model => model.provider === 'Claude' && model.model.includes('Fable')).id,20,24.8],
+    [models.find(model => model.provider === 'Kimi').id,19,11]
+  ];
+  for(const [id,price,multiplier] of bestCases){
+    const model = models.find(model => model.id === id);
+    assert(selectedTier(model)?.price === price && Math.abs(effectiveMultiplier(model) - multiplier) < 1e-10, 'Best chooses the model-specific multiplier and cheapest tie: ' + id);
+  }
+  const rangeRating = bugScore(models.find(model => model.id === 'sol-medium'));
+  const knownRangeMatch = (model,amount) => {
+    if(amount === 5) return model.provider.startsWith('Muse ');
+    if(amount === 15) return ['Muse Standard','Muse Contributor','X Subscription','OpenCode Go'].includes(model.provider);
+    if(amount === 30) return ['ChatGPT','X Subscription','Claude','Kimi'].includes(model.provider);
+    if(amount === 60) return ['Muse Standard','Muse Contributor','OpenCode Go','Kimi'].includes(model.provider);
+    if(amount === 100) return ['ChatGPT','X Subscription','Antigravity Ultra 5x','Claude','Kimi'].includes(model.provider);
+    return ['ChatGPT','X Subscription','Muse Standard','Muse Contributor','Claude','Kimi'].includes(model.provider);
+  };
+  for(const metric of ['tasks','bugs']){
+    mode(metric);
+    change('floor',metric === 'tasks' ? '0' : '-Infinity');
+    for(const amount of [5,15,30,60,100,500]){
+      change('search','','input');
+      change('budget',String(amount));
+      const expected = (metric === 'tasks' ? taskModels : bugModels).filter(model => knownRangeMatch(model,amount));
+      assertRows(expected, 'Strict known-price membership in ' + metric + ' range ' + amount);
+      change('search','pareto,chatgpt,claude,kimi,antigravity,opencode go,muse,cursor','input');
+      assert(shown.every(model => expected.includes(model)), 'Pareto and OR search cannot escape ' + metric + ' range ' + amount);
+      assert(frontier.every(model => expected.includes(model)) && bugScore(models.find(model => model.id === 'sol-medium')) === rangeRating, 'Range restricts frontier without recalibrating bug ratings');
+      get('frontier-only').click();
+      assert(shown.every(model => expected.includes(model) && frontier.includes(model)), 'Frontier-only stays inside ' + metric + ' range ' + amount);
+      get('frontier-only').click();
+    }
+  }
+  get('reset').click();
+  change('floor','0');
+  change('search','claude','input');
+  for(const [amount,price] of [[30,20],[100,100],[500,200]]){
+    change('budget',String(amount));
+    assertRows(taskModels.filter(model => model.provider === 'Claude'), 'Every Claude model is available on the priced tier: ' + price);
+    for(const model of shown){
+      assert(selectedTier(model)?.price === price && effectiveMultiplier(model) === (model.model.includes('Fable') ? 24.8 : 58.9), 'Claude tiers retain each model multiplier: ' + model.id + ' at ' + price);
+    }
+  }
+  const kimiProbe = bugModels.find(model => model.provider === 'Kimi');
+  change('search','kimi','input');
+  for(const metric of ['tasks','bugs']){
+    mode(metric);
+    for(const [amount,price,name,multiplier] of [[30,19,'Plus',11],[60,39,'Pro',11 * 2 * 19 / 39],[100,99,'Max',11 * 5 * 19 / 99],[500,199,'Ultra',11 * 10 * 19 / 199],['best',19,'Plus',11]]){
+      change('budget',String(amount));
+      selectModel(kimiProbe.id);
+      assert(shown.includes(kimiProbe) && selectedTier(kimiProbe)?.price === price && Math.abs(effectiveMultiplier(kimiProbe) - multiplier) < 1e-10, 'Kimi ' + name + ' multiplier in ' + metric);
+      assert(get('detail').textContent.includes(name) && get('detail').textContent.includes('$' + price + '/mo') && get('detail').textContent.includes(number(multiplier) + '×'), 'Kimi tier and multiplier appear in ' + metric + ' details');
+      const expected = metric === 'tasks' ? Math.round(multiplier / kimiProbe.benchmarkCost * 10) / 10 : kimiProbe.bugHunt.cost_usd * (kimiProbe.bugHunt.price_factor ?? 1) / multiplier / (kimiProbe.bugHunt.fixed + kimiProbe.bugHunt.extras);
+      assert(Math.abs(estimate(kimiProbe) - expected) < 1e-10, 'Kimi ' + name + ' updates ' + metric + ' values');
+    }
+  }
+  get('reset').click();
+  const extraTier = {price:25,name:'Range maximization check',factor:3};
+  subscriptionTiers.ChatGPT.push(extraTier,{price:18.99,name:'Below exact range',factor:4},{price:30.01,name:'Above exact range',factor:5});
+  try {
+    change('budget','30');
+    assert(selectedTier(models.find(model => model.id === 'sol-medium')) === extraTier, 'A range maximizes multiplier while excluding prices just outside its exact bounds');
+  } finally {
+    subscriptionTiers.ChatGPT.splice(-3);
+    get('reset').click();
+  }
   change('floor','0');
   assertRows(taskModels, 'Removing the task floor shows all task configurations');
   const argonModels = taskModels.filter(model => model.model === 'Gemini 4 Argon');
@@ -74,13 +148,13 @@
   assertRows(goBugs, 'Subscription search includes all matching bug configurations');
   get('reset').click();
   change('search','china','input');
-  assert(shown.length > 0 && shown.every(model => model.country === 'China' && model.intelligence >= 38), 'Country search respects the intelligence floor');
+  assert(shown.length > 0 && shown.every(model => model.country === 'China' && model.engineering >= 43), 'Country search respects the intelligence floor');
   get('reset').click();
   const unfilteredTaskFrontier = pareto(models.filter(model => metricValue(model,'tasks') !== null));
   const unfilteredTaskIds = unfilteredTaskFrontier.map(model => model.id).sort().join(',');
-  const aboveDefaultFloor = unfilteredTaskFrontier.filter(model => model.intelligence >= 38);
+  const aboveDefaultFloor = unfilteredTaskFrontier.filter(model => model.engineering >= 43);
   const aboveDefaultIds = aboveDefaultFloor.map(model => model.id).sort().join(',');
-  assert(unfilteredTaskFrontier.some(model => model.intelligence < 38), 'Fixture distinguishes unfiltered frontier from the default floor');
+  assert(unfilteredTaskFrontier.some(model => model.engineering < 43), 'Fixture distinguishes unfiltered frontier from the default floor');
   for(const term of ['pareto',' PaReTo ']){
     change('search',term,'input');
     assert(shown.map(model => model.id).sort().join(',') === aboveDefaultIds, 'Pareto search uses global membership and respects the default intelligence floor: ' + term);
@@ -90,10 +164,10 @@
   change('floor','0');
   assert(shown.map(model => model.id).sort().join(',') === unfilteredTaskIds, 'Lowering the floor restores every global frontier point');
   change('floor','50');
-  const aboveRaisedFloor = unfilteredTaskFrontier.filter(model => model.intelligence >= 50);
+  const aboveRaisedFloor = unfilteredTaskFrontier.filter(model => model.engineering >= 50);
   assert(shown.map(model => model.id).sort().join(',') === aboveRaisedFloor.map(model => model.id).sort().join(','), 'Global frontier respects a raised intelligence floor');
   assert(document.querySelector('#chart > polyline:not(.effort-line)').getAttribute('points').split(' ').length === aboveRaisedFloor.length, 'Frontier line includes only points above the intelligence floor');
-  assert(get('chart-status').textContent.includes('unfiltered frontier'), 'Global frontier scope is visible');
+  assert(get('chart-status').textContent.includes('frontier for this cost range'), 'Cost-range frontier scope is visible');
   get('reset').click();
   change('search','','input');
   assertRows(defaultTasks, 'Clearing the keyword restores all matches');
@@ -118,10 +192,10 @@
   assert(get('frontier-only').checked && shown.every(model => frontier.includes(model)), 'Keyword changes preserve a manually selected frontier-only checkbox');
   get('reset').click();
   const taskFloors = [...get('floor').options].map(option => Number(option.value));
-  const taskScores = [...new Set([0,38,...JSON.parse(get('comparison-data').textContent).filter(model => model.tasks20 !== null && model.intelligence !== null).map(model => model.intelligence)])].sort((a,b) => a-b);
+  const taskScores = [...new Set([0,43,...JSON.parse(get('comparison-data').textContent).filter(model => model.tasks20 !== null && model.engineering !== null).map(model => model.engineering)])].sort((a,b) => a-b);
   assert(taskFloors.join(',') === taskScores.join(','), 'AA floor covers every published task score in order');
-  change('floor', '47');
-  assert([...get('rows').querySelectorAll('tr')].every(row => Number(row.cells[4].textContent) >= 47), 'New AA floor cutoff filters configurations');
+  change('floor', '46');
+  assert([...get('rows').querySelectorAll('tr')].every(row => Number(row.cells[4].textContent) >= 46), 'New AA floor cutoff filters configurations');
   change('floor', '50');
   mode('tasks');
   assert(get('floor').value === '50', 'Clicking the active metric preserves filters');
@@ -161,15 +235,15 @@
   assert(effectiveMultiplier(shown[0]) === 11.1 && get('detail').textContent.includes('Maximum'), 'Muse Maximum retains the derived per-dollar value');
   change('budget','5');
   change('search','chatgpt','input');
-  assert(get('detail').textContent.includes('above cost range'), 'Above-range plan is disclosed');
+  assertRows([], 'A search cannot admit a subscription with no tier inside the range');
+  assert(get('detail').textContent.includes('No matching models') && get('export').disabled, 'An empty cost range has guidance and disables export');
   get('reset').click();
-  const initialValue = document.querySelector('.detail-value').textContent;
-  change('budget', '60');
-  assert(document.querySelector('.detail-value').textContent === initialValue, 'Budget within a tier never scales task estimates');
   change('search','GPT-6.1 Sol','input');
+  change('budget','30');
   const tierProbe = shown[0], lowTierTasks = estimate(tierProbe), lowTierBugs = costPerBug(tierProbe);
+  assert(effectiveMultiplier(tierProbe) === 10.6 && lowTierTasks > 0, 'The $19–$30 range uses ChatGPT Plus');
   change('budget','60');
-  assert(estimate(tierProbe) === lowTierTasks, 'Midrange retains ChatGPT Plus values');
+  assertRows([], 'ChatGPT Plus is excluded from the $39–$60 range');
   change('budget','100');
   assert(effectiveMultiplier(tierProbe) === 21.2 && costPerBug(tierProbe) === lowTierBugs / 2, 'Pro threshold doubles multiplier and halves bug cost');
   assert(get('detail').textContent.includes('Pro $100'), 'Details show selected tier');
@@ -185,7 +259,7 @@
     assert(get('budget').getAttribute('aria-invalid') === 'true', 'Invalid spend is exposed to assistive technology');
     assert(document.querySelector('.detail-value').textContent === validValue, 'Invalid spend retains last valid estimate');
   }
-  change('budget', '30');
+  change('budget', 'best');
   assert(get('budget-error').hidden, 'Valid spend clears feedback');
   mode('bugs');
   assertRows(bugModels, 'Bug mode includes all rated configurations');
@@ -222,13 +296,13 @@
     assert(bugScore(probe) === lastValidScore, 'Invalid input retains the last valid rating');
   }
   change('penalty','0','input');
-  change('floor','1250');
+  change('floor','1500');
   change('penalty','2','input');
-  assert(get('floor').value === '1250' && shown.length === 0, 'Changing strength preserves a selected floor outside the new range');
+  assert(get('floor').value === '1500' && shown.length === 0, 'Changing strength preserves a selected floor outside the new range');
   mode('tasks');
   assert(get('penalty').closest('label').hidden && penaltyStrength === 2, 'Tasks mode hides the input and remembers its setting');
   mode('bugs');
-  assert(get('penalty').value === '2' && get('floor').value === '1250', 'Returning to bugs preserves strength and floor');
+  assert(get('penalty').value === '2' && get('floor').value === '1500', 'Returning to bugs preserves strength and floor');
   change('floor','-Infinity');
   change('penalty','1000000','input');
   assertRows(bugModels, 'Large strengths preserve all rated configurations under no floor');
@@ -245,14 +319,14 @@
   assert(get('detail').textContent.includes('No matching models'), 'Empty result guidance');
   get('reset').click();
   assertRows(defaultTasks, 'Reset restores default task configurations');
-  assert(get('metric').value === 'tasks' && get('budget').value === '30', 'Reset restores mode and budget defaults');
+  assert(get('metric').value === 'tasks' && get('budget').value === 'best' && budget === 'best', 'Reset restores mode and Best cost defaults');
   change('search','GPT-5.6 Sol','input');
   assert(rowCount() === 0, 'Configurations without published v5 scores are omitted entirely');
   get('reset').click();
   change('search','GPT-6.1 Terra','input');
   const terraTasks = taskModels.filter(model => model.model === 'GPT-6.1 Terra');
   const terraBugs = bugModels.filter(model => model.model === 'GPT-6.1 Terra');
-  assertRows(terraTasks.filter(model => model.intelligence >= 38), 'Terra default view follows the configured floor');
+  assertRows(terraTasks.filter(model => model.engineering >= 43), 'Terra default view follows the configured floor');
   change('floor','0');
   assertRows(terraTasks, 'All Terra reasoning configurations appear with no floor');
   assert(document.querySelectorAll('.chart-point').length === terraTasks.length, 'Each matching Terra configuration has a chart point');
@@ -277,7 +351,7 @@
   change('search','kimi','input');
   const kimiTasks = taskModels.filter(model => model.model.toLowerCase().includes('kimi'));
   const kimiBugs = bugModels.filter(model => model.model.toLowerCase().includes('kimi'));
-  assertRows(kimiTasks.filter(model => model.intelligence >= 38), 'Kimi search respects the default floor');
+  assertRows(kimiTasks.filter(model => model.engineering >= 43), 'Kimi search respects the default floor');
   change('floor', '0');
   assertRows(kimiTasks, 'Kimi search includes all matching subscription configurations');
   assert(document.querySelectorAll('.chart-point').length === kimiTasks.length, 'Each matching Kimi configuration has a chart point');
@@ -287,7 +361,7 @@
   assert(get('detail').textContent.includes('25 / 105') && get('detail').textContent.includes('verified source API bill'), 'K3.1 Pro coverage and bill provenance');
   get('reset').click();
   change('search','opencode go','input');
-  assertRows(goTasks.filter(model => model.intelligence >= 38), 'Go task rows respect the default floor');
+  assertRows(goTasks.filter(model => model.engineering >= 43), 'Go task rows respect the default floor');
   change('floor','0');
   assert(get('rows').querySelector('[data-id="deepseek-flash-1017-max"]'), 'Flash task row appears without a floor');
   get('rows').querySelector('[data-id="deepseek-flash-1017-max"]').click();
@@ -331,7 +405,7 @@
   get('reset').click();
   change('search','chatgpt','input');
   const subscriptionMatches = shown.map(model => model.id);
-  const globalMatches = pareto(models.filter(model => metricValue(model,'tasks') !== null)).filter(model => model.intelligence >= 38).map(model => model.id);
+  const globalMatches = pareto(models.filter(model => metricValue(model,'tasks') !== null)).filter(model => model.engineering >= 43).map(model => model.id);
   change('search','chatgpt,pareto','input');
   assert(shown.map(model => model.id).sort().join(',') === [...new Set([...subscriptionMatches,...globalMatches])].sort().join(','), 'Subscription terms combine with the global Pareto frontier using OR');
   change('search','opencode go','input');
@@ -352,7 +426,9 @@
   const axis = document.querySelector('.chart-axis');
   assert(parseFloat(getComputedStyle(axis).fontSize) * get('chart').getBoundingClientRect().width / 1000 >= 11.9, 'Chart type remains at least 12 CSS pixels');
   get('reset').click();
-  assert(get('intelligence-basis').value === 'intelligence' && get('floor').value === '38', 'Reset uses General Intelligence and its configured default floor');
+  assert(get('intelligence-basis').value === 'engineering' && get('floor').value === '43', 'Reset uses Engineering Intelligence and its configured default floor');
+  change('intelligence-basis','intelligence');
+  assert(get('floor').value === '38', 'General retains its independent default floor');
   const probeBasis = models.find(model => model.id === 'sol-medium');
   const generalTasks = metricValue(probeBasis,'tasks'), generalCost = metricValue(probeBasis,'bugs'), generalRating = bugScore(probeBasis);
   change('floor','50');
@@ -398,8 +474,8 @@
   get('early-resets').click();
   assert(Math.abs(metricValue(probeBasis,'tasks') / generalTasks - 7/3) < 1e-12 && bugScore(probeBasis) === engineeringScore, 'Engineering early resets alter cost and throughput, preserving ratings');
   get('reset').click();
-  assertRows(defaultTasks, 'Reset restores default General task configurations');
-  assert(get('intelligence-basis').value === 'intelligence' && get('floor').value === '38' && !get('early-resets').checked && get('penalty').value === '2', 'Reset clears basis, all floor memories, reset scenario, and penalty');
+  assertRows(defaultTasks, 'Reset restores default Engineering task configurations');
+  assert(get('intelligence-basis').value === 'engineering' && get('floor').value === '43' && !get('early-resets').checked && get('penalty').value === '2', 'Reset clears basis, all floor memories, reset scenario, and penalty');
   const urls = [], downloads = [];
   const createURL = URL.createObjectURL, revokeURL = URL.revokeObjectURL, click = HTMLAnchorElement.prototype.click;
   try {
@@ -412,14 +488,14 @@
     change('penalty','3','input');
     get('export').click();
     assert(urls.length === 2 && urls.every(blob => blob.size > 1000), 'Both CSV exports have content');
-    assert(downloads[0].includes('tasks-per-dollar-budget-30') && downloads[1].includes('bug-cost'), 'Mode-specific export filenames');
+    assert(downloads[0].includes('tasks-per-dollar-budget-best') && downloads[1].includes('bug-cost'), 'Mode-specific export filenames include Best');
     const csv = (await urls[1].text()).split('\r\n').map(line => [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""','"')));
     const column = name => csv[0].indexOf(name);
     assert(['Bug-fix rating','Difficulty credit','Miss penalty','Minimum calibrated difficulty','Calibrated planted bugs','Bug rating method','Penalty strength','Engineering Index','Intelligence basis','AA index version','AA General Intelligence exact','AA Engineering Intelligence exact','AA task cost exact (USD)','Task price factor','Task benchmark cost used (USD)','Monthly cost range','Cost range ceiling (USD)','Selected multiplier tier','Tier monthly price (USD)'].every(name => column(name) >= 0), 'Bug CSV includes rating components and calibration');
     for(const row of csv.slice(1)){
       const model = shown.find(model => model.model === row[0] && model.reasoning === row[1] && model.provider === row[3]);
       assert(row.length === csv[0].length && model, 'CSV columns and configuration identity agree');
-      assert(row[column('Monthly cost range')] === get('budget').selectedOptions[0].textContent && Number(row[column('Cost range ceiling (USD)')]) === budget && row[column('Selected multiplier tier')] === tierLabel(model), 'CSV records selected budget and tier');
+      assert(row[column('Monthly cost range')] === get('budget').selectedOptions[0].textContent && row[column('Cost range ceiling (USD)')] === '' && row[column('Selected multiplier tier')] === tierLabel(model), 'Best CSV records its label and selected tier with an empty ceiling');
       assert(Number(row[column('Bug-fix rating')]) === bugScore(model), 'CSV retains full signed rating precision');
       assert(Number(row[column('Difficulty credit')]) === bugCredit(model) && Number(row[column('Miss penalty')]) === bugPenalty(model), 'CSV rating components agree with calculations');
       assert(Number(row[column('General Intelligence')]) === model.intelligence && Number(row[column('Engineering Index')]) === model.engineering && row[column('Intelligence basis')] === 'Engineering Intelligence' && row[column('AA index version')] === '5.0', 'CSV records both scores and active basis');
@@ -428,6 +504,14 @@
       assert(Number(row[column('Penalty strength')]) === 3, 'CSV records the selected nondefault penalty strength');
     }
     assert(csv.slice(1).some(row => Number(row[column('Bug-fix rating')]) < 0), 'CSV preserves negative ratings');
+    change('budget','100');
+    get('export').click();
+    const rangeCsv = (await urls[2].text()).split('\r\n').map(line => [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""','"')));
+    assert(rangeCsv.slice(1).length === shown.length && shown.every(model => knownRangeMatch(model,100)), 'Range CSV exports exactly the matching configurations');
+    for(const row of rangeCsv.slice(1)){
+      const model = shown.find(model => model.model === row[0] && model.reasoning === row[1] && model.provider === row[3]);
+      assert(model && row[column('Cost range ceiling (USD)')] === '100' && Number(row[column('Tier monthly price (USD)')]) === selectedTier(model).price && row[column('Selected multiplier tier')] === tierLabel(model), 'Range CSV records ceiling and eligible tier');
+    }
   } finally {
     URL.createObjectURL = createURL;
     URL.revokeObjectURL = revokeURL;
