@@ -21,14 +21,14 @@
   assert(get('task-sort-label').textContent.includes('Tasks / $1 subscription spend'), 'Default throughput labels use one dollar');
   assert(!get('provider'), 'The separate subscription picker is removed');
   const bestCases = [
-    ['deepseek-flash-1017-max',10,8],['go-glm-5-3-max',40,3],
+    ['deepseek-flash-1017-max',10,10],['go-glm-5-3-max',40,3],
     ['sol-medium',100,21.2],
     [models.find(model => model.provider === 'ChatGPT' && model.model.includes('Astra')).id,100,29],
     [models.find(model => model.provider === 'X Subscription').id,200,41.4],
     [models.find(model => model.provider === 'Muse Standard').id,50,11.1],
     [models.find(model => model.provider === 'Muse Contributor').id,50,137],
     [models.find(model => model.provider === 'Claude' && !model.model.includes('Fable')).id,20,58.9],
-    [models.find(model => model.provider === 'Claude' && model.model.includes('Fable')).id,20,24.8],
+    [models.find(model => model.provider === 'Claude' && model.model.includes('Fable')).id,100,24.8],
     [models.find(model => model.provider === 'Kimi').id,19,11]
   ];
   for(const [id,price,multiplier] of bestCases){
@@ -38,8 +38,8 @@
   const rangeRating = bugScore(models.find(model => model.id === 'sol-medium'));
   const knownRangeMatch = (model,amount) => {
     if(amount === 5) return model.provider.startsWith('Muse ');
-    if(amount === 15) return ['Muse Standard','Muse Contributor','X Subscription','OpenCode Go'].includes(model.provider);
-    if(amount === 30) return ['ChatGPT','X Subscription','Claude','Kimi'].includes(model.provider);
+    if(amount === 15) return ['Muse Standard','Muse Contributor','OpenCode Go'].includes(model.provider);
+    if(amount === 30) return ['ChatGPT','X Subscription','Claude','Kimi'].includes(model.provider) && model.model !== 'Claude Fable 5.1';
     if(amount === 60) return ['Muse Standard','Muse Contributor','OpenCode Go','Kimi'].includes(model.provider);
     if(amount === 100) return ['ChatGPT','X Subscription','Antigravity Ultra 5x','Claude','Kimi'].includes(model.provider);
     return ['ChatGPT','X Subscription','Muse Standard','Muse Contributor','Claude','Kimi'].includes(model.provider);
@@ -65,7 +65,7 @@
   change('search','claude','input');
   for(const [amount,price] of [[30,20],[100,100],[500,200]]){
     change('budget',String(amount));
-    assertRows(taskModels.filter(model => model.provider === 'Claude'), 'Every Claude model is available on the priced tier: ' + price);
+    assertRows(taskModels.filter(model => model.provider === 'Claude' && (price !== 20 || !model.model.includes('Fable'))), 'Included Claude models on the priced tier: ' + price);
     for(const model of shown){
       assert(selectedTier(model)?.price === price && effectiveMultiplier(model) === (model.model.includes('Fable') ? 24.8 : 58.9), 'Claude tiers retain each model multiplier: ' + model.id + ' at ' + price);
     }
@@ -99,8 +99,8 @@
   const carbonModels = taskModels.filter(model => model.model === 'Gemini 4 Carbon');
   const geminiModels = [...argonModels,...carbonModels];
   change('search','gemini','input');
-  assert(argonModels.length === 1 && carbonModels.length === 1, 'Both Gemini models have their published High configuration');
-  assertRows(geminiModels, 'Gemini search shows Argon and Carbon High');
+  assert(argonModels.length === 1 && carbonModels.length === 3, 'Gemini has Argon High and Carbon Low/Medium/High');
+  assertRows(geminiModels, 'Gemini search shows all published Argon and Carbon configurations');
   change('search','antigravity','input');
   assertRows(geminiModels, 'Antigravity subscription search shows both Gemini models');
   assert(get('detail').textContent.includes('8.7×') && get('provider-legend').textContent.includes('Antigravity Ultra 5x'), 'Antigravity multiplier and legend are visible');
@@ -216,7 +216,12 @@
   change('floor','0');
   change('search','cursor','input');
   assert(shown.length === 3 && shown.every(model => model.provider === 'X Subscription'), 'Cursor search finds the new X Subscription route');
-  for(const [amount,multiplier,tier] of [[15,20.7,'Plus'],[30,22.08,'Premium'],[100,24.84,'Super'],[500,41.4,'Ultra']]){
+  change('budget','15');
+  assertRows([], 'X Plus excludes Low/High/XHigh because it fixes Medium effort');
+  mode('bugs');
+  assertRows([], 'X Plus also excludes incompatible effort configurations in bugs mode');
+  mode('tasks');
+  for(const [amount,multiplier,tier] of [[30,22.08,'Premium'],[100,24.84,'Super'],[500,41.4,'Ultra']]){
     change('budget',String(amount));
     assert(Math.abs(effectiveMultiplier(shown[0]) - multiplier) < 1e-10, 'X tier updates its multiplier');
     assert(get('detail').textContent.includes(tier + ' (provisional)'), 'X tier is visibly provisional');
@@ -447,7 +452,7 @@
 
   assert(metricValue(probeBasis,'tasks') === generalTasks && metricValue(probeBasis,'bugs') === generalCost, 'Changing intelligence basis leaves task throughput and cost unchanged');
   assert(bugScore(probeBasis) !== generalRating && calibration().minimumWeight === 19, 'Engineering recalibrates weights and missed-bug penalties');
-  change('floor','45');
+  change('floor','46');
   change('intelligence-basis','intelligence');
   assert(get('floor').value === '50' && calibration().minimumWeight === 10, 'General task floor and calibration are restored');
   mode('bugs');
@@ -464,7 +469,7 @@
   change('search','','input');
   change('floor','250');
   mode('tasks');
-  assert(get('floor').value === '45', 'Engineering task floor survives mode changes');
+  assert(get('floor').value === '46', 'Engineering task floor survives mode changes');
   mode('bugs');
   assert(get('floor').value === '250', 'Engineering bug floor survives mode changes');
   change('intelligence-basis','intelligence');
@@ -498,7 +503,7 @@
       assert(row[column('Monthly cost range')] === get('budget').selectedOptions[0].textContent && row[column('Cost range ceiling (USD)')] === '' && row[column('Selected multiplier tier')] === tierLabel(model), 'Best CSV records its label and selected tier with an empty ceiling');
       assert(Number(row[column('Bug-fix rating')]) === bugScore(model), 'CSV retains full signed rating precision');
       assert(Number(row[column('Difficulty credit')]) === bugCredit(model) && Number(row[column('Miss penalty')]) === bugPenalty(model), 'CSV rating components agree with calculations');
-      assert(Number(row[column('General Intelligence')]) === model.intelligence && Number(row[column('Engineering Index')]) === model.engineering && row[column('Intelligence basis')] === 'Engineering Intelligence' && row[column('AA index version')] === '5.0', 'CSV records both scores and active basis');
+      assert(Number(row[column('General Intelligence')]) === model.intelligence && Number(row[column('Engineering Index')]) === model.engineering && row[column('Intelligence basis')] === 'Engineering Intelligence' && row[column('AA index version')] === '5.0.1', 'CSV records both scores and active basis');
       assert(Number(row[column('Minimum calibrated difficulty')]) === 19 && Number(row[column('Calibrated planted bugs')]) === 62, 'CSV calibration follows Engineering');
       assert(Number(row[column('AA General Intelligence exact')]) === model.aaIntelligenceExact && Number(row[column('AA Engineering Intelligence exact')]) === model.aaEngineeringExact && Number(row[column('Task benchmark cost used (USD)')]) === model.benchmarkCost, 'CSV preserves raw AA provenance and converted task cost');
       assert(Number(row[column('Penalty strength')]) === 3, 'CSV records the selected nondefault penalty strength');
