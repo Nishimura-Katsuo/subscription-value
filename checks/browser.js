@@ -23,12 +23,13 @@
   const bestCases = [
     ['deepseek-flash-1017-max',10,10],['go-glm-5-3-max',40,3],
     ['sol-medium',100,21.2],
-    [models.find(model => model.provider === 'ChatGPT' && model.model.includes('Astra')).id,100,29],
+    [models.find(model => model.provider === 'ChatGPT' && model.model.includes('Astra')).id,100,25.7],
     [models.find(model => model.provider === 'X Subscription').id,200,41.4],
     [models.find(model => model.provider === 'Muse Standard').id,50,11.1],
     [models.find(model => model.provider === 'Muse Contributor').id,50,137],
-    [models.find(model => model.provider === 'Claude' && !model.model.includes('Fable')).id,20,58.9],
-    [models.find(model => model.provider === 'Claude' && model.model.includes('Fable')).id,100,24.8],
+    [models.find(model => model.provider === 'Claude' && !model.model.includes('Fable')).id,20,73.3],
+    [models.find(model => model.provider === 'Claude' && model.model.includes('Fable')).id,100,30.2],
+    [models.find(model => model.model === 'Claude Opus 5.5').id,20,73.3],
     [models.find(model => model.provider === 'Kimi').id,19,11]
   ];
   for(const [id,price,multiplier] of bestCases){
@@ -39,7 +40,7 @@
   const knownRangeMatch = (model,amount) => {
     if(amount === 5) return model.provider.startsWith('Muse ');
     if(amount === 15) return ['Muse Standard','Muse Contributor','OpenCode Go'].includes(model.provider);
-    if(amount === 30) return ['ChatGPT','X Subscription','Claude','Kimi'].includes(model.provider) && model.model !== 'Claude Fable 5.1';
+    if(amount === 30) return ['ChatGPT','X Subscription','Claude','Kimi'].includes(model.provider) && model.model !== 'Claude Fable 5.2';
     if(amount === 60) return ['Muse Standard','Muse Contributor','OpenCode Go','Kimi'].includes(model.provider);
     if(amount === 100) return ['ChatGPT','X Subscription','Antigravity Ultra 5x','Claude','Kimi'].includes(model.provider);
     return ['ChatGPT','X Subscription','Muse Standard','Muse Contributor','Claude','Kimi'].includes(model.provider);
@@ -67,7 +68,7 @@
     change('budget',String(amount));
     assertRows(taskModels.filter(model => model.provider === 'Claude' && (price !== 20 || !model.model.includes('Fable'))), 'Included Claude models on the priced tier: ' + price);
     for(const model of shown){
-      assert(selectedTier(model)?.price === price && effectiveMultiplier(model) === (model.model.includes('Fable') ? 24.8 : 58.9), 'Claude tiers retain each model multiplier: ' + model.id + ' at ' + price);
+      assert(selectedTier(model)?.price === price && effectiveMultiplier(model) === (model.model.includes('Fable') ? 30.2 : 73.3), 'Claude tiers retain each model multiplier: ' + model.id + ' at ' + price);
     }
   }
   const kimiProbe = bugModels.find(model => model.provider === 'Kimi');
@@ -339,7 +340,7 @@
   assert([...get('rows').querySelectorAll('.model-button')].map(button => button.dataset.id).join(',') === 'terra-low,terra-medium,terra-high,terra-xhigh,terra-max', 'Terra reasoning sort starts with Low');
   assert(document.querySelector('.effort-line title').textContent.includes('Low to Max'), 'Terra effort line covers Low through Max');
   get('rows').querySelector('[data-id="terra-low"]').click();
-  assert(get('detail').textContent.includes('Low reasoning') && get('detail').textContent.includes('not a Terra-specific allowance measurement'), 'Terra configuration and subscription assumptions are visible');
+  assert(get('detail').textContent.includes('Low reasoning') && get('detail').textContent.includes('Community Plus estimate 6.85×'), 'Terra configuration and subscription assumptions are visible');
   const terraTaskEstimate = estimate(shown[0]);
   get('early-resets').click();
   assert(Math.abs(estimate(shown[0]) / terraTaskEstimate - 7 / 3) < 1e-12, 'Terra participates in the ChatGPT reset scenario');

@@ -215,21 +215,22 @@ td.tasks-cell{white-space:nowrap}
     </section>
     <section class="table-section" aria-labelledby="table-title"><div class="section-title"><div><h2 id="table-title">Compare configurations</h2><p id="table-meta" class="table-meta">Sorted by tasks per $1 of subscription spend · descending</p></div><button class="export" id="export" type="button">Export filtered CSV ↓</button></div><div class="panel table-scroll" role="region" aria-label="Configuration comparison" tabindex="0"><table><caption class="sr-only">Filtered model, subscription, and reasoning configurations. Column buttons change sort order. Model buttons select chart points.</caption><thead><tr><th scope="col">#</th><th scope="col" id="sort-model" aria-sort="none"><button data-sort="model" type="button">Model ↕</button></th><th scope="col" class="sub-col" id="sort-provider" aria-sort="none"><button data-sort="provider" type="button">Subscription ↕</button></th><th scope="col" class="opt-col" id="sort-reasoning" aria-sort="none"><button data-sort="reasoning" type="button">Reasoning ↕</button></th><th scope="col" class="num opt-col" id="sort-intelligence" aria-sort="none"><button data-sort="intelligence" type="button">Intelligence ↕</button></th><th scope="col" class="num opt-col" id="sort-multiplier" aria-sort="none"><button data-sort="multiplier" type="button">Multiplier ↕</button></th><th scope="col" class="num opt-col" id="sort-bugScore" aria-sort="none" hidden><button data-sort="bugScore" type="button">Bug-fix rating ↕</button></th><th scope="col" class="num" id="sort-tasks20" aria-sort="descending"><button data-sort="tasks20" type="button" id="task-sort-label">Tasks / $1 subscription spend ↓</button></th></tr></thead><tbody id="rows"></tbody></table></div></section>
     <details class="method" id="method"><summary>Method, assumptions &amp; sources</summary><div class="method-grid"><div>
-<h3>Current intelligence snapshot</h3><p>Artificial Analysis v5.0.1 inputs checked 4 November 2026: 61 configurations with both General Intelligence and Engineering Intelligence scores; 54 also have matching Bug Hunt results. This refresh includes CritPt regrading, current task costs, Carbon Low/Medium, GLM Flash Max/GLM Low, MiMo Flash and DeepSeek Flash High. Configurations without published matching scores are excluded. Scores are rounded to whole numbers. <a href="https://artificialanalysis.ai/methodology/intelligence-benchmarking">General Intelligence methodology</a> · <a href="https://artificialanalysis.ai/indexes/engineering">Engineering Index</a>. Engineering combines seven evaluations across broad engineering work; it is not solely a software engineering score.</p>
+<h3>Current intelligence snapshot</h3><p>Artificial Analysis v5.0.1 inputs: 67 configurations with both General Intelligence and Engineering Intelligence scores; 56 also have matching Bug Hunt results. The 9 November 2026 update replaces Claude Fable 5.1 with Fable 5.2 at all five efforts and adds Muse Wonder Max/High and Muse Ember Max/XHigh. Every other configuration retains its 4 November check, which included CritPt regrading, current task costs, Carbon Low/Medium, GLM Flash Max/GLM Low, MiMo Flash and DeepSeek Flash High. Configurations without published matching scores are excluded. Scores are rounded to whole numbers. <a href="https://artificialanalysis.ai/methodology/intelligence-benchmarking">General Intelligence methodology</a> · <a href="https://artificialanalysis.ai/indexes/engineering">Engineering Index</a>. Engineering combines seven evaluations across broad engineering work; it is not solely a software engineering score.</p>
 <p>The selector changes task capability, bug difficulty calibration, ratings, floors, sorting, and Pareto frontiers. Task throughput and task costs continue to use the General Intelligence benchmark workload; bug costs use Bug Hunt run evidence. Each metric and basis remembers its own floor. The default task floors are General ≥38 and Engineering ≥43. Bugs default to No floor.</p>
 <h3>A common spending denominator</h3><div class="formula">Tasks / subscription $ = multiplier ÷ matched benchmark cost / task<br>Displayed tasks / $1 = round(tier multiplier ÷ matched task cost, 1 decimal)</div><p>Task cost is rounded to cents, or four decimals for sub-cent values; tasks per dollar are rounded to one decimal. Best selects each configuration’s highest recorded multiplier; a specific monthly cost range filters plans and selects the best multiplier within that range for both graphs, without scaling task values, and uses subscription fees only, excluding API credits and on-demand charges. CSV preserves exact AA inputs and the task-price conversion factor. MiMo and Qwen task costs are repriced to OpenCode Go; Gemini Argon and Carbon task costs are repriced to launch API prices for Antigravity. Each uses AA’s weighted token-cost breakdown under the same-cache assumption; the displayed benchmark cost already includes that conversion. DeepSeek task inputs use peak prices and Bug Hunt bills use off-peak prices, each matched to Go rates.</p>
 <h3>Reliable bug-fix capability</h3><div class="formula">Bug weight = lowest selected-index score of a reliable solver<br>Difficulty credit = sum of reliable fixed-bug weights<br>Miss penalty = strength × sum(lowest weight² ÷ missed-bug weight)<br>Bug-fix rating = difficulty credit − miss penalty<br>Subscription $ / bug fixed = source cost × price factor<br>÷ multiplier ÷ (planted fixes + extra fixes)</div><p>A reliable fix is verified in every recorded run of an exact model and effort, with complete per-bug coverage. Single runs count and can calibrate weights, but are labeled because repeatability is unverified. Both bases are calibrated once from the full dataset; search, floors, and penalty strength do not recalibrate them. Bugs without a reliable solver receive neither credit nor penalty. Configurations without calibrated reliable fixes are unrated. Extras affect cost only; their coverage cannot be verified across runs from aggregate counts.</p>
 <p>Penalty strength defaults to 2; 0 disables it. At 1×, the easiest miss costs its fix credit; harder misses cost less without an intelligence cutoff. Higher strengths increasingly favor coverage of easier bugs. Negative ratings remain included under No floor. This empirical difficulty proxy is not an official benchmark score. Repeated runs use published mean costs and fixes; partial and claimed-only fixes are excluded. Observed reliability does not guarantee future performance. Changing the cost range leaves ratings fixed and applies the selected plan multipliers to unit costs.</p>
 <details><summary>Difficulty weights for all 105 bugs</summary><p>Weights and penalties use the selected intelligence basis. Unrated bugs contribute no points.</p><div class="table-scroll"><table><thead><tr><th>Bug</th><th id="bug-weight-basis">Lowest reliable solver General Intelligence</th><th>Penalty if missed</th></tr></thead><tbody id="bug-weights"></tbody></table></div></details>
 <h3>What counts as Pareto optimal?</h3><p>Task dominance means at least as high a selected intelligence score and throughput; bug dominance means at least as high a rating and at most as much cost per fix. One dimension must improve strictly. The frontier normally uses matches to cost range, search, and floor. Add <code>pareto</code> to include the frontier for the selected cost range alongside search matches, still applying the floor to displayed points and line. The active basis and early-reset scenario apply throughout.</p>
-</div><div><h3>Subscription and source caveats</h3><p>Research checked 4 November 2026. Public <a href="https://raw.githubusercontent.com/phuryn/experiments/main/subscription-multipliers/07-supergrok-no-x/README.md">SuperGrok measurements</a> report 18.0× ±0.3 on an unlinked legacy account. The <a href="https://raw.githubusercontent.com/phuryn/experiments/main/subscription-multipliers/01-supergrok/README.md">linked X Premium+ experiment</a> yields 80× against the combined $70 fee. These are legacy subscriptions with account and workload caveats, not measurements of the new X plans, so neither replaces the provisional X multipliers.</p><p>Multipliers are comparison assumptions, not live quotas. Claude uses 58.9× from the 5 October 2026 <a href="https://newsletter.semianalysis.com/p/anthropic-subscriptions-offer-5x">SemiAnalysis study</a>. ChatGPT uses 10.6× (Astra 14.5×) below $100, and 21.2× (Astra 29×) from $100: the original 10.6× and 14.5× estimates doubled on 29 October by user direction following the reported usage-limit increase for $100/$200/$500 tiers. Fable uses 24.8× per allocated subscription dollar: the source’s 12.4× divided by its half-plan share. Its actual allowance remains capped at half the plan. By user direction, Claude’s $20 Pro, $100 Max and $200 Ultra tiers retain the supplied per-model multipliers. Fable is included only on Max and Ultra; Pro requires separately paid usage credits and is excluded for Fable. Tier estimates transfer across displayed model configurations; availability of other model/tier combinations is not independently measured. Multipliers transfer across displayed efforts; Terra’s 21.2× is not a Terra-specific allowance measurement. Optional ChatGPT early resets assume limits reset every 3 days rather than 7: costs ×3/7 and tasks ×7/3.</p>
+</div><div><h3>Subscription and source caveats</h3><p>Research checked 4 November 2026. Public <a href="https://raw.githubusercontent.com/phuryn/experiments/main/subscription-multipliers/07-supergrok-no-x/README.md">SuperGrok measurements</a> report 18.0× ±0.3 on an unlinked legacy account. The <a href="https://raw.githubusercontent.com/phuryn/experiments/main/subscription-multipliers/01-supergrok/README.md">linked X Premium+ experiment</a> yields 80× against the combined $70 fee. These are legacy subscriptions with account and workload caveats, not measurements of the new X plans, so neither replaces the provisional X multipliers.</p><p>Multipliers are comparison assumptions, not live quotas. Sonnet and Haiku use 73.3× inferred from the adopted Opus anchor by user direction, following the <a href="https://github.com/Fei2411/real-api-pricing/blob/main/data/research/claude-haiku55-round1-2026-10-08.json">community price-ratio derivation</a>. This assumes their quota weights follow API prices and does not independently measure their allowances. Opus uses 73.3× and Fable uses 30.2× per allocated subscription dollar by user direction from <a href="https://x.com/theo/status/2119960608816988596">Theo’s 10 November usage estimates</a> (<a href="https://herald.jaaaames.com/">reproduced charts</a>): $14,662 / $200 for Opus and $3,021 / ($200 × 50%) for Fable. These are one-account Ultra estimates, with Fable extrapolated from 47% of one allowance and about ±10% estimated uncertainty; temporary launch resets are excluded. ChatGPT Sol retains 10.6× on Plus and 21.2× on Pro. The <a href="https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/">community Plus estimates</a> checked 10 November give Terra 6.85×, Luna 8.35×, and Astra 12.85×. By user direction, the $100/$200/$500 tiers scale Plus API value by 2 × (tier fee / $20), giving Terra 13.7×, Luna 16.7×, and Astra 25.7× per subscription dollar. These are provisional one-account estimates based on five-hour tests extrapolated to six windows per week and a 30-day month; Luna and Astra were carried forward without fresh retests. Fable’s actual allowance remains capped at half the plan. By user direction, Claude’s $20 Pro, $100 Max and $200 Ultra tiers retain the supplied per-model multipliers. Fable is included only on Max and Ultra; Pro requires separately paid usage credits and is excluded for Fable. Tier estimates transfer across displayed model configurations; availability of other model/tier combinations is not independently measured. Multipliers transfer across displayed efforts; the new OpenAI Pro estimates are scaled from Plus, not independently measured on each Pro tier. Optional ChatGPT early resets assume limits reset every 3 days rather than 7: costs ×3/7 and tasks ×7/3.</p>
 <p>X Subscription estimates are provisional: Plus $8 uses 20.7×, Premium $30 uses 22.08×, Super $100 uses 24.84×, and Ultra $200 uses 41.4×. Cursor maps legacy Pro+ $60 to Super $100 and promises at least twice the Cursor-model coding usage. Using 2× as the scenario anchor gives Super = legacy 20.7 × $60 × 2 / $100; the other tiers follow quota ratios 1/4/15/50. These are inferred values, not measured new-plan allowances. Official prices and 1/4/15/50 quota ratios were rechecked 4 November 2026. The 2× migration claim compares coding usage over a comparable period, distributed in weekly shares; it is not a 2× weekly grant or a measurement of API-dollar allowance. New token-only anecdotes and November usage-meter reports do not provide a controlled model/cache/price basis for recalibration. Existing Cursor plans still continue unless changed or cancelled. The legacy 20.7× combines Grok and Claude usage; assigning it entirely to the first-party pool is retained as a comparison assumption. If only fraction f of the old API-dollar value belonged to that pool, every estimate should be multiplied by f. Plus fixes Grok 4.7 at Medium effort, Fast off and 256k context; no matching current AA Medium configuration is published, so the Low/High/XHigh rows are excluded from Plus. Premium and higher allow effort selection. Third-party usage is now separately billed, and full monthly value assumes consuming the weekly allocations with the same model, cache behavior, and product metering. <a href="https://prod.cursor.com/docs/account/pricing/legacy-cursor-plans">Official legacy-to-new comparison</a>. <a href="https://forum.cursor.com/t/introducing-the-x-subscription/174450/191">Staff clarification of the 2× comparison</a> · <a href="https://docs.x.ai/x-subscription/pricing">Current X pricing</a> · <a href="https://docs.x.ai/x-subscription/usage-limits">Quota terms</a> · <a href="https://cursor.com/docs/models-and-pricing">Model settings by plan</a>. Grok Bug Hunt costs are reconstructed lower bounds. Source costs elsewhere are bills or list-rate estimates. First-party harness performance is assumed transferable; no Grok Build versus Cursor adjustment is made.</p>
-<p>Muse tiers are Everyday $5, High $15, Power $50, and Maximum $200 with relative quotas 1/5/20/80. Standard multipliers are 5.6×/9.3×/11.1×/11.1× and Contributor 68.4×/114×/137×/137× at Standard API prices. Only High was measured; other tiers are derived as High multiplier × (relative quota / 5) × ($15 / fee), with rounding from the experiment. The recorded baseline values, Standard 11.1× ±0.5 and Contributor 137× ±39, describe the $50 Power plan, derived by scaling measured High Usage multipliers by 1.2 (4× allowance for 3.33× price). They use Standard API prices without an additional Contributor discount. Contributor permits Meta to train on submitted content and inherits Standard benchmark results by assumption. Workload mixes differ; weekly allowance was measured and five-hour limits may bind first. Max combines harness versions, including split-version runs; replication configuration is unverified. <a href="https://github.com/phuryn/experiments/tree/main/subscription-multipliers/04-muse-code">Measurements and logs</a> · <a href="https://dev.meta.ai/docs/muse-code/subscriptions">Muse subscription terms</a> · <a href="https://dev.meta.ai/products/muse-code">Current Muse plans</a>.</p>
-<p><a href="https://claude.com/pricing">Current Claude plans</a> are Pro $20, Max $100 and Ultra $200. <a href="https://support.claude.com/en/articles/17728952-what-is-the-ultra-plan">Ultra replaces Max 20x</a>, with 10× Pro weekly usage and no five-hour cap for verified accounts. Max has 5× Pro weekly and five-hour usage. Separate API credits are excluded from this comparison. <a href="https://raw.githubusercontent.com/phuryn/experiments/main/subscription-multipliers/README.md">Public October experiments</a> measured Pro at 42.0× ±4.5 and the former Max 20x at 45.3× ±1.0 on Opus 5.5; neither is a measurement of current Ultra. The app retains the user-directed 58.9×/24.8× scenario rather than treating these historical experiments as measurements for every model.</p><p>OpenCode Go is a $10/month plan. Its model-specific multipliers are derived from published allowances, not measured consumption; five-hour and weekly limits may bind first. Direct benchmark performance transfers to Go by assumption. Reused benchmark rows across subscriptions are not independent runs. MiMo runs use default effort; MiMo Pro has mixed judges. GLM Max has one run with repeatability unverified; GLM Flash Max has three runs, but its source labels replication configuration unverified and cost as a list estimate. Qwen’s undated Go alias is assumed to serve AA’s 0902 revision, but Bug Hunt receipts cannot establish that revision, so it remains tasks-only alongside MiniMax and Step. <a href="https://opencode.ai/v2/docs/console/go/">Go allowances and token prices</a>. Current Go / Go Plus multipliers are DeepSeek Flash 10× / 5×, GLM Flash 6× / 4.5×, GLM Max and Low 1.5× / 3×, MiMo Flash 6× / 3×, MiniMax Flash 2× / 2×, and 1.5× / 1.5× for the other included Go models. DeepSeek’s Go allowance is now $100/month; Go Plus is $200/month. GLM Flash and MiMo Flash have matching three-run Bug Hunt means; GLM Low is tasks-only. These are published monthly model allowances divided by the plan fee. Go Teams is a separate per-seat product and is not selected by a personal plan budget.</p>
+<p>Muse tiers are Everyday $5, High $15, Power $50, and Maximum $200 with relative quotas 1/5/20/80. Standard multipliers are 5.6×/9.3×/11.1×/11.1× and Contributor 68.4×/114×/137×/137× at Standard API prices. Only High was measured; other tiers are derived as High multiplier × (relative quota / 5) × ($15 / fee), with rounding from the experiment. The recorded baseline values, Standard 11.1× ±0.5 and Contributor 137× ±39, describe the $50 Power plan, derived by scaling measured High Usage multipliers by 1.2 (4× allowance for 3.33× price). They use Standard API prices without an additional Contributor discount. Contributor permits Meta to train on submitted content and inherits Standard benchmark results by assumption. Workload mixes differ; weekly allowance was measured and five-hour limits may bind first. Max combines harness versions, including split-version runs; replication configuration is unverified. Muse Wonder and Muse Ember have no measured multiplier and inherit Spark’s tier values by inference: Meta includes both on every plan, and its usage terms point to metering at API-price weight. Wonder Contributor assumes Spark’s Contributor uplift; Ember is Standard only. Wonder Full has no API price and is excluded. <a href="https://github.com/phuryn/experiments/tree/main/subscription-multipliers/04-muse-code">Measurements and logs</a> · <a href="https://dev.meta.ai/docs/muse-code/subscriptions">Muse subscription terms</a> · <a href="https://dev.meta.ai/products/muse-code">Current Muse plans</a>.</p>
+<p><a href="https://claude.com/pricing">Current Claude plans</a> are Pro $20, Max $100 and Ultra $200. <a href="https://support.claude.com/en/articles/17728952-what-is-the-ultra-plan">Ultra replaces Max 20x</a>, with 10× Pro weekly usage and no five-hour cap for verified accounts. Max has 5× Pro weekly and five-hour usage. Separate API credits are excluded from this comparison. <a href="https://raw.githubusercontent.com/phuryn/experiments/main/subscription-multipliers/README.md">Public October experiments</a> measured Pro at 42.0× ±4.5 and the former Max 20x at 45.3× ±1.0 on Opus 5.5; neither is a measurement of current Ultra. The app uses Theo’s newer 73.3× Opus and 30.2× Fable estimates by user direction, infers 73.3× for Sonnet/Haiku from Opus using API-price-proportional quota weights, and transfers each per-model multiplier across eligible Claude tiers as an assumption; these are not separate current measurements for every tier.</p><p>OpenCode Go is a $10/month plan. Its model-specific multipliers are derived from published allowances, not measured consumption; five-hour and weekly limits may bind first. Direct benchmark performance transfers to Go by assumption. Reused benchmark rows across subscriptions are not independent runs. MiMo runs use default effort; MiMo Pro has mixed judges. GLM Max has one run with repeatability unverified; GLM Flash Max has three runs, but its source labels replication configuration unverified and cost as a list estimate. Qwen’s undated Go alias is assumed to serve AA’s 0902 revision, but Bug Hunt receipts cannot establish that revision, so it remains tasks-only alongside MiniMax and Step. <a href="https://opencode.ai/v2/docs/console/go/">Go allowances and token prices</a>. Current Go / Go Plus multipliers are DeepSeek Flash 10× / 5×, GLM Flash 6× / 4.5×, GLM Max and Low 1.5× / 3×, MiMo Flash 6× / 3×, MiniMax Flash 2× / 2×, and 1.5× / 1.5× for the other included Go models. DeepSeek’s Go allowance is now $100/month; Go Plus is $200/month. GLM Flash and MiMo Flash have matching three-run Bug Hunt means; GLM Low is tasks-only. These are published monthly model allowances divided by the plan fee. Go Teams is a separate per-seat product and is not selected by a personal plan budget.</p>
 <p>All Argon and Carbon variants use the same provisional 8.7× Antigravity Ultra 5x multiplier until better evidence is available, as requested. Argon High and Carbon Low/Medium/High have matching AA v5.0.1 evidence. The Argon estimate uses Antigravity Ultra 5x ($99.99/month). A community measurement implies $200/week at launch API prices; $200 × (30.4375 / 7) / $99.99 gives a rounded 8.7× multiplier. Only weekly usage enters the monthly estimate; five-hour windows are excluded. The sampled Gemini weekly pool is shared: Argon’s inferred 3× quota burn per launch-price API dollar is a price conversion, not a fractional cap like Fable’s. No verified Argon allocation share is published, so the full fee is used without an allocation uplift, and separate Claude/GPT usage is not valued. <a href="https://www.reddit.com/r/google_antigravity/comments/1xfnvds/measured_antigravity_bills_gemini_4_argon_at_3x/">Token/quota measurement</a> · <a href="https://discuss.ai.google.dev/t/gemini-4-argon-draws-antigravity-quota-at-3x-gemini-3-8-flash-per-published-dollar-clean-a-b-same-bucket/196351">High cross-check</a> · <a href="https://one.google.com/intl/en/about/google-ai-plans/?gl=US">Plan price</a>. Task costs include a 0.5× conversion from AA standard to launch API prices through 30 November 2026; Bug Hunt already uses launch API prices and is not halved again. Its Antigravity CLI/API-gateway mean of three has 31 planted fixes achieved in every run; transfer to the subscription route is assumed. Adding Argon calibrates six previously unrated bugs, changing all bug ratings. Argon Low/Medium lack matching AA v5.0.1 scores. Pro’s dedicated Argon weekly pool has only a rough one-task dollar estimate, so it remains unranked; no spending allocation fraction is verified for normalization. <a href="https://discuss.ai.google.dev/t/estimating-updated-quota-for-claude-gemini-4-argon/191879">Pro estimate</a>.</p>
 <p>Gemini 4 Carbon Low, Medium and High are included as user-directed subscription scenarios, transferring Argon’s 8.7× multiplier and Antigravity Ultra 5x route assumption; Carbon availability and quota behavior are unverified. Their own AA v5.0.1 General / Engineering scores are 54 / 60, 58 / 64 and 60 / 65. Launch-price task costs are $3.59, $3.29 and $3.88, using a 0.5× conversion from each configuration’s standard-price AA task cost. No matching Carbon Bug Hunt run exists, so it appears in tasks mode only. Carbon’s launch discount has no confirmed end date. <a href="https://artificialanalysis.ai/models/gemini-4-carbon">Carbon AA evidence</a> · <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/">Google’s phased-access announcement</a>.</p>
 <p>Kimi uses a user-directed tier scenario: the existing 11× estimate is anchored to Plus $19. Pro $39, Max $99, and Ultra $199 use the supplied relative-credit ratios 2/5/10, giving multipliers of 11 × relative credits × $19 / plan price (about 10.72×/10.56×/10.50×). These are scaled estimates, not separate quota measurements. <a href="https://www.kimi.com/code/docs/en/kimi-code/membership.html">Current membership terms</a>. K3.1 Pro’s AA metadata explicitly specifies Max, consistent with its documented default, with direct API performance transferred to Kimi Code by assumption; plan context limits apply. Its three-run Bug Hunt mean reran one failed attempt; counting the failure as zero lowers mean planted fixes from 36 to 32. <a href="https://www.kimi.com/code/docs/en/third-party-tools/opencode.html">Kimi model and effort defaults</a>. Terra now has complete three-run Bug Hunt means at all five efforts; Max includes long-context pricing and is below the account’s Ultra tier.</p>
-<p>Configuration details and exported CSV retain exact AA configuration links and individual assumptions. Bug Hunt inputs were checked 4 November 2026 against the source’s unchanged 27 October update; all 51 existing records still match, and three newly scored configurations add matching coverage: <a href="https://bughunt.productcompass.pm/">results and run details</a> · <a href="https://bughunt.productcompass.pm/data/benchmark.json">source data</a> · <a href="https://bughunt.productcompass.pm/method">method and caveats</a> · <a href="https://github.com/phuryn/bug-hunt-bench/blob/main/results/repo1-metrics.csv">token-price receipts</a>. These are workload estimates, not usage guarantees.</p>
+<p>Configuration details and exported CSV retain exact AA configuration links and individual assumptions. Bug Hunt inputs were rechecked 9 November 2026 against the source’s unchanged 27 October update. It has no Fable 5.2 runs, so by user direction the Fable 5.2 rows keep Fable 5.1’s Bug Hunt results as placeholders until 5.2 runs are published: fixes, coverage and run cost are Fable 5.1’s, while difficulty weights use Fable 5.2’s scores. Both Muse Wonder Max rows use the published Muse Code mean of three; the other 49 records still match: <a href="https://bughunt.productcompass.pm/">results and run details</a> · <a href="https://bughunt.productcompass.pm/data/benchmark.json">source data</a> · <a href="https://bughunt.productcompass.pm/method">method and caveats</a> · <a href="https://github.com/phuryn/bug-hunt-bench/blob/main/results/repo1-metrics.csv">token-price receipts</a>. These are workload estimates, not usage guarantees.</p>
+<p>Additional research sources: <a href="https://slopalytics.com/">Theo's Slopalytics</a>, its <a href="https://slopalytics.com/usage">T3 Code usage data</a>, and <a href="https://x.com/theo/status/2119960608816988596">Theo's subscription usage analyses</a>. Slopalytics' benchmark views use Artificial Analysis data; its T3 telemetry adds observed model/harness usage, token mix, and estimated API-equivalent costs. Subscription measurements depend on the account, plan, workload, and quota method. These sources are available for future refreshes; the recorded multipliers are unchanged.</p>
 </div></div></details>
   </main>
   <script id="comparison-data" type="application/json">
@@ -242,9 +243,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "High",
     "intelligence": 42,
-    "multiplier": 58.9,
+    "multiplier": 73.3,
     "benchmarkCost": 1.64,
-    "tasks20": 718.0,
+    "tasks20": 894,
     "bugHunt": {
       "id": "Sonnet 5.5 (high effort) - mean of 3",
       "fixed": 34.3,
@@ -304,7 +305,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/claude-sonnet-5-5-high",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Sonnet 5.5 (High, Default Fallback). Claude 58.9× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Sonnet 5.5 (High, Default Fallback). 73.3× inferred from the adopted Opus 5.5 anchor by user direction on 10 November 2026. The community derivation assumes shared subscription quota weights follow API-price ratios, so API-equivalent allowance per dollar matches Opus. Method: https://github.com/Fei2411/real-api-pricing/blob/main/data/research/claude-haiku55-round1-2026-10-08.json . Rebased to Theo’s current 73.3× Opus estimate rather than the source’s older Opus allowance. This is not a measured Sonnet/Haiku allowance; different internal quota weights would change the result. Applied across Pro $20, Max $100, Ultra $200 and efforts as comparison assumptions."
   },
   {
     "id": "sol-medium",
@@ -380,9 +381,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Medium",
     "intelligence": 48,
-    "multiplier": 58.9,
+    "multiplier": 73.3,
     "benchmarkCost": 2.45,
-    "tasks20": 480.0,
+    "tasks20": 598,
     "bugHunt": {
       "id": "Opus 5.5 (medium effort) - mean of 3",
       "fixed": 30.3,
@@ -439,7 +440,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/claude-opus-5-5-medium",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Opus 5.5 (Medium, Default Fallback). Claude 58.9× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Opus 5.5 (Medium, Default Fallback). Opus 5.5 uses 73.3× by user direction from Theo's 10 November 2026 estimate of $14,662 API-equivalent usage per 30 days on Ultra $200. One account and workload; source: https://x.com/theo/status/2119960608816988596 ; charts reproduced at https://herald.jaaaames.com/ . Transferred to Pro $20 and Max $100 and across efforts as comparison assumptions, not separately measured allowances."
   },
   {
     "id": "sol-high",
@@ -526,9 +527,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "High",
     "intelligence": 52,
-    "multiplier": 58.9,
+    "multiplier": 73.3,
     "benchmarkCost": 3.46,
-    "tasks20": 340.0,
+    "tasks20": 424,
     "bugHunt": {
       "id": "Opus 5.5 (high effort) - mean of 3",
       "fixed": 31.7,
@@ -586,7 +587,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/claude-opus-5-5-high",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Opus 5.5 (High, Default Fallback). Claude 58.9× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Opus 5.5 (High, Default Fallback). Opus 5.5 uses 73.3× by user direction from Theo's 10 November 2026 estimate of $14,662 API-equivalent usage per 30 days on Ultra $200. One account and workload; source: https://x.com/theo/status/2119960608816988596 ; charts reproduced at https://herald.jaaaames.com/ . Transferred to Pro $20 and Max $100 and across efforts as comparison assumptions, not separately measured allowances."
   },
   {
     "id": "sonnet-xhigh",
@@ -596,9 +597,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "XHigh",
     "intelligence": 50,
-    "multiplier": 58.9,
+    "multiplier": 73.3,
     "benchmarkCost": 4.09,
-    "tasks20": 288.0,
+    "tasks20": 358,
     "bugHunt": {
       "id": "Sonnet 5.5 (xhigh effort) - mean of 3",
       "fixed": 36,
@@ -663,7 +664,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/claude-sonnet-5-5-xhigh",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Sonnet 5.5 (Xhigh, Default Fallback). Claude 58.9× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Sonnet 5.5 (Xhigh, Default Fallback). 73.3× inferred from the adopted Opus 5.5 anchor by user direction on 10 November 2026. The community derivation assumes shared subscription quota weights follow API-price ratios, so API-equivalent allowance per dollar matches Opus. Method: https://github.com/Fei2411/real-api-pricing/blob/main/data/research/claude-haiku55-round1-2026-10-08.json . Rebased to Theo’s current 73.3× Opus estimate rather than the source’s older Opus allowance. This is not a measured Sonnet/Haiku allowance; different internal quota weights would change the result. Applied across Pro $20, Max $100, Ultra $200 and efforts as comparison assumptions."
   },
   {
     "id": "sol-xhigh",
@@ -758,9 +759,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "XHigh",
     "intelligence": 57,
-    "multiplier": 58.9,
+    "multiplier": 73.3,
     "benchmarkCost": 6.05,
-    "tasks20": 194.0,
+    "tasks20": 242,
     "bugHunt": {
       "id": "Opus 5.5 (xhigh effort) - mean of 3",
       "fixed": 36,
@@ -824,7 +825,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/claude-opus-5-5-xhigh",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Opus 5.5 (Xhigh, Default Fallback). Claude 58.9× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Opus 5.5 (Xhigh, Default Fallback). Opus 5.5 uses 73.3× by user direction from Theo's 10 November 2026 estimate of $14,662 API-equivalent usage per 30 days on Ultra $200. One account and workload; source: https://x.com/theo/status/2119960608816988596 ; charts reproduced at https://herald.jaaaames.com/ . Transferred to Pro $20 and Max $100 and across efforts as comparison assumptions, not separately measured allowances."
   },
   {
     "id": "grok-high",
@@ -972,9 +973,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Low",
     "intelligence": 26,
-    "multiplier": 58.9,
+    "multiplier": 73.3,
     "benchmarkCost": 0.51,
-    "tasks20": 2310.0,
+    "tasks20": 2874,
     "bugHunt": {
       "id": "Sonnet 5.5 (low effort) - mean of 3",
       "fixed": 19,
@@ -1018,7 +1019,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/claude-sonnet-5-5-low",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Sonnet 5.5 (Low, Default Fallback). Claude 58.9× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Sonnet 5.5 (Low, Default Fallback). 73.3× inferred from the adopted Opus 5.5 anchor by user direction on 10 November 2026. The community derivation assumes shared subscription quota weights follow API-price ratios, so API-equivalent allowance per dollar matches Opus. Method: https://github.com/Fei2411/real-api-pricing/blob/main/data/research/claude-haiku55-round1-2026-10-08.json . Rebased to Theo’s current 73.3× Opus estimate rather than the source’s older Opus allowance. This is not a measured Sonnet/Haiku allowance; different internal quota weights would change the result. Applied across Pro $20, Max $100, Ultra $200 and efforts as comparison assumptions."
   },
   {
     "id": "sonnet-medium",
@@ -1028,9 +1029,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Medium",
     "intelligence": 31,
-    "multiplier": 58.9,
+    "multiplier": 73.3,
     "benchmarkCost": 0.78,
-    "tasks20": 1510.0,
+    "tasks20": 1880,
     "bugHunt": {
       "id": "Sonnet 5.5 (medium effort) - mean of 3",
       "fixed": 23.3,
@@ -1086,7 +1087,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/claude-sonnet-5-5-medium",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Sonnet 5.5 (Medium, Default Fallback). Claude 58.9× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Sonnet 5.5 (Medium, Default Fallback). 73.3× inferred from the adopted Opus 5.5 anchor by user direction on 10 November 2026. The community derivation assumes shared subscription quota weights follow API-price ratios, so API-equivalent allowance per dollar matches Opus. Method: https://github.com/Fei2411/real-api-pricing/blob/main/data/research/claude-haiku55-round1-2026-10-08.json . Rebased to Theo’s current 73.3× Opus estimate rather than the source’s older Opus allowance. This is not a measured Sonnet/Haiku allowance; different internal quota weights would change the result. Applied across Pro $20, Max $100, Ultra $200 and efforts as comparison assumptions."
   },
   {
     "id": "sonnet-max",
@@ -1096,9 +1097,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Max",
     "intelligence": 55,
-    "multiplier": 58.9,
+    "multiplier": 73.3,
     "benchmarkCost": 10.02,
-    "tasks20": 118.0,
+    "tasks20": 146,
     "bugHunt": {
       "id": "Sonnet 5.5 (max effort) - mean of 3",
       "fixed": 51.3,
@@ -1183,7 +1184,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/claude-sonnet-5-5",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Sonnet 5.5 (Max, Default Fallback). Claude 58.9× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload. Bug Hunt three-run spread is 14 planted fixes of 105; CLI build and compaction conditions limit comparisons."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Sonnet 5.5 (Max, Default Fallback). 73.3× inferred from the adopted Opus 5.5 anchor by user direction on 10 November 2026. The community derivation assumes shared subscription quota weights follow API-price ratios, so API-equivalent allowance per dollar matches Opus. Method: https://github.com/Fei2411/real-api-pricing/blob/main/data/research/claude-haiku55-round1-2026-10-08.json . Rebased to Theo’s current 73.3× Opus estimate rather than the source’s older Opus allowance. This is not a measured Sonnet/Haiku allowance; different internal quota weights would change the result. Applied across Pro $20, Max $100, Ultra $200 and efforts as comparison assumptions."
   },
   {
     "id": "opus-low",
@@ -1193,9 +1194,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Low",
     "intelligence": 35,
-    "multiplier": 58.9,
+    "multiplier": 73.3,
     "benchmarkCost": 0.98,
-    "tasks20": 1202.0,
+    "tasks20": 1496,
     "bugHunt": {
       "id": "Opus 5.5 (low effort) - mean of 3",
       "fixed": 22.3,
@@ -1248,7 +1249,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/claude-opus-5-5-low",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Opus 5.5 (Low, Default Fallback). Claude 58.9× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Opus 5.5 (Low, Default Fallback). Opus 5.5 uses 73.3× by user direction from Theo's 10 November 2026 estimate of $14,662 API-equivalent usage per 30 days on Ultra $200. One account and workload; source: https://x.com/theo/status/2119960608816988596 ; charts reproduced at https://herald.jaaaames.com/ . Transferred to Pro $20 and Max $100 and across efforts as comparison assumptions, not separately measured allowances."
   },
   {
     "id": "opus-max",
@@ -1258,9 +1259,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Max",
     "intelligence": 59,
-    "multiplier": 58.9,
+    "multiplier": 73.3,
     "benchmarkCost": 10.04,
-    "tasks20": 118.0,
+    "tasks20": 146,
     "bugHunt": {
       "id": "Opus 5.5 (max effort) - mean of 3",
       "fixed": 41.7,
@@ -1329,7 +1330,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/claude-opus-5-5",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Opus 5.5 (Max, Default Fallback). Claude 58.9× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Opus 5.5 (Max, Default Fallback). Opus 5.5 uses 73.3× by user direction from Theo's 10 November 2026 estimate of $14,662 API-equivalent usage per 30 days on Ultra $200. One account and workload; source: https://x.com/theo/status/2119960608816988596 ; charts reproduced at https://herald.jaaaames.com/ . Transferred to Pro $20 and Max $100 and across efforts as comparison assumptions, not separately measured allowances."
   },
   {
     "id": "sol-low",
@@ -1490,10 +1491,10 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Low",
     "intelligence": 43,
-    "multiplier": 29.0,
+    "multiplier": 25.7,
     "benchmarkCost": 1.42,
-    "tasks20": 408.0,
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Astra (Low). Astra uses 29×, SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month. This is a workload/plan assumption shared across efforts, not a current quota measurement. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
+    "tasks20": 362,
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Astra (Low). Community Plus estimate 12.85×, checked 10 November 2026: https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/ . One account using Pi upstream-token API pricing, fresh five-hour windows and context below 272k. The source extrapolates six windows per week and a 30-day month; its rounded monthly API value / $20 gives the Plus multiplier. These are provisional workload estimates, not independently verified full-week allowances. This model’s earlier measurement was carried forward without a fresh recheck. By user direction, Pro $100/$200/$500 scale the Plus API value by 2 × (fee / $20), so their multiplier is 25.7× per subscription dollar; Plus stays 12.85×. Applied across efforts as an assumption.",
     "bugHunt": {
       "id": "GPT-6 Astra (low effort)",
       "fixed": 27,
@@ -1550,10 +1551,10 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Medium",
     "intelligence": 52,
-    "multiplier": 29.0,
+    "multiplier": 25.7,
     "benchmarkCost": 2.73,
-    "tasks20": 212.0,
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Astra (Medium). Astra uses 29×, SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month. This is a workload/plan assumption shared across efforts, not a current quota measurement. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
+    "tasks20": 188,
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Astra (Medium). Community Plus estimate 12.85×, checked 10 November 2026: https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/ . One account using Pi upstream-token API pricing, fresh five-hour windows and context below 272k. The source extrapolates six windows per week and a 30-day month; its rounded monthly API value / $20 gives the Plus multiplier. These are provisional workload estimates, not independently verified full-week allowances. This model’s earlier measurement was carried forward without a fresh recheck. By user direction, Pro $100/$200/$500 scale the Plus API value by 2 × (fee / $20), so their multiplier is 25.7× per subscription dollar; Plus stays 12.85×. Applied across efforts as an assumption.",
     "bugHunt": {
       "id": "GPT-6 Astra (medium effort)",
       "fixed": 34,
@@ -1617,10 +1618,10 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "High",
     "intelligence": 55,
-    "multiplier": 29.0,
+    "multiplier": 25.7,
     "benchmarkCost": 3.24,
-    "tasks20": 180.0,
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Astra (High). Astra uses 29×, SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month. This is a workload/plan assumption shared across efforts, not a current quota measurement. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
+    "tasks20": 158,
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Astra (High). Community Plus estimate 12.85×, checked 10 November 2026: https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/ . One account using Pi upstream-token API pricing, fresh five-hour windows and context below 272k. The source extrapolates six windows per week and a 30-day month; its rounded monthly API value / $20 gives the Plus multiplier. These are provisional workload estimates, not independently verified full-week allowances. This model’s earlier measurement was carried forward without a fresh recheck. By user direction, Pro $100/$200/$500 scale the Plus API value by 2 × (fee / $20), so their multiplier is 25.7× per subscription dollar; Plus stays 12.85×. Applied across efforts as an assumption.",
     "bugHunt": {
       "id": "GPT-6 Astra (high effort)",
       "fixed": 35,
@@ -1685,10 +1686,10 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "XHigh",
     "intelligence": 55,
-    "multiplier": 29.0,
+    "multiplier": 25.7,
     "benchmarkCost": 3.66,
-    "tasks20": 158.0,
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Astra (Xhigh). Astra uses 29×, SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month. This is a workload/plan assumption shared across efforts, not a current quota measurement. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
+    "tasks20": 140,
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Astra (Xhigh). Community Plus estimate 12.85×, checked 10 November 2026: https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/ . One account using Pi upstream-token API pricing, fresh five-hour windows and context below 272k. The source extrapolates six windows per week and a 30-day month; its rounded monthly API value / $20 gives the Plus multiplier. These are provisional workload estimates, not independently verified full-week allowances. This model’s earlier measurement was carried forward without a fresh recheck. By user direction, Pro $100/$200/$500 scale the Plus API value by 2 × (fee / $20), so their multiplier is 25.7× per subscription dollar; Plus stays 12.85×. Applied across efforts as an assumption.",
     "bugHunt": {
       "id": "GPT-6 Astra (xhigh effort)",
       "fixed": 43,
@@ -1761,10 +1762,10 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Max",
     "intelligence": 57,
-    "multiplier": 29.0,
+    "multiplier": 25.7,
     "benchmarkCost": 6.24,
-    "tasks20": 92.0,
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Astra (Max). Astra uses 29×, SemiAnalysis’s rounded agentic value for ChatGPT Pro $200/month. This is a workload/plan assumption shared across efforts, not a current quota measurement. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
+    "tasks20": 82,
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Astra (Max). Community Plus estimate 12.85×, checked 10 November 2026: https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/ . One account using Pi upstream-token API pricing, fresh five-hour windows and context below 272k. The source extrapolates six windows per week and a 30-day month; its rounded monthly API value / $20 gives the Plus multiplier. These are provisional workload estimates, not independently verified full-week allowances. This model’s earlier measurement was carried forward without a fresh recheck. By user direction, Pro $100/$200/$500 scale the Plus API value by 2 × (fee / $20), so their multiplier is 25.7× per subscription dollar; Plus stays 12.85×. Applied across efforts as an assumption.",
     "bugHunt": {
       "id": "GPT-6 Astra (max effort) - mean of 3",
       "fixed": 45,
@@ -1849,9 +1850,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Low",
     "intelligence": 10,
-    "multiplier": 21.2,
+    "multiplier": 16.7,
     "benchmarkCost": 0.0051,
-    "tasks20": 83138.0,
+    "tasks20": 65490,
     "bugHunt": {
       "id": "GPT-6 Luna (low effort)",
       "fixed": 4,
@@ -1876,7 +1877,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-luna-low",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Luna (Low). ChatGPT 21.2× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Luna (Low). Community Plus estimate 8.35×, checked 10 November 2026: https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/ . One account using Pi upstream-token API pricing, fresh five-hour windows and context below 272k. The source extrapolates six windows per week and a 30-day month; its rounded monthly API value / $20 gives the Plus multiplier. These are provisional workload estimates, not independently verified full-week allowances. This model’s earlier measurement was carried forward without a fresh recheck. By user direction, Pro $100/$200/$500 scale the Plus API value by 2 × (fee / $20), so their multiplier is 16.7× per subscription dollar; Plus stays 8.35×. Applied across efforts as an assumption."
   },
   {
     "id": "luna-medium",
@@ -1886,9 +1887,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Medium",
     "intelligence": 18,
-    "multiplier": 21.2,
+    "multiplier": 16.7,
     "benchmarkCost": 0.04,
-    "tasks20": 10600.0,
+    "tasks20": 8350,
     "bugHunt": {
       "id": "GPT-6 Luna (medium effort)",
       "fixed": 4,
@@ -1913,7 +1914,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-luna-medium",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Luna (Medium). ChatGPT 21.2× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Luna (Medium). Community Plus estimate 8.35×, checked 10 November 2026: https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/ . One account using Pi upstream-token API pricing, fresh five-hour windows and context below 272k. The source extrapolates six windows per week and a 30-day month; its rounded monthly API value / $20 gives the Plus multiplier. These are provisional workload estimates, not independently verified full-week allowances. This model’s earlier measurement was carried forward without a fresh recheck. By user direction, Pro $100/$200/$500 scale the Plus API value by 2 × (fee / $20), so their multiplier is 16.7× per subscription dollar; Plus stays 8.35×. Applied across efforts as an assumption."
   },
   {
     "id": "luna-high",
@@ -1923,9 +1924,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "High",
     "intelligence": 21,
-    "multiplier": 21.2,
+    "multiplier": 16.7,
     "benchmarkCost": 0.07,
-    "tasks20": 6058.0,
+    "tasks20": 4772,
     "bugHunt": {
       "id": "GPT-6 Luna (high effort)",
       "fixed": 9,
@@ -1955,7 +1956,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-luna-high",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Luna (High). ChatGPT 21.2× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Luna (High). Community Plus estimate 8.35×, checked 10 November 2026: https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/ . One account using Pi upstream-token API pricing, fresh five-hour windows and context below 272k. The source extrapolates six windows per week and a 30-day month; its rounded monthly API value / $20 gives the Plus multiplier. These are provisional workload estimates, not independently verified full-week allowances. This model’s earlier measurement was carried forward without a fresh recheck. By user direction, Pro $100/$200/$500 scale the Plus API value by 2 × (fee / $20), so their multiplier is 16.7× per subscription dollar; Plus stays 8.35×. Applied across efforts as an assumption."
   },
   {
     "id": "luna-xhigh",
@@ -1965,9 +1966,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "XHigh",
     "intelligence": 23,
-    "multiplier": 21.2,
+    "multiplier": 16.7,
     "benchmarkCost": 0.1,
-    "tasks20": 4240.0,
+    "tasks20": 3340,
     "bugHunt": {
       "id": "GPT-6 Luna (xhigh effort)",
       "fixed": 14,
@@ -2002,7 +2003,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-luna-xhigh",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Luna (Xhigh). ChatGPT 21.2× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Luna (Xhigh). Community Plus estimate 8.35×, checked 10 November 2026: https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/ . One account using Pi upstream-token API pricing, fresh five-hour windows and context below 272k. The source extrapolates six windows per week and a 30-day month; its rounded monthly API value / $20 gives the Plus multiplier. These are provisional workload estimates, not independently verified full-week allowances. This model’s earlier measurement was carried forward without a fresh recheck. By user direction, Pro $100/$200/$500 scale the Plus API value by 2 × (fee / $20), so their multiplier is 16.7× per subscription dollar; Plus stays 8.35×. Applied across efforts as an assumption."
   },
   {
     "id": "luna-max",
@@ -2012,9 +2013,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Max",
     "intelligence": 28,
-    "multiplier": 21.2,
+    "multiplier": 16.7,
     "benchmarkCost": 0.15,
-    "tasks20": 2826.0,
+    "tasks20": 2226,
     "bugHunt": {
       "id": "GPT-6 Luna (max effort) - mean of 3",
       "fixed": 18.3,
@@ -2064,7 +2065,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-luna",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Luna (Max). ChatGPT 21.2× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6 Luna (Max). Community Plus estimate 8.35×, checked 10 November 2026: https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/ . One account using Pi upstream-token API pricing, fresh five-hour windows and context below 272k. The source extrapolates six windows per week and a 30-day month; its rounded monthly API value / $20 gives the Plus multiplier. These are provisional workload estimates, not independently verified full-week allowances. This model’s earlier measurement was carried forward without a fresh recheck. By user direction, Pro $100/$200/$500 scale the Plus API value by 2 × (fee / $20), so their multiplier is 16.7× per subscription dollar; Plus stays 8.35×. Applied across efforts as an assumption."
   },
   {
     "id": "haiku-low",
@@ -2074,9 +2075,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Low",
     "intelligence": 19,
-    "multiplier": 58.9,
+    "multiplier": 73.3,
     "benchmarkCost": 0.04,
-    "tasks20": 29450.0,
+    "tasks20": 36650,
     "bugHunt": {
       "id": "Haiku 5.5 (low effort)",
       "fixed": 11,
@@ -2108,7 +2109,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/claude-haiku-5-5-low",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Haiku 5.5 (Low). Claude 58.9× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Haiku 5.5 (Low). 73.3× inferred from the adopted Opus 5.5 anchor by user direction on 10 November 2026. The community derivation assumes shared subscription quota weights follow API-price ratios, so API-equivalent allowance per dollar matches Opus. Method: https://github.com/Fei2411/real-api-pricing/blob/main/data/research/claude-haiku55-round1-2026-10-08.json . Rebased to Theo’s current 73.3× Opus estimate rather than the source’s older Opus allowance. This is not a measured Sonnet/Haiku allowance; different internal quota weights would change the result. Applied across Pro $20, Max $100, Ultra $200 and efforts as comparison assumptions."
   },
   {
     "id": "haiku-medium",
@@ -2118,9 +2119,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Medium",
     "intelligence": 25,
-    "multiplier": 58.9,
+    "multiplier": 73.3,
     "benchmarkCost": 0.09,
-    "tasks20": 13088.0,
+    "tasks20": 16288,
     "bugHunt": {
       "id": "Haiku 5.5 (medium effort)",
       "fixed": 12,
@@ -2153,7 +2154,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/claude-haiku-5-5-medium",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Haiku 5.5 (Medium). Claude 58.9× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Haiku 5.5 (Medium). 73.3× inferred from the adopted Opus 5.5 anchor by user direction on 10 November 2026. The community derivation assumes shared subscription quota weights follow API-price ratios, so API-equivalent allowance per dollar matches Opus. Method: https://github.com/Fei2411/real-api-pricing/blob/main/data/research/claude-haiku55-round1-2026-10-08.json . Rebased to Theo’s current 73.3× Opus estimate rather than the source’s older Opus allowance. This is not a measured Sonnet/Haiku allowance; different internal quota weights would change the result. Applied across Pro $20, Max $100, Ultra $200 and efforts as comparison assumptions."
   },
   {
     "id": "haiku-high",
@@ -2163,9 +2164,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "High",
     "intelligence": 30,
-    "multiplier": 58.9,
+    "multiplier": 73.3,
     "benchmarkCost": 0.16,
-    "tasks20": 7362.0,
+    "tasks20": 9162,
     "bugHunt": {
       "id": "Haiku 5.5 (high effort) - mean of 2",
       "fixed": 16,
@@ -2206,7 +2207,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/claude-haiku-5-5-high",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Haiku 5.5 (High). Claude 58.9× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Haiku 5.5 (High). 73.3× inferred from the adopted Opus 5.5 anchor by user direction on 10 November 2026. The community derivation assumes shared subscription quota weights follow API-price ratios, so API-equivalent allowance per dollar matches Opus. Method: https://github.com/Fei2411/real-api-pricing/blob/main/data/research/claude-haiku55-round1-2026-10-08.json . Rebased to Theo’s current 73.3× Opus estimate rather than the source’s older Opus allowance. This is not a measured Sonnet/Haiku allowance; different internal quota weights would change the result. Applied across Pro $20, Max $100, Ultra $200 and efforts as comparison assumptions."
   },
   {
     "id": "haiku-xhigh",
@@ -2216,9 +2217,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "XHigh",
     "intelligence": 35,
-    "multiplier": 58.9,
+    "multiplier": 73.3,
     "benchmarkCost": 0.25,
-    "tasks20": 4712.0,
+    "tasks20": 5864,
     "bugHunt": {
       "id": "Haiku 5.5 (xhigh effort) - mean of 3",
       "fixed": 18.3,
@@ -2269,7 +2270,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/claude-haiku-5-5-xhigh",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Haiku 5.5 (Xhigh). Claude 58.9× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Haiku 5.5 (Xhigh). 73.3× inferred from the adopted Opus 5.5 anchor by user direction on 10 November 2026. The community derivation assumes shared subscription quota weights follow API-price ratios, so API-equivalent allowance per dollar matches Opus. Method: https://github.com/Fei2411/real-api-pricing/blob/main/data/research/claude-haiku55-round1-2026-10-08.json . Rebased to Theo’s current 73.3× Opus estimate rather than the source’s older Opus allowance. This is not a measured Sonnet/Haiku allowance; different internal quota weights would change the result. Applied across Pro $20, Max $100, Ultra $200 and efforts as comparison assumptions."
   },
   {
     "id": "haiku-max",
@@ -2279,9 +2280,9 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Max",
     "intelligence": 36,
-    "multiplier": 58.9,
+    "multiplier": 73.3,
     "benchmarkCost": 0.41,
-    "tasks20": 2874.0,
+    "tasks20": 3576,
     "bugHunt": {
       "id": "Haiku 5.5 (max effort) - mean of 2",
       "fixed": 21.5,
@@ -2327,7 +2328,7 @@ td.tasks-cell{white-space:nowrap}
     "taskPriceFactor": 1,
     "aaSource": "https://artificialanalysis.ai/models/claude-haiku-5-5",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Haiku 5.5 (Max). Claude 58.9× is a supplied subscription-value assumption shared across efforts; actual limits depend on plan and workload."
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Haiku 5.5 (Max). 73.3× inferred from the adopted Opus 5.5 anchor by user direction on 10 November 2026. The community derivation assumes shared subscription quota weights follow API-price ratios, so API-equivalent allowance per dollar matches Opus. Method: https://github.com/Fei2411/real-api-pricing/blob/main/data/research/claude-haiku55-round1-2026-10-08.json . Rebased to Theo’s current 73.3× Opus estimate rather than the source’s older Opus allowance. This is not a measured Sonnet/Haiku allowance; different internal quota weights would change the result. Applied across Pro $20, Max $100, Ultra $200 and efforts as comparison assumptions."
   },
   {
     "id": "grok-low",
@@ -2387,16 +2388,16 @@ td.tasks-cell{white-space:nowrap}
   },
   {
     "id": "fable-low",
-    "model": "Claude Fable 5.1",
-    "short": "Fable 5.1",
+    "model": "Claude Fable 5.2",
+    "short": "Fable 5.2",
     "provider": "Claude",
     "country": "United States",
     "reasoning": "Low",
-    "intelligence": 39,
-    "multiplier": 24.8,
-    "benchmarkCost": 4.47,
-    "tasks20": 110.0,
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Fable 5.1 (Low, Default Fallback). Fable uses 24.8× per allocated subscription dollar: SemiAnalysis’s rounded 12.4× divided by its 50% plan allocation. This does not increase the actual allowance or include the rest of the plan. Applied across efforts as an assumption. Current AA task costs use the refreshed fallback/cache price basis; historical Bug Hunt run costs are retained as published. Current plans include Fable on Max $100 and Ultra $200, up to half the weekly allowance; Pro access uses separately paid credits and is excluded.",
+    "intelligence": 54,
+    "multiplier": 30.2,
+    "benchmarkCost": 3.1,
+    "tasks20": 194,
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 9 November 2026 for Claude Fable 5.2 (Low, Default Fallback). Fable 5.2 uses 30.2× per allocated subscription dollar by user direction from Theo's 10 November 2026 estimate: $3,021 API-equivalent usage per 30 days / ($200 Ultra fee × 50% allocation). The estimate already uses Fable 5.2 API prices and excludes temporary launch resets. One account, extrapolated from 47% of one Fable allowance with about ±10% estimated uncertainty; source: https://x.com/theo/status/2119960608816988596 ; charts reproduced at https://herald.jaaaames.com/ . It does not increase the actual half-plan allowance or value the remaining half. Transferred to Max $100 and across efforts as comparison assumptions, not separate measurements. Current plans include Fable on Max $100 and Ultra $200, up to half the weekly allowance; Pro access uses separately paid credits and is excluded. Bug Hunt has no Fable 5.2 runs. By user direction this row keeps the Fable 5.1 result (Fable 5.1 (low effort)) as a placeholder until Bug Hunt publishes Fable 5.2 runs: fixes, coverage and run cost are Fable 5.1’s, at Fable 5.1 API prices, while difficulty weights use this row’s Fable 5.2 scores.",
     "bugHunt": {
       "id": "Fable 5.1 (low effort)",
       "fixed": 29,
@@ -2438,27 +2439,27 @@ td.tasks-cell{white-space:nowrap}
         "102": 1
       }
     },
-    "engineering": 46,
+    "engineering": 62,
     "aaIndexVersion": "5.0.1",
-    "aaIntelligenceExact": 38.683648810734,
-    "aaEngineeringExact": 45.567363961039,
-    "aaTaskCostExact": 4.471135894646431,
+    "aaIntelligenceExact": 53.9249388799182,
+    "aaEngineeringExact": 61.5679425324675,
+    "aaTaskCostExact": 3.097241904274546,
     "taskPriceFactor": 1,
-    "aaSource": "https://artificialanalysis.ai/models/claude-fable-5-1-low",
-    "sourceDate": "2026-11-04"
+    "aaSource": "https://artificialanalysis.ai/models/claude-fable-5-2-low",
+    "sourceDate": "2026-11-09"
   },
   {
     "id": "fable-medium",
-    "model": "Claude Fable 5.1",
-    "short": "Fable 5.1",
+    "model": "Claude Fable 5.2",
+    "short": "Fable 5.2",
     "provider": "Claude",
     "country": "United States",
     "reasoning": "Medium",
-    "intelligence": 43,
-    "multiplier": 24.8,
-    "benchmarkCost": 5.56,
-    "tasks20": 90.0,
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Fable 5.1 (Medium, Default Fallback). Fable uses 24.8× per allocated subscription dollar: SemiAnalysis’s rounded 12.4× divided by its 50% plan allocation. This does not increase the actual allowance or include the rest of the plan. Applied across efforts as an assumption. Current AA task costs use the refreshed fallback/cache price basis; historical Bug Hunt run costs are retained as published. Current plans include Fable on Max $100 and Ultra $200, up to half the weekly allowance; Pro access uses separately paid credits and is excluded.",
+    "intelligence": 56,
+    "multiplier": 30.2,
+    "benchmarkCost": 3.8,
+    "tasks20": 158,
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 9 November 2026 for Claude Fable 5.2 (Medium, Default Fallback). Fable 5.2 uses 30.2× per allocated subscription dollar by user direction from Theo's 10 November 2026 estimate: $3,021 API-equivalent usage per 30 days / ($200 Ultra fee × 50% allocation). The estimate already uses Fable 5.2 API prices and excludes temporary launch resets. One account, extrapolated from 47% of one Fable allowance with about ±10% estimated uncertainty; source: https://x.com/theo/status/2119960608816988596 ; charts reproduced at https://herald.jaaaames.com/ . It does not increase the actual half-plan allowance or value the remaining half. Transferred to Max $100 and across efforts as comparison assumptions, not separate measurements. Current plans include Fable on Max $100 and Ultra $200, up to half the weekly allowance; Pro access uses separately paid credits and is excluded. Bug Hunt has no Fable 5.2 runs. By user direction this row keeps the Fable 5.1 result (Fable 5.1 (medium effort)) as a placeholder until Bug Hunt publishes Fable 5.2 runs: fixes, coverage and run cost are Fable 5.1’s, at Fable 5.1 API prices, while difficulty weights use this row’s Fable 5.2 scores.",
     "bugHunt": {
       "id": "Fable 5.1 (medium effort)",
       "fixed": 21,
@@ -2492,27 +2493,27 @@ td.tasks-cell{white-space:nowrap}
         "102": 1
       }
     },
-    "engineering": 50,
+    "engineering": 65,
     "aaIndexVersion": "5.0.1",
-    "aaIntelligenceExact": 43.171597828284,
-    "aaEngineeringExact": 50.2484300865801,
-    "aaTaskCostExact": 5.564264690221474,
+    "aaIntelligenceExact": 56.4083157101519,
+    "aaEngineeringExact": 64.7613626082251,
+    "aaTaskCostExact": 3.8026050641787634,
     "taskPriceFactor": 1,
-    "aaSource": "https://artificialanalysis.ai/models/claude-fable-5-1-medium",
-    "sourceDate": "2026-11-04"
+    "aaSource": "https://artificialanalysis.ai/models/claude-fable-5-2-medium",
+    "sourceDate": "2026-11-09"
   },
   {
     "id": "fable-high",
-    "model": "Claude Fable 5.1",
-    "short": "Fable 5.1",
+    "model": "Claude Fable 5.2",
+    "short": "Fable 5.2",
     "provider": "Claude",
     "country": "United States",
     "reasoning": "High",
-    "intelligence": 47,
-    "multiplier": 24.8,
-    "benchmarkCost": 7.54,
-    "tasks20": 66.0,
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Fable 5.1 (High, Default Fallback). Fable uses 24.8× per allocated subscription dollar: SemiAnalysis’s rounded 12.4× divided by its 50% plan allocation. This does not increase the actual allowance or include the rest of the plan. Applied across efforts as an assumption. Current AA task costs use the refreshed fallback/cache price basis; historical Bug Hunt run costs are retained as published. Current plans include Fable on Max $100 and Ultra $200, up to half the weekly allowance; Pro access uses separately paid credits and is excluded.",
+    "intelligence": 62,
+    "multiplier": 30.2,
+    "benchmarkCost": 9.08,
+    "tasks20": 66,
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 9 November 2026 for Claude Fable 5.2 (High, Default Fallback). Fable 5.2 uses 30.2× per allocated subscription dollar by user direction from Theo's 10 November 2026 estimate: $3,021 API-equivalent usage per 30 days / ($200 Ultra fee × 50% allocation). The estimate already uses Fable 5.2 API prices and excludes temporary launch resets. One account, extrapolated from 47% of one Fable allowance with about ±10% estimated uncertainty; source: https://x.com/theo/status/2119960608816988596 ; charts reproduced at https://herald.jaaaames.com/ . It does not increase the actual half-plan allowance or value the remaining half. Transferred to Max $100 and across efforts as comparison assumptions, not separate measurements. Current plans include Fable on Max $100 and Ultra $200, up to half the weekly allowance; Pro access uses separately paid credits and is excluded. Bug Hunt has no Fable 5.2 runs. By user direction this row keeps the Fable 5.1 result (Fable 5.1) as a placeholder until Bug Hunt publishes Fable 5.2 runs: fixes, coverage and run cost are Fable 5.1’s, at Fable 5.1 API prices, while difficulty weights use this row’s Fable 5.2 scores.",
     "bugHunt": {
       "id": "Fable 5.1",
       "fixed": 33,
@@ -2558,27 +2559,27 @@ td.tasks-cell{white-space:nowrap}
         "102": 1
       }
     },
-    "engineering": 54,
+    "engineering": 70,
     "aaIndexVersion": "5.0.1",
-    "aaIntelligenceExact": 47.174988245604,
-    "aaEngineeringExact": 54.2978176948052,
-    "aaTaskCostExact": 7.539956160226559,
+    "aaIntelligenceExact": 61.8218785440284,
+    "aaEngineeringExact": 69.6450651515152,
+    "aaTaskCostExact": 9.078414777860381,
     "taskPriceFactor": 1,
-    "aaSource": "https://artificialanalysis.ai/models/claude-fable-5-1-high",
-    "sourceDate": "2026-11-04"
+    "aaSource": "https://artificialanalysis.ai/models/claude-fable-5-2-high",
+    "sourceDate": "2026-11-09"
   },
   {
     "id": "fable-xhigh",
-    "model": "Claude Fable 5.1",
-    "short": "Fable 5.1",
+    "model": "Claude Fable 5.2",
+    "short": "Fable 5.2",
     "provider": "Claude",
     "country": "United States",
     "reasoning": "XHigh",
-    "intelligence": 50,
-    "multiplier": 24.8,
-    "benchmarkCost": 10.85,
-    "tasks20": 46.0,
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Fable 5.1 (Xhigh, Default Fallback). Fable uses 24.8× per allocated subscription dollar: SemiAnalysis’s rounded 12.4× divided by its 50% plan allocation. This does not increase the actual allowance or include the rest of the plan. Applied across efforts as an assumption. Current AA task costs use the refreshed fallback/cache price basis; historical Bug Hunt run costs are retained as published. Current plans include Fable on Max $100 and Ultra $200, up to half the weekly allowance; Pro access uses separately paid credits and is excluded.",
+    "intelligence": 62,
+    "multiplier": 30.2,
+    "benchmarkCost": 14.83,
+    "tasks20": 40,
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 9 November 2026 for Claude Fable 5.2 (Xhigh, Default Fallback). Fable 5.2 uses 30.2× per allocated subscription dollar by user direction from Theo's 10 November 2026 estimate: $3,021 API-equivalent usage per 30 days / ($200 Ultra fee × 50% allocation). The estimate already uses Fable 5.2 API prices and excludes temporary launch resets. One account, extrapolated from 47% of one Fable allowance with about ±10% estimated uncertainty; source: https://x.com/theo/status/2119960608816988596 ; charts reproduced at https://herald.jaaaames.com/ . It does not increase the actual half-plan allowance or value the remaining half. Transferred to Max $100 and across efforts as comparison assumptions, not separate measurements. Current plans include Fable on Max $100 and Ultra $200, up to half the weekly allowance; Pro access uses separately paid credits and is excluded. Bug Hunt has no Fable 5.2 runs. By user direction this row keeps the Fable 5.1 result (Fable 5.1 (xhigh effort)) as a placeholder until Bug Hunt publishes Fable 5.2 runs: fixes, coverage and run cost are Fable 5.1’s, at Fable 5.1 API prices, while difficulty weights use this row’s Fable 5.2 scores.",
     "bugHunt": {
       "id": "Fable 5.1 (xhigh effort)",
       "fixed": 29,
@@ -2620,27 +2621,27 @@ td.tasks-cell{white-space:nowrap}
         "102": 1
       }
     },
-    "engineering": 57,
+    "engineering": 70,
     "aaIndexVersion": "5.0.1",
-    "aaIntelligenceExact": 50.0216384248632,
-    "aaEngineeringExact": 57.2335588203463,
-    "aaTaskCostExact": 10.847474706140272,
+    "aaIntelligenceExact": 62.2167392403357,
+    "aaEngineeringExact": 70.2200483225108,
+    "aaTaskCostExact": 14.828587632511116,
     "taskPriceFactor": 1,
-    "aaSource": "https://artificialanalysis.ai/models/claude-fable-5-1-xhigh",
-    "sourceDate": "2026-11-04"
+    "aaSource": "https://artificialanalysis.ai/models/claude-fable-5-2-xhigh",
+    "sourceDate": "2026-11-09"
   },
   {
     "id": "fable-max",
-    "model": "Claude Fable 5.1",
-    "short": "Fable 5.1",
+    "model": "Claude Fable 5.2",
+    "short": "Fable 5.2",
     "provider": "Claude",
     "country": "United States",
     "reasoning": "Max",
-    "intelligence": 49,
-    "multiplier": 24.8,
-    "benchmarkCost": 12.99,
-    "tasks20": 38.0,
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for Claude Fable 5.1 (Max, Default Fallback). Fable uses 24.8× per allocated subscription dollar: SemiAnalysis’s rounded 12.4× divided by its 50% plan allocation. This does not increase the actual allowance or include the rest of the plan. Applied across efforts as an assumption. Current AA task costs use the refreshed fallback/cache price basis; historical Bug Hunt run costs are retained as published. Current plans include Fable on Max $100 and Ultra $200, up to half the weekly allowance; Pro access uses separately paid credits and is excluded.",
+    "intelligence": 65,
+    "multiplier": 30.2,
+    "benchmarkCost": 26.54,
+    "tasks20": 22,
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 9 November 2026 for Claude Fable 5.2 (Max, Default Fallback). Fable 5.2 uses 30.2× per allocated subscription dollar by user direction from Theo's 10 November 2026 estimate: $3,021 API-equivalent usage per 30 days / ($200 Ultra fee × 50% allocation). The estimate already uses Fable 5.2 API prices and excludes temporary launch resets. One account, extrapolated from 47% of one Fable allowance with about ±10% estimated uncertainty; source: https://x.com/theo/status/2119960608816988596 ; charts reproduced at https://herald.jaaaames.com/ . It does not increase the actual half-plan allowance or value the remaining half. Transferred to Max $100 and across efforts as comparison assumptions, not separate measurements. Current plans include Fable on Max $100 and Ultra $200, up to half the weekly allowance; Pro access uses separately paid credits and is excluded. Bug Hunt has no Fable 5.2 runs. By user direction this row keeps the Fable 5.1 result (Fable 5.1 (max effort)) as a placeholder until Bug Hunt publishes Fable 5.2 runs: fixes, coverage and run cost are Fable 5.1’s, at Fable 5.1 API prices, while difficulty weights use this row’s Fable 5.2 scores.",
     "bugHunt": {
       "id": "Fable 5.1 (max effort)",
       "fixed": 43,
@@ -2696,14 +2697,14 @@ td.tasks-cell{white-space:nowrap}
         "102": 1
       }
     },
-    "engineering": 57,
+    "engineering": 73,
     "aaIndexVersion": "5.0.1",
-    "aaIntelligenceExact": 49.1602124158081,
-    "aaEngineeringExact": 56.7394890151515,
-    "aaTaskCostExact": 12.993997201178466,
+    "aaIntelligenceExact": 64.563595756626,
+    "aaEngineeringExact": 72.638859469697,
+    "aaTaskCostExact": 26.53855780398091,
     "taskPriceFactor": 1,
-    "aaSource": "https://artificialanalysis.ai/models/claude-fable-5-1",
-    "sourceDate": "2026-11-04"
+    "aaSource": "https://artificialanalysis.ai/models/claude-fable-5-2",
+    "sourceDate": "2026-11-09"
   },
   {
     "id": "muse-standard-max",
@@ -2867,6 +2868,238 @@ td.tasks-cell{white-space:nowrap}
     "aaIntelligenceExact": 36.6172039139368,
     "aaEngineeringExact": 44.0583411255411,
     "aaTaskCostExact": 2.3857813858107244,
+    "taskPriceFactor": 1
+  },
+  {
+    "id": "muse-wonder-standard-max",
+    "model": "Muse Wonder Standard",
+    "short": "Wonder Standard",
+    "provider": "Muse Standard",
+    "country": "United States",
+    "reasoning": "Max",
+    "intelligence": 44,
+    "multiplier": 11.1,
+    "benchmarkCost": 6.95,
+    "tasks20": 32.0,
+    "sourceDate": "2026-11-09",
+    "aaSource": "https://artificialanalysis.ai/models/muse-wonder",
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 9 November 2026 for Muse Wonder (Max). Muse Code Power Usage ($50/month). Standard multiplier 11.1× uses Spark 1.3's derived Power value. Meta's Muse Ember documentation says requests over 200K input tokens use a Muse Code plan's usage faster, matching Ember's long-context API price tier, so Standard-mode plan usage is inferred to be metered at API-price weight; Spark 1.3's measured Standard multiplier therefore transfers by inference. No direct measurement exists for this model. Meta lists Muse Wonder on every Muse Code plan in both Standard and Contributor mode. Bug Hunt Max is a three-run Muse Code mean at Wonder's published list rates; its runs used a subscription whose recorded model IDs span Standard and Contributor mode, and its effort is first-party, not magnitude-probed. Both subscriptions duplicate the same evidence.",
+    "bugHunt": {
+      "id": "Muse Wonder 1.0 (max effort, Muse Code, Meta API) - mean of 3",
+      "fixed": 31.7,
+      "cost_usd": 27.87,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "date": "2026-10-13",
+      "coverage_runs": 3,
+      "bug_hits": {
+        "13": 3,
+        "16": 3,
+        "20": 3,
+        "21": 1,
+        "22": 3,
+        "25": 3,
+        "26": 1,
+        "27": 2,
+        "28": 2,
+        "29": 3,
+        "30": 3,
+        "37": 1,
+        "39": 3,
+        "43": 3,
+        "45": 2,
+        "47": 3,
+        "49": 3,
+        "50": 3,
+        "51": 2,
+        "60": 3,
+        "62": 3,
+        "66": 1,
+        "67": 1,
+        "69": 2,
+        "70": 3,
+        "71": 2,
+        "76": 3,
+        "77": 2,
+        "81": 1,
+        "82": 1,
+        "83": 3,
+        "84": 3,
+        "92": 1,
+        "93": 1,
+        "95": 2,
+        "96": 1,
+        "97": 3,
+        "98": 3,
+        "99": 3,
+        "100": 3,
+        "102": 3
+      },
+      "extras": 13.3
+    },
+    "engineering": 50,
+    "aaIndexVersion": "5.0.1",
+    "aaIntelligenceExact": 43.5748225998431,
+    "aaEngineeringExact": 49.5534664502164,
+    "aaTaskCostExact": 6.9520364786062245,
+    "taskPriceFactor": 1
+  },
+  {
+    "id": "muse-wonder-standard-high",
+    "model": "Muse Wonder Standard",
+    "short": "Wonder Standard",
+    "provider": "Muse Standard",
+    "country": "United States",
+    "reasoning": "High",
+    "intelligence": 41,
+    "multiplier": 11.1,
+    "benchmarkCost": 4.56,
+    "tasks20": 48.0,
+    "sourceDate": "2026-11-09",
+    "aaSource": "https://artificialanalysis.ai/models/muse-wonder-high",
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 9 November 2026 for Muse Wonder (High). Muse Code Power Usage ($50/month). Standard multiplier 11.1× uses Spark 1.3's derived Power value. Meta's Muse Ember documentation says requests over 200K input tokens use a Muse Code plan's usage faster, matching Ember's long-context API price tier, so Standard-mode plan usage is inferred to be metered at API-price weight; Spark 1.3's measured Standard multiplier therefore transfers by inference. No direct measurement exists for this model. Meta lists Muse Wonder on every Muse Code plan in both Standard and Contributor mode. No matching Bug Hunt High run; tasks only.",
+    "engineering": 47,
+    "aaIndexVersion": "5.0.1",
+    "aaIntelligenceExact": 40.5266079185604,
+    "aaEngineeringExact": 46.5172061147186,
+    "aaTaskCostExact": 4.560546278670271,
+    "taskPriceFactor": 1
+  },
+  {
+    "id": "muse-wonder-contributor-max",
+    "model": "Muse Wonder Contributor",
+    "short": "Wonder Contributor",
+    "provider": "Muse Contributor",
+    "country": "United States",
+    "reasoning": "Max",
+    "intelligence": 44,
+    "multiplier": 137,
+    "benchmarkCost": 6.95,
+    "tasks20": 394.0,
+    "sourceDate": "2026-11-09",
+    "aaSource": "https://artificialanalysis.ai/models/muse-wonder",
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 9 November 2026 for Muse Wonder (Max). Muse Code Power Usage ($50/month). Contributor multiplier 137× at Standard API prices transfers Spark 1.3's measured Contributor-to-Standard usage ratio (137 / 11.1 ≈ 12.3×) by assumption: Meta confirms Wonder's Contributor mode in Muse Code but does not state its usage uplift, and Wonder has no Contributor API price. Contributor allows Meta to train on submitted content. No extra Contributor API discount is applied. The Standard 11.1× base is itself inferred: Meta's Muse Ember documentation says requests over 200K input tokens use a Muse Code plan's usage faster, matching Ember's long-context API price tier, so Standard-mode plan usage is inferred to be metered at API-price weight; Spark 1.3's measured Standard multiplier therefore transfers by inference. No direct measurement exists for this model. Contributor shares Standard benchmark results by assumption. Bug Hunt Max is a three-run Muse Code mean at Wonder's published list rates; its runs used a subscription whose recorded model IDs span Standard and Contributor mode, and its effort is first-party, not magnitude-probed. Both subscriptions duplicate the same evidence.",
+    "bugHunt": {
+      "id": "Muse Wonder 1.0 (max effort, Muse Code, Meta API) - mean of 3",
+      "fixed": 31.7,
+      "cost_usd": 27.87,
+      "cost_kind": "list",
+      "n_runs": 3,
+      "date": "2026-10-13",
+      "coverage_runs": 3,
+      "bug_hits": {
+        "13": 3,
+        "16": 3,
+        "20": 3,
+        "21": 1,
+        "22": 3,
+        "25": 3,
+        "26": 1,
+        "27": 2,
+        "28": 2,
+        "29": 3,
+        "30": 3,
+        "37": 1,
+        "39": 3,
+        "43": 3,
+        "45": 2,
+        "47": 3,
+        "49": 3,
+        "50": 3,
+        "51": 2,
+        "60": 3,
+        "62": 3,
+        "66": 1,
+        "67": 1,
+        "69": 2,
+        "70": 3,
+        "71": 2,
+        "76": 3,
+        "77": 2,
+        "81": 1,
+        "82": 1,
+        "83": 3,
+        "84": 3,
+        "92": 1,
+        "93": 1,
+        "95": 2,
+        "96": 1,
+        "97": 3,
+        "98": 3,
+        "99": 3,
+        "100": 3,
+        "102": 3
+      },
+      "extras": 13.3
+    },
+    "engineering": 50,
+    "aaIndexVersion": "5.0.1",
+    "aaIntelligenceExact": 43.5748225998431,
+    "aaEngineeringExact": 49.5534664502164,
+    "aaTaskCostExact": 6.9520364786062245,
+    "taskPriceFactor": 1
+  },
+  {
+    "id": "muse-wonder-contributor-high",
+    "model": "Muse Wonder Contributor",
+    "short": "Wonder Contributor",
+    "provider": "Muse Contributor",
+    "country": "United States",
+    "reasoning": "High",
+    "intelligence": 41,
+    "multiplier": 137,
+    "benchmarkCost": 4.56,
+    "tasks20": 600.0,
+    "sourceDate": "2026-11-09",
+    "aaSource": "https://artificialanalysis.ai/models/muse-wonder-high",
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 9 November 2026 for Muse Wonder (High). Muse Code Power Usage ($50/month). Contributor multiplier 137× at Standard API prices transfers Spark 1.3's measured Contributor-to-Standard usage ratio (137 / 11.1 ≈ 12.3×) by assumption: Meta confirms Wonder's Contributor mode in Muse Code but does not state its usage uplift, and Wonder has no Contributor API price. Contributor allows Meta to train on submitted content. No extra Contributor API discount is applied. The Standard 11.1× base is itself inferred: Meta's Muse Ember documentation says requests over 200K input tokens use a Muse Code plan's usage faster, matching Ember's long-context API price tier, so Standard-mode plan usage is inferred to be metered at API-price weight; Spark 1.3's measured Standard multiplier therefore transfers by inference. No direct measurement exists for this model. Contributor shares Standard benchmark results by assumption. No matching Bug Hunt High run; tasks only.",
+    "engineering": 47,
+    "aaIndexVersion": "5.0.1",
+    "aaIntelligenceExact": 40.5266079185604,
+    "aaEngineeringExact": 46.5172061147186,
+    "aaTaskCostExact": 4.560546278670271,
+    "taskPriceFactor": 1
+  },
+  {
+    "id": "muse-ember-standard-max",
+    "model": "Muse Ember Standard",
+    "short": "Ember Standard",
+    "provider": "Muse Standard",
+    "country": "United States",
+    "reasoning": "Max",
+    "intelligence": 36,
+    "multiplier": 11.1,
+    "benchmarkCost": 0.14,
+    "tasks20": 1586.0,
+    "sourceDate": "2026-11-09",
+    "aaSource": "https://artificialanalysis.ai/models/muse-ember",
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 9 November 2026 for Muse Ember (Max). Muse Code Power Usage ($50/month). Standard multiplier 11.1× uses Spark 1.3's derived Power value. Meta's Muse Ember documentation says requests over 200K input tokens use a Muse Code plan's usage faster, matching Ember's long-context API price tier, so Standard-mode plan usage is inferred to be metered at API-price weight; Spark 1.3's measured Standard multiplier therefore transfers by inference. No direct measurement exists for this model. AA's task cost uses Ember's published rates; requests over 200K input tokens bill at 3× and draw plan usage faster. Ember runs only in Standard mode, including in Muse Code, so it has no Contributor row. No Bug Hunt runs; tasks only.",
+    "engineering": 42,
+    "aaIndexVersion": "5.0.1",
+    "aaIntelligenceExact": 36.0212987864912,
+    "aaEngineeringExact": 41.7630534090909,
+    "aaTaskCostExact": 0.1359356168986363,
+    "taskPriceFactor": 1
+  },
+  {
+    "id": "muse-ember-standard-xhigh",
+    "model": "Muse Ember Standard",
+    "short": "Ember Standard",
+    "provider": "Muse Standard",
+    "country": "United States",
+    "reasoning": "XHigh",
+    "intelligence": 34,
+    "multiplier": 11.1,
+    "benchmarkCost": 0.12,
+    "tasks20": 1850.0,
+    "sourceDate": "2026-11-09",
+    "aaSource": "https://artificialanalysis.ai/models/muse-ember-xhigh",
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 9 November 2026 for Muse Ember (Xhigh). Muse Code Power Usage ($50/month). Standard multiplier 11.1× uses Spark 1.3's derived Power value. Meta's Muse Ember documentation says requests over 200K input tokens use a Muse Code plan's usage faster, matching Ember's long-context API price tier, so Standard-mode plan usage is inferred to be metered at API-price weight; Spark 1.3's measured Standard multiplier therefore transfers by inference. No direct measurement exists for this model. AA's task cost uses Ember's published rates; requests over 200K input tokens bill at 3× and draw plan usage faster. Ember runs only in Standard mode, including in Muse Code, so it has no Contributor row. No Bug Hunt runs; tasks only.",
+    "engineering": 41,
+    "aaIndexVersion": "5.0.1",
+    "aaIntelligenceExact": 34.1149608609788,
+    "aaEngineeringExact": 40.9369623376623,
+    "aaTaskCostExact": 0.1162277983030469,
     "taskPriceFactor": 1
   },
   {
@@ -3309,12 +3542,12 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Low",
     "intelligence": 29,
-    "multiplier": 21.2,
+    "multiplier": 13.7,
     "benchmarkCost": 0.07,
-    "tasks20": 6058.0,
+    "tasks20": 3914,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-1-terra-low",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6.1 Terra (Low). ChatGPT 21.2× is a supplied subscription-value assumption, not a Terra-specific allowance measurement. All five efforts now have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6.1 Terra (Low). Community Plus estimate 6.85×, checked 10 November 2026: https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/ . One account using Pi upstream-token API pricing, fresh five-hour windows and context below 272k. The source extrapolates six windows per week and a 30-day month; its rounded monthly API value / $20 gives the Plus multiplier. These are provisional workload estimates, not independently verified full-week allowances. Terra was tested in the update. By user direction, Pro $100/$200/$500 scale the Plus API value by 2 × (fee / $20), so their multiplier is 13.7× per subscription dollar; Plus stays 6.85×. Applied across efforts as an assumption. All five efforts have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier.",
     "bugHunt": {
       "id": "GPT-6.1 Terra (low effort) - mean of 3",
       "fixed": 6,
@@ -3350,12 +3583,12 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Medium",
     "intelligence": 38,
-    "multiplier": 21.2,
+    "multiplier": 13.7,
     "benchmarkCost": 0.17,
-    "tasks20": 2494.0,
+    "tasks20": 1612,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-1-terra-medium",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6.1 Terra (Medium). ChatGPT 21.2× is a supplied subscription-value assumption, not a Terra-specific allowance measurement. All five efforts now have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6.1 Terra (Medium). Community Plus estimate 6.85×, checked 10 November 2026: https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/ . One account using Pi upstream-token API pricing, fresh five-hour windows and context below 272k. The source extrapolates six windows per week and a 30-day month; its rounded monthly API value / $20 gives the Plus multiplier. These are provisional workload estimates, not independently verified full-week allowances. Terra was tested in the update. By user direction, Pro $100/$200/$500 scale the Plus API value by 2 × (fee / $20), so their multiplier is 13.7× per subscription dollar; Plus stays 6.85×. Applied across efforts as an assumption. All five efforts have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier.",
     "bugHunt": {
       "id": "GPT-6.1 Terra (medium effort) - mean of 3",
       "fixed": 7.3,
@@ -3391,12 +3624,12 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "High",
     "intelligence": 42,
-    "multiplier": 21.2,
+    "multiplier": 13.7,
     "benchmarkCost": 0.26,
-    "tasks20": 1630.0,
+    "tasks20": 1054,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-1-terra-high",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6.1 Terra (High). ChatGPT 21.2× is a supplied subscription-value assumption, not a Terra-specific allowance measurement. All five efforts now have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6.1 Terra (High). Community Plus estimate 6.85×, checked 10 November 2026: https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/ . One account using Pi upstream-token API pricing, fresh five-hour windows and context below 272k. The source extrapolates six windows per week and a 30-day month; its rounded monthly API value / $20 gives the Plus multiplier. These are provisional workload estimates, not independently verified full-week allowances. Terra was tested in the update. By user direction, Pro $100/$200/$500 scale the Plus API value by 2 × (fee / $20), so their multiplier is 13.7× per subscription dollar; Plus stays 6.85×. Applied across efforts as an assumption. All five efforts have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier.",
     "bugHunt": {
       "id": "GPT-6.1 Terra (high effort) - mean of 3",
       "fixed": 9.7,
@@ -3437,12 +3670,12 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "XHigh",
     "intelligence": 45,
-    "multiplier": 21.2,
+    "multiplier": 13.7,
     "benchmarkCost": 0.4,
-    "tasks20": 1060.0,
+    "tasks20": 684,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-1-terra-xhigh",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6.1 Terra (Xhigh). ChatGPT 21.2× is a supplied subscription-value assumption, not a Terra-specific allowance measurement. All five efforts now have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6.1 Terra (Xhigh). Community Plus estimate 6.85×, checked 10 November 2026: https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/ . One account using Pi upstream-token API pricing, fresh five-hour windows and context below 272k. The source extrapolates six windows per week and a 30-day month; its rounded monthly API value / $20 gives the Plus multiplier. These are provisional workload estimates, not independently verified full-week allowances. Terra was tested in the update. By user direction, Pro $100/$200/$500 scale the Plus API value by 2 × (fee / $20), so their multiplier is 13.7× per subscription dollar; Plus stays 6.85×. Applied across efforts as an assumption. All five efforts have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier.",
     "bugHunt": {
       "id": "GPT-6.1 Terra (xhigh effort) - mean of 3",
       "fixed": 11.3,
@@ -3487,12 +3720,12 @@ td.tasks-cell{white-space:nowrap}
     "country": "United States",
     "reasoning": "Max",
     "intelligence": 51,
-    "multiplier": 21.2,
+    "multiplier": 13.7,
     "benchmarkCost": 0.96,
-    "tasks20": 442.0,
+    "tasks20": 286,
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-1-terra",
     "sourceDate": "2026-11-04",
-    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6.1 Terra (Max). ChatGPT 21.2× is a supplied subscription-value assumption, not a Terra-specific allowance measurement. All five efforts now have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier. Multiplier doubled on 29 October 2026 by user direction following the reported usage-limit increase for $100/$200/$500 tiers.",
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 4 November 2026 for GPT-6.1 Terra (Max). Community Plus estimate 6.85×, checked 10 November 2026: https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/ . One account using Pi upstream-token API pricing, fresh five-hour windows and context below 272k. The source extrapolates six windows per week and a 30-day month; its rounded monthly API value / $20 gives the Plus multiplier. These are provisional workload estimates, not independently verified full-week allowances. Terra was tested in the update. By user direction, Pro $100/$200/$500 scale the Plus API value by 2 × (fee / $20), so their multiplier is 13.7× per subscription dollar; Plus stays 6.85×. Applied across efforts as an assumption. All five efforts have complete three-run Bug Hunt means. Observed spreads are not reliability guarantees. Max includes long-context request pricing and is below the account Ultra tier.",
     "bugHunt": {
       "id": "GPT-6.1 Terra (max effort) - mean of 3",
       "fixed": 40.7,
@@ -3983,7 +4216,7 @@ td.tasks-cell{white-space:nowrap}
     const bugScore = model => {const credit = bugCredit(model);return credit === null ? null : credit - bugPenalty(model);};
     const totalFixes = model => model.bugHunt.fixed + model.bugHunt.extras;
     const resetCostFactor = model => controls['early-resets'].checked && model.provider === 'ChatGPT' ? 3 / 7 : 1;
-    const subscriptionTiers = {Claude:[{price:20,name:'Pro',factor:1,excludedModels:['Claude Fable 5.1']},{price:100,name:'Max $100',factor:1},{price:200,name:'Ultra',factor:1}],Kimi:[{price:19,name:'Plus',factor:1},{price:39,name:'Pro',factor:2*19/39},{price:99,name:'Max',factor:5*19/99},{price:199,name:'Ultra',factor:10*19/199}],'Antigravity Ultra 5x':[{price:99.99,name:'Ultra 5x',factor:1}],'X Subscription':[{price:8,name:'Plus (provisional)',factor:1,reasoning:['Medium']},{price:30,name:'Premium (provisional)',factor:16/15},{price:100,name:'Super (provisional)',factor:1.2},{price:200,name:'Ultra (provisional)',factor:2}],'OpenCode Go':[{price:10,name:'Go',factor:1},{price:40,name:'Go Plus',modelFactors:{'deepseek-flash-1017-max':.5,'deepseek-flash-1017-high':.5,'go-glm-5-3-max':2,'go-glm-5-3-low':2,'go-glm-5-3-flash':.75,'go-mimo-v2-6-flash':.5}}],ChatGPT:[{price:20,name:'Plus',factor:.5},{price:100,name:'Pro $100',factor:1},{price:200,name:'Pro $200',factor:1},{price:500,name:'Pro $500',factor:1}],'Muse Standard':[{price:5,name:'Everyday',multiplier:5.6},{price:15,name:'High Usage',multiplier:9.3},{price:50,name:'Power Usage',multiplier:11.1},{price:200,name:'Maximum',multiplier:11.1}],'Muse Contributor':[{price:5,name:'Everyday',multiplier:68.4},{price:15,name:'High Usage',multiplier:114},{price:50,name:'Power Usage',multiplier:137},{price:200,name:'Maximum',multiplier:137}]};
+    const subscriptionTiers = {Claude:[{price:20,name:'Pro',factor:1,excludedModels:['Claude Fable 5.2']},{price:100,name:'Max $100',factor:1},{price:200,name:'Ultra',factor:1}],Kimi:[{price:19,name:'Plus',factor:1},{price:39,name:'Pro',factor:2*19/39},{price:99,name:'Max',factor:5*19/99},{price:199,name:'Ultra',factor:10*19/199}],'Antigravity Ultra 5x':[{price:99.99,name:'Ultra 5x',factor:1}],'X Subscription':[{price:8,name:'Plus (provisional)',factor:1,reasoning:['Medium']},{price:30,name:'Premium (provisional)',factor:16/15},{price:100,name:'Super (provisional)',factor:1.2},{price:200,name:'Ultra (provisional)',factor:2}],'OpenCode Go':[{price:10,name:'Go',factor:1},{price:40,name:'Go Plus',modelFactors:{'deepseek-flash-1017-max':.5,'deepseek-flash-1017-high':.5,'go-glm-5-3-max':2,'go-glm-5-3-low':2,'go-glm-5-3-flash':.75,'go-mimo-v2-6-flash':.5}}],ChatGPT:[{price:20,name:'Plus',factor:.5},{price:100,name:'Pro $100',factor:1},{price:200,name:'Pro $200',factor:1},{price:500,name:'Pro $500',factor:1}],'Muse Standard':[{price:5,name:'Everyday',multiplier:5.6},{price:15,name:'High Usage',multiplier:9.3},{price:50,name:'Power Usage',multiplier:11.1},{price:200,name:'Maximum',multiplier:11.1}],'Muse Contributor':[{price:5,name:'Everyday',multiplier:68.4},{price:15,name:'High Usage',multiplier:114},{price:50,name:'Power Usage',multiplier:137},{price:200,name:'Maximum',multiplier:137}]};
     const costRanges = {5:[5,5],15:[8,15],30:[19,30],60:[39,60],100:[99,100],500:[199,500]};
     const multiplierForTier = (model,tier) => tier?.multiplier ?? model.multiplier * (tier?.modelFactors?.[model.id] ?? tier?.factor ?? 1);
     const selectedTier = model => (subscriptionTiers[model.provider] ?? []).filter(tier => (!tier.reasoning || tier.reasoning.includes(model.reasoning)) && !tier.excludedModels?.includes(model.model) && (budget === 'best' || (tier.price >= costRanges[budget][0] && tier.price <= costRanges[budget][1]))).reduce((best,tier) => !best || multiplierForTier(model,tier) > multiplierForTier(model,best) || (multiplierForTier(model,tier) === multiplierForTier(model,best) && tier.price < best.price) ? tier : best,undefined);
