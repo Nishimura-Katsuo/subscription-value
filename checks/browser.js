@@ -11,11 +11,11 @@
   const assertRows = (expected,message) => assert([...get('rows').querySelectorAll('.model-button')].map(button => button.dataset.id).sort().join(',') === expected.map(model => model.id).sort().join(','),message);
   const taskModels = models.filter(model => metricValue(model,'tasks') !== null);
   const bugModels = models.filter(model => metricValue(model,'bugs') !== null);
-  const defaultTasks = taskModels.filter(model => model.engineering >= 43);
+  const defaultTasks = taskModels.filter(model => model.engineering >= 46);
   const familyMatch = model => /Haiku|Luna|DeepSeek/.test(model.model);
   const goTasks = taskModels.filter(model => model.provider === 'OpenCode Go');
   const goBugs = bugModels.filter(model => model.provider === 'OpenCode Go');
-  assert(get('intelligence-basis').value === 'engineering' && get('floor').value === '43', 'Engineering and its default floor are selected on load');
+  assert(get('intelligence-basis').value === 'engineering' && get('floor').value === '46', 'Engineering and its default floor are selected on load');
   assertRows(defaultTasks, 'Default Engineering task configurations');
   assert(get('budget').options[0].value === 'best' && get('budget').value === 'best' && budget === 'best' && estimate(shown[0]) === metricValue(shown[0],'tasks') / 20, 'Best is the first and default cost option, with values per subscription dollar');
   assert(get('task-sort-label').textContent.includes('Tasks / $1 subscription spend'), 'Default throughput labels use one dollar');
@@ -149,13 +149,13 @@
   assertRows(goBugs, 'Subscription search includes all matching bug configurations');
   get('reset').click();
   change('search','china','input');
-  assert(shown.length > 0 && shown.every(model => model.country === 'China' && model.engineering >= 43), 'Country search respects the intelligence floor');
+  assert(shown.length > 0 && shown.every(model => model.country === 'China' && model.engineering >= 46), 'Country search respects the intelligence floor');
   get('reset').click();
   const unfilteredTaskFrontier = pareto(models.filter(model => metricValue(model,'tasks') !== null));
   const unfilteredTaskIds = unfilteredTaskFrontier.map(model => model.id).sort().join(',');
-  const aboveDefaultFloor = unfilteredTaskFrontier.filter(model => model.engineering >= 43);
+  const aboveDefaultFloor = unfilteredTaskFrontier.filter(model => model.engineering >= 46);
   const aboveDefaultIds = aboveDefaultFloor.map(model => model.id).sort().join(',');
-  assert(unfilteredTaskFrontier.some(model => model.engineering < 43), 'Fixture distinguishes unfiltered frontier from the default floor');
+  assert(unfilteredTaskFrontier.some(model => model.engineering < 46), 'Fixture distinguishes unfiltered frontier from the default floor');
   for(const term of ['pareto',' PaReTo ']){
     change('search',term,'input');
     assert(shown.map(model => model.id).sort().join(',') === aboveDefaultIds, 'Pareto search uses global membership and respects the default intelligence floor: ' + term);
@@ -193,7 +193,7 @@
   assert(get('frontier-only').checked && shown.every(model => frontier.includes(model)), 'Keyword changes preserve a manually selected frontier-only checkbox');
   get('reset').click();
   const taskFloors = [...get('floor').options].map(option => Number(option.value));
-  const taskScores = [...new Set([0,43,...JSON.parse(get('comparison-data').textContent).filter(model => model.tasks20 !== null && model.engineering !== null).map(model => model.engineering)])].sort((a,b) => a-b);
+  const taskScores = [...new Set([0,46,...JSON.parse(get('comparison-data').textContent).filter(model => model.tasks20 !== null && model.engineering !== null).map(model => model.engineering)])].sort((a,b) => a-b);
   assert(taskFloors.join(',') === taskScores.join(','), 'AA floor covers every published task score in order');
   change('floor', '46');
   assert([...get('rows').querySelectorAll('tr')].every(row => Number(row.cells[4].textContent) >= 46), 'New AA floor cutoff filters configurations');
@@ -332,7 +332,7 @@
   change('search','GPT-6.1 Terra','input');
   const terraTasks = taskModels.filter(model => model.model === 'GPT-6.1 Terra');
   const terraBugs = bugModels.filter(model => model.model === 'GPT-6.1 Terra');
-  assertRows(terraTasks.filter(model => model.engineering >= 43), 'Terra default view follows the configured floor');
+  assertRows(terraTasks.filter(model => model.engineering >= 46), 'Terra default view follows the configured floor');
   change('floor','0');
   assertRows(terraTasks, 'All Terra reasoning configurations appear with no floor');
   assert(document.querySelectorAll('.chart-point').length === terraTasks.length, 'Each matching Terra configuration has a chart point');
@@ -357,7 +357,7 @@
   change('search','kimi','input');
   const kimiTasks = taskModels.filter(model => model.model.toLowerCase().includes('kimi'));
   const kimiBugs = bugModels.filter(model => model.model.toLowerCase().includes('kimi'));
-  assertRows(kimiTasks.filter(model => model.engineering >= 43), 'Kimi search respects the default floor');
+  assertRows(kimiTasks.filter(model => model.engineering >= 46), 'Kimi search respects the default floor');
   change('floor', '0');
   assertRows(kimiTasks, 'Kimi search includes all matching subscription configurations');
   assert(document.querySelectorAll('.chart-point').length === kimiTasks.length, 'Each matching Kimi configuration has a chart point');
@@ -367,7 +367,7 @@
   assert(get('detail').textContent.includes('25 / 105') && get('detail').textContent.includes('verified source API bill'), 'K3.1 Pro coverage and bill provenance');
   get('reset').click();
   change('search','opencode go','input');
-  assertRows(goTasks.filter(model => model.engineering >= 43), 'Go task rows respect the default floor');
+  assertRows(goTasks.filter(model => model.engineering >= 46), 'Go task rows respect the default floor');
   change('floor','0');
   assert(get('rows').querySelector('[data-id="deepseek-flash-1017-max"]'), 'Flash task row appears without a floor');
   get('rows').querySelector('[data-id="deepseek-flash-1017-max"]').click();
@@ -411,7 +411,7 @@
   get('reset').click();
   change('search','chatgpt','input');
   const subscriptionMatches = shown.map(model => model.id);
-  const globalMatches = pareto(models.filter(model => metricValue(model,'tasks') !== null)).filter(model => model.engineering >= 43).map(model => model.id);
+  const globalMatches = pareto(models.filter(model => metricValue(model,'tasks') !== null)).filter(model => model.engineering >= 46).map(model => model.id);
   change('search','chatgpt,pareto','input');
   assert(shown.map(model => model.id).sort().join(',') === [...new Set([...subscriptionMatches,...globalMatches])].sort().join(','), 'Subscription terms combine with the global Pareto frontier using OR');
   change('search','opencode go','input');
@@ -432,15 +432,15 @@
   const axis = document.querySelector('.chart-axis');
   assert(parseFloat(getComputedStyle(axis).fontSize) * get('chart').getBoundingClientRect().width / 1000 >= 11.9, 'Chart type remains at least 12 CSS pixels');
   get('reset').click();
-  assert(get('intelligence-basis').value === 'engineering' && get('floor').value === '43', 'Reset uses Engineering Intelligence and its configured default floor');
+  assert(get('intelligence-basis').value === 'engineering' && get('floor').value === '46', 'Reset uses Engineering Intelligence and its configured default floor');
   change('intelligence-basis','intelligence');
-  assert(get('floor').value === '38', 'General retains its independent default floor');
+  assert(get('floor').value === '42', 'General retains its independent default floor');
   const probeBasis = models.find(model => model.id === 'sol-medium');
   const generalTasks = metricValue(probeBasis,'tasks'), generalCost = metricValue(probeBasis,'bugs'), generalRating = bugScore(probeBasis);
   change('floor','50');
   change('intelligence-basis','engineering');
-  assert(get('floor').value === '43', 'Engineering starts at its independent default floor');
-  assertRows(taskModels.filter(model => model.engineering >= 43), 'Engineering filters use the active score');
+  assert(get('floor').value === '46', 'Engineering starts at its independent default floor');
+  assertRows(taskModels.filter(model => model.engineering >= 46), 'Engineering filters use the active score');
   assert(get('chart').textContent.includes('Engineering'), 'Chart identifies Engineering Intelligence');
   assert([...get('rows').querySelectorAll('tr')].every(row => Number(row.cells[4].textContent) === models.find(model => model.id === row.querySelector('.model-button').dataset.id).engineering), 'Table score column uses Engineering Intelligence');
   assert([...document.querySelectorAll('.chart-point')].every(point => point.getAttribute('aria-label').includes('engineering intelligence')), 'Chart accessible names identify the active task basis');
@@ -453,7 +453,7 @@
 
   assert(metricValue(probeBasis,'tasks') === generalTasks && metricValue(probeBasis,'bugs') === generalCost, 'Changing intelligence basis leaves task throughput and cost unchanged');
   assert(bugScore(probeBasis) !== generalRating && calibration().minimumWeight === 19, 'Engineering recalibrates weights and missed-bug penalties');
-  change('floor','46');
+  change('floor','49');
   change('intelligence-basis','intelligence');
   assert(get('floor').value === '50' && calibration().minimumWeight === 10, 'General task floor and calibration are restored');
   mode('bugs');
@@ -470,7 +470,7 @@
   change('search','','input');
   change('floor','250');
   mode('tasks');
-  assert(get('floor').value === '46', 'Engineering task floor survives mode changes');
+  assert(get('floor').value === '49', 'Engineering task floor survives mode changes');
   mode('bugs');
   assert(get('floor').value === '250', 'Engineering bug floor survives mode changes');
   change('intelligence-basis','intelligence');
@@ -481,7 +481,7 @@
   assert(Math.abs(metricValue(probeBasis,'tasks') / generalTasks - 7/3) < 1e-12 && bugScore(probeBasis) === engineeringScore, 'Engineering early resets alter cost and throughput, preserving ratings');
   get('reset').click();
   assertRows(defaultTasks, 'Reset restores default Engineering task configurations');
-  assert(get('intelligence-basis').value === 'engineering' && get('floor').value === '43' && !get('early-resets').checked && get('penalty').value === '2', 'Reset clears basis, all floor memories, reset scenario, and penalty');
+  assert(get('intelligence-basis').value === 'engineering' && get('floor').value === '46' && !get('early-resets').checked && get('penalty').value === '2', 'Reset clears basis, all floor memories, reset scenario, and penalty');
   const urls = [], downloads = [];
   const createURL = URL.createObjectURL, revokeURL = URL.revokeObjectURL, click = HTMLAnchorElement.prototype.click;
   try {

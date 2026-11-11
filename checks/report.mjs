@@ -26,20 +26,20 @@ const expected = {
   "firstTenTasks": [894, 1178.0, 598, 718.0, 424, 358, 558.0, 242, 66.0, 54.0],
   "bases": {
     "intelligence": {
-      "defaultFloor": 38,
-      "defaultTaskCount": 35,
+      "defaultFloor": 42,
+      "defaultTaskCount": 32,
       "allTaskFrontier": ["luna-low", "haiku-low", "haiku-medium", "haiku-high", "haiku-xhigh", "haiku-max", "terra-medium", "sol-medium", "sol-high", "sol-xhigh", "sol-max", "opus-xhigh", "opus-max", "fable-high", "fable-max"],
-      "defaultTaskFrontier": ["terra-medium", "sol-medium", "sol-high", "sol-xhigh", "sol-max", "opus-xhigh", "opus-max", "fable-high", "fable-max"],
+      "defaultTaskFrontier": ["sol-medium", "sol-high", "sol-xhigh", "sol-max", "opus-xhigh", "opus-max", "fable-high", "fable-max"],
       "bugCount": 56,
       "ratedBugs": 62,
       "minimumWeight": 10,
       "weights": { "1": null, "2": null, "3": null, "4": null, "5": null, "6": null, "7": null, "8": null, "9": null, "10": null, "11": null, "12": null, "13": 28, "14": null, "15": null, "16": 25, "17": 52, "18": null, "19": null, "20": 18, "21": 52, "22": 35, "23": 28, "24": null, "25": 19, "26": 29, "27": 29, "28": 42, "29": 29, "30": 10, "31": null, "32": 65, "33": 30, "34": 30, "35": 43, "36": 43, "37": 31, "38": null, "39": 26, "40": 32, "41": 43, "42": null, "43": 19, "44": 27, "45": 19, "46": 48, "47": 23, "48": null, "49": 10, "50": 23, "51": 52, "52": null, "53": null, "54": null, "55": null, "56": null, "57": null, "58": null, "59": 65, "60": 35, "61": 42, "62": 23, "63": null, "64": 50, "65": null, "66": null, "67": null, "68": 35, "69": 50, "70": 30, "71": 19, "72": null, "73": 52, "74": 52, "75": null, "76": 19, "77": 18, "78": 65, "79": 50, "80": 51, "81": null, "82": 33, "83": 21, "84": 19, "85": null, "86": null, "87": null, "88": null, "89": null, "90": 50, "91": 50, "92": 23, "93": 50, "94": 50, "95": 52, "96": 50, "97": 19, "98": 19, "99": 10, "100": 10, "101": null, "102": 32, "103": null, "104": null, "105": 50 }, "allBugFrontier": [ "luna-high", "luna-max", "luna-xhigh", "deepseek-flash-1017-high", "deepseek-flash-1017-max", "sol-medium", "sol-high", "sol-xhigh", "sol-max", "astra-xhigh", "fable-max" ], "negativeRatings": 20, "scoreRange": [ -332.6203306974959, 1205.9205383511296 ], "scores": { "sonnet-high": 546.1279312459842, "sol-medium": 380.4900786655037, "opus-medium": 344.05077237155956, "sol-high": 522.689495961107, "opus-high": 413.29090028331217, "sonnet-xhigh": 395.9907206305128, "sol-xhigh": 793.880816869549, "opus-xhigh": 498.4021399208676, "grok-high": -102.46028003320072, "grok-xhigh": 52.676801801821625, "sonnet-low": -28.378823920520006, "sonnet-medium": 2.1449856032895696, "sonnet-max": 835.4814660554014, "opus-low": -5.534649516493914, "opus-max": 759.9843993392944, "sol-low": 12.445413372824873, "sol-max": 850.3125753500982, "astra-low": 489.95546298296733, "astra-medium": 771.1155577630842, "astra-high": 793.3091044125132, "astra-xhigh": 1109.9154277095454, "astra-max": 813.4210361572887, "luna-low": -330.8425529197181, "luna-medium": -332.6203306974959, "luna-high": -182.62868491637641, "luna-xhigh": -27.208649320139443, "luna-max": -179.2373805685503, "haiku-low": -124.63202660392864, "haiku-medium": -89.87789489785183, "haiku-high": -93.63453286959276, "haiku-xhigh": -124.98875175012745, "haiku-max": 107.79323695476822, "grok-low": -260.063711689264, "fable-low": 531.8172379225367, "fable-medium": 268.914705705269, "fable-high": 698.1063219902869, "fable-xhigh": 519.7585008416568, "fable-max": 1205.9205383511296, "muse-standard-max": 42.09063777720257, "muse-contributor-max": 42.09063777720257, "muse-wonder-standard-max": 295.11417362832464, "muse-wonder-contributor-max": 295.11417362832464, "kimi-k3-1-pro-max": 364.5098819616228, "deepseek-flash-1017-max": 218.42993145724037, "go-mimo-v2-6-pro": -11.406716952989655, "go-kimi-k3-1-pro-max": 364.5098819616228, "go-glm-5-3-max": 158.2478671199247, "terra-low": -331.3162371302444, "terra-medium": -258.87179268579996, "terra-high": -228.87179268579996, "terra-xhigh": -299.62058495633136, "terra-max": 425.85807008052524, "antigravity-ultra-5x-argon-high": 729.3180165690097, "go-glm-5-3-flash": -70.85195118312095, "go-mimo-v2-6-flash": -86.16864593002163, "deepseek-flash-1017-high": 47.861885587845165 }
     },
     "engineering": {
-      "defaultFloor": 43,
-      "defaultTaskCount": 40,
+      "defaultFloor": 46,
+      "defaultTaskCount": 34,
       "allTaskFrontier": ["luna-low", "haiku-low", "haiku-medium", "haiku-high", "haiku-xhigh", "haiku-max", "sol-medium", "sol-high", "sol-xhigh", "opus-high", "sol-max", "opus-xhigh", "fable-medium", "fable-high", "fable-max"],
-      "defaultTaskFrontier": ["haiku-max", "sol-medium", "sol-high", "sol-xhigh", "opus-high", "sol-max", "opus-xhigh", "fable-medium", "fable-high", "fable-max"],
+      "defaultTaskFrontier": ["sol-medium", "sol-high", "sol-xhigh", "opus-high", "sol-max", "opus-xhigh", "fable-medium", "fable-high", "fable-max"],
       "bugCount": 56,
       "ratedBugs": 62,
       "minimumWeight": 19,
@@ -222,6 +222,7 @@ assert.ok(byId('go-mimo-v2-6-pro').taskPriceFactor > 1 && byId('go-qwen3-8-max-0
 for(const [basis,facts] of Object.entries(expected.bases)){
   const api = create(data,basis), {context,calibration,reliableBugs,bugCredit,bugPenalty,bugScore,metricValue,rating,pareto} = api;
   assert.equal(api.defaultIntelligenceFloor(),facts.defaultFloor);
+  assert.equal(api.defaultIntelligenceFloor(),byId('terra-high')[basis]);
   assert.equal(data.filter(m => rating(m) >= facts.defaultFloor).length,facts.defaultTaskCount);
   assert.deepEqual(plain(calibration().weights),facts.weights);
   assert.equal(calibration().minimumWeight,facts.minimumWeight);

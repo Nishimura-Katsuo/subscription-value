@@ -18,7 +18,7 @@ The embedded JSON in [docs/index.html](docs/index.html), configuration details, 
 
 The **General / Engineering** selector chooses the score used for task comparisons and bug difficulty calibration. General uses `intelligence` (AA Intelligence Index v5.0.1); Engineering uses `engineering` (AA Engineering Index). Changing the basis updates task ratings, rating sorting and filters, bug weights and minimum penalty anchor, bug ratings, rankings, Pareto frontiers, details, and CSV exports.
 
-Engineering is the default. The default task floors are **38 General** and **43 Engineering**, selected as comparison thresholds. Each metric/basis combination remembers its own floor. Bugs mode defaults to **No floor** in both bases. Reset all restores Engineering, the default floors, and penalty strength `2`.
+Engineering is the default. The default task floors are **42 General** and **46 Engineering**, matching Terra 6.1 High’s recorded intelligence scores. Each metric/basis combination remembers its own floor. Bugs mode defaults to **No floor** in both bases. Reset all restores Engineering, the default floors, and penalty strength `2`.
 
 **Task throughput always uses AA's General Intelligence Index workload cost**, including when Engineering is selected. The Engineering setting changes the capability comparison and bug calibration; it does not turn that cost into an engineering-specific task cost.
 
