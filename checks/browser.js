@@ -96,6 +96,17 @@
   }
   change('floor','0');
   assertRows(taskModels, 'Removing the task floor shows all task configurations');
+  const sol62 = taskModels.filter(model => model.model === 'GPT-6.2 Sol');
+  change('search','GPT-6.2 Sol','input');
+  assert(sol62.length === 5, 'Sol 6.2 has all five benchmark efforts');
+  assertRows(sol62, 'Sol 6.2 search shows the task configurations');
+  change('budget','30');
+  assertRows(sol62, 'Sol 6.2 is eligible on Plus');
+  assert(sol62.every(model => tierMultiplier(model) === 12.85), 'Sol 6.2 uses the Plus estimate');
+  mode('bugs');
+  assertRows([], 'Sol 6.2 has no matching Bug Hunt result');
+  get('reset').click();
+  change('floor','0');
   const argonModels = taskModels.filter(model => model.model === 'Gemini 4 Argon');
   const carbonModels = taskModels.filter(model => model.model === 'Gemini 4 Carbon');
   const geminiModels = [...argonModels,...carbonModels];
@@ -301,14 +312,18 @@
     assert(!get('penalty-error').hidden && get('penalty').getAttribute('aria-invalid') === 'true', 'Invalid penalty has accessible feedback: ' + invalid);
     assert(bugScore(probe) === lastValidScore, 'Invalid input retains the last valid rating');
   }
-  change('penalty','0','input');
-  change('floor','1500');
   change('penalty','2','input');
-  assert(get('floor').value === '1500' && shown.length === 0, 'Changing strength preserves a selected floor outside the new range');
+  const maxPenalizedRating = Math.max(...bugModels.map(bugScore));
+  change('penalty','0','input');
+  const highFloor = bugFloorSteps().find(step => step > maxPenalizedRating)?.toString();
+  assert(highFloor, 'An unpenalized floor exceeds the penalized rating range');
+  change('floor',highFloor);
+  change('penalty','2','input');
+  assert(get('floor').value === highFloor && shown.length === 0, 'Changing strength preserves a selected floor outside the new range');
   mode('tasks');
   assert(get('penalty').closest('label').hidden && penaltyStrength === 2, 'Tasks mode hides the input and remembers its setting');
   mode('bugs');
-  assert(get('penalty').value === '2' && get('floor').value === '1500', 'Returning to bugs preserves strength and floor');
+  assert(get('penalty').value === '2' && get('floor').value === highFloor, 'Returning to bugs preserves strength and floor');
   change('floor','-Infinity');
   change('penalty','1000000','input');
   assertRows(bugModels, 'Large strengths preserve all rated configurations under no floor');
@@ -505,7 +520,7 @@
       assert(Number(row[column('Bug-fix rating')]) === bugScore(model), 'CSV retains full signed rating precision');
       assert(Number(row[column('Difficulty credit')]) === bugCredit(model) && Number(row[column('Miss penalty')]) === bugPenalty(model), 'CSV rating components agree with calculations');
       assert(Number(row[column('General Intelligence')]) === model.intelligence && Number(row[column('Engineering Index')]) === model.engineering && row[column('Intelligence basis')] === 'Engineering Intelligence' && row[column('AA index version')] === '5.0.1', 'CSV records both scores and active basis');
-      assert(Number(row[column('Minimum calibrated difficulty')]) === 19 && Number(row[column('Calibrated planted bugs')]) === 62, 'CSV calibration follows Engineering');
+      assert(Number(row[column('Minimum calibrated difficulty')]) === 19 && Number(row[column('Calibrated planted bugs')]) === 63, 'CSV calibration follows Engineering');
       assert(Number(row[column('AA General Intelligence exact')]) === model.aaIntelligenceExact && Number(row[column('AA Engineering Intelligence exact')]) === model.aaEngineeringExact && Number(row[column('Task benchmark cost used (USD)')]) === model.benchmarkCost, 'CSV preserves raw AA provenance and converted task cost');
       assert(Number(row[column('Penalty strength')]) === 3, 'CSV records the selected nondefault penalty strength');
     }
@@ -525,6 +540,10 @@
   }
   document.querySelector('[data-open-method]').click();
   assert(get('method').open, 'Method shortcut opens disclosure');
+  get('method').open = false;
+  document.querySelector('a[href="#gpt-6-2-launch"]').click();
+  const astraTable = get('gpt-6-2-launch').parentElement.querySelector('table');
+  assert(get('method').open && astraTable.tBodies[0].rows.length === 5, 'Launch shortcut shows all five unranked Astra 6.2 benchmark efforts');
   get('method').open = false;
   get('reset').click();
   document.activeElement.blur();

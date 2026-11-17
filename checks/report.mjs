@@ -9,7 +9,7 @@ const code = html.match(/<script id="report-code">([\s\S]*?)<\/script>/)[1];
 new Script(code);
 // Independent Python refresh calculations, kept here so checks do not require source receipts or network access.
 const expected = {
-  "count": 67,
+  "count": 72,
   "noBugIds": [
     "muse-wonder-standard-high",
     "muse-wonder-contributor-high",
@@ -21,29 +21,34 @@ const expected = {
     "antigravity-ultra-5x-carbon-high",
     "antigravity-ultra-5x-carbon-low",
     "antigravity-ultra-5x-carbon-medium",
-    "go-glm-5-3-low"
+    "go-glm-5-3-low",
+    "sol-6-2-low",
+    "sol-6-2-medium",
+    "sol-6-2-high",
+    "sol-6-2-xhigh",
+    "sol-6-2-max"
   ],
   "firstTenTasks": [894, 1178.0, 598, 718.0, 424, 358, 558.0, 242, 66.0, 54.0],
   "bases": {
     "intelligence": {
       "defaultFloor": 42,
-      "defaultTaskCount": 32,
-      "allTaskFrontier": ["luna-low", "haiku-low", "haiku-medium", "haiku-high", "haiku-xhigh", "haiku-max", "terra-medium", "sol-medium", "sol-high", "sol-xhigh", "sol-max", "opus-xhigh", "opus-max", "fable-high", "fable-max"],
-      "defaultTaskFrontier": ["sol-medium", "sol-high", "sol-xhigh", "sol-max", "opus-xhigh", "opus-max", "fable-high", "fable-max"],
+      "defaultTaskCount": 36,
+      "allTaskFrontier": ["luna-low", "haiku-low", "haiku-medium", "haiku-high", "haiku-xhigh", "haiku-max", "sol-6-2-low", "sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "opus-max", "fable-high", "fable-max"],
+      "defaultTaskFrontier": ["sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "opus-max", "fable-high", "fable-max"],
       "bugCount": 56,
-      "ratedBugs": 62,
+      "ratedBugs": 63,
       "minimumWeight": 10,
-      "weights": { "1": null, "2": null, "3": null, "4": null, "5": null, "6": null, "7": null, "8": null, "9": null, "10": null, "11": null, "12": null, "13": 28, "14": null, "15": null, "16": 25, "17": 52, "18": null, "19": null, "20": 18, "21": 52, "22": 35, "23": 28, "24": null, "25": 19, "26": 29, "27": 29, "28": 42, "29": 29, "30": 10, "31": null, "32": 65, "33": 30, "34": 30, "35": 43, "36": 43, "37": 31, "38": null, "39": 26, "40": 32, "41": 43, "42": null, "43": 19, "44": 27, "45": 19, "46": 48, "47": 23, "48": null, "49": 10, "50": 23, "51": 52, "52": null, "53": null, "54": null, "55": null, "56": null, "57": null, "58": null, "59": 65, "60": 35, "61": 42, "62": 23, "63": null, "64": 50, "65": null, "66": null, "67": null, "68": 35, "69": 50, "70": 30, "71": 19, "72": null, "73": 52, "74": 52, "75": null, "76": 19, "77": 18, "78": 65, "79": 50, "80": 51, "81": null, "82": 33, "83": 21, "84": 19, "85": null, "86": null, "87": null, "88": null, "89": null, "90": 50, "91": 50, "92": 23, "93": 50, "94": 50, "95": 52, "96": 50, "97": 19, "98": 19, "99": 10, "100": 10, "101": null, "102": 32, "103": null, "104": null, "105": 50 }, "allBugFrontier": [ "luna-high", "luna-max", "luna-xhigh", "deepseek-flash-1017-high", "deepseek-flash-1017-max", "sol-medium", "sol-high", "sol-xhigh", "sol-max", "astra-xhigh", "fable-max" ], "negativeRatings": 20, "scoreRange": [ -332.6203306974959, 1205.9205383511296 ], "scores": { "sonnet-high": 546.1279312459842, "sol-medium": 380.4900786655037, "opus-medium": 344.05077237155956, "sol-high": 522.689495961107, "opus-high": 413.29090028331217, "sonnet-xhigh": 395.9907206305128, "sol-xhigh": 793.880816869549, "opus-xhigh": 498.4021399208676, "grok-high": -102.46028003320072, "grok-xhigh": 52.676801801821625, "sonnet-low": -28.378823920520006, "sonnet-medium": 2.1449856032895696, "sonnet-max": 835.4814660554014, "opus-low": -5.534649516493914, "opus-max": 759.9843993392944, "sol-low": 12.445413372824873, "sol-max": 850.3125753500982, "astra-low": 489.95546298296733, "astra-medium": 771.1155577630842, "astra-high": 793.3091044125132, "astra-xhigh": 1109.9154277095454, "astra-max": 813.4210361572887, "luna-low": -330.8425529197181, "luna-medium": -332.6203306974959, "luna-high": -182.62868491637641, "luna-xhigh": -27.208649320139443, "luna-max": -179.2373805685503, "haiku-low": -124.63202660392864, "haiku-medium": -89.87789489785183, "haiku-high": -93.63453286959276, "haiku-xhigh": -124.98875175012745, "haiku-max": 107.79323695476822, "grok-low": -260.063711689264, "fable-low": 531.8172379225367, "fable-medium": 268.914705705269, "fable-high": 698.1063219902869, "fable-xhigh": 519.7585008416568, "fable-max": 1205.9205383511296, "muse-standard-max": 42.09063777720257, "muse-contributor-max": 42.09063777720257, "muse-wonder-standard-max": 295.11417362832464, "muse-wonder-contributor-max": 295.11417362832464, "kimi-k3-1-pro-max": 364.5098819616228, "deepseek-flash-1017-max": 218.42993145724037, "go-mimo-v2-6-pro": -11.406716952989655, "go-kimi-k3-1-pro-max": 364.5098819616228, "go-glm-5-3-max": 158.2478671199247, "terra-low": -331.3162371302444, "terra-medium": -258.87179268579996, "terra-high": -228.87179268579996, "terra-xhigh": -299.62058495633136, "terra-max": 425.85807008052524, "antigravity-ultra-5x-argon-high": 729.3180165690097, "go-glm-5-3-flash": -70.85195118312095, "go-mimo-v2-6-flash": -86.16864593002163, "deepseek-flash-1017-high": 47.861885587845165 }
+      "weights": {"1": null, "2": null, "3": null, "4": null, "5": null, "6": null, "7": null, "8": null, "9": null, "10": null, "11": null, "12": null, "13": 28, "14": null, "15": null, "16": 25, "17": 52, "18": null, "19": null, "20": 18, "21": 52, "22": 35, "23": 28, "24": null, "25": 19, "26": 29, "27": 29, "28": 42, "29": 29, "30": 10, "31": null, "32": null, "33": 30, "34": 30, "35": 43, "36": 43, "37": 31, "38": 54, "39": 26, "40": 32, "41": 43, "42": null, "43": 19, "44": 27, "45": 19, "46": 48, "47": 23, "48": null, "49": 10, "50": 23, "51": 52, "52": null, "53": 62, "54": null, "55": null, "56": null, "57": null, "58": null, "59": 65, "60": 35, "61": 42, "62": 23, "63": null, "64": 50, "65": null, "66": null, "67": null, "68": 35, "69": 50, "70": 30, "71": 19, "72": null, "73": 52, "74": 52, "75": null, "76": 19, "77": 18, "78": 65, "79": 50, "80": 51, "81": null, "82": 33, "83": 21, "84": 19, "85": null, "86": null, "87": null, "88": null, "89": null, "90": 50, "91": 50, "92": 23, "93": 50, "94": 50, "95": 52, "96": 50, "97": 19, "98": 19, "99": 10, "100": 10, "101": null, "102": 32, "103": null, "104": null, "105": 50}, "allBugFrontier": ["luna-high", "luna-max", "luna-xhigh", "deepseek-flash-1017-high", "deepseek-flash-1017-max", "sol-medium", "sol-high", "sol-xhigh", "sol-max", "astra-xhigh", "fable-max"], "negativeRatings": 21, "scoreRange": [-336.4729177758894, 1413.818984760716], "scores": {"sonnet-high": 542.2753441675907, "sol-medium": 376.63749158711016, "opus-medium": 340.19818529316603, "sol-high": 518.8369088827135, "opus-high": 409.43831320491864, "sonnet-xhigh": 392.13813355211926, "sol-xhigh": 790.0282297911555, "opus-xhigh": 494.5495528424741, "grok-high": -106.31286711159424, "grok-xhigh": 48.8242147234281, "sonnet-low": -32.23141099891353, "sonnet-medium": -1.7076014751040134, "sonnet-max": 831.6288789770078, "opus-low": -9.38723659488744, "opus-max": 756.1318122609009, "sol-low": 8.592826294431347, "sol-max": 846.4599882717047, "astra-low": 486.1028759045738, "astra-medium": 767.2629706846907, "astra-high": 789.4565173341197, "astra-xhigh": 1106.0628406311519, "astra-max": 809.5684490788951, "luna-low": -334.69513999811164, "luna-medium": -336.4729177758894, "luna-high": -186.48127199476994, "luna-xhigh": -31.06123639853297, "luna-max": -183.08996764694382, "haiku-low": -128.48461368232216, "haiku-medium": -93.73048197624536, "haiku-high": -97.48711994798629, "haiku-xhigh": -128.84133882852097, "haiku-max": 103.94064987637469, "grok-low": -263.9162987676575, "fable-low": 848.8413094611775, "fable-medium": 800.5241414722351, "fable-high": 900.4343515751697, "fable-xhigh": 892.218570682041, "fable-max": 1413.818984760716, "muse-standard-max": 38.23805069880905, "muse-contributor-max": 38.23805069880905, "muse-wonder-standard-max": 291.2615865499311, "muse-wonder-contributor-max": 291.2615865499311, "kimi-k3-1-pro-max": 360.65729488322927, "deepseek-flash-1017-max": 214.57734437884685, "go-mimo-v2-6-pro": -15.25930403138318, "go-kimi-k3-1-pro-max": 360.65729488322927, "go-glm-5-3-max": 154.39528004153118, "terra-low": -335.16882420863794, "terra-medium": -262.7243797641935, "terra-high": -232.7243797641935, "terra-xhigh": -303.4731720347249, "terra-max": 422.0054830021317, "antigravity-ultra-5x-argon-high": 725.4654294906162, "go-glm-5-3-flash": -74.70453826151447, "go-mimo-v2-6-flash": -90.02123300841515, "deepseek-flash-1017-high": 44.00929850945164}
     },
     "engineering": {
       "defaultFloor": 46,
-      "defaultTaskCount": 34,
-      "allTaskFrontier": ["luna-low", "haiku-low", "haiku-medium", "haiku-high", "haiku-xhigh", "haiku-max", "sol-medium", "sol-high", "sol-xhigh", "opus-high", "sol-max", "opus-xhigh", "fable-medium", "fable-high", "fable-max"],
-      "defaultTaskFrontier": ["sol-medium", "sol-high", "sol-xhigh", "opus-high", "sol-max", "opus-xhigh", "fable-medium", "fable-high", "fable-max"],
+      "defaultTaskCount": 38,
+      "allTaskFrontier": ["luna-low", "haiku-low", "haiku-medium", "haiku-high", "haiku-xhigh", "haiku-max", "sol-6-2-low", "sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "opus-xhigh", "fable-medium", "fable-high", "fable-max"],
+      "defaultTaskFrontier": ["sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "opus-xhigh", "fable-medium", "fable-high", "fable-max"],
       "bugCount": 56,
-      "ratedBugs": 62,
+      "ratedBugs": 63,
       "minimumWeight": 19,
-      "weights": { "1": null, "2": null, "3": null, "4": null, "5": null, "6": null, "7": null, "8": null, "9": null, "10": null, "11": null, "12": null, "13": 34, "14": null, "15": null, "16": 31, "17": 57, "18": null, "19": null, "20": 25, "21": 57, "22": 43, "23": 34, "24": null, "25": 27, "26": 34, "27": 34, "28": 46, "29": 34, "30": 19, "31": null, "32": 73, "33": 34, "34": 34, "35": 50, "36": 50, "37": 38, "38": null, "39": 33, "40": 38, "41": 50, "42": null, "43": 27, "44": 31, "45": 27, "46": 54, "47": 29, "48": null, "49": 19, "50": 29, "51": 57, "52": null, "53": null, "54": null, "55": null, "56": null, "57": null, "58": null, "59": 73, "60": 42, "61": 46, "62": 29, "63": null, "64": 57, "65": null, "66": null, "67": null, "68": 43, "69": 55, "70": 34, "71": 27, "72": null, "73": 57, "74": 57, "75": null, "76": 27, "77": 25, "78": 73, "79": 57, "80": 55, "81": null, "82": 38, "83": 27, "84": 27, "85": null, "86": null, "87": null, "88": null, "89": null, "90": 57, "91": 55, "92": 29, "93": 57, "94": 57, "95": 58, "96": 57, "97": 27, "98": 27, "99": 19, "100": 19, "101": null, "102": 38, "103": null, "104": null, "105": 57 }, "allBugFrontier": [ "luna-high", "luna-xhigh", "deepseek-flash-1017-high", "deepseek-flash-1017-max", "sol-medium", "sol-high", "sol-xhigh", "sol-max", "astra-xhigh", "fable-max" ], "negativeRatings": 30, "scoreRange": [ -1014.9495327225825, 1301.055799415909 ], "scores": { "sonnet-high": 424.56944482011573, "sol-medium": 151.78006309596367, "opus-medium": 101.09948197512085, "sol-high": 372.37573338915934, "opus-high": 212.12630189849256, "sonnet-xhigh": 201.29735036118927, "sol-xhigh": 750.0800130140528, "opus-xhigh": 366.09045380946515, "grok-high": -626.385770988498, "grok-xhigh": -357.2146343346028, "sonnet-low": -472.8331969510742, "sonnet-medium": -419.09245621033347, "sonnet-max": 810.2831617902291, "opus-low": -464.83576596384796, "opus-max": 699.1369793286426, "sol-low": -457.13315849379865, "sol-max": 818.5608814687143, "astra-low": 288.18802168240995, "astra-medium": 708.1773555608424, "astra-high": 753.7619926292004, "astra-xhigh": 1220.163138461513, "astra-max": 800.7748416057816, "luna-low": -1008.7095327225825, "luna-medium": -1014.9495327225825, "luna-high": -739.8665697596194, "luna-xhigh": -473.65962212232694, "luna-max": -746.0734663113435, "haiku-low": -635.7836067966565, "haiku-medium": -581.1982139733549, "haiku-high": -578.7836067966565, "haiku-xhigh": -632.2458290188787, "haiku-max": -246.8657691628058, "grok-low": -903.2100041030537, "fable-low": 383.1524206038457, "fable-medium": -56.19453721738603, "fable-high": 622.9310223071533, "fable-xhigh": 374.72083960629595, "fable-max": 1301.055799415909, "muse-standard-max": -365.19590448619556, "muse-contributor-max": -365.19590448619556, "muse-wonder-standard-max": 33.901474312285586, "muse-wonder-contributor-max": 33.901474312285586, "kimi-k3-1-pro-max": 145.67095634215104, "deepseek-flash-1017-max": -91.04863623122333, "go-mimo-v2-6-pro": -466.52339494179955, "go-kimi-k3-1-pro-max": 145.67095634215104, "go-glm-5-3-max": -189.6135437416258, "terra-low": -1011.9687919818416, "terra-medium": -904.6182037465476, "terra-high": -847.6182037465476, "terra-xhigh": -958.0722402577037, "terra-max": 184.86918371836532, "antigravity-ultra-5x-argon-high": 584.1147850103022, "go-glm-5-3-flash": -583.4337676166164, "go-mimo-v2-6-flash": -580.8044431168477, "deepseek-flash-1017-high": -365.01085013893214 }
+      "weights": {"1": null, "2": null, "3": null, "4": null, "5": null, "6": null, "7": null, "8": null, "9": null, "10": null, "11": null, "12": null, "13": 34, "14": null, "15": null, "16": 31, "17": 57, "18": null, "19": null, "20": 25, "21": 57, "22": 43, "23": 34, "24": null, "25": 27, "26": 34, "27": 34, "28": 46, "29": 34, "30": 19, "31": null, "32": null, "33": 34, "34": 34, "35": 50, "36": 50, "37": 38, "38": 62, "39": 33, "40": 38, "41": 50, "42": null, "43": 27, "44": 31, "45": 27, "46": 54, "47": 29, "48": null, "49": 19, "50": 29, "51": 57, "52": null, "53": 70, "54": null, "55": null, "56": null, "57": null, "58": null, "59": 73, "60": 42, "61": 46, "62": 29, "63": null, "64": 57, "65": null, "66": null, "67": null, "68": 43, "69": 55, "70": 34, "71": 27, "72": null, "73": 57, "74": 57, "75": null, "76": 27, "77": 25, "78": 73, "79": 57, "80": 55, "81": null, "82": 38, "83": 27, "84": 27, "85": null, "86": null, "87": null, "88": null, "89": null, "90": 57, "91": 55, "92": 29, "93": 57, "94": 57, "95": 58, "96": 57, "97": 27, "98": 27, "99": 19, "100": 19, "101": null, "102": 38, "103": null, "104": null, "105": 57}, "allBugFrontier": ["luna-high", "luna-xhigh", "deepseek-flash-1017-high", "deepseek-flash-1017-max", "sol-medium", "sol-high", "sol-xhigh", "sol-max", "astra-xhigh", "fable-max"], "negativeRatings": 29, "scoreRange": [-1027.0185687682865, 1560.9942145726568], "scores": {"sonnet-high": 412.50040877441154, "sol-medium": 139.71102705025953, "opus-medium": 89.03044592941671, "sol-high": 360.3066973434552, "opus-high": 200.0572658527883, "sonnet-xhigh": 189.22831431548502, "sol-xhigh": 738.0109769683486, "opus-xhigh": 354.02141776376095, "grok-high": -638.4548070342023, "grok-xhigh": -369.28367038030694, "sonnet-low": -484.90223299677837, "sonnet-medium": -431.1614922560376, "sonnet-max": 798.214125744525, "opus-low": -476.9048020095522, "opus-max": 687.0679432829384, "sol-low": -469.2021945395029, "sol-max": 806.4918454230101, "astra-low": 276.1189856367058, "astra-medium": 696.1083195151382, "astra-high": 741.6929565834962, "astra-xhigh": 1208.0941024158087, "astra-max": 788.7058055600774, "luna-low": -1020.7785687682865, "luna-medium": -1027.0185687682865, "luna-high": -751.9356058053236, "luna-xhigh": -485.7286581680312, "luna-max": -758.1425023570478, "haiku-low": -647.8526428423606, "haiku-medium": -593.267250019059, "haiku-high": -590.8526428423606, "haiku-xhigh": -644.3148650645828, "haiku-max": -258.93480520850994, "grok-low": -915.279040148758, "fable-low": 814.0660069751066, "fable-medium": 778.5378948193509, "fable-high": 907.4116348147816, "fable-xhigh": 877.5919552452112, "fable-max": 1560.9942145726568, "muse-standard-max": -377.2649405318997, "muse-contributor-max": -377.2649405318997, "muse-wonder-standard-max": 21.83243826658145, "muse-wonder-contributor-max": 21.83243826658145, "kimi-k3-1-pro-max": 133.6019202964469, "deepseek-flash-1017-max": -103.11767227692746, "go-mimo-v2-6-pro": -478.5924309875038, "go-kimi-k3-1-pro-max": 133.6019202964469, "go-glm-5-3-max": -201.68257978732993, "terra-low": -1024.0378280275459, "terra-medium": -916.6872397922516, "terra-high": -859.6872397922516, "terra-xhigh": -970.141276303408, "terra-max": 172.80014767266107, "antigravity-ultra-5x-argon-high": 572.045748964598, "go-glm-5-3-flash": -595.5028036623206, "go-mimo-v2-6-flash": -592.8734791625518, "deepseek-flash-1017-high": -377.0798861846364}
     }
   }
 };
@@ -115,7 +120,12 @@ const inputs = [
   ["go-glm-5-3-flash",28,34,0.58,206.0,27.803889160883,34.4534900974026,0.5833103440014082,1],
   ["go-glm-5-3-low",23,28,1.57,20.0,23.1079373025379,28.3489622294372,1.5749301149593384,1],
   ["go-mimo-v2-6-flash",27,31,0.13,924.0,26.7276981444568,30.9836839285714,0.12852987084014672,1],
-  ["deepseek-flash-1017-high",29,34,0.46,434.0,28.6437391540402,34.3511940476191,0.45619449806633267,1]
+  ["deepseek-flash-1017-high",29,34,0.46,434.0,28.6437391540402,34.3511940476191,0.45619449806633267,1],
+  ["sol-6-2-low",41,44,0.18,2856,40.552508943285,44.4074372294372,0.18358471526572703,1],
+  ["sol-6-2-medium",53,56,0.41,1254,52.6777305876603,56.2089258658009,0.40605590960076604,1],
+  ["sol-6-2-high",55,59,0.56,918,54.8898658241942,58.7055365800866,0.563644652221075,1],
+  ["sol-6-2-xhigh",56,60,0.65,790,55.7351067246438,59.9179132575758,0.6479676730055945,1],
+  ["sol-6-2-max",57,61,1.01,508,57.2576209885477,61.164913474026,1.014379970300768,1]
 ];
 const plain = value => JSON.parse(JSON.stringify(value));
 const near = (actual,wanted) => assert.ok(Math.abs(actual - wanted) < 1e-9,`${actual} != ${wanted}`);
@@ -138,7 +148,8 @@ for(const model of data){
   assert.equal(model.aaIndexVersion,'5.0.1');
   assert.equal(model.intelligence,Math.round(model.aaIntelligenceExact));
   assert.equal(model.engineering,Math.round(model.aaEngineeringExact));
-  assert.ok(model.benchmarkCost > 0 && model.multiplier > 0 && model.aaSource && model.sourceDate === (/^(fable-|muse-(wonder|ember)-)/.test(model.id) ? '2026-11-09' : '2026-11-04'));
+  const sourceDate = model.id.startsWith('sol-6-2-') ? '2026-11-17' : /^(fable-|muse-(wonder|ember)-)/.test(model.id) ? '2026-11-09' : '2026-11-04';
+  assert.ok(model.benchmarkCost > 0 && model.multiplier > 0 && model.aaSource && model.sourceDate === sourceDate);
   assert.equal(model.tasks20,20 * Math.round(model.multiplier / model.benchmarkCost * 10) / 10);
   assert.ok(matchesSearch(model,model.provider.toLowerCase()));
   assert.equal(matchesSearch(model,'china'),model.country === 'China');
@@ -195,7 +206,7 @@ for(const [id,fixed,extras,cost,reliable] of [['terra-low',6,5,.30,4],['terra-me
 }
 for(const model of data){
   if(model.model === 'Claude Fable 5.2') assert.equal(model.multiplier,30.2);
-  else if(model.model === 'GPT-6 Astra') assert.equal(model.multiplier,25.7);
+  else if(['GPT-6 Astra','GPT-6.2 Sol'].includes(model.model)) assert.equal(model.multiplier,25.7);
   else if(model.model === 'GPT-6.1 Terra') assert.equal(model.multiplier,13.7);
   else if(model.model === 'GPT-6 Luna') assert.equal(model.multiplier,16.7);
   else if(model.model === 'Claude Opus 5.5') assert.equal(model.multiplier,73.3);
@@ -208,10 +219,23 @@ for(const model of data.filter(model => ['Claude Opus 5.5','Claude Fable 5.2'].i
 }
 assert.deepEqual(byId('go-kimi-k3-1-pro-max').bugHunt,byId('kimi-k3-1-pro-max').bugHunt);
 assert.deepEqual(byId('muse-standard-max').bugHunt,byId('muse-contributor-max').bugHunt);
-// Fable 5.2 replaces every Fable 5.1 row. By user direction each row keeps its Fable 5.1 Bug Hunt result as a placeholder until Bug Hunt publishes Fable 5.2 runs.
 const fableRows = data.filter(m => m.model.startsWith('Claude Fable'));
-assert.deepEqual(fableRows.map(m => [m.model,m.reasoning,m.aaSource.replace('https://artificialanalysis.ai/models/',''),m.bugHunt.id]),[['Low','claude-fable-5-2-low','Fable 5.1 (low effort)'],['Medium','claude-fable-5-2-medium','Fable 5.1 (medium effort)'],['High','claude-fable-5-2-high','Fable 5.1'],['XHigh','claude-fable-5-2-xhigh','Fable 5.1 (xhigh effort)'],['Max','claude-fable-5-2','Fable 5.1 (max effort)']].map(([effort,slug,run]) => ['Claude Fable 5.2',effort,slug,run]));
-for(const model of fableRows) assert.ok(model.sourceNote.includes('keeps the Fable 5.1 result (' + model.bugHunt.id + ') as a placeholder'));
+assert.deepEqual(fableRows.map(m => m.reasoning),['Low','Medium','High','XHigh','Max']);
+for(const [index, [fixed,extras,cost,runs,reliable]] of [
+  [41,14.5,24.32,2,36],
+  [41.5,17.5,26.55,2,36],
+  [43,16.5,46.67,2,38],
+  [49,16.7,61.01,3,37],
+  [58,24.7,139.65,3,47]
+].entries()){
+  const model = fableRows[index], bug = model.bugHunt, effort = model.reasoning.toLowerCase();
+  const slug = effort === 'max' ? 'claude-fable-5-2' : 'claude-fable-5-2-' + effort;
+  assert.equal(model.model,'Claude Fable 5.2');
+  assert.equal(model.aaSource,'https://artificialanalysis.ai/models/' + slug);
+  assert.equal(bug.id,'Fable 5.2 (' + effort + ' effort) - mean of ' + runs);
+  assert.deepEqual([bug.fixed,bug.extras,bug.cost_usd,bug.n_runs,bug.coverage_runs,bug.cost_kind],[fixed,extras,cost,runs,runs,'list']);
+  assert.equal(create().reliableBugs(model).length,reliable);
+}
 // Muse Wonder and Ember inherit Spark's plan multipliers by inference. Ember is Standard-only; Wonder Full has no API task cost.
 assert.deepEqual(byId('muse-wonder-standard-max').bugHunt,byId('muse-wonder-contributor-max').bugHunt);
 assert.deepEqual([byId('muse-wonder-standard-max').bugHunt.id,byId('muse-wonder-standard-max').bugHunt.fixed,byId('muse-wonder-standard-max').bugHunt.extras,byId('muse-wonder-standard-max').bugHunt.cost_usd,byId('muse-wonder-standard-max').bugHunt.n_runs],['Muse Wonder 1.0 (max effort, Muse Code, Meta API) - mean of 3',31.7,13.3,27.87,3]);
@@ -308,8 +332,8 @@ assert.ok(code.includes('label.getBBox()') && html.includes('.chart-point[aria-p
 assert.ok(!html.includes('id="provider"') && !html.includes('id="scale"'));
 assert.ok(readme.includes('https://nishimura-katsuo.github.io/subscription-value/'));
 assert.ok(readme.includes('https://artificialanalysis.ai/indexes/engineering'));
-assert.ok(readme.includes('v5') && readme.includes('**67 configurations**') && readme.includes('**56 configurations have complete Bug Hunt evidence; 11 are tasks-only'));
-console.log('Report checks passed: 67 exact v5.0.1 inputs, both calibration bases and full frontiers, 56 evidence records, signed/zero ratings, inverse penalties, cost direction, task conversion, resets, search, and chart geometry.');
+assert.ok(readme.includes('v5') && readme.includes('**72 configurations**') && readme.includes('**56 configurations have complete Bug Hunt evidence; 16 are tasks-only'));
+console.log('Report checks passed: 72 exact v5.0.1 inputs, both calibration bases and full frontiers, 56 evidence records, signed/zero ratings, inverse penalties, cost direction, task conversion, resets, search, and chart geometry.');
 
 // Cost ranges filter known plan prices and choose the best multiplier per configuration.
 const tierAPI = create(), sol = byId('sol-medium'), astra = byId('astra-low');
@@ -334,7 +358,7 @@ const mediumScenario = {...grok,reasoning:'Medium'};
 assert.equal(tierAPI.selectedTier(mediumScenario).price,8);
 near(tierAPI.tierMultiplier(mediumScenario),20.7);
 // Pro API value scales with the fee; per-dollar multipliers remain twice Plus.
-for(const [id,plus,pro] of [['terra-low',6.85,13.7],['luna-low',8.35,16.7],['astra-low',12.85,25.7],['sol-medium',10.6,21.2]]){
+for(const [id,plus,pro] of [['sol-6-2-medium',12.85,25.7],['terra-low',6.85,13.7],['luna-low',8.35,16.7],['astra-low',12.85,25.7],['sol-medium',10.6,21.2]]){
   const model = byId(id);
   for(const fee of [20,100,200,500]){
     const tier = tierAPI.subscriptionTiers.ChatGPT.find(tier => tier.price === fee);
