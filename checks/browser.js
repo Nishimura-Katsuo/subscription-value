@@ -105,6 +105,15 @@
   assert(sol62.every(model => tierMultiplier(model) === 12.85), 'Sol 6.2 uses the Plus estimate');
   mode('bugs');
   assertRows([], 'Sol 6.2 has no matching Bug Hunt result');
+  mode('tasks');
+  change('floor','0');
+  change('search','GPT-6.2 Astra','input');
+  const astra62 = taskModels.filter(model => model.model === 'GPT-6.2 Astra');
+  assert(astra62.length === 5 && astra62.every(model => tierMultiplier(model) === 9.15), 'Astra 6.2 uses the Plus estimate at all five efforts');
+  assertRows(astra62, 'Astra 6.2 search shows all five task configurations on Plus');
+  change('budget','best');
+  assert(astra62.every(model => tierMultiplier(model) === 18.3), 'Astra 6.2 uses the Pro estimate in Best');
+  assertRows(astra62, 'Astra 6.2 search shows all five task configurations in Best');
   get('reset').click();
   change('floor','0');
   const argonModels = taskModels.filter(model => model.model === 'Gemini 4 Argon');
@@ -543,7 +552,7 @@
   get('method').open = false;
   document.querySelector('a[href="#gpt-6-2-launch"]').click();
   const astraTable = get('gpt-6-2-launch').parentElement.querySelector('table');
-  assert(get('method').open && astraTable.tBodies[0].rows.length === 5, 'Launch shortcut shows all five unranked Astra 6.2 benchmark efforts');
+  assert(get('method').open && astraTable.tBodies[0].rows.length === 5, 'Launch shortcut shows all five Astra 6.2 benchmark efforts');
   get('method').open = false;
   get('reset').click();
   document.activeElement.blur();

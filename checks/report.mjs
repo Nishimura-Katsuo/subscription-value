@@ -9,7 +9,7 @@ const code = html.match(/<script id="report-code">([\s\S]*?)<\/script>/)[1];
 new Script(code);
 // Independent Python refresh calculations, kept here so checks do not require source receipts or network access.
 const expected = {
-  "count": 72,
+  "count": 77,
   "noBugIds": [
     "muse-wonder-standard-high",
     "muse-wonder-contributor-high",
@@ -26,15 +26,20 @@ const expected = {
     "sol-6-2-medium",
     "sol-6-2-high",
     "sol-6-2-xhigh",
-    "sol-6-2-max"
+    "sol-6-2-max",
+    "astra-6-2-low",
+    "astra-6-2-medium",
+    "astra-6-2-high",
+    "astra-6-2-xhigh",
+    "astra-6-2-max"
   ],
   "firstTenTasks": [894, 1178.0, 598, 718.0, 424, 358, 558.0, 242, 66.0, 54.0],
   "bases": {
     "intelligence": {
       "defaultFloor": 42,
-      "defaultTaskCount": 36,
-      "allTaskFrontier": ["luna-low", "haiku-low", "haiku-medium", "haiku-high", "haiku-xhigh", "haiku-max", "sol-6-2-low", "sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "opus-max", "fable-high", "fable-max"],
-      "defaultTaskFrontier": ["sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "opus-max", "fable-high", "fable-max"],
+      "defaultTaskCount": 41,
+      "allTaskFrontier": ["luna-low", "haiku-low", "haiku-medium", "haiku-high", "haiku-xhigh", "haiku-max", "sol-6-2-low", "sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "astra-6-2-high", "astra-6-2-xhigh", "fable-max"],
+      "defaultTaskFrontier": ["sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "astra-6-2-high", "astra-6-2-xhigh", "fable-max"],
       "bugCount": 56,
       "ratedBugs": 63,
       "minimumWeight": 10,
@@ -42,9 +47,9 @@ const expected = {
     },
     "engineering": {
       "defaultFloor": 46,
-      "defaultTaskCount": 38,
-      "allTaskFrontier": ["luna-low", "haiku-low", "haiku-medium", "haiku-high", "haiku-xhigh", "haiku-max", "sol-6-2-low", "sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "opus-xhigh", "fable-medium", "fable-high", "fable-max"],
-      "defaultTaskFrontier": ["sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "opus-xhigh", "fable-medium", "fable-high", "fable-max"],
+      "defaultTaskCount": 43,
+      "allTaskFrontier": ["luna-low", "haiku-low", "haiku-medium", "haiku-high", "haiku-xhigh", "haiku-max", "sol-6-2-low", "sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "opus-xhigh", "astra-6-2-high", "fable-medium", "astra-6-2-max", "fable-high", "fable-max"],
+      "defaultTaskFrontier": ["sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "opus-xhigh", "astra-6-2-high", "fable-medium", "astra-6-2-max", "fable-high", "fable-max"],
       "bugCount": 56,
       "ratedBugs": 63,
       "minimumWeight": 19,
@@ -125,7 +130,12 @@ const inputs = [
   ["sol-6-2-medium",53,56,0.41,1254,52.6777305876603,56.2089258658009,0.40605590960076604,1],
   ["sol-6-2-high",55,59,0.56,918,54.8898658241942,58.7055365800866,0.563644652221075,1],
   ["sol-6-2-xhigh",56,60,0.65,790,55.7351067246438,59.9179132575758,0.6479676730055945,1],
-  ["sol-6-2-max",57,61,1.01,508,57.2576209885477,61.164913474026,1.014379970300768,1]
+  ["sol-6-2-max",57,61,1.01,508,57.2576209885477,61.164913474026,1.014379970300768,1],
+  ["astra-6-2-low",46,51,0.66,554,45.6504174923967,50.5458653679654,0.661705400010306,1],
+  ["astra-6-2-medium",57,60,1.62,226,56.9986252138657,59.9074647186147,1.6176877362867854,1],
+  ["astra-6-2-high",60,64,2.07,176,60.0882280338247,63.5706061147186,2.073874957362806,1],
+  ["astra-6-2-xhigh",62,65,2.52,146,61.5602325371388,65.1001242965368,2.5211433764120375,1],
+  ["astra-6-2-max",62,67,4,92,62.1387990593969,66.6162431277056,3.9979061566801852,1]
 ];
 const plain = value => JSON.parse(JSON.stringify(value));
 const near = (actual,wanted) => assert.ok(Math.abs(actual - wanted) < 1e-9,`${actual} != ${wanted}`);
@@ -148,7 +158,7 @@ for(const model of data){
   assert.equal(model.aaIndexVersion,'5.0.1');
   assert.equal(model.intelligence,Math.round(model.aaIntelligenceExact));
   assert.equal(model.engineering,Math.round(model.aaEngineeringExact));
-  const sourceDate = model.id.startsWith('sol-6-2-') ? '2026-11-17' : /^(fable-|muse-(wonder|ember)-)/.test(model.id) ? '2026-11-09' : '2026-11-04';
+  const sourceDate = model.id.startsWith('astra-6-2-') ? '2026-11-18' : model.id.startsWith('sol-6-2-') ? '2026-11-17' : /^(fable-|muse-(wonder|ember)-)/.test(model.id) ? '2026-11-09' : '2026-11-04';
   assert.ok(model.benchmarkCost > 0 && model.multiplier > 0 && model.aaSource && model.sourceDate === sourceDate);
   assert.equal(model.tasks20,20 * Math.round(model.multiplier / model.benchmarkCost * 10) / 10);
   assert.ok(matchesSearch(model,model.provider.toLowerCase()));
@@ -207,6 +217,7 @@ for(const [id,fixed,extras,cost,reliable] of [['terra-low',6,5,.30,4],['terra-me
 for(const model of data){
   if(model.model === 'Claude Fable 5.2') assert.equal(model.multiplier,30.2);
   else if(['GPT-6 Astra','GPT-6.2 Sol'].includes(model.model)) assert.equal(model.multiplier,25.7);
+  else if(model.model === 'GPT-6.2 Astra') assert.equal(model.multiplier,2 * (Math.round(12.85 * Math.min(6/5,50/45) * 4/6.24 * 100) / 100));
   else if(model.model === 'GPT-6.1 Terra') assert.equal(model.multiplier,13.7);
   else if(model.model === 'GPT-6 Luna') assert.equal(model.multiplier,16.7);
   else if(model.model === 'Claude Opus 5.5') assert.equal(model.multiplier,73.3);
@@ -332,8 +343,8 @@ assert.ok(code.includes('label.getBBox()') && html.includes('.chart-point[aria-p
 assert.ok(!html.includes('id="provider"') && !html.includes('id="scale"'));
 assert.ok(readme.includes('https://nishimura-katsuo.github.io/subscription-value/'));
 assert.ok(readme.includes('https://artificialanalysis.ai/indexes/engineering'));
-assert.ok(readme.includes('v5') && readme.includes('**72 configurations**') && readme.includes('**56 configurations have complete Bug Hunt evidence; 16 are tasks-only'));
-console.log('Report checks passed: 72 exact v5.0.1 inputs, both calibration bases and full frontiers, 56 evidence records, signed/zero ratings, inverse penalties, cost direction, task conversion, resets, search, and chart geometry.');
+assert.ok(readme.includes('v5') && readme.includes('**77 configurations**') && readme.includes('**56 configurations have complete Bug Hunt evidence in this snapshot and 21 are tasks-only'));
+console.log('Report checks passed: 77 exact v5.0.1 inputs, both calibration bases and full frontiers, 56 evidence records, signed/zero ratings, inverse penalties, cost direction, task conversion, resets, search, and chart geometry.');
 
 // Cost ranges filter known plan prices and choose the best multiplier per configuration.
 const tierAPI = create(), sol = byId('sol-medium'), astra = byId('astra-low');
@@ -358,7 +369,7 @@ const mediumScenario = {...grok,reasoning:'Medium'};
 assert.equal(tierAPI.selectedTier(mediumScenario).price,8);
 near(tierAPI.tierMultiplier(mediumScenario),20.7);
 // Pro API value scales with the fee; per-dollar multipliers remain twice Plus.
-for(const [id,plus,pro] of [['sol-6-2-medium',12.85,25.7],['terra-low',6.85,13.7],['luna-low',8.35,16.7],['astra-low',12.85,25.7],['sol-medium',10.6,21.2]]){
+for(const [id,plus,pro] of [['sol-6-2-medium',12.85,25.7],['astra-6-2-max',9.15,18.3],['terra-low',6.85,13.7],['luna-low',8.35,16.7],['astra-low',12.85,25.7],['sol-medium',10.6,21.2]]){
   const model = byId(id);
   for(const fee of [20,100,200,500]){
     const tier = tierAPI.subscriptionTiers.ChatGPT.find(tier => tier.price === fee);
@@ -366,7 +377,7 @@ for(const [id,plus,pro] of [['sol-6-2-medium',12.85,25.7],['terra-low',6.85,13.7
     near(multiplier,fee === 20 ? plus : pro);
     near(multiplier * fee,plus * 20 * (fee === 20 ? 1 : 2 * fee / 20));
   }
-  if(id !== 'sol-medium') assert.ok(model.sourceNote.includes('six windows per week') && model.sourceNote.includes('1xhhrxs'));
+  if(id !== 'sol-medium' && id !== 'astra-6-2-max') assert.ok(model.sourceNote.includes('six windows per week') && model.sourceNote.includes('1xhhrxs'));
 }
 for(const model of data.filter(model => /Claude (Sonnet|Haiku)/.test(model.model))){
   assert.ok(model.sourceNote.includes('73.3× inferred') && model.sourceNote.includes('not a measured Sonnet/Haiku allowance'));

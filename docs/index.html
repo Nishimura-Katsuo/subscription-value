@@ -215,9 +215,9 @@ td.tasks-cell{white-space:nowrap}
     </section>
     <section class="table-section" aria-labelledby="table-title"><div class="section-title"><div><h2 id="table-title">Compare configurations</h2><p><a href="#gpt-6-2-launch" data-open-method>GPT-6.2 launch data</a></p><p id="table-meta" class="table-meta">Sorted by tasks per $1 of subscription spend · descending</p></div><button class="export" id="export" type="button">Export filtered CSV ↓</button></div><div class="panel table-scroll" role="region" aria-label="Configuration comparison" tabindex="0"><table><caption class="sr-only">Filtered model, subscription, and reasoning configurations. Column buttons change sort order. Model buttons select chart points.</caption><thead><tr><th scope="col">#</th><th scope="col" id="sort-model" aria-sort="none"><button data-sort="model" type="button">Model ↕</button></th><th scope="col" class="sub-col" id="sort-provider" aria-sort="none"><button data-sort="provider" type="button">Subscription ↕</button></th><th scope="col" class="opt-col" id="sort-reasoning" aria-sort="none"><button data-sort="reasoning" type="button">Reasoning ↕</button></th><th scope="col" class="num opt-col" id="sort-intelligence" aria-sort="none"><button data-sort="intelligence" type="button">Intelligence ↕</button></th><th scope="col" class="num opt-col" id="sort-multiplier" aria-sort="none"><button data-sort="multiplier" type="button">Multiplier ↕</button></th><th scope="col" class="num opt-col" id="sort-bugScore" aria-sort="none" hidden><button data-sort="bugScore" type="button">Bug-fix rating ↕</button></th><th scope="col" class="num" id="sort-tasks20" aria-sort="descending"><button data-sort="tasks20" type="button" id="task-sort-label">Tasks / $1 subscription spend ↓</button></th></tr></thead><tbody id="rows"></tbody></table></div></section>
     <details class="method" id="method"><summary>Method, assumptions &amp; sources</summary><div class="method-grid"><div>
-<h3>Current intelligence snapshot</h3><p>Artificial Analysis v5.0.1 inputs: 72 ranked configurations with both General Intelligence and Engineering Intelligence scores. Of those, 56 have matching Bug Hunt results. The 17 November 2026 update adds GPT-6.2 Sol in tasks mode at all five efforts. Earlier AA inputs retain their 4 or 9 November check dates. Configurations without published matching scores are excluded. Scores are rounded to whole numbers. <a href="https://artificialanalysis.ai/methodology/intelligence-benchmarking">General Intelligence methodology</a> · <a href="https://artificialanalysis.ai/indexes/engineering">Engineering Index</a>. Engineering combines seven evaluations across broad engineering work; it is not solely a software engineering score.</p>
+<h3>Current intelligence snapshot</h3><p>Artificial Analysis v5.0.1 inputs: 77 ranked configurations with both General Intelligence and Engineering Intelligence scores. Of those, 56 have matching Bug Hunt results. GPT-6.2 Astra and Sol appear in tasks mode at all five benchmark efforts. Earlier AA inputs retain their 4 or 9 November check dates. Configurations without published matching scores are excluded. Scores are rounded to whole numbers. <a href="https://artificialanalysis.ai/methodology/intelligence-benchmarking">General Intelligence methodology</a> · <a href="https://artificialanalysis.ai/indexes/engineering">Engineering Index</a>. Engineering combines seven evaluations across broad engineering work; it is not solely a software engineering score.</p>
 <h3 id="gpt-6-2-launch">GPT-6.2 launch</h3><p><a href="https://openai.com/index/introducing-gpt-6-2-astra-sol/">OpenAI released Astra and Sol on 17 November</a> for ChatGPT Work, Codex and the API. Standard API rates per million input, cached input and output tokens are $8 / $0.40 / $40 for Astra and $2 / $0.10 / $10 for Sol. <a href="https://learn.chatgpt.com/docs/pricing#included-usage">OpenAI estimates 6–50 local messages per five-hour window on Plus for Astra and 17–180 for Sol</a>. Those ranges vary by workload.</p>
-<p>Sol uses the <a href="https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/">community Plus estimate</a> of 12.85× and the existing Pro scaling of 25.7×. Astra’s benchmark results are below. Its subscription ranking is pending an API-equivalent allowance estimate. Bug Hunt has yet to publish runs for either GPT-6.2 model.</p>
+<p>Sol uses the <a href="https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/">community Plus estimate</a> of 12.85× and the existing Pro scaling of 25.7×. Astra uses a provisional 9.15× on Plus and 18.3× on Pro across all five efforts. Starting from GPT-6 Astra’s 12.85× on Plus, the estimate uses 50 ÷ 45, the smaller of the two proportional increases in <a href="https://learn.chatgpt.com/docs/pricing#included-usage">OpenAI’s local message estimates</a>, as a proxy for task capacity. It then applies $4.00 ÷ $6.24, the ratio of the rounded AA Max costs per task. Pro uses the existing 2× scaling. The benchmark table below gives the inputs for each effort.</p>
 <div class="table-scroll"><table><caption class="sr-only">GPT-6.2 Astra benchmark results</caption><thead><tr><th scope="col">Astra effort</th><th scope="col" class="num">General</th><th scope="col" class="num">Engineering</th><th scope="col" class="num">AA API cost / task</th></tr></thead><tbody><tr><th scope="row"><a href="https://artificialanalysis.ai/models/gpt-6-2-astra-low">Low</a></th><td class="num">46</td><td class="num">51</td><td class="num">$0.66</td></tr><tr><th scope="row"><a href="https://artificialanalysis.ai/models/gpt-6-2-astra-medium">Medium</a></th><td class="num">57</td><td class="num">60</td><td class="num">$1.62</td></tr><tr><th scope="row"><a href="https://artificialanalysis.ai/models/gpt-6-2-astra-high">High</a></th><td class="num">60</td><td class="num">64</td><td class="num">$2.07</td></tr><tr><th scope="row"><a href="https://artificialanalysis.ai/models/gpt-6-2-astra-xhigh">XHigh</a></th><td class="num">62</td><td class="num">65</td><td class="num">$2.52</td></tr><tr><th scope="row"><a href="https://artificialanalysis.ai/models/gpt-6-2-astra">Max</a></th><td class="num">62</td><td class="num">67</td><td class="num">$4.00</td></tr></tbody></table></div>
 <p>The selector changes task capability, bug difficulty calibration, ratings, floors, sorting, and Pareto frontiers. Task throughput and task costs continue to use the General Intelligence benchmark workload; bug costs use Bug Hunt run evidence. Each metric and basis remembers its own floor. The default task floors are General ≥42 and Engineering ≥46. Bugs default to No floor.</p>
 <h3>A common spending denominator</h3><div class="formula">Tasks / subscription $ = multiplier ÷ matched benchmark cost / task<br>Displayed tasks / $1 = round(tier multiplier ÷ matched task cost, 1 decimal)</div><p>Task cost is rounded to cents, or four decimals for sub-cent values; tasks per dollar are rounded to one decimal. Best selects each configuration’s highest recorded multiplier; a specific monthly cost range filters plans and selects the best multiplier within that range for both graphs, without scaling task values, and uses subscription fees only, excluding API credits and on-demand charges. CSV preserves exact AA inputs and the task-price conversion factor. MiMo and Qwen task costs are repriced to OpenCode Go; Gemini Argon and Carbon task costs are repriced to launch API prices for Antigravity. Each uses AA’s weighted token-cost breakdown under the same-cache assumption; the displayed benchmark cost already includes that conversion. DeepSeek task inputs use peak prices and Bug Hunt bills use off-peak prices, each matched to Go rates.</p>
@@ -4404,6 +4404,111 @@ td.tasks-cell{white-space:nowrap}
     "aaSource": "https://artificialanalysis.ai/models/gpt-6-2-sol",
     "sourceDate": "2026-11-17",
     "sourceNote": "AA v5.0.1 and Engineering Index checked 17 November 2026 for GPT-6.2 Sol (Max). Standard-speed ChatGPT Work/Codex scenario. The community Plus test reports $10 API-equivalent per five-hour window, extrapolated to six windows per week and $257 per 30 days on one account, giving 12.85× on Plus $20: https://www.reddit.com/r/codex/comments/1xhhrxs/allowance_table_update_for_gpt_competitors_and/ . The existing 2× Pro scaling gives 25.7× on Pro $100/$200/$500. Transfer across efforts and Pro tiers is assumed. Bug Hunt has no matching run."
+  },
+  {
+    "id": "astra-6-2-low",
+    "model": "GPT-6.2 Astra",
+    "short": "Astra 6.2",
+    "provider": "ChatGPT",
+    "country": "United States",
+    "reasoning": "Low",
+    "intelligence": 46,
+    "multiplier": 18.3,
+    "benchmarkCost": 0.66,
+    "tasks20": 554,
+    "engineering": 51,
+    "aaIndexVersion": "5.0.1",
+    "aaIntelligenceExact": 45.6504174923967,
+    "aaEngineeringExact": 50.5458653679654,
+    "aaTaskCostExact": 0.661705400010306,
+    "taskPriceFactor": 1,
+    "aaSource": "https://artificialanalysis.ai/models/gpt-6-2-astra-low",
+    "sourceDate": "2026-11-18",
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 18 November 2026 for GPT-6.2 Astra (Low). Standard-speed ChatGPT Work/Codex scenario. The GPT-6 Astra Plus anchor of 12.85× is scaled by 50/45, the smaller proportional increase in OpenAI’s published Plus message estimates, and $4.00/$6.24, the rounded AA Max cost-per-task ratio. This gives 9.15× on Plus and 18.3× under the existing 2× Pro assumption. The proxy treats message capacity as task capacity and applies the Max-derived allowance across all five efforts. https://learn.chatgpt.com/docs/pricing#included-usage"
+  },
+  {
+    "id": "astra-6-2-medium",
+    "model": "GPT-6.2 Astra",
+    "short": "Astra 6.2",
+    "provider": "ChatGPT",
+    "country": "United States",
+    "reasoning": "Medium",
+    "intelligence": 57,
+    "multiplier": 18.3,
+    "benchmarkCost": 1.62,
+    "tasks20": 226,
+    "engineering": 60,
+    "aaIndexVersion": "5.0.1",
+    "aaIntelligenceExact": 56.9986252138657,
+    "aaEngineeringExact": 59.9074647186147,
+    "aaTaskCostExact": 1.6176877362867854,
+    "taskPriceFactor": 1,
+    "aaSource": "https://artificialanalysis.ai/models/gpt-6-2-astra-medium",
+    "sourceDate": "2026-11-18",
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 18 November 2026 for GPT-6.2 Astra (Medium). Standard-speed ChatGPT Work/Codex scenario. The GPT-6 Astra Plus anchor of 12.85× is scaled by 50/45, the smaller proportional increase in OpenAI’s published Plus message estimates, and $4.00/$6.24, the rounded AA Max cost-per-task ratio. This gives 9.15× on Plus and 18.3× under the existing 2× Pro assumption. The proxy treats message capacity as task capacity and applies the Max-derived allowance across all five efforts. https://learn.chatgpt.com/docs/pricing#included-usage"
+  },
+  {
+    "id": "astra-6-2-high",
+    "model": "GPT-6.2 Astra",
+    "short": "Astra 6.2",
+    "provider": "ChatGPT",
+    "country": "United States",
+    "reasoning": "High",
+    "intelligence": 60,
+    "multiplier": 18.3,
+    "benchmarkCost": 2.07,
+    "tasks20": 176,
+    "engineering": 64,
+    "aaIndexVersion": "5.0.1",
+    "aaIntelligenceExact": 60.0882280338247,
+    "aaEngineeringExact": 63.5706061147186,
+    "aaTaskCostExact": 2.073874957362806,
+    "taskPriceFactor": 1,
+    "aaSource": "https://artificialanalysis.ai/models/gpt-6-2-astra-high",
+    "sourceDate": "2026-11-18",
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 18 November 2026 for GPT-6.2 Astra (High). Standard-speed ChatGPT Work/Codex scenario. The GPT-6 Astra Plus anchor of 12.85× is scaled by 50/45, the smaller proportional increase in OpenAI’s published Plus message estimates, and $4.00/$6.24, the rounded AA Max cost-per-task ratio. This gives 9.15× on Plus and 18.3× under the existing 2× Pro assumption. The proxy treats message capacity as task capacity and applies the Max-derived allowance across all five efforts. https://learn.chatgpt.com/docs/pricing#included-usage"
+  },
+  {
+    "id": "astra-6-2-xhigh",
+    "model": "GPT-6.2 Astra",
+    "short": "Astra 6.2",
+    "provider": "ChatGPT",
+    "country": "United States",
+    "reasoning": "XHigh",
+    "intelligence": 62,
+    "multiplier": 18.3,
+    "benchmarkCost": 2.52,
+    "tasks20": 146,
+    "engineering": 65,
+    "aaIndexVersion": "5.0.1",
+    "aaIntelligenceExact": 61.5602325371388,
+    "aaEngineeringExact": 65.1001242965368,
+    "aaTaskCostExact": 2.5211433764120375,
+    "taskPriceFactor": 1,
+    "aaSource": "https://artificialanalysis.ai/models/gpt-6-2-astra-xhigh",
+    "sourceDate": "2026-11-18",
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 18 November 2026 for GPT-6.2 Astra (XHigh). Standard-speed ChatGPT Work/Codex scenario. The GPT-6 Astra Plus anchor of 12.85× is scaled by 50/45, the smaller proportional increase in OpenAI’s published Plus message estimates, and $4.00/$6.24, the rounded AA Max cost-per-task ratio. This gives 9.15× on Plus and 18.3× under the existing 2× Pro assumption. The proxy treats message capacity as task capacity and applies the Max-derived allowance across all five efforts. https://learn.chatgpt.com/docs/pricing#included-usage"
+  },
+  {
+    "id": "astra-6-2-max",
+    "model": "GPT-6.2 Astra",
+    "short": "Astra 6.2",
+    "provider": "ChatGPT",
+    "country": "United States",
+    "reasoning": "Max",
+    "intelligence": 62,
+    "multiplier": 18.3,
+    "benchmarkCost": 4,
+    "tasks20": 92,
+    "engineering": 67,
+    "aaIndexVersion": "5.0.1",
+    "aaIntelligenceExact": 62.1387990593969,
+    "aaEngineeringExact": 66.6162431277056,
+    "aaTaskCostExact": 3.9979061566801852,
+    "taskPriceFactor": 1,
+    "aaSource": "https://artificialanalysis.ai/models/gpt-6-2-astra",
+    "sourceDate": "2026-11-18",
+    "sourceNote": "AA v5.0.1 and Engineering Index checked 18 November 2026 for GPT-6.2 Astra (Max). Standard-speed ChatGPT Work/Codex scenario. The GPT-6 Astra Plus anchor of 12.85× is scaled by 50/45, the smaller proportional increase in OpenAI’s published Plus message estimates, and $4.00/$6.24, the rounded AA Max cost-per-task ratio. This gives 9.15× on Plus and 18.3× under the existing 2× Pro assumption. The proxy treats message capacity as task capacity and applies the Max-derived allowance across all five efforts. https://learn.chatgpt.com/docs/pricing#included-usage"
   }
 ]
   </script>
