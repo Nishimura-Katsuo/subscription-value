@@ -80,7 +80,7 @@
       selectModel(kimiProbe.id);
       assert(shown.includes(kimiProbe) && selectedTier(kimiProbe)?.price === price && Math.abs(effectiveMultiplier(kimiProbe) - multiplier) < 1e-10, 'Kimi ' + name + ' multiplier in ' + metric);
       assert(get('detail').textContent.includes(name) && get('detail').textContent.includes('$' + price + '/mo') && get('detail').textContent.includes(number(multiplier) + '×'), 'Kimi tier and multiplier appear in ' + metric + ' details');
-      const expected = metric === 'tasks' ? Math.round(multiplier / kimiProbe.benchmarkCost * 10) / 10 : kimiProbe.bugHunt.cost_usd * (kimiProbe.bugHunt.price_factor ?? 1) / multiplier / (kimiProbe.bugHunt.fixed + kimiProbe.bugHunt.extras);
+      const expected = metric === 'tasks' ? Math.round(multiplier / kimiProbe.benchmarkCost * 10) / 10 : kimiProbe.bugHunt.cost_usd * (kimiProbe.bugHunt.price_factor ?? 1) / multiplier / kimiProbe.bugHunt.fixed;
       assert(Math.abs(estimate(kimiProbe) - expected) < 1e-10, 'Kimi ' + name + ' updates ' + metric + ' values');
     }
   }
@@ -206,10 +206,10 @@
   const unfilteredBugFrontier = pareto(models.filter(model => metricValue(model,'bugs') !== null),'bugs');
   assert(unfilteredBugFrontier.every(model => shown.includes(model)) && frontier.map(model => model.id).sort().join(',') === unfilteredBugFrontier.map(model => model.id).sort().join(','), 'Bugs mode uses its own full-dataset frontier');
   assert(document.querySelector('#chart > polyline:not(.effort-line)').getAttribute('points').split(' ').length === unfilteredBugFrontier.length, 'The entire unfiltered bug frontier line is drawn');
-  change('floor','500');
-  assert(frontier.map(model => model.id).sort().join(',') === unfilteredBugFrontier.filter(model => bugScore(model) >= 500).map(model => model.id).sort().join(',') && shown.every(model => bugScore(model) >= 500), 'Global bug frontier also respects the active rating floor');
+  change('floor','20');
+  assert(frontier.map(model => model.id).sort().join(',') === unfilteredBugFrontier.filter(model => bugScore(model) >= 20).map(model => model.id).sort().join(',') && shown.every(model => bugScore(model) >= 20), 'Global bug frontier also respects the active rating floor');
   get('early-resets').click();
-  assert(frontier.map(model => model.id).sort().join(',') === pareto(models.filter(model => metricValue(model,'bugs') !== null),'bugs').filter(model => bugScore(model) >= 500).map(model => model.id).sort().join(','), 'Global frontier responds to reset scenarios while retaining the selected floor');
+  assert(frontier.map(model => model.id).sort().join(',') === pareto(models.filter(model => metricValue(model,'bugs') !== null),'bugs').filter(model => bugScore(model) >= 20).map(model => model.id).sort().join(','), 'Global frontier responds to reset scenarios while retaining the selected floor');
   get('reset').click();
   get('frontier-only').click();
   change('search','pareto','input');
@@ -294,30 +294,41 @@
   mode('bugs');
   assertRows(bugModels, 'Bug mode includes all rated configurations');
   assert(get('floor').value === '-Infinity', 'Bug mode defaults to no floor');
+  assert(!get('penalty').closest('label').hidden && get('penalty').value === '0' && penaltyStrength === 0, 'Penalty strength is visible in bugs mode and defaults to zero');
+  assert(shown.every(model => bugScore(model) >= 0 && bugPenalty(model) === 0 && bugScore(model) === bugCredit(model)), 'Default ratings are unpenalized difficulty credit');
+  assert(get('detail').textContent.includes('Difficulty credit') && get('detail').textContent.includes('Miss penalty'), 'Details explain the rating deduction');
+  assert(get('bug-weights').querySelector('tr').cells.length === 4, 'The method table includes field fix rates, weights, and miss penalties');
+  assert(get('chart').textContent.includes('Difficulty-weighted bug-fix rating') && !get('chart').textContent.includes('exponential'), 'Bug rating axis is linear');
+  const probe = models.find(model => model.id === 'sol-medium'), plantedCost = costPerBug(probe), unchangedRating = bugScore(probe);
+  assert(!get('include-extras').closest('label').hidden && !get('include-extras').checked, 'Extras toggle is visible in bugs mode and off by default');
+  assert(Math.abs(plantedCost - probe.bugHunt.cost_usd / effectiveMultiplier(probe) / probe.bugHunt.fixed) < 1e-15 && get('chart').textContent.includes('planted bug fixed'), 'Default cost counts planted fixes only');
+  get('include-extras').click();
+  assert(Math.abs(costPerBug(probe) - probe.bugHunt.cost_usd / effectiveMultiplier(probe) / (probe.bugHunt.fixed + probe.bugHunt.extras)) < 1e-15 && bugScore(probe) === unchangedRating, 'Counting extras changes cost only');
+  assert(!get('chart').textContent.includes('planted bug fixed') && get('detail').textContent.includes('counted in cost'), 'Labels follow the extras toggle');
+  get('include-extras').click();
+  assert(costPerBug(probe) === plantedCost, 'Clearing the extras toggle restores planted-only cost');
+  assert(document.documentElement.scrollWidth <= innerWidth, 'Bug controls fit the viewport');
+  change('penalty','1','input');
+  const basePenalty = bugPenalty(probe), baseCost = costPerBug(probe);
   assert(shown.some(model => bugScore(model) < 0), 'No floor includes negative ratings');
   assert([...get('floor').options].some(option => Number(option.value) < 0 && Number.isFinite(Number(option.value))), 'Negative rating floors are available');
-  assert(get('detail').textContent.includes('Difficulty credit') && get('detail').textContent.includes('Miss penalty'), 'Details explain the rating deduction');
-  assert(get('bug-weights').querySelector('tr').cells.length === 3, 'The method table includes per-bug miss penalties');
   const allBugIds = shown.map(model => model.id).sort().join(',');
-  const unchangedRating = bugScore(models.find(model => model.id === 'sol-medium'));
+  const penalizedRating = bugScore(probe);
   change('floor','0');
   assertRows(bugModels.filter(model => bugScore(model) >= 0), 'A zero floor explicitly excludes negative ratings');
   change('floor','-Infinity');
   assert(shown.map(model => model.id).sort().join(',') === allBugIds, 'No floor restores negative configurations');
   change('search','haiku','input');
-  assert(bugScore(models.find(model => model.id === 'sol-medium')) === unchangedRating, 'Filters leave calibration and deductions unchanged');
+  assert(bugScore(probe) === penalizedRating, 'Filters leave calibration and deductions unchanged');
   change('search','','input');
-  assert(!get('penalty').closest('label').hidden && get('penalty').value === '2', 'Penalty strength is visible in bugs mode and defaults to two');
-  assert(document.documentElement.scrollWidth <= innerWidth, 'Penalty controls fit the viewport');
-  const probe = models.find(model => model.id === 'sol-medium'), basePenalty = bugPenalty(probe) / penaltyStrength, baseCost = costPerBug(probe);
+  const penaltyBug = Object.keys(calibration().missWeights).find(id => calibration().missWeights[id] > 0);
   for(const strength of [0,.5,4]){
     change('penalty',String(strength),'input');
     assert(bugPenalty(probe) === strength * basePenalty && bugScore(probe) === bugCredit(probe) - strength * basePenalty, 'Input scales only the missed-bug deduction: ' + strength);
     assert(costPerBug(probe) === baseCost, 'Penalty strength leaves cost per fix unchanged');
     assert(frontier.map(model => model.id).join(',') === pareto(shown,'bugs').map(model => model.id).join(','), 'Frontier updates with penalty strength');
     if(strength === 0) assert(shown.every(model => bugScore(model) === bugCredit(model)), 'Zero strength restores credit-only ratings');
-    const penaltyBug = Object.keys(calibration().missWeights)[0];
-    assert(get('bug-weights').rows[Number(penaltyBug) - 1].cells[2].textContent === number(strength * calibration().missWeights[penaltyBug]), 'Per-bug miss deductions update with the input');
+    assert(get('bug-weights').rows[Number(penaltyBug) - 1].cells[3].textContent === (strength * calibration().missWeights[penaltyBug]).toFixed(2), 'Per-bug miss deductions update with the input');
   }
   const lastValidScore = bugScore(probe);
   for(const invalid of ['', '-1', '1e308']){
@@ -325,24 +336,25 @@
     assert(!get('penalty-error').hidden && get('penalty').getAttribute('aria-invalid') === 'true', 'Invalid penalty has accessible feedback: ' + invalid);
     assert(bugScore(probe) === lastValidScore, 'Invalid input retains the last valid rating');
   }
-  change('penalty','2','input');
+  change('penalty','50','input');
   const maxPenalizedRating = Math.max(...bugModels.map(bugScore));
   change('penalty','0','input');
   const highFloor = bugFloorSteps().find(step => step > maxPenalizedRating)?.toString();
   assert(highFloor, 'An unpenalized floor exceeds the penalized rating range');
   change('floor',highFloor);
-  change('penalty','2','input');
+  change('penalty','50','input');
   assert(get('floor').value === highFloor && shown.length === 0, 'Changing strength preserves a selected floor outside the new range');
   mode('tasks');
-  assert(get('penalty').closest('label').hidden && penaltyStrength === 2, 'Tasks mode hides the input and remembers its setting');
+  assert(get('penalty').closest('label').hidden && get('include-extras').closest('label').hidden && penaltyStrength === 50, 'Tasks mode hides bug controls and remembers their settings');
   mode('bugs');
-  assert(get('penalty').value === '2' && get('floor').value === highFloor, 'Returning to bugs preserves strength and floor');
+  assert(get('penalty').value === '50' && get('floor').value === highFloor, 'Returning to bugs preserves strength and floor');
   change('floor','-Infinity');
   change('penalty','1000000','input');
   assertRows(bugModels, 'Large strengths preserve all rated configurations under no floor');
   assert(get('floor').options.length <= 22 && !/NaN|Infinity/.test(get('chart').innerHTML), 'Large strengths keep floor options bounded and chart coordinates finite');
+  get('include-extras').click();
   get('reset').click();
-  assert(get('penalty').value === '2' && penaltyStrength === 2 && !get('penalty').hasAttribute('aria-invalid') && get('penalty-error').hidden, 'Reset restores the penalty default and clears validation');
+  assert(get('penalty').value === '0' && penaltyStrength === 0 && !get('include-extras').checked && !get('penalty').hasAttribute('aria-invalid') && get('penalty-error').hidden, 'Reset restores the penalty and extras defaults and clears validation');
   mode('bugs');
   assert(!get('budget').closest('label').hidden, 'Tier budget remains available in bug mode');
   assert(document.querySelector('[data-metric="bugs"]').getAttribute('aria-pressed') === 'true', 'Mode switch exposes selection');
@@ -377,10 +389,10 @@
   assert(document.querySelectorAll('.chart-point').length === terraBugs.length && !get('export').disabled, 'Terra bug results produce chart points and enable export');
   for(const [id,count] of [['terra-low',4],['terra-medium',6]]){
     get('rows').querySelector('[data-id="' + id + '"]').click();
-    assert(get('detail').textContent.includes(count + ' / 105'), 'New Terra reliable coverage: ' + id);
+    assert(get('detail').textContent.includes('(' + count + ' in every run)'), 'New Terra reliable coverage: ' + id);
   }
   get('rows').querySelector('[data-id="terra-max"]').click();
-  assert(get('detail').textContent.includes('25 / 105') && get('detail').textContent.includes('long-context'), 'Terra Max shows its every-run fixes and cost caveat');
+  assert(get('detail').textContent.includes('40.7 / 105') && get('detail').textContent.includes('(25 in every run)') && get('detail').textContent.includes('long-context'), 'Terra Max shows its every-run fixes and cost caveat');
   get('reset').click();
   change('search','kimi','input');
   const kimiTasks = taskModels.filter(model => model.model.toLowerCase().includes('kimi'));
@@ -392,7 +404,7 @@
   mode('bugs');
   assertRows(kimiBugs, 'Kimi bug search includes all matching subscription configurations');
   get('rows').querySelector('[data-id="kimi-k3-1-pro-max"]').click();
-  assert(get('detail').textContent.includes('25 / 105') && get('detail').textContent.includes('verified source API bill'), 'K3.1 Pro coverage and bill provenance');
+  assert(get('detail').textContent.includes('36 / 105') && get('detail').textContent.includes('(25 in every run)') && get('detail').textContent.includes('verified source API bill'), 'K3.1 Pro coverage and bill provenance');
   get('reset').click();
   change('search','opencode go','input');
   assertRows(goTasks.filter(model => model.engineering >= 46), 'Go task rows respect the default floor');
@@ -402,9 +414,9 @@
   assert(get('detail').textContent.includes('OpenCode Go') && get('detail').textContent.includes('not measured consumption'), 'Flash subscription and allowance assumption are explicit');
   mode('bugs');
   assertRows(goBugs, 'Go bug search includes all matching configurations');
-  assert(get('detail').textContent.includes('21 / 105') && get('detail').textContent.includes('5 runs'), 'Flash repeated-run coverage is visible');
+  assert(get('detail').textContent.includes('37.6 / 105') && get('detail').textContent.includes('(21 in every run)') && get('detail').textContent.includes('5 runs'), 'Flash repeated-run coverage is visible');
   get('rows').querySelector('[data-id="go-glm-5-3-max"]').click();
-  assert(get('detail').textContent.includes('19 / 105') && get('detail').textContent.includes('1 run') && get('detail').textContent.includes('repeatability unverified'), 'Any complete single run is included with a repeatability warning');
+  assert(get('detail').textContent.includes('19 / 105 planted bugs fixed per run (19 in every run)') && get('detail').textContent.includes('1 run') && get('detail').textContent.includes('repeatability unverified'), 'Any complete single run is included with a repeatability warning');
   assert(get('rows').querySelector('[data-id="go-glm-5-3-max"] .caveat').textContent === 'single run', 'Single-run table label is visible');
   assert(get('metric-context').textContent.includes('Single-run results are included'), 'Single-run policy is visible above the plot');
   for(const id of ['go-minimax-m3-1-flash','go-step-5-preview','go-qwen3-8-max-0902']) assert(!get('rows').querySelector('[data-id="' + id + '"]'), 'Missing bug evidence is omitted: ' + id);
@@ -480,36 +492,36 @@
   assert(shown.every((model,index) => index === 0 || shown[index-1].engineering <= model.engineering), 'Engineering intelligence sort reverses');
 
   assert(metricValue(probeBasis,'tasks') === generalTasks && metricValue(probeBasis,'bugs') === generalCost, 'Changing intelligence basis leaves task throughput and cost unchanged');
-  assert(bugScore(probeBasis) !== generalRating && calibration().minimumWeight === 19, 'Engineering recalibrates weights and missed-bug penalties');
+  assert(bugScore(probeBasis) === generalRating, 'Bug ratings do not depend on the intelligence basis');
   change('floor','49');
   change('intelligence-basis','intelligence');
-  assert(get('floor').value === '50' && calibration().minimumWeight === 10, 'General task floor and calibration are restored');
+  assert(get('floor').value === '50', 'General task floor is restored');
   mode('bugs');
   assertRows(bugModels, 'General bugs preserve all rated configurations');
   assert(get('floor').value === '-Infinity', 'General bugs have a separate remembered floor');
-  change('floor','500');
+  change('floor','20');
   change('intelligence-basis','engineering');
   assertRows(bugModels, 'Engineering bugs preserve all rated configurations');
   assert(get('floor').value === '-Infinity', 'Engineering bugs start with no floor');
   assert(shown.filter(model => bugScore(model) < 0).length === bugModels.filter(model => bugScore(model) < 0).length, 'Engineering preserves all negative ratings');
   const engineeringScore = bugScore(probeBasis);
   change('search','haiku','input');
-  assert(bugScore(probeBasis) === engineeringScore && calibration().minimumWeight === 19, 'Engineering calibration uses the full dataset despite search');
+  assert(bugScore(probeBasis) === engineeringScore && calibration().evidenceSets === 61, 'Calibration uses the full dataset despite search');
   change('search','','input');
-  change('floor','250');
+  change('floor','10');
   mode('tasks');
   assert(get('floor').value === '49', 'Engineering task floor survives mode changes');
   mode('bugs');
-  assert(get('floor').value === '250', 'Engineering bug floor survives mode changes');
+  assert(get('floor').value === '10', 'Engineering bug floor survives mode changes');
   change('intelligence-basis','intelligence');
-  assert(get('floor').value === '500', 'General bug floor survives basis changes');
+  assert(get('floor').value === '20', 'General bug floor survives basis changes');
   change('intelligence-basis','engineering');
   change('floor','-Infinity');
   get('early-resets').click();
   assert(Math.abs(metricValue(probeBasis,'tasks') / generalTasks - 7/3) < 1e-12 && bugScore(probeBasis) === engineeringScore, 'Engineering early resets alter cost and throughput, preserving ratings');
   get('reset').click();
   assertRows(defaultTasks, 'Reset restores default Engineering task configurations');
-  assert(get('intelligence-basis').value === 'engineering' && get('floor').value === '46' && !get('early-resets').checked && get('penalty').value === '2', 'Reset clears basis, all floor memories, reset scenario, and penalty');
+  assert(get('intelligence-basis').value === 'engineering' && get('floor').value === '46' && !get('early-resets').checked && get('penalty').value === '0', 'Reset clears basis, all floor memories, reset scenario, and penalty');
   const urls = [], downloads = [];
   const createURL = URL.createObjectURL, revokeURL = URL.revokeObjectURL, click = HTMLAnchorElement.prototype.click;
   try {
@@ -525,7 +537,7 @@
     assert(downloads[0].includes('tasks-per-dollar-budget-best') && downloads[1].includes('bug-cost'), 'Mode-specific export filenames include Best');
     const csv = (await urls[1].text()).split('\r\n').map(line => [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""','"')));
     const column = name => csv[0].indexOf(name);
-    assert(['Bug-fix rating','Difficulty credit','Miss penalty','Minimum calibrated difficulty','Calibrated planted bugs','Bug rating method','Penalty strength','Engineering Index','Intelligence basis','AA index version','AA General Intelligence exact','AA Engineering Intelligence exact','AA task cost exact (USD)','Task price factor','Task benchmark cost used (USD)','Monthly cost range','Cost range ceiling (USD)','Selected multiplier tier','Tier monthly price (USD)'].every(name => column(name) >= 0), 'Bug CSV includes rating components and calibration');
+    assert(['Bug-fix rating','Difficulty credit','Miss penalty','Calibration evidence sets','Extras counted in cost','Fixes counted in cost','Bug rating method','Penalty strength','Engineering Index','Intelligence basis','AA index version','AA General Intelligence exact','AA Engineering Intelligence exact','AA task cost exact (USD)','Task price factor','Task benchmark cost used (USD)','Monthly cost range','Cost range ceiling (USD)','Selected multiplier tier','Tier monthly price (USD)'].every(name => column(name) >= 0), 'Bug CSV includes rating components and calibration');
     for(const row of csv.slice(1)){
       const model = shown.find(model => model.model === row[0] && model.reasoning === row[1] && model.provider === row[3]);
       assert(row.length === csv[0].length && model, 'CSV columns and configuration identity agree');
@@ -533,7 +545,7 @@
       assert(Number(row[column('Bug-fix rating')]) === bugScore(model), 'CSV retains full signed rating precision');
       assert(Number(row[column('Difficulty credit')]) === bugCredit(model) && Number(row[column('Miss penalty')]) === bugPenalty(model), 'CSV rating components agree with calculations');
       assert(Number(row[column('General Intelligence')]) === model.intelligence && Number(row[column('Engineering Index')]) === model.engineering && row[column('Intelligence basis')] === 'Engineering Intelligence' && row[column('AA index version')] === '5.0.1', 'CSV records both scores and active basis');
-      assert(Number(row[column('Minimum calibrated difficulty')]) === 19 && Number(row[column('Calibrated planted bugs')]) === 68, 'CSV calibration follows Engineering');
+      assert(Number(row[column('Calibration evidence sets')]) === 61 && row[column('Extras counted in cost')] === 'No' && Number(row[column('Fixes counted in cost')]) === model.bugHunt.fixed, 'CSV records calibration and the planted-only cost basis');
       assert(Number(row[column('AA General Intelligence exact')]) === model.aaIntelligenceExact && Number(row[column('AA Engineering Intelligence exact')]) === model.aaEngineeringExact && Number(row[column('Task benchmark cost used (USD)')]) === model.benchmarkCost, 'CSV preserves raw AA provenance and converted task cost');
       assert(Number(row[column('Penalty strength')]) === 3, 'CSV records the selected nondefault penalty strength');
     }

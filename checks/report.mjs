@@ -36,22 +36,24 @@ const expected = {
       "defaultFloor": 42,
       "defaultTaskCount": 46,
       "allTaskFrontier": ["luna-low", "haiku-low", "haiku-medium", "haiku-high", "haiku-xhigh", "haiku-max", "sol-6-2-low", "sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "astra-6-2-high", "astra-6-2-xhigh", "fable-max"],
-      "defaultTaskFrontier": ["sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "astra-6-2-high", "astra-6-2-xhigh", "fable-max"],
-      "bugCount": 64,
-      "ratedBugs": 68,
-      "minimumWeight": 10,
-      "weights": {"1": null, "2": null, "3": null, "4": null, "5": null, "6": null, "7": null, "8": null, "9": null, "10": null, "11": null, "12": null, "13": 28, "14": null, "15": null, "16": 25, "17": 52, "18": null, "19": null, "20": 18, "21": 52, "22": 35, "23": 28, "24": 61, "25": 19, "26": 29, "27": 29, "28": 42, "29": 29, "30": 10, "31": null, "32": null, "33": 30, "34": 30, "35": 43, "36": 43, "37": 31, "38": 54, "39": 26, "40": 32, "41": 43, "42": null, "43": 19, "44": 27, "45": 19, "46": 48, "47": 23, "48": null, "49": 10, "50": 23, "51": 52, "52": null, "53": 62, "54": null, "55": 61, "56": 61, "57": null, "58": null, "59": 60, "60": 35, "61": 42, "62": 23, "63": null, "64": 48, "65": null, "66": 54, "67": null, "68": 35, "69": 50, "70": 30, "71": 19, "72": null, "73": 52, "74": 52, "75": null, "76": 19, "77": 18, "78": 60, "79": 50, "80": 48, "81": null, "82": 33, "83": 21, "84": 19, "85": null, "86": null, "87": null, "88": 60, "89": null, "90": 50, "91": 50, "92": 23, "93": 48, "94": 50, "95": 52, "96": 50, "97": 19, "98": 19, "99": 10, "100": 10, "101": null, "102": 32, "103": null, "104": null, "105": 50}, "allBugFrontier": ["luna-high", "luna-max", "luna-xhigh", "deepseek-flash-1017-high", "deepseek-flash-1017-max", "sol-medium", "sol-high", "sol-xhigh", "sol-max", "astra-xhigh", "antigravity-ultra-5x-neon-medium", "antigravity-ultra-5x-carbon-medium", "antigravity-ultra-5x-neon-high", "antigravity-ultra-5x-neon-xhigh"], "negativeRatings": 22, "scoreRange": [-354.4372722720666, 1854.4032045862502], "scores": {"sonnet-high": 524.3109896714137, "sol-medium": 358.67313709093315, "opus-medium": 322.233830796989, "sol-high": 500.8725543865364, "opus-high": 391.47395870874163, "sonnet-xhigh": 374.17377905594225, "sol-xhigh": 772.0638752949784, "opus-xhigh": 476.58519834629703, "grok-high": -124.27722160777131, "grok-xhigh": 30.859860227251033, "sonnet-low": -50.19576549509054, "sonnet-medium": -19.671955971281022, "sonnet-max": 810.9096225200465, "opus-low": -27.351591091064563, "opus-max": 738.1674577647238, "sol-low": -9.371528201745718, "sol-max": 828.4956337755276, "astra-low": 468.13852140839674, "astra-medium": 749.2986161885136, "astra-high": 768.7372608771584, "astra-xhigh": 1088.0984861349748, "astra-max": 791.6040945827181, "luna-low": -352.6594944942887, "luna-medium": -354.4372722720666, "luna-high": -204.445626490947, "luna-xhigh": -49.02559089470998, "luna-max": -201.05432214312094, "haiku-low": -146.44896817849917, "haiku-medium": -111.69483647242242, "haiku-high": -115.45147444416341, "haiku-xhigh": -146.8056933246981, "haiku-max": 85.97629538019771, "grok-low": -281.8806532638346, "fable-low": 828.1220530042161, "fable-medium": 782.559786976058, "fable-high": 879.7150951182083, "fable-xhigh": 871.4993142250796, "fable-max": 1381.7792154832416, "muse-standard-max": 20.27369620263198, "muse-contributor-max": 20.27369620263198, "muse-wonder-standard-max": 273.2972320537541, "muse-wonder-contributor-max": 273.2972320537541, "kimi-k3-1-pro-max": 342.6929403870522, "deepseek-flash-1017-max": 196.6129898826698, "go-mimo-v2-6-pro": -33.22365852756025, "go-kimi-k3-1-pro-max": 342.6929403870522, "go-glm-5-3-max": 136.43092554535417, "terra-low": -353.133178704815, "terra-medium": -280.6887342603706, "terra-high": -250.6887342603705, "terra-xhigh": -321.43752653090195, "terra-max": 401.2862265451704, "antigravity-ultra-5x-argon-high": 703.8344083277725, "antigravity-ultra-5x-argon-medium": 607.3706769330461, "antigravity-ultra-5x-carbon-high": 1362.96297225327, "antigravity-ultra-5x-carbon-low": 741.782829108356, "antigravity-ultra-5x-carbon-medium": 1379.1459135137975, "antigravity-ultra-5x-neon-low": 285.3321970887191, "antigravity-ultra-5x-neon-medium": 1136.345597463352, "antigravity-ultra-5x-neon-high": 1600.0799595253004, "antigravity-ultra-5x-neon-xhigh": 1854.4032045862502, "go-glm-5-3-flash": -92.66889275769154, "go-mimo-v2-6-flash": -107.98558750459227, "deepseek-flash-1017-high": 26.044944013274574}
+      "defaultTaskFrontier": ["sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "astra-6-2-high", "astra-6-2-xhigh", "fable-max"]
     },
     "engineering": {
       "defaultFloor": 46,
       "defaultTaskCount": 48,
       "allTaskFrontier": ["luna-low", "haiku-low", "haiku-medium", "haiku-high", "haiku-xhigh", "haiku-max", "sol-6-2-low", "sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "opus-xhigh", "astra-6-2-high", "fable-medium", "astra-6-2-max", "fable-high", "fable-max"],
-      "defaultTaskFrontier": ["sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "opus-xhigh", "astra-6-2-high", "fable-medium", "astra-6-2-max", "fable-high", "fable-max"],
-      "bugCount": 64,
-      "ratedBugs": 68,
-      "minimumWeight": 19,
-      "weights": {"1": null, "2": null, "3": null, "4": null, "5": null, "6": null, "7": null, "8": null, "9": null, "10": null, "11": null, "12": null, "13": 34, "14": null, "15": null, "16": 31, "17": 57, "18": null, "19": null, "20": 25, "21": 57, "22": 43, "23": 34, "24": 67, "25": 27, "26": 34, "27": 34, "28": 46, "29": 34, "30": 19, "31": null, "32": null, "33": 34, "34": 34, "35": 50, "36": 50, "37": 38, "38": 62, "39": 33, "40": 38, "41": 50, "42": null, "43": 27, "44": 31, "45": 27, "46": 54, "47": 29, "48": null, "49": 19, "50": 29, "51": 57, "52": null, "53": 70, "54": null, "55": 67, "56": 67, "57": null, "58": null, "59": 65, "60": 42, "61": 46, "62": 29, "63": null, "64": 53, "65": null, "66": 60, "67": null, "68": 43, "69": 55, "70": 34, "71": 27, "72": null, "73": 57, "74": 57, "75": null, "76": 27, "77": 25, "78": 65, "79": 57, "80": 53, "81": null, "82": 38, "83": 27, "84": 27, "85": null, "86": null, "87": null, "88": 65, "89": null, "90": 57, "91": 55, "92": 29, "93": 53, "94": 57, "95": 58, "96": 57, "97": 27, "98": 27, "99": 19, "100": 19, "101": null, "102": 38, "103": null, "104": null, "105": 57}, "allBugFrontier": ["luna-high", "luna-xhigh", "deepseek-flash-1017-high", "deepseek-flash-1017-max", "sol-medium", "sol-high", "sol-xhigh", "sol-max", "astra-xhigh", "antigravity-ultra-5x-neon-medium", "antigravity-ultra-5x-carbon-medium", "antigravity-ultra-5x-neon-high", "antigravity-ultra-5x-neon-xhigh"], "negativeRatings": 32, "scoreRange": [-1087.3298337835395, 2094.9659272849913], "scores": {"sonnet-high": 352.18914375915836, "sol-medium": 79.39976203500646, "opus-medium": 28.719180914163758, "sol-high": 299.995432328202, "opus-high": 139.74600083753523, "sonnet-xhigh": 128.91704930023195, "sol-xhigh": 677.6997119530954, "opus-xhigh": 293.71015274850777, "grok-high": -698.766072049455, "grok-xhigh": -429.5949353955599, "sonnet-low": -545.2134980120312, "sonnet-medium": -491.47275727129045, "sonnet-max": 736.3982295114329, "opus-low": -537.2160670248052, "opus-max": 626.7566782676852, "sol-low": -529.5134595547559, "sol-max": 746.1805804077569, "astra-low": 215.80772062145263, "astra-medium": 635.797054499885, "astra-high": 679.8770603504042, "astra-xhigh": 1147.7828374005558, "astra-max": 728.3945405448242, "luna-low": -1081.0898337835397, "luna-medium": -1087.3298337835395, "luna-high": -812.2468708205763, "luna-xhigh": -546.0399231832841, "luna-max": -818.4537673723007, "haiku-low": -708.1639078576134, "haiku-medium": -653.5785150343119, "haiku-high": -651.1639078576134, "haiku-xhigh": -704.6261300798357, "haiku-max": -319.2460702237629, "grok-low": -975.5903051640107, "fable-low": 752.2501107420146, "fable-medium": 718.2266298040976, "fable-high": 845.5957385816896, "fable-xhigh": 815.7760590121193, "fable-max": 1482.5688558799086, "muse-standard-max": -437.57620554715254, "muse-contributor-max": -437.57620554715254, "muse-wonder-standard-max": -38.47882674867162, "muse-wonder-contributor-max": -38.47882674867162, "kimi-k3-1-pro-max": 73.29065528119395, "deepseek-flash-1017-max": -163.42893729218042, "go-mimo-v2-6-pro": -538.9036960027566, "go-kimi-k3-1-pro-max": 73.29065528119395, "go-glm-5-3-max": -261.9938448025829, "terra-low": -1084.3490930427986, "terra-medium": -976.9985048075043, "terra-high": -919.9985048075046, "terra-xhigh": -1030.4525413186607, "terra-max": 110.98425143956933, "antigravity-ultra-5x-argon-high": 505.6464336348794, "antigravity-ultra-5x-argon-medium": 434.8715318567092, "antigravity-ultra-5x-carbon-high": 1469.1037690982519, "antigravity-ultra-5x-carbon-low": 658.6656169413534, "antigravity-ultra-5x-carbon-medium": 1507.5123976446575, "antigravity-ultra-5x-neon-low": -38.12232050981231, "antigravity-ultra-5x-neon-medium": 1148.218337507045, "antigravity-ultra-5x-neon-high": 1785.5298767683437, "antigravity-ultra-5x-neon-xhigh": 2094.9659272849913, "go-glm-5-3-flash": -655.8140686775733, "go-mimo-v2-6-flash": -653.1847441778045, "deepseek-flash-1017-high": -437.39115119988924}
+      "defaultTaskFrontier": ["sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "opus-xhigh", "astra-6-2-high", "fable-medium", "astra-6-2-max", "fable-high", "fable-max"]
     }
+  },
+  "bugs": {
+    "bugCount": 64,
+    "evidenceSets": 61,
+    "neverFixed": 27,
+    "fieldRates": {"1": 0.0, "2": 0.0, "3": 0.0, "4": 0.0, "5": 0.0, "6": 0.0, "7": 0.0, "8": 0.0, "9": 0.0, "10": 0.0, "11": 0.0, "12": 0.0, "13": 0.653551912568306, "14": 0.0, "15": 0.0, "16": 0.7398907103825136, "17": 0.1251366120218579, "18": 0.0, "19": 0.0, "20": 0.8879781420765027, "21": 0.3797814207650273, "22": 0.6666666666666666, "23": 0.35355191256830604, "24": 0.060109289617486336, "25": 0.7344262295081967, "26": 0.3770491803278688, "27": 0.5153005464480874, "28": 0.3628415300546448, "29": 0.6409836065573771, "30": 0.9863387978142076, "31": 0.01092896174863388, "32": 0.10273224043715846, "33": 0.6808743169398908, "34": 0.6786885245901639, "35": 0.21311475409836064, "36": 0.1721311475409836, "37": 0.3262295081967213, "38": 0.13224043715846995, "39": 0.739344262295082, "40": 0.4961748633879781, "41": 0.32295081967213113, "42": 0.060655737704918035, "43": 0.8497267759562842, "44": 0.48415300546448087, "45": 0.7912568306010929, "46": 0.17868852459016393, "47": 0.7027322404371584, "48": 0.0, "49": 0.8349726775956284, "50": 0.7939890710382513, "51": 0.26612021857923496, "52": 0.01092896174863388, "53": 0.06885245901639345, "54": 0.0, "55": 0.07431693989071038, "56": 0.1087431693989071, "57": 0.006557377049180328, "58": 0.0, "59": 0.16775956284153004, "60": 0.5049180327868853, "61": 0.24207650273224043, "62": 0.6038251366120219, "63": 0.0, "64": 0.16721311475409836, "65": 0.0, "66": 0.15245901639344261, "67": 0.01366120218579235, "68": 0.16393442622950818, "69": 0.2825136612021858, "70": 0.4273224043715847, "71": 0.7103825136612022, "72": 0.0, "73": 0.06885245901639345, "74": 0.20327868852459016, "75": 0.00546448087431694, "76": 0.8715846994535519, "77": 0.7721311475409836, "78": 0.1923497267759563, "79": 0.22459016393442624, "80": 0.3726775956284153, "81": 0.04262295081967213, "82": 0.5459016393442623, "83": 0.8415300546448088, "84": 0.8819672131147541, "85": 0.0, "86": 0.0, "87": 0.03825136612021858, "88": 0.08196721311475409, "89": 0.003278688524590164, "90": 0.03278688524590164, "91": 0.30601092896174864, "92": 0.6579234972677596, "93": 0.14207650273224043, "94": 0.12896174863387977, "95": 0.29508196721311475, "96": 0.22295081967213115, "97": 0.5907103825136611, "98": 0.7475409836065574, "99": 0.9316939890710383, "100": 0.8721311475409836, "101": 0.0, "102": 0.5775956284153005, "103": 0.0, "104": 0.0, "105": 0.1092896174863388},
+    "scores": {"sonnet-high": 11.409471766848815, "sol-medium": 8.670218579234973, "opus-medium": 9.198542805100182, "sol-high": 13.931420765027323, "opus-high": 9.739708561020036, "sonnet-xhigh": 12.604189435336977, "sol-xhigh": 17.33151183970856, "opus-xhigh": 12.065027322404372, "grok-high": 5.010564663023679, "grok-xhigh": 9.67672131147541, "sonnet-low": 4.4673952641165755, "sonnet-medium": 6.718943533697632, "sonnet-max": 24.563387978142078, "opus-low": 5.621311475409836, "opus-max": 16.276138433515484, "sol-low": 6.752185792349727, "sol-max": 18.860109289617487, "astra-low": 9.349180327868853, "astra-medium": 12.547540983606558, "astra-high": 12.277049180327868, "astra-xhigh": 17.055737704918034, "astra-max": 18.981056466302366, "luna-low": 0.37486338797814206, "luna-medium": 0.42185792349726775, "luna-high": 1.2163934426229508, "luna-xhigh": 2.5923497267759563, "luna-max": 4.7265938069216755, "haiku-low": 2.069398907103825, "haiku-medium": 2.101639344262295, "haiku-high": 3.3866120218579234, "haiku-xhigh": 4.512932604735884, "haiku-max": 5.610109289617486, "grok-low": 4.489981785063752, "fable-low": 15.844535519125683, "fable-medium": 16.033060109289618, "fable-high": 17.412841530054646, "fable-xhigh": 22.31402550091075, "fable-max": 29.282331511839708, "muse-standard-max": 10.94207650273224, "muse-contributor-max": 10.94207650273224, "muse-wonder-standard-max": 10.967941712204007, "muse-wonder-contributor-max": 10.967941712204007, "kimi-k3-1-pro-max": 13.0408014571949, "deepseek-flash-1017-max": 15.295300546448088, "go-mimo-v2-6-pro": 6.71183970856102, "go-kimi-k3-1-pro-max": 13.0408014571949, "go-glm-5-3-max": 4.718579234972678, "terra-low": 0.941712204007286, "terra-medium": 1.6870673952641166, "terra-high": 2.0367941712204005, "terra-xhigh": 2.468306010928962, "terra-max": 17.387795992714025, "antigravity-ultra-5x-argon-high": 18.29471766848816, "antigravity-ultra-5x-argon-medium": 16.290346083788705, "antigravity-ultra-5x-carbon-high": 29.00837887067395, "antigravity-ultra-5x-carbon-low": 20.250273224043717, "antigravity-ultra-5x-carbon-medium": 27.508925318761385, "antigravity-ultra-5x-neon-low": 9.961566484517304, "antigravity-ultra-5x-neon-medium": 21.78087431693989, "antigravity-ultra-5x-neon-high": 28.13752276867031, "antigravity-ultra-5x-neon-xhigh": 33.369945355191255, "go-glm-5-3-flash": 4.989435336976321, "go-mimo-v2-6-flash": 7.745719489981785, "deepseek-flash-1017-high": 15.20360655737705},
+    "negativeAtOne": 29,
+    "allBugFrontier": ["luna-high", "luna-xhigh", "luna-max", "deepseek-flash-1017-high", "deepseek-flash-1017-max", "sol-xhigh", "sol-max", "antigravity-ultra-5x-carbon-low", "antigravity-ultra-5x-neon-medium", "sonnet-max", "antigravity-ultra-5x-carbon-medium", "antigravity-ultra-5x-neon-high", "antigravity-ultra-5x-carbon-high", "fable-max", "antigravity-ultra-5x-neon-xhigh"],
+    "allBugFrontierWithExtras": ["luna-high", "luna-max", "deepseek-flash-1017-high", "deepseek-flash-1017-max", "sol-xhigh", "sol-max", "astra-max", "antigravity-ultra-5x-carbon-low", "antigravity-ultra-5x-neon-medium", "sonnet-max", "antigravity-ultra-5x-carbon-medium", "antigravity-ultra-5x-neon-high", "antigravity-ultra-5x-neon-xhigh"]
   }
 };
 // Published v5 inputs and converted task costs from the 2026-11-04, 2026-11-09, 2026-11-17, 2026-11-18 and 2026-11-20 AA snapshots.
@@ -142,13 +144,13 @@ const inputs = [
 const plain = value => JSON.parse(JSON.stringify(value));
 const near = (actual,wanted) => assert.ok(Math.abs(actual - wanted) < 1e-9,`${actual} != ${wanted}`);
 const declaration = name => {const match = code.match(new RegExp('^    const ' + name + ' = .+$','m'));assert.ok(match, name + ' declaration');return match[0];};
-const names = ['intelligenceScore','reliableBugs','bugCalibrations','calibration','bugCredit','bugPenalty','bugScore','totalFixes','resetCostFactor','subscriptionTiers','costRanges','multiplierForTier','selectedTier','matchesCostRange','tierMultiplier','tierLabel','effectiveMultiplier','costPerBug','metricValue','rating','bugFloors','defaultBugFloor','bugFloorSteps','defaultIntelligenceFloor','intelligenceFloors','dominates','pareto'];
+const names = ['intelligenceScore','reliableBugs','hasBugCoverage','fixRate','bugIds','bugCalibration','calibration','bugCredit','bugPenalty','bugScore','countExtras','fixLabel','totalFixes','resetCostFactor','subscriptionTiers','costRanges','multiplierForTier','selectedTier','matchesCostRange','tierMultiplier','tierLabel','effectiveMultiplier','costPerBug','metricValue','rating','bugFloors','defaultBugFloor','bugFloorSteps','defaultIntelligenceFloor','intelligenceFloors','dominates','pareto'];
 const valueCode = names.map(declaration).join('\n');
-const create = (models = data,basis = 'intelligence',strength = 2) => {
-  const context = {models,budget:'best',penaltyStrength:strength,controls:{'intelligence-basis':{value:basis},'early-resets':{checked:false}}};
+const create = (models = data,basis = 'intelligence',strength = 0,extras = false) => {
+  const context = {models,budget:'best',penaltyStrength:strength,controls:{'intelligence-basis':{value:basis},'early-resets':{checked:false},'include-extras':{checked:extras}}};
   return {context,...runInNewContext(valueCode + '\n({' + names.join(',') + '})',context)};
 };
-assert.equal(Number(html.match(/id="penalty"[^>]*value="([^"]+)"/)[1]),2);
+assert.equal(Number(html.match(/id="penalty"[^>]*value="([^"]+)"/)[1]),0);
 assert.equal(data.length,expected.count);
 assert.equal(new Set(data.map(model => model.id)).size,expected.count);
 assert.deepEqual(data.map(m => ['id','intelligence','engineering','benchmarkCost','tasks20','aaIntelligenceExact','aaEngineeringExact','aaTaskCostExact','taskPriceFactor'].map(key => m[key])),inputs);
@@ -184,7 +186,8 @@ assert.ok(!data.some(model => model.model.startsWith('Gemini') && model.provider
 near(argon.benchmarkCost,Math.round(argon.aaTaskCostExact * argon.taskPriceFactor * 100) / 100);
 assert.deepEqual([argon.bugHunt.id,argon.bugHunt.fixed,argon.bugHunt.extras,argon.bugHunt.cost_usd,argon.bugHunt.n_runs,argon.bugHunt.coverage_runs,argon.bugHunt.date],['Gemini 4 Argon (high effort, Antigravity CLI) - mean of 3',40.7,7.3,7.16,3,3,'2026-10-14']);
 assert.equal(create().reliableBugs(argon).length,31);
-near(create().metricValue(argon,'bugs'),7.16 / 8.7 / 48);
+near(create().metricValue(argon,'bugs'),7.16 / 8.7 / 40.7);
+near(create(data,'intelligence',0,true).metricValue(argon,'bugs'),7.16 / 8.7 / 48);
 const refreshedGo = create();
 for(const [id,go,plus,runs] of [['deepseek-flash-1017-max',10,5,5],['deepseek-flash-1017-high',10,5,5],['go-glm-5-3-flash',6,4.5,3],['go-glm-5-3-low',1.5,3,0],['go-mimo-v2-6-flash',6,3,3]]){
   const model = byId(id);
@@ -213,7 +216,8 @@ for(const [id,effort,general,engineering,cost,tasks,runId,fixed,extras,runCost,d
   near(model.benchmarkCost,Math.round(model.aaTaskCostExact * model.taskPriceFactor * 100) / 100);
   assert.deepEqual([bug.id,bug.fixed,bug.extras,bug.cost_usd,bug.cost_kind,bug.n_runs,bug.coverage_runs,bug.date,bug.price_factor],[runId,fixed,extras,runCost,'list',3,3,date,undefined]);
   assert.equal(create().reliableBugs(model).length,reliable);
-  near(create().metricValue(model,'bugs'),runCost / 8.7 / (fixed + extras));
+  near(create().metricValue(model,'bugs'),runCost / 8.7 / fixed);
+  near(create(data,'intelligence',0,true).metricValue(model,'bugs'),runCost / 8.7 / (fixed + extras));
 }
 const carbon = byId('antigravity-ultra-5x-carbon-high');
 assert.deepEqual(data.filter(model => model.model.startsWith('Gemini')).map(model => model.id.replace('antigravity-ultra-5x-','')),['argon-high','argon-medium','carbon-high','carbon-low','carbon-medium','neon-low','neon-medium','neon-high','neon-xhigh']);
@@ -272,31 +276,40 @@ assert.deepEqual(newMuse.map(m => [m.id,m.provider,m.reasoning,m.multiplier]),[[
 assert.ok(!data.some(m => m.model.includes('Wonder Full')));
 assert.ok(byId('go-mimo-v2-6-pro').taskPriceFactor > 1 && byId('go-qwen3-8-max-0902').taskPriceFactor > 1);
 for(const [basis,facts] of Object.entries(expected.bases)){
-  const api = create(data,basis), {context,calibration,reliableBugs,bugCredit,bugPenalty,bugScore,metricValue,rating,pareto} = api;
+  const api = create(data,basis), {context,calibration,bugIds,fixRate,bugCredit,bugPenalty,bugScore,metricValue,rating,pareto} = api;
   assert.equal(api.defaultIntelligenceFloor(),facts.defaultFloor);
   assert.equal(api.defaultIntelligenceFloor(),byId('terra-high')[basis]);
   assert.equal(data.filter(m => rating(m) >= facts.defaultFloor).length,facts.defaultTaskCount);
-  assert.deepEqual(plain(calibration().weights),facts.weights);
-  assert.equal(calibration().minimumWeight,facts.minimumWeight);
-  assert.equal(Object.keys(calibration().missWeights).length,facts.ratedBugs);
   assert.deepEqual(plain(pareto(data).map(m => m.id)),facts.allTaskFrontier);
   assert.deepEqual(plain(pareto(data.filter(m => rating(m) >= facts.defaultFloor)).map(m => m.id)),facts.defaultTaskFrontier);
-  assert.deepEqual(plain(pareto(data.filter(m => metricValue(m,'bugs') !== null),'bugs').map(m => m.id)),facts.allBugFrontier);
-  assert.equal(data.filter(m => bugScore(m) !== null).length,facts.bugCount);
-  assert.equal(data.filter(m => bugScore(m) !== null && bugScore(m) < 0).length,facts.negativeRatings);
+  assert.deepEqual(plain(pareto(data.filter(m => metricValue(m,'bugs') !== null),'bugs').map(m => m.id)),expected.bugs.allBugFrontier);
+  assert.equal(data.filter(m => bugScore(m) !== null).length,expected.bugs.bugCount);
+  assert.equal(data.filter(m => bugScore(m) !== null && bugScore(m) < 0).length,0);
+  assert.equal(calibration().evidenceSets,expected.bugs.evidenceSets);
+  for(const id of bugIds) near(calibration().fieldRates[id],expected.bugs.fieldRates[id]);
+  assert.equal(bugIds.filter(id => calibration().fieldRates[id] === 0).length,expected.bugs.neverFixed);
   assert.deepEqual(plain(api.intelligenceFloors()),[...new Set(data.map(m => m[basis]))].sort((a,b) => a-b));
   for(const model of data){
     assert.equal(rating(model),model[basis]);
     assert.equal(metricValue(model),expectedTasks(model));
     if(!model.bugHunt){assert.equal(bugScore(model),null);assert.equal(metricValue(model,'bugs'),null);continue;}
-    near(bugScore(model),facts.scores[model.id]);
-    const fixes = reliableBugs(model), missed = Object.entries(facts.weights).filter(([id,w]) => w !== null && !fixes.includes(id));
-    near(bugCredit(model),fixes.reduce((sum,id) => sum + (facts.weights[id] ?? 0),0));
-    near(bugPenalty(model),2 * missed.reduce((sum,[,w]) => sum + facts.minimumWeight ** 2 / w,0));
-    near(metricValue(model,'bugs'),model.bugHunt.cost_usd * (model.bugHunt.price_factor ?? 1) / expectedMultiplier(model) / (model.bugHunt.fixed + model.bugHunt.extras));
+    near(bugScore(model),expected.bugs.scores[model.id]);
+    near(bugCredit(model),bugIds.reduce((sum,id) => sum + (model.bugHunt.bug_hits[id] ?? 0) / model.bugHunt.n_runs * (1 - expected.bugs.fieldRates[id]),0));
+    assert.equal(bugPenalty(model),0);
+    near(metricValue(model,'bugs'),model.bugHunt.cost_usd * (model.bugHunt.price_factor ?? 1) / expectedMultiplier(model) / model.bugHunt.fixed);
   }
   assert.equal(api.defaultBugFloor,-Infinity);
-  const probe = byId('sol-medium'), basePenalty = bugPenalty(probe) / 2, baseCost = metricValue(probe,'bugs');
+  const probe = byId('sol-medium'), baseCost = metricValue(probe,'bugs');
+  context.penaltyStrength = 1;
+  const basePenalty = bugPenalty(probe);
+  near(basePenalty,bugIds.reduce((sum,id) => sum + (1 - fixRate(probe,id)) * expected.bugs.fieldRates[id],0));
+  // At strength 1 the difficulty bonus cancels: rating = mean planted fixes - field mean fixes.
+  for(const model of data.filter(m => m.bugHunt)){
+    const meanFixes = bugIds.reduce((sum,id) => sum + fixRate(model,id),0), fieldFixes = bugIds.reduce((sum,id) => sum + expected.bugs.fieldRates[id],0);
+    near(bugScore(model),meanFixes - fieldFixes);
+    assert.ok(Math.abs(meanFixes - model.bugHunt.fixed) <= .05);
+  }
+  assert.equal(data.filter(m => bugScore(m) !== null && bugScore(m) < 0).length,expected.bugs.negativeAtOne);
   for(const strength of [0,.25,1,2,4,1e6]){
     context.penaltyStrength = strength;
     near(bugPenalty(probe),strength * basePenalty);
@@ -304,17 +317,26 @@ for(const [basis,facts] of Object.entries(expected.bases)){
     assert.equal(metricValue(probe,'bugs'),baseCost);
     assert.ok(api.bugFloorSteps().length <= 21);
   }
-  context.penaltyStrength = 2;
+  context.penaltyStrength = 0;
   context.controls['early-resets'].checked = true;
   for(const model of data){
     const factor = model.provider === 'ChatGPT' ? 3/7 : 1;
     assert.equal(api.resetCostFactor(model),factor);
     assert.equal(api.effectiveMultiplier(model),expectedMultiplier(model) / factor);
     assert.equal(metricValue(model),expectedTasks(model) / factor);
-    if(model.bugHunt) near(metricValue(model,'bugs'),model.bugHunt.cost_usd * (model.bugHunt.price_factor ?? 1) / expectedMultiplier(model) / (model.bugHunt.fixed + model.bugHunt.extras) * factor);
-    if(model.bugHunt) near(bugScore(model),facts.scores[model.id]);
+    if(model.bugHunt) near(metricValue(model,'bugs'),model.bugHunt.cost_usd * (model.bugHunt.price_factor ?? 1) / expectedMultiplier(model) / model.bugHunt.fixed * factor);
+    if(model.bugHunt) near(bugScore(model),expected.bugs.scores[model.id]);
   }
   context.controls['early-resets'].checked = false;
+  context.controls['include-extras'].checked = true;
+  for(const model of data.filter(m => m.bugHunt)){
+    near(metricValue(model,'bugs'),model.bugHunt.cost_usd * (model.bugHunt.price_factor ?? 1) / expectedMultiplier(model) / (model.bugHunt.fixed + model.bugHunt.extras));
+    near(bugScore(model),expected.bugs.scores[model.id]);
+  }
+  assert.deepEqual(plain(pareto(data.filter(m => metricValue(m,'bugs') !== null),'bugs').map(m => m.id)),expected.bugs.allBugFrontierWithExtras);
+  assert.equal(api.fixLabel(),'bug fixed');
+  context.controls['include-extras'].checked = false;
+  assert.equal(api.fixLabel(),'planted bug fixed');
   assert.equal(metricValue(probe),probe.tasks20);
   assert.equal(pareto([]).length,0);
   const tied = {intelligence:40,engineering:50,tasks20:100,multiplier:5,benchmarkCost:1};
@@ -325,27 +347,31 @@ for(const [basis,facts] of Object.entries(expected.bases)){
   assert.ok(!api.dominates(costly,probe,'bugs'));
   assert.equal(pareto([probe,costly],'bugs').length,1);
 }
-const withFixes = ids => ({bugHunt:{n_runs:2,coverage_runs:2,bug_hits:Object.fromEntries(ids.map(id => [id,2]))}});
-const synthetic = [20,40,80].map((intelligence,i) => ({...withFixes([String(i+1)]),intelligence,engineering:intelligence + 10}));
-const sample = create(synthetic,'intelligence',1);
-assert.deepEqual(plain(sample.calibration().missWeights),{'1':20,'2':10,'3':5});
-for(const [fixes,score] of [[['1'],5],[['2'],15],[['3'],50],[['1','2'],55],[['1','2','3'],140]]) assert.equal(sample.bugScore(withFixes(fixes)),score);
-assert.equal(sample.bugPenalty(withFixes(['1','2','3'])),0);
-for(const candidate of [withFixes(['104']),withFixes([]),{bugHunt:{n_runs:2,coverage_runs:1,bug_hits:{1:1}}}]) assert.equal(sample.bugScore(candidate),null);
-assert.ok(sample.bugScore(withFixes(['2','3'])) > sample.bugScore(withFixes(['1','3'])));
-assert.ok(sample.bugPenalty(withFixes(['2','3'])) > sample.bugPenalty(withFixes(['1','2'])));
+const runs = (n,hits,id) => ({bugHunt:{id,n_runs:n,coverage_runs:n,bug_hits:hits}});
+// Field fix rates: bug 1 = (1 + 1 + 1/2) / 3, bug 2 = 1/3, bug 3 = 0. Shared evidence ids count once.
+const synthetic = [runs(2,{1:2,2:2},'a'),runs(2,{1:2},'b'),runs(2,{1:1},'c'),runs(2,{1:1},'c')];
+const sample = create(synthetic);
+assert.equal(sample.calibration().evidenceSets,3);
+near(sample.calibration().fieldRates['1'],5 / 6);near(sample.calibration().fieldRates['2'],1 / 3);assert.equal(sample.calibration().fieldRates['3'],0);
+near(sample.calibration().weights['1'],1 / 6);near(sample.calibration().weights['2'],2 / 3);assert.equal(sample.calibration().weights['3'],1);
+for(const [hits,score] of [[{1:2},1 / 6],[{2:2},2 / 3],[{1:2,2:2},5 / 6],[{2:1},1 / 3],[{3:2},1],[{},0]]) near(sample.bugScore(runs(2,hits,'x')),score);
+assert.equal(sample.bugPenalty(runs(2,{1:2},'x')),0);
+sample.context.penaltyStrength = 1;
+near(sample.bugPenalty(runs(2,{1:2},'x')),1 / 3);
+near(sample.bugScore(runs(2,{1:2},'x')),1 - (5 / 6 + 1 / 3));
+near(sample.bugScore(runs(2,{2:1},'x')),1 / 3 - (5 / 6 + 1 / 2 * 1 / 3));
+assert.ok(sample.bugScore(runs(2,{2:2},'x')) > sample.bugScore(runs(2,{2:1},'x')));
+sample.context.penaltyStrength = 2;
+assert.ok(sample.bugScore(runs(2,{1:2},'x')) > sample.bugScore(runs(2,{2:2},'x')));
+for(const candidate of [{bugHunt:{n_runs:2,coverage_runs:1,bug_hits:{1:1}}},{bugHunt:{n_runs:0,coverage_runs:0,bug_hits:{}}}]) assert.equal(sample.bugScore(candidate),null);
 sample.context.controls['intelligence-basis'].value = 'engineering';
-assert.equal(sample.calibration().minimumWeight,30);
-assert.notEqual(sample.bugScore(withFixes(['1'])),5);
-const zero = create([20,20].map((intelligence,i) => ({...withFixes([String(i+1)]),intelligence,engineering:20})),'intelligence',1);
-assert.equal(zero.bugScore(withFixes(['1'])),0);
-assert.equal(zero.reliableBugs({bugHunt:{n_runs:1,coverage_runs:1,bug_hits:{1:1}}}).join(','),'1');
-assert.equal(zero.reliableBugs({bugHunt:{n_runs:1,coverage_runs:0,bug_hits:{}}}),null);
-assert.equal(zero.reliableBugs({bugHunt:{n_runs:3,coverage_runs:3,bug_hits:{1:3,2:2}}}).join(','),'1');
+near(sample.calibration().fieldRates['1'],5 / 6);
+assert.equal(sample.reliableBugs(runs(1,{1:1},'x')).join(','),'1');
+assert.equal(sample.reliableBugs({bugHunt:{n_runs:1,coverage_runs:0,bug_hits:{}}}),null);
+assert.equal(sample.reliableBugs(runs(3,{1:3,2:2},'x')).join(','),'1');
 const {chartX,chartY,labelPosition,shapes,effortOrder,markerPath} = runInNewContext(['chartX','chartY','labelPosition','shapes','effortOrder','polygon','markerPath'].map(declaration).join('\n') + '\n({chartX,chartY,labelPosition,shapes,effortOrder,markerPath})');
-assert.equal(chartX(100,100,1100,true),82);assert.equal(chartX(1100,100,1100,true),940);assert.equal(chartX(600,100,1100,false),511);
-assert.ok(chartX(600,100,1100,true) < 511);
-assert.ok(chartX(1100,100,1100,true)-chartX(1000,100,1100,true) > chartX(200,100,1100,true)-chartX(100,100,1100,true));
+assert.equal(chartX(100,100,1100),82);assert.equal(chartX(1100,100,1100),940);assert.equal(chartX(600,100,1100),511);
+near(chartX(1100,100,1100)-chartX(1000,100,1100),chartX(200,100,1100)-chartX(100,100,1100));
 assert.equal(chartY(1,1000,1,true),458);assert.equal(chartY(1000,1000,1,true),38);assert.equal(chartY(0,1000,1,false),458);
 assert.equal(chartY(.001,.1,.001,true,true),38);assert.equal(chartY(.1,.1,.001,true,true),458);
 for(const [px,py,width,height] of [[82,458,120,14],[940,38,160,14],[400,250,100,14],[90,42,300,16]]){
@@ -361,7 +387,7 @@ assert.ok(!html.includes('id="provider"') && !html.includes('id="scale"'));
 assert.ok(readme.includes('https://nishimura-katsuo.github.io/subscription-value/'));
 assert.ok(readme.includes('https://artificialanalysis.ai/indexes/engineering'));
 assert.ok(readme.includes('v5') && readme.includes('**82 configurations**') && readme.includes('**64 configurations have complete Bug Hunt evidence in this snapshot and 18 are tasks-only'));
-console.log('Report checks passed: 82 exact v5.0.1 inputs, both calibration bases and full frontiers, 64 evidence records, signed/zero ratings, inverse penalties, cost direction, task conversion, resets, search, and chart geometry.');
+console.log('Report checks passed: 82 exact v5.0.1 inputs, both bases and full frontiers, 64 evidence records, hit-rate bug weights, penalty identities, planted and extras costs, task conversion, resets, search, and chart geometry.');
 
 // Cost ranges filter known plan prices and choose the best multiplier per configuration.
 const tierAPI = create(), sol = byId('sol-medium'), astra = byId('astra-low');
@@ -418,7 +444,7 @@ for(const [range,entries] of expectedRanges){
     assert.equal(tierAPI.selectedTier(model).price,price);
     near(tierAPI.tierMultiplier(model),multiplier);
     near(tierAPI.metricValue(model),20 * Math.round(multiplier / model.benchmarkCost * 10) / 10);
-    if(model.bugHunt) near(tierAPI.costPerBug(model),model.bugHunt.cost_usd * (model.bugHunt.price_factor ?? 1) / multiplier / (model.bugHunt.fixed + model.bugHunt.extras));
+    if(model.bugHunt) near(tierAPI.costPerBug(model),model.bugHunt.cost_usd * (model.bugHunt.price_factor ?? 1) / multiplier / model.bugHunt.fixed);
   }
   assert.ok(data.filter(model => !allowed.has(model.provider)).every(model => !tierAPI.matchesCostRange(model)));
   assert.equal(tierAPI.matchesCostRange(sonnet),[30,100,500].includes(range));

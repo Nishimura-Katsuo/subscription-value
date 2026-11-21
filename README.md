@@ -8,7 +8,7 @@ This project compares model configurations using subscription spending, benchmar
 
 The comparison contains **82 configurations**, each with an **AA Intelligence Index v5.0.1** score and **AA Engineering Index** score matched to its model, effort, and route or fallback. GPT-6.2 Astra and Sol appear in task throughput at all five benchmark efforts. The 20 November refresh rechecks every Gemini input, adds Argon Medium and Neon Low/Medium/High/XHigh, and gives Carbon its first Bug Hunt evidence. The 9 November inputs for Claude Fable 5.2, Muse Wonder, and Muse Ember retain their AA check dates. Other AA inputs retain their 4 November check dates. Muse Wonder Full is excluded because it has no API task cost.
 
-**64 configurations have complete Bug Hunt evidence in this snapshot and 18 are tasks-only:** GPT-6.2 Astra and Sol at all five efforts, Muse Wonder High (both modes), Muse Ember Max/XHigh, MiniMax M3.1 Flash, Step 5 Preview, Qwen3.8 Max (0902), and GLM-5.3 Low. The 13 November Bug Hunt update includes exact Claude Fable 5.2 runs at all five efforts, replacing the Fable 5.1 placeholders. The app uses the published means of two or three Claude Code runs, with estimated list costs at Fable 5.2 rates. Grok 4.7 judged these runs, so comparisons with many earlier rows span different judges. The Gemini additions recalibrate bug weights in both bases: 68 planted bugs are now rated, and Neon XHigh has the highest bug-fix rating in both. The Bug Hunt inputs use the 20 November source check of the 19 November update; every previously recorded row still matches it. AA input-check dates and original Bug Hunt run dates are stored separately. [Bug Hunt source data](https://bughunt.productcompass.pm/data/benchmark.json)
+**64 configurations have complete Bug Hunt evidence in this snapshot and 18 are tasks-only:** GPT-6.2 Astra and Sol at all five efforts, Muse Wonder High (both modes), Muse Ember Max/XHigh, MiniMax M3.1 Flash, Step 5 Preview, Qwen3.8 Max (0902), and GLM-5.3 Low. The 13 November Bug Hunt update includes exact Claude Fable 5.2 runs at all five efforts, replacing the Fable 5.1 placeholders. The app uses the published means of two or three Claude Code runs, with estimated list costs at Fable 5.2 rates. Grok 4.7 judged these runs, so comparisons with many earlier rows span different judges. Neon XHigh has the highest bug-fix rating, 33.4 against Fable 5.2 Max's 29.3. The Bug Hunt inputs use the 20 November source check of the 19 November update; every previously recorded row still matches it. AA input-check dates and original Bug Hunt run dates are stored separately. [Bug Hunt source data](https://bughunt.productcompass.pm/data/benchmark.json)
 
 The 9 November refresh also updated OpenCode Go's published allowances and retained the user-supplied subscription assumptions elsewhere. New-plan X Subscription research still supplies no independently measured API-dollar allowance, so its provisional multipliers remain unchanged. Models or tiers without an exact benchmark match, recorded subscription-route assumption, or usable cost/multiplier basis remain unranked.
 
@@ -24,11 +24,11 @@ The embedded JSON in [docs/index.html](docs/index.html), configuration details, 
 
 ## General and Engineering intelligence
 
-The **General / Engineering** selector chooses the score used for task comparisons and bug difficulty calibration. General uses `intelligence` (AA Intelligence Index v5.0.1); Engineering uses `engineering` (AA Engineering Index). Changing the basis updates task ratings, rating sorting and filters, bug weights and minimum penalty anchor, bug ratings, rankings, Pareto frontiers, details, and CSV exports.
+The **General / Engineering** selector chooses the score used for task comparisons. General uses `intelligence` (AA Intelligence Index v5.0.1); Engineering uses `engineering` (AA Engineering Index). Changing the basis updates task ratings, rating sorting and filters, rankings, Pareto frontiers, details, and CSV exports. Bug ratings come from Bug Hunt fix rates and are the same in both bases.
 
-Engineering is the default. The default task floors are **42 General** and **46 Engineering**, matching Terra 6.1 High’s recorded intelligence scores. Each metric/basis combination remembers its own floor. Bugs mode defaults to **No floor** in both bases. Reset all restores Engineering, the default floors, and penalty strength `2`.
+Engineering is the default. The default task floors are **42 General** and **46 Engineering**, matching Terra 6.1 High’s recorded intelligence scores. Each metric/basis combination remembers its own floor. Bugs mode defaults to **No floor** in both bases. Reset all restores Engineering, the default floors, penalty strength `0`, and planted-only bug costs.
 
-**Task throughput always uses AA's General Intelligence Index workload cost**, including when Engineering is selected. The Engineering setting changes the capability comparison and bug calibration; it does not turn that cost into an engineering-specific task cost.
+**Task throughput always uses AA's General Intelligence Index workload cost**, including when Engineering is selected. The Engineering setting changes the capability comparison; it does not turn that cost into an engineering-specific task cost.
 
 ## What a subscription dollar means
 
@@ -154,7 +154,7 @@ A specific range shows **only configurations with a recorded plan price inside t
 
 The control applies to both metrics, search (including `pareto`), charts, tables, details, and exports. The Pareto search uses the frontier within the selected price range before text and floor filtering. Task values stay per **$1**, and bug values remain subscription dollars per fix.
 
-The embedded `multiplier` and `tasks20` remain baseline evidence snapshots. Runtime calculations use `tierMultiplier` and recalculate throughput from the selected multiplier and the matched rounded task cost. Early resets apply after throughput rounding. The active multiplier, cost range, numeric range ceiling (blank under Best), tier name, and tier fee are exported to CSV. Intelligence scores and bug difficulty calibration are independent of tiers.
+The embedded `multiplier` and `tasks20` remain baseline evidence snapshots. Runtime calculations use `tierMultiplier` and recalculate throughput from the selected multiplier and the matched rounded task cost. Early resets apply after throughput rounding. The active multiplier, cost range, numeric range ceiling (blank under Best), tier name, and tier fee are exported to CSV. Intelligence scores and bug ratings are independent of tiers.
 
 For example, Terra Low at the $20 ChatGPT tier uses `6.85 / $0.07`, rounded to **97.9 tasks per subscription dollar**. At $100, it uses `13.7 / $0.07`, rounded to **195.7**. The $199–$500 range retains the same ChatGPT value as the $99–$100 option.
 
@@ -220,55 +220,52 @@ Legacy subscriptions are closed to new signups, but the [current official policy
 
 ## Bugs mode
 
-Bug Hunt supplies per-bug coverage, aggregate planted and unplanted fix counts, run counts, and source run costs. Match exact model and effort, omit superseded rows, and select the published current mean when available.
+Bug Hunt supplies per-bug coverage, aggregate planted and unplanted fix counts, run counts, and source run costs. Match exact model and effort, omit superseded rows, and select the published current mean when available. A configuration is rated only when its per-bug coverage spans every recorded run. Partial fixes and claimed-only bugs receive no credit. **Single-run results are allowed for every model**, including Luna Low/Medium/High/XHigh, Haiku Low/Medium, and GLM Max, but a single run does not establish repeatability.
 
-### 1. Select qualifying planted fixes
-
-A planted bug qualifies only if fixed in **every recorded run**, with at least one run and complete per-bug coverage. Partial fixes and claimed-only bugs receive no credit. **Single-run results are allowed for every model**, including Luna Low/Medium/High/XHigh, Haiku Low/Medium, and GLM Max. Their source `fixed_bugs` lists provide coverage, but a single run does not establish repeatability. A 100% observed success rate over a few runs is not a guarantee.
-
-### 2. Calibrate difficulty using the selected basis
+### 1. Measure each configuration's fix rate per bug
 
 ```text
-Bug weight = lowest selected-basis AA score among qualifying recorded solvers
+Fix rate = runs that fixed the bug / recorded runs
 ```
 
-All eligible configurations in the embedded dataset participate, including complete single-run results. Calibration is global and independent of text and floor filters. General and Engineering compute separate weights and minimum anchors. Bugs with no qualifying solver remain unrated.
+A bug fixed in two of three runs earns two-thirds credit. Single and repeated runs are scored on the same footing, and a configuration is not penalized for having been run more often.
 
-This is an empirical difficulty proxy, not a proven minimum intelligence requirement, official Bug Hunt score, or calibrated difficulty scale. Adding models, changing the basis, or updating evidence can change weights and existing ratings.
+### 2. Weight bugs by how rarely the field fixes them
+
+```text
+Field fix rate = mean fix rate across Bug Hunt evidence sets
+Bug weight = 1 − field fix rate
+```
+
+Every configuration with complete per-bug coverage contributes one evidence set; rows that share the same Bug Hunt result, such as Kimi through Kimi and through OpenCode Go, count once. This snapshot has **61 evidence sets**. A bug no configuration fixes is worth up to 1, and a bug every configuration fixes is worth 0. The 27 bugs nobody has fixed earn nothing and cost nothing. Calibration is global and independent of search, floors, cost range, penalty strength, and the intelligence basis.
+
+This is an empirical difficulty proxy, not a proven difficulty scale or an official Bug Hunt score. Adding models or updating evidence can change weights and existing ratings, but one new evidence set moves any bug's weight by less than two percentage points.
 
 ### 3. Calculate the bug-fix rating
 
 ```text
-Difficulty credit = sum of weights of qualifying planted fixes
-Minimum difficulty = lowest calibrated weight across all planted bugs
-Miss penalty per bug = strength × Minimum difficulty² / that bug's weight
-Bug-fix rating = Difficulty credit − penalties for missed rated bugs
+Difficulty credit = sum(fix rate × bug weight)
+Miss penalty = strength × sum((1 − fix rate) × field fix rate)
+Bug-fix rating = difficulty credit − miss penalty
 ```
 
-The rating rewards qualifying fixes and deducts points for each rated planted bug not fixed in every run. Easier misses cost more; there is no arbitrary easy-bug cutoff. **Miss penalty (×)** defaults to `2`; `0` turns deductions off. Fractional nonnegative values are valid. Invalid or overflowing values retain the last valid setting. Reset all restores `2`. Strength affects bug ratings, sorting, frontiers, floor choices, details, per-bug penalties, and CSVs; task scores and cost per fix are unaffected.
+**Miss penalty (×)** defaults to `0`, so the default rating is difficulty-weighted planted fixes. At strength `1`, the difficulty bonus cancels and the rating equals mean planted fixes minus the field's mean planted fixes (30.8). Strengths above `1` increasingly favor easy-bug coverage. Fractional nonnegative values are valid; invalid or overflowing values retain the last valid setting. Every additional fix improves the rating at every strength. Ratings can be negative when penalties apply. Unplanted extras never affect the rating, because they have no withheld answer key.
 
-At strength `1`, the easiest bug's miss penalty equals its fix credit. Harder fixes provide more effective credit at strengths up to `1`; strengths above `1` increasingly favor easy-bug coverage. Every additional qualifying fix improves the rating at every supported strength. All models receive the same active-basis weights and penalties.
+For a fictional three-bug field with field fix rates `5/6`, `1/3`, and `0`, a configuration that fixes bug 2 in one of two runs earns `1/2 × 2/3 = 1/3` credit. At strength `1`, its penalty is `5/6 + 1/2 × 1/3 = 1`, giving a rating of `−2/3`.
 
-Ratings can be negative when penalties exceed credit. Bugs with no calibrated weight receive neither credit nor penalty; unplanted extras also receive neither because they lack the withheld answer key. Configurations without qualifying calibrated fixes remain unrated. No floor includes signed ratings by default. Details show credit, penalty, and rating rounded for display. CSVs expose these values, minimum calibrated difficulty, calibration size, and strength at full precision.
-
-For a fictional three-bug set with weights `20`, `40`, `80`, a three-run result with hit counts `3`, `3`, `2` earns `60` credit. At strength `2`, its miss penalty is `2 × 20² / 80 = 10`, giving a rating of `50`. Each weight must first be calibrated across the full eligible dataset in the selected basis.
-
-### 4. Estimate subscription cost per total bug fixed
+### 4. Estimate subscription cost per planted bug fixed
 
 ```text
-Total fixes = source planted fixes + source unplanted extra fixes
 Subscription $ / bug fixed
   = source run cost × supported token-price conversion factor
-    / subscription multiplier / total fixes
+    / subscription multiplier / planted fixes (+ extra fixes when counted)
 ```
 
-Repeated-run results use the source's published mean fix counts and mean cost: a ratio of means, not a mean of per-run ratios. Single-run results use that run's values. Preserve the source's published precision.
+Cost counts the source's mean planted fixes by default. **Count extras in cost** adds the source's genuine unplanted fixes to the denominator. Extras are judged by Bug Hunt's blind AI judge without an answer key; Bug Hunt reports zero false-positive fixes, but treats extras as its least reliable column and never adds them to its score. Repeated-run results use the published mean fixes and mean cost: a ratio of means, not a mean of per-run ratios. Costs have no intermediate rounding.
 
-**The axes use different fix sets.** Rating requires qualifying planted fixes. Cost includes all source-reported completed planted fixes and genuine unplanted extras, including fixes not achieved in every run. Partial fixes and claimed-only bugs are excluded. Extras are not checked against the planted answer key, and aggregate counts cannot establish their repeatability.
+For example, Sol Medium's source mean has `29` planted fixes, `30.5` extras, and `$1.76` run cost. At `21.2×`, cost per planted fix is `1.76 / 21.2 / 29 ≈ $0.00286`; counting extras gives `1.76 / 21.2 / 59.5 ≈ $0.00140`.
 
-For example, Sol Medium's source mean has `29` planted fixes, `30.5` extras, and `$1.76` run cost. At `21.2×`, cost per total fix is `1.76 / 21.2 / 59.5 ≈ $0.00139527`, displayed near `$0.0014`. The denominator is `59.5`, not its `25` qualifying planted fixes. Costs have no intermediate rounding.
-
-The horizontal axis is bug-fix rating with exponential spacing: `(10^t − 1) / 9`, where `t = (rating − minimum) / (maximum − minimum)`. It supports negative ratings and changes spacing only. The vertical cost axis is inverted and logarithmic, so higher points cost less. Bug-floor steps are 250, widening for large strengths while preserving the selected cutoff. Changing the cost range leaves ratings fixed and applies the selected plan multipliers to unit costs.
+The horizontal rating axis is linear; the vertical cost axis is inverted and logarithmic, so higher points cost less. Bug-floor steps are 5, widening for large penalty strengths while preserving the selected cutoff. Changing the cost range leaves ratings fixed and applies the selected plan multipliers to unit costs.
 
 ## Pareto frontier and graph lines
 
@@ -277,7 +274,7 @@ A configuration is dominated when another matching configuration is at least as 
 | Mode | Better horizontal value | Better vertical value |
 | --- | --- | --- |
 | Tasks | Higher selected-basis intelligence | More tasks at the same spend |
-| Bugs | Higher selected-basis bug-fix rating | Lower subscription cost per bug |
+| Bugs | Higher bug-fix rating | Lower subscription cost per bug |
 
 Equal values on both axes do not dominate one another. The frontier normally recalculates within active filters. The `pareto` search term instead includes the frontier within the selected cost range (the full dataset under Best) for the active metric and basis before text/floor filtering. The selected floor still limits displayed points and the solid line without recalculating membership; other search terms combine with it using OR. The early-reset scenario still applies. **Upper-right is better in both graphs.** Solid lines join frontier points; dotted lines join visible efforts in effort order (only for the selected model in bugs mode). Lines do not imply intermediate configurations exist.
 
@@ -326,7 +323,7 @@ The dataset is JSON inside `<script id="comparison-data">` in [docs/index.html](
 | `bugHunt.cost_usd`, `cost_kind` | Raw source cost and type | Preserve bills, list estimates, and lower bounds without silently repricing. |
 | `bugHunt.price_factor` | Optional supported token-price conversion | Defaults to 1; separate from task-price conversion. |
 | `bugHunt.n_runs`, `date` | Source run count and recorded date | Do not replace run date with input-check date. |
-| `bugHunt.coverage_runs`, `bug_hits` | Coverage count and per-bug run hits | Complete coverage must equal `n_runs`; qualifying hits equal `n_runs`. |
+| `bugHunt.coverage_runs`, `bug_hits` | Coverage count and per-bug run hits | Complete coverage must equal `n_runs`; each hit count divided by `n_runs` is that bug's fix rate. |
 | `bugHunt.source_effort` | Original effort when mapping is inferred | Preserve the source label and explain the inference. |
 
 ## Selecting and validating source rows
@@ -341,7 +338,7 @@ The dataset is JSON inside `<script id="comparison-data">` in [docs/index.html](
 ## Reproducing a recorded table
 
 1. Use the embedded dataset from the desired Git commit. Live sources can change; private exports are unnecessary if you accept the supplied multipliers.
-2. Select General or Engineering and Best or a monthly cost range. Filter to plans in the selected range and resolve each configuration’s best matching multiplier, then recompute tasks per dollar from the already matched rounded `benchmarkCost`. For bugs, calibrate weights globally in that basis, sum qualifying credit, subtract inverse-difficulty miss penalties, and calculate cost separately from all completed fixes.
+2. Select General or Engineering and Best or a monthly cost range. Filter to plans in the selected range and resolve each configuration’s best matching multiplier, then recompute tasks per dollar from the already matched rounded `benchmarkCost`. For bugs, calibrate field fix rates globally, sum each configuration's fix-rate-weighted credit, subtract any miss penalty, and divide cost by mean planted fixes (plus extras only when counted).
 3. Apply scenario, mode, search, and floor settings. Search is case-insensitive and comma-separated terms use OR across model, effort, subscription, and country. For example, `opencode go,chatgpt` or `china,haiku`; `us` and `usa` exactly alias United States. Empty terms and surrounding spaces are ignored. Query carries across modes and affects tables, graphs, and exports. `pareto` includes the active-basis frontier within the selected cost range while preserving the displayed floor.
 4. Recompute filtered Pareto membership unless `pareto` requests frontier membership before text/floor filtering. Default task sorting is descending throughput; default bug sorting is ascending cost. Equal numeric sort values retain dataset order. Frontier only limits displayed rows afterward.
 5. Compare with filtered CSV output at full precision until formatting. Task screen values use up to one decimal and bug costs up to four; CSV task values use one decimal and bug costs six. Display rounding can hide differences used in dominance comparisons.
@@ -349,8 +346,8 @@ The dataset is JSON inside `<script id="comparison-data">` in [docs/index.html](
 ## Maintaining the comparison
 
 1. Collect exact-configuration AA v5.0.1 and Engineering evidence, task-cost price basis, and Bug Hunt dates, superseded status, cost kinds, and complete coverage. Verify allowance assumptions separately from performance evidence.
-2. Update embedded data in [docs/index.html](docs/index.html), exact provenance, rounded costs/scores, and `tasks20`. Do not apply `taskPriceFactor` twice. Preserve aggregate fixes versus qualifying coverage and run dates versus check dates.
-3. Run `node checks/report.mjs`. Preserve method checks for identities, rounding, eligibility, calibration minima, signed penalties, axes, ties, empty sets, and dominance. Independently recalculate snapshot expectations for counts, frontiers, source values, and derived throughput when inputs change.
-4. Preview both metrics and both intelligence bases, defaults, remembered floors, penalty input, search, configuration details, early-reset scenario, and CSV exports. Calculation checks do not fully test the browser or downloaded source accuracy.
+2. Update embedded data in [docs/index.html](docs/index.html), exact provenance, rounded costs/scores, and `tasks20`. Do not apply `taskPriceFactor` twice. Preserve aggregate fixes versus per-bug coverage and run dates versus check dates.
+3. Run `node checks/report.mjs`. Preserve method checks for identities, rounding, eligibility, field fix rates, penalty identities, axes, ties, empty sets, and dominance. Independently recalculate snapshot expectations for counts, frontiers, source values, and derived throughput when inputs change.
+4. Preview both metrics and both intelligence bases, defaults, remembered floors, penalty input, the extras toggle, search, configuration details, early-reset scenario, and CSV exports. Calculation checks do not fully test the browser or downloaded source accuracy.
 
 The README records the current method and assumptions; rankings and full per-configuration values live in the app and its exports.
