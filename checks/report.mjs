@@ -52,8 +52,8 @@ const expected = {
     "fieldRates": {"1": 0.0, "2": 0.0, "3": 0.0, "4": 0.0, "5": 0.0, "6": 0.0, "7": 0.0, "8": 0.0, "9": 0.0, "10": 0.0, "11": 0.0, "12": 0.0, "13": 0.653551912568306, "14": 0.0, "15": 0.0, "16": 0.7398907103825136, "17": 0.1251366120218579, "18": 0.0, "19": 0.0, "20": 0.8879781420765027, "21": 0.3797814207650273, "22": 0.6666666666666666, "23": 0.35355191256830604, "24": 0.060109289617486336, "25": 0.7344262295081967, "26": 0.3770491803278688, "27": 0.5153005464480874, "28": 0.3628415300546448, "29": 0.6409836065573771, "30": 0.9863387978142076, "31": 0.01092896174863388, "32": 0.10273224043715846, "33": 0.6808743169398908, "34": 0.6786885245901639, "35": 0.21311475409836064, "36": 0.1721311475409836, "37": 0.3262295081967213, "38": 0.13224043715846995, "39": 0.739344262295082, "40": 0.4961748633879781, "41": 0.32295081967213113, "42": 0.060655737704918035, "43": 0.8497267759562842, "44": 0.48415300546448087, "45": 0.7912568306010929, "46": 0.17868852459016393, "47": 0.7027322404371584, "48": 0.0, "49": 0.8349726775956284, "50": 0.7939890710382513, "51": 0.26612021857923496, "52": 0.01092896174863388, "53": 0.06885245901639345, "54": 0.0, "55": 0.07431693989071038, "56": 0.1087431693989071, "57": 0.006557377049180328, "58": 0.0, "59": 0.16775956284153004, "60": 0.5049180327868853, "61": 0.24207650273224043, "62": 0.6038251366120219, "63": 0.0, "64": 0.16721311475409836, "65": 0.0, "66": 0.15245901639344261, "67": 0.01366120218579235, "68": 0.16393442622950818, "69": 0.2825136612021858, "70": 0.4273224043715847, "71": 0.7103825136612022, "72": 0.0, "73": 0.06885245901639345, "74": 0.20327868852459016, "75": 0.00546448087431694, "76": 0.8715846994535519, "77": 0.7721311475409836, "78": 0.1923497267759563, "79": 0.22459016393442624, "80": 0.3726775956284153, "81": 0.04262295081967213, "82": 0.5459016393442623, "83": 0.8415300546448088, "84": 0.8819672131147541, "85": 0.0, "86": 0.0, "87": 0.03825136612021858, "88": 0.08196721311475409, "89": 0.003278688524590164, "90": 0.03278688524590164, "91": 0.30601092896174864, "92": 0.6579234972677596, "93": 0.14207650273224043, "94": 0.12896174863387977, "95": 0.29508196721311475, "96": 0.22295081967213115, "97": 0.5907103825136611, "98": 0.7475409836065574, "99": 0.9316939890710383, "100": 0.8721311475409836, "101": 0.0, "102": 0.5775956284153005, "103": 0.0, "104": 0.0, "105": 0.1092896174863388},
     "scores": {"sonnet-high": 11.409471766848815, "sol-medium": 8.670218579234973, "opus-medium": 9.198542805100182, "sol-high": 13.931420765027323, "opus-high": 9.739708561020036, "sonnet-xhigh": 12.604189435336977, "sol-xhigh": 17.33151183970856, "opus-xhigh": 12.065027322404372, "grok-high": 5.010564663023679, "grok-xhigh": 9.67672131147541, "sonnet-low": 4.4673952641165755, "sonnet-medium": 6.718943533697632, "sonnet-max": 24.563387978142078, "opus-low": 5.621311475409836, "opus-max": 16.276138433515484, "sol-low": 6.752185792349727, "sol-max": 18.860109289617487, "astra-low": 9.349180327868853, "astra-medium": 12.547540983606558, "astra-high": 12.277049180327868, "astra-xhigh": 17.055737704918034, "astra-max": 18.981056466302366, "luna-low": 0.37486338797814206, "luna-medium": 0.42185792349726775, "luna-high": 1.2163934426229508, "luna-xhigh": 2.5923497267759563, "luna-max": 4.7265938069216755, "haiku-low": 2.069398907103825, "haiku-medium": 2.101639344262295, "haiku-high": 3.3866120218579234, "haiku-xhigh": 4.512932604735884, "haiku-max": 5.610109289617486, "grok-low": 4.489981785063752, "fable-low": 15.844535519125683, "fable-medium": 16.033060109289618, "fable-high": 17.412841530054646, "fable-xhigh": 22.31402550091075, "fable-max": 29.282331511839708, "muse-standard-max": 10.94207650273224, "muse-contributor-max": 10.94207650273224, "muse-wonder-standard-max": 10.967941712204007, "muse-wonder-contributor-max": 10.967941712204007, "kimi-k3-1-pro-max": 13.0408014571949, "deepseek-flash-1017-max": 15.295300546448088, "go-mimo-v2-6-pro": 6.71183970856102, "go-kimi-k3-1-pro-max": 13.0408014571949, "go-glm-5-3-max": 4.718579234972678, "terra-low": 0.941712204007286, "terra-medium": 1.6870673952641166, "terra-high": 2.0367941712204005, "terra-xhigh": 2.468306010928962, "terra-max": 17.387795992714025, "antigravity-ultra-5x-argon-high": 18.29471766848816, "antigravity-ultra-5x-argon-medium": 16.290346083788705, "antigravity-ultra-5x-carbon-high": 29.00837887067395, "antigravity-ultra-5x-carbon-low": 20.250273224043717, "antigravity-ultra-5x-carbon-medium": 27.508925318761385, "antigravity-ultra-5x-neon-low": 9.961566484517304, "antigravity-ultra-5x-neon-medium": 21.78087431693989, "antigravity-ultra-5x-neon-high": 28.13752276867031, "antigravity-ultra-5x-neon-xhigh": 33.369945355191255, "go-glm-5-3-flash": 4.989435336976321, "go-mimo-v2-6-flash": 7.745719489981785, "deepseek-flash-1017-high": 15.20360655737705},
     "negativeAtOne": 29,
-    "allBugFrontier": ["luna-high", "luna-xhigh", "luna-max", "deepseek-flash-1017-high", "deepseek-flash-1017-max", "sol-xhigh", "sol-max", "antigravity-ultra-5x-carbon-low", "antigravity-ultra-5x-neon-medium", "sonnet-max", "antigravity-ultra-5x-carbon-medium", "antigravity-ultra-5x-neon-high", "antigravity-ultra-5x-carbon-high", "fable-max", "antigravity-ultra-5x-neon-xhigh"],
-    "allBugFrontierWithExtras": ["luna-high", "luna-max", "deepseek-flash-1017-high", "deepseek-flash-1017-max", "sol-xhigh", "sol-max", "astra-max", "antigravity-ultra-5x-carbon-low", "antigravity-ultra-5x-neon-medium", "sonnet-max", "antigravity-ultra-5x-carbon-medium", "antigravity-ultra-5x-neon-high", "antigravity-ultra-5x-neon-xhigh"]
+    "allBugFrontier": ["luna-high", "luna-xhigh", "luna-max", "deepseek-flash-1017-high", "deepseek-flash-1017-max", "sol-xhigh", "sol-max", "antigravity-ultra-5x-neon-medium", "antigravity-ultra-5x-neon-high", "antigravity-ultra-5x-neon-xhigh"],
+    "allBugFrontierWithExtras": ["luna-high", "luna-max", "deepseek-flash-1017-high", "deepseek-flash-1017-max", "sol-xhigh", "sol-max", "antigravity-ultra-5x-neon-medium", "antigravity-ultra-5x-neon-high", "antigravity-ultra-5x-neon-xhigh"]
   }
 };
 // Published v5 inputs and converted task costs from the 2026-11-04, 2026-11-09, 2026-11-17, 2026-11-18 and 2026-11-20 AA snapshots.
@@ -122,10 +122,10 @@ const inputs = [
   ["antigravity-ultra-5x-carbon-high",60,65,3.88,44.0,60.025738829526,65.3103995670996,7.755545745286556,0.5],
   ["antigravity-ultra-5x-carbon-low",54,60,3.59,48.0,54.2206114502924,60.2151701298701,7.186577262951972,0.5],
   ["antigravity-ultra-5x-carbon-medium",58,64,3.29,52.0,58.2587824022788,63.889674025974,6.585776867225546,0.5],
-  ["antigravity-ultra-5x-neon-low",44,52,0.75,232.0,44.0831506204565,51.9587830627706,0.7452280945089245,1],
-  ["antigravity-ultra-5x-neon-medium",55,61,1.9,92.0,54.8622945007349,60.9146628246753,1.9045555241044152,1],
-  ["antigravity-ultra-5x-neon-high",60,65,3.74,46.0,59.6189441875232,64.9085861471861,3.7427499092845027,1],
-  ["antigravity-ultra-5x-neon-xhigh",61,67,6.44,28.0,61.3982491392674,66.8388920454545,6.444838101104699,1],
+  ["antigravity-ultra-5x-neon-low",44,52,0.75,696.0,44.0831506204565,51.9587830627706,0.7452280945089245,1],
+  ["antigravity-ultra-5x-neon-medium",55,61,1.9,274.0,54.8622945007349,60.9146628246753,1.9045555241044152,1],
+  ["antigravity-ultra-5x-neon-high",60,65,3.74,140.0,59.6189441875232,64.9085861471861,3.7427499092845027,1],
+  ["antigravity-ultra-5x-neon-xhigh",61,67,6.44,82.0,61.3982491392674,66.8388920454545,6.444838101104699,1],
   ["go-glm-5-3-flash",28,34,0.58,206.0,27.803889160883,34.4534900974026,0.5833103440014082,1],
   ["go-glm-5-3-low",23,28,1.57,20.0,23.1079373025379,28.3489622294372,1.5749301149593384,1],
   ["go-mimo-v2-6-flash",27,31,0.13,924.0,26.7276981444568,30.9836839285714,0.12852987084014672,1],
@@ -206,25 +206,28 @@ for(const [id,effort,general,engineering,cost,tasks,runId,fixed,extras,runCost,d
   ['carbon-low','Low',54,60,3.59,48,'Gemini 4 Carbon (low effort, Antigravity CLI) - mean of 3',46,18,7.67,'2026-11-13',35],
   ['carbon-medium','Medium',58,64,3.29,52,'Gemini 4 Carbon (medium effort, Antigravity CLI) - mean of 3',56,46.7,24.95,'2026-11-10',48],
   ['carbon-high','High',60,65,3.88,44,'Gemini 4 Carbon (high effort, Antigravity CLI) - mean of 3',57.3,25,31.32,'2026-11-10',47],
-  ['neon-low','Low',44,52,.75,232,'Gemini 4 Neon (low effort, Antigravity CLI) - mean of 3',29.7,6.3,5.29,'2026-11-19',23],
-  ['neon-medium','Medium',55,61,1.9,92,'Gemini 4 Neon (medium effort, Antigravity CLI) - mean of 3',47.7,23,12.84,'2026-11-19',42],
-  ['neon-high','High',60,65,3.74,46,'Gemini 4 Neon (high effort, Antigravity CLI) - mean of 3',57,43.7,29.11,'2026-11-19',52],
-  ['neon-xhigh','XHigh',61,67,6.44,28,'Gemini 4 Neon (xhigh effort, Antigravity CLI) - mean of 3',63,60.3,46.34,'2026-11-19',56]
+  ['neon-low','Low',44,52,.75,696,'Gemini 4 Neon (low effort, Antigravity CLI) - mean of 3',29.7,6.3,5.29,'2026-11-19',23],
+  ['neon-medium','Medium',55,61,1.9,274,'Gemini 4 Neon (medium effort, Antigravity CLI) - mean of 3',47.7,23,12.84,'2026-11-19',42],
+  ['neon-high','High',60,65,3.74,140,'Gemini 4 Neon (high effort, Antigravity CLI) - mean of 3',57,43.7,29.11,'2026-11-19',52],
+  ['neon-xhigh','XHigh',61,67,6.44,82,'Gemini 4 Neon (xhigh effort, Antigravity CLI) - mean of 3',63,60.3,46.34,'2026-11-19',56]
 ]){
   const model = byId('antigravity-ultra-5x-' + id), bug = model.bugHunt;
   assert.deepEqual([model.reasoning,model.intelligence,model.engineering,model.benchmarkCost,model.tasks20],[effort,general,engineering,cost,tasks]);
   near(model.benchmarkCost,Math.round(model.aaTaskCostExact * model.taskPriceFactor * 100) / 100);
   assert.deepEqual([bug.id,bug.fixed,bug.extras,bug.cost_usd,bug.cost_kind,bug.n_runs,bug.coverage_runs,bug.date,bug.price_factor],[runId,fixed,extras,runCost,'list',3,3,date,undefined]);
   assert.equal(create().reliableBugs(model).length,reliable);
-  near(create().metricValue(model,'bugs'),runCost / 8.7 / fixed);
-  near(create(data,'intelligence',0,true).metricValue(model,'bugs'),runCost / 8.7 / (fixed + extras));
+  near(create().metricValue(model,'bugs'),runCost / model.multiplier / fixed);
+  near(create(data,'intelligence',0,true).metricValue(model,'bugs'),runCost / model.multiplier / (fixed + extras));
 }
 const carbon = byId('antigravity-ultra-5x-carbon-high');
 assert.deepEqual(data.filter(model => model.model.startsWith('Gemini')).map(model => model.id.replace('antigravity-ultra-5x-','')),['argon-high','argon-medium','carbon-high','carbon-low','carbon-medium','neon-low','neon-medium','neon-high','neon-xhigh']);
+// Neon draws the measured $600/week Ultra 5x Gemini pool at 1× its API price; Argon and Carbon draw it at 3×, or $200/week.
+const neonMultiplier = Math.round(600 * (30.4375 / 7) / 99.99 * 10) / 10;
+assert.equal(neonMultiplier,26.1);
 // Argon and Carbon reprice AA's standard rates to launch prices; Neon's API price has no launch discount.
-for(const model of data.filter(model => model.model.startsWith('Gemini'))) assert.deepEqual([model.provider,model.multiplier,model.taskPriceFactor],['Antigravity Ultra 5x',argon.multiplier,model.model === 'Gemini 4 Neon' ? 1 : .5]);
+for(const model of data.filter(model => model.model.startsWith('Gemini'))) assert.deepEqual([model.provider,model.multiplier,model.taskPriceFactor],['Antigravity Ultra 5x',model.model === 'Gemini 4 Neon' ? neonMultiplier : argon.multiplier,model.model === 'Gemini 4 Neon' ? 1 : .5]);
 assert.ok(carbon.sourceNote.includes('Measured quota rate') && carbon.sourceNote.includes('3.00×') && carbon.sourceNote.includes('1 December'));
-for(const model of data.filter(model => model.model === 'Gemini 4 Neon')) assert.ok(model.sourceNote.includes('User-directed') && model.sourceNote.includes('No Neon quota measurement exists') && model.sourceNote.includes('likely a lower bound'));
+for(const model of data.filter(model => model.model === 'Gemini 4 Neon')) assert.ok(model.sourceNote.includes('Measured quota rate') && model.sourceNote.includes('$600/week') && model.sourceNote.includes('26.1×') && model.sourceNote.includes('one account on one day'));
 assert.equal(byId('go-minimax-m3-1-flash').reasoning,'Max');
 assert.equal(byId('go-qwen3-8-max-0902').reasoning,'XHigh');
 assert.equal(create().selectedTier(byId('fable-max')).name,'Max $100');

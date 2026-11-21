@@ -131,7 +131,7 @@
   assert(get('detail').textContent.includes('Measured quota rate') && get('detail').textContent.includes('3.00×'), 'Carbon details disclose the measured quota rate');
   change('search','neon','input');
   assertRows(neonModels, 'Neon has its own task results');
-  assert(get('detail').textContent.includes('No Neon quota measurement exists') && get('detail').textContent.includes('likely a lower bound'), 'Neon details disclose the transferred multiplier and its likely understatement');
+  assert(get('detail').textContent.includes('Measured quota rate') && get('detail').textContent.includes('26.1×'), 'Neon details disclose its measured quota rate and multiplier');
   mode('bugs');
   assertRows(neonModels, 'Neon has bug results at all four efforts');
   change('search','gemini','input');
