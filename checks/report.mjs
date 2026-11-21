@@ -9,7 +9,7 @@ const code = html.match(/<script id="report-code">([\s\S]*?)<\/script>/)[1];
 new Script(code);
 // Independent Python refresh calculations, kept here so checks do not require source receipts or network access.
 const expected = {
-  "count": 77,
+  "count": 82,
   "noBugIds": [
     "muse-wonder-standard-high",
     "muse-wonder-contributor-high",
@@ -18,9 +18,6 @@ const expected = {
     "go-minimax-m3-1-flash",
     "go-step-5-preview",
     "go-qwen3-8-max-0902",
-    "antigravity-ultra-5x-carbon-high",
-    "antigravity-ultra-5x-carbon-low",
-    "antigravity-ultra-5x-carbon-medium",
     "go-glm-5-3-low",
     "sol-6-2-low",
     "sol-6-2-medium",
@@ -37,27 +34,27 @@ const expected = {
   "bases": {
     "intelligence": {
       "defaultFloor": 42,
-      "defaultTaskCount": 41,
+      "defaultTaskCount": 46,
       "allTaskFrontier": ["luna-low", "haiku-low", "haiku-medium", "haiku-high", "haiku-xhigh", "haiku-max", "sol-6-2-low", "sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "astra-6-2-high", "astra-6-2-xhigh", "fable-max"],
       "defaultTaskFrontier": ["sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "astra-6-2-high", "astra-6-2-xhigh", "fable-max"],
-      "bugCount": 56,
-      "ratedBugs": 63,
+      "bugCount": 64,
+      "ratedBugs": 68,
       "minimumWeight": 10,
-      "weights": {"1": null, "2": null, "3": null, "4": null, "5": null, "6": null, "7": null, "8": null, "9": null, "10": null, "11": null, "12": null, "13": 28, "14": null, "15": null, "16": 25, "17": 52, "18": null, "19": null, "20": 18, "21": 52, "22": 35, "23": 28, "24": null, "25": 19, "26": 29, "27": 29, "28": 42, "29": 29, "30": 10, "31": null, "32": null, "33": 30, "34": 30, "35": 43, "36": 43, "37": 31, "38": 54, "39": 26, "40": 32, "41": 43, "42": null, "43": 19, "44": 27, "45": 19, "46": 48, "47": 23, "48": null, "49": 10, "50": 23, "51": 52, "52": null, "53": 62, "54": null, "55": null, "56": null, "57": null, "58": null, "59": 65, "60": 35, "61": 42, "62": 23, "63": null, "64": 50, "65": null, "66": null, "67": null, "68": 35, "69": 50, "70": 30, "71": 19, "72": null, "73": 52, "74": 52, "75": null, "76": 19, "77": 18, "78": 65, "79": 50, "80": 51, "81": null, "82": 33, "83": 21, "84": 19, "85": null, "86": null, "87": null, "88": null, "89": null, "90": 50, "91": 50, "92": 23, "93": 50, "94": 50, "95": 52, "96": 50, "97": 19, "98": 19, "99": 10, "100": 10, "101": null, "102": 32, "103": null, "104": null, "105": 50}, "allBugFrontier": ["luna-high", "luna-max", "luna-xhigh", "deepseek-flash-1017-high", "deepseek-flash-1017-max", "sol-medium", "sol-high", "sol-xhigh", "sol-max", "astra-xhigh", "fable-max"], "negativeRatings": 21, "scoreRange": [-336.4729177758894, 1413.818984760716], "scores": {"sonnet-high": 542.2753441675907, "sol-medium": 376.63749158711016, "opus-medium": 340.19818529316603, "sol-high": 518.8369088827135, "opus-high": 409.43831320491864, "sonnet-xhigh": 392.13813355211926, "sol-xhigh": 790.0282297911555, "opus-xhigh": 494.5495528424741, "grok-high": -106.31286711159424, "grok-xhigh": 48.8242147234281, "sonnet-low": -32.23141099891353, "sonnet-medium": -1.7076014751040134, "sonnet-max": 831.6288789770078, "opus-low": -9.38723659488744, "opus-max": 756.1318122609009, "sol-low": 8.592826294431347, "sol-max": 846.4599882717047, "astra-low": 486.1028759045738, "astra-medium": 767.2629706846907, "astra-high": 789.4565173341197, "astra-xhigh": 1106.0628406311519, "astra-max": 809.5684490788951, "luna-low": -334.69513999811164, "luna-medium": -336.4729177758894, "luna-high": -186.48127199476994, "luna-xhigh": -31.06123639853297, "luna-max": -183.08996764694382, "haiku-low": -128.48461368232216, "haiku-medium": -93.73048197624536, "haiku-high": -97.48711994798629, "haiku-xhigh": -128.84133882852097, "haiku-max": 103.94064987637469, "grok-low": -263.9162987676575, "fable-low": 848.8413094611775, "fable-medium": 800.5241414722351, "fable-high": 900.4343515751697, "fable-xhigh": 892.218570682041, "fable-max": 1413.818984760716, "muse-standard-max": 38.23805069880905, "muse-contributor-max": 38.23805069880905, "muse-wonder-standard-max": 291.2615865499311, "muse-wonder-contributor-max": 291.2615865499311, "kimi-k3-1-pro-max": 360.65729488322927, "deepseek-flash-1017-max": 214.57734437884685, "go-mimo-v2-6-pro": -15.25930403138318, "go-kimi-k3-1-pro-max": 360.65729488322927, "go-glm-5-3-max": 154.39528004153118, "terra-low": -335.16882420863794, "terra-medium": -262.7243797641935, "terra-high": -232.7243797641935, "terra-xhigh": -303.4731720347249, "terra-max": 422.0054830021317, "antigravity-ultra-5x-argon-high": 725.4654294906162, "go-glm-5-3-flash": -74.70453826151447, "go-mimo-v2-6-flash": -90.02123300841515, "deepseek-flash-1017-high": 44.00929850945164}
+      "weights": {"1": null, "2": null, "3": null, "4": null, "5": null, "6": null, "7": null, "8": null, "9": null, "10": null, "11": null, "12": null, "13": 28, "14": null, "15": null, "16": 25, "17": 52, "18": null, "19": null, "20": 18, "21": 52, "22": 35, "23": 28, "24": 61, "25": 19, "26": 29, "27": 29, "28": 42, "29": 29, "30": 10, "31": null, "32": null, "33": 30, "34": 30, "35": 43, "36": 43, "37": 31, "38": 54, "39": 26, "40": 32, "41": 43, "42": null, "43": 19, "44": 27, "45": 19, "46": 48, "47": 23, "48": null, "49": 10, "50": 23, "51": 52, "52": null, "53": 62, "54": null, "55": 61, "56": 61, "57": null, "58": null, "59": 60, "60": 35, "61": 42, "62": 23, "63": null, "64": 48, "65": null, "66": 54, "67": null, "68": 35, "69": 50, "70": 30, "71": 19, "72": null, "73": 52, "74": 52, "75": null, "76": 19, "77": 18, "78": 60, "79": 50, "80": 48, "81": null, "82": 33, "83": 21, "84": 19, "85": null, "86": null, "87": null, "88": 60, "89": null, "90": 50, "91": 50, "92": 23, "93": 48, "94": 50, "95": 52, "96": 50, "97": 19, "98": 19, "99": 10, "100": 10, "101": null, "102": 32, "103": null, "104": null, "105": 50}, "allBugFrontier": ["luna-high", "luna-max", "luna-xhigh", "deepseek-flash-1017-high", "deepseek-flash-1017-max", "sol-medium", "sol-high", "sol-xhigh", "sol-max", "astra-xhigh", "antigravity-ultra-5x-neon-medium", "antigravity-ultra-5x-carbon-medium", "antigravity-ultra-5x-neon-high", "antigravity-ultra-5x-neon-xhigh"], "negativeRatings": 22, "scoreRange": [-354.4372722720666, 1854.4032045862502], "scores": {"sonnet-high": 524.3109896714137, "sol-medium": 358.67313709093315, "opus-medium": 322.233830796989, "sol-high": 500.8725543865364, "opus-high": 391.47395870874163, "sonnet-xhigh": 374.17377905594225, "sol-xhigh": 772.0638752949784, "opus-xhigh": 476.58519834629703, "grok-high": -124.27722160777131, "grok-xhigh": 30.859860227251033, "sonnet-low": -50.19576549509054, "sonnet-medium": -19.671955971281022, "sonnet-max": 810.9096225200465, "opus-low": -27.351591091064563, "opus-max": 738.1674577647238, "sol-low": -9.371528201745718, "sol-max": 828.4956337755276, "astra-low": 468.13852140839674, "astra-medium": 749.2986161885136, "astra-high": 768.7372608771584, "astra-xhigh": 1088.0984861349748, "astra-max": 791.6040945827181, "luna-low": -352.6594944942887, "luna-medium": -354.4372722720666, "luna-high": -204.445626490947, "luna-xhigh": -49.02559089470998, "luna-max": -201.05432214312094, "haiku-low": -146.44896817849917, "haiku-medium": -111.69483647242242, "haiku-high": -115.45147444416341, "haiku-xhigh": -146.8056933246981, "haiku-max": 85.97629538019771, "grok-low": -281.8806532638346, "fable-low": 828.1220530042161, "fable-medium": 782.559786976058, "fable-high": 879.7150951182083, "fable-xhigh": 871.4993142250796, "fable-max": 1381.7792154832416, "muse-standard-max": 20.27369620263198, "muse-contributor-max": 20.27369620263198, "muse-wonder-standard-max": 273.2972320537541, "muse-wonder-contributor-max": 273.2972320537541, "kimi-k3-1-pro-max": 342.6929403870522, "deepseek-flash-1017-max": 196.6129898826698, "go-mimo-v2-6-pro": -33.22365852756025, "go-kimi-k3-1-pro-max": 342.6929403870522, "go-glm-5-3-max": 136.43092554535417, "terra-low": -353.133178704815, "terra-medium": -280.6887342603706, "terra-high": -250.6887342603705, "terra-xhigh": -321.43752653090195, "terra-max": 401.2862265451704, "antigravity-ultra-5x-argon-high": 703.8344083277725, "antigravity-ultra-5x-argon-medium": 607.3706769330461, "antigravity-ultra-5x-carbon-high": 1362.96297225327, "antigravity-ultra-5x-carbon-low": 741.782829108356, "antigravity-ultra-5x-carbon-medium": 1379.1459135137975, "antigravity-ultra-5x-neon-low": 285.3321970887191, "antigravity-ultra-5x-neon-medium": 1136.345597463352, "antigravity-ultra-5x-neon-high": 1600.0799595253004, "antigravity-ultra-5x-neon-xhigh": 1854.4032045862502, "go-glm-5-3-flash": -92.66889275769154, "go-mimo-v2-6-flash": -107.98558750459227, "deepseek-flash-1017-high": 26.044944013274574}
     },
     "engineering": {
       "defaultFloor": 46,
-      "defaultTaskCount": 43,
+      "defaultTaskCount": 48,
       "allTaskFrontier": ["luna-low", "haiku-low", "haiku-medium", "haiku-high", "haiku-xhigh", "haiku-max", "sol-6-2-low", "sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "opus-xhigh", "astra-6-2-high", "fable-medium", "astra-6-2-max", "fable-high", "fable-max"],
       "defaultTaskFrontier": ["sol-6-2-medium", "sol-6-2-high", "sol-6-2-xhigh", "sol-6-2-max", "opus-xhigh", "astra-6-2-high", "fable-medium", "astra-6-2-max", "fable-high", "fable-max"],
-      "bugCount": 56,
-      "ratedBugs": 63,
+      "bugCount": 64,
+      "ratedBugs": 68,
       "minimumWeight": 19,
-      "weights": {"1": null, "2": null, "3": null, "4": null, "5": null, "6": null, "7": null, "8": null, "9": null, "10": null, "11": null, "12": null, "13": 34, "14": null, "15": null, "16": 31, "17": 57, "18": null, "19": null, "20": 25, "21": 57, "22": 43, "23": 34, "24": null, "25": 27, "26": 34, "27": 34, "28": 46, "29": 34, "30": 19, "31": null, "32": null, "33": 34, "34": 34, "35": 50, "36": 50, "37": 38, "38": 62, "39": 33, "40": 38, "41": 50, "42": null, "43": 27, "44": 31, "45": 27, "46": 54, "47": 29, "48": null, "49": 19, "50": 29, "51": 57, "52": null, "53": 70, "54": null, "55": null, "56": null, "57": null, "58": null, "59": 73, "60": 42, "61": 46, "62": 29, "63": null, "64": 57, "65": null, "66": null, "67": null, "68": 43, "69": 55, "70": 34, "71": 27, "72": null, "73": 57, "74": 57, "75": null, "76": 27, "77": 25, "78": 73, "79": 57, "80": 55, "81": null, "82": 38, "83": 27, "84": 27, "85": null, "86": null, "87": null, "88": null, "89": null, "90": 57, "91": 55, "92": 29, "93": 57, "94": 57, "95": 58, "96": 57, "97": 27, "98": 27, "99": 19, "100": 19, "101": null, "102": 38, "103": null, "104": null, "105": 57}, "allBugFrontier": ["luna-high", "luna-xhigh", "deepseek-flash-1017-high", "deepseek-flash-1017-max", "sol-medium", "sol-high", "sol-xhigh", "sol-max", "astra-xhigh", "fable-max"], "negativeRatings": 29, "scoreRange": [-1027.0185687682865, 1560.9942145726568], "scores": {"sonnet-high": 412.50040877441154, "sol-medium": 139.71102705025953, "opus-medium": 89.03044592941671, "sol-high": 360.3066973434552, "opus-high": 200.0572658527883, "sonnet-xhigh": 189.22831431548502, "sol-xhigh": 738.0109769683486, "opus-xhigh": 354.02141776376095, "grok-high": -638.4548070342023, "grok-xhigh": -369.28367038030694, "sonnet-low": -484.90223299677837, "sonnet-medium": -431.1614922560376, "sonnet-max": 798.214125744525, "opus-low": -476.9048020095522, "opus-max": 687.0679432829384, "sol-low": -469.2021945395029, "sol-max": 806.4918454230101, "astra-low": 276.1189856367058, "astra-medium": 696.1083195151382, "astra-high": 741.6929565834962, "astra-xhigh": 1208.0941024158087, "astra-max": 788.7058055600774, "luna-low": -1020.7785687682865, "luna-medium": -1027.0185687682865, "luna-high": -751.9356058053236, "luna-xhigh": -485.7286581680312, "luna-max": -758.1425023570478, "haiku-low": -647.8526428423606, "haiku-medium": -593.267250019059, "haiku-high": -590.8526428423606, "haiku-xhigh": -644.3148650645828, "haiku-max": -258.93480520850994, "grok-low": -915.279040148758, "fable-low": 814.0660069751066, "fable-medium": 778.5378948193509, "fable-high": 907.4116348147816, "fable-xhigh": 877.5919552452112, "fable-max": 1560.9942145726568, "muse-standard-max": -377.2649405318997, "muse-contributor-max": -377.2649405318997, "muse-wonder-standard-max": 21.83243826658145, "muse-wonder-contributor-max": 21.83243826658145, "kimi-k3-1-pro-max": 133.6019202964469, "deepseek-flash-1017-max": -103.11767227692746, "go-mimo-v2-6-pro": -478.5924309875038, "go-kimi-k3-1-pro-max": 133.6019202964469, "go-glm-5-3-max": -201.68257978732993, "terra-low": -1024.0378280275459, "terra-medium": -916.6872397922516, "terra-high": -859.6872397922516, "terra-xhigh": -970.141276303408, "terra-max": 172.80014767266107, "antigravity-ultra-5x-argon-high": 572.045748964598, "go-glm-5-3-flash": -595.5028036623206, "go-mimo-v2-6-flash": -592.8734791625518, "deepseek-flash-1017-high": -377.0798861846364}
+      "weights": {"1": null, "2": null, "3": null, "4": null, "5": null, "6": null, "7": null, "8": null, "9": null, "10": null, "11": null, "12": null, "13": 34, "14": null, "15": null, "16": 31, "17": 57, "18": null, "19": null, "20": 25, "21": 57, "22": 43, "23": 34, "24": 67, "25": 27, "26": 34, "27": 34, "28": 46, "29": 34, "30": 19, "31": null, "32": null, "33": 34, "34": 34, "35": 50, "36": 50, "37": 38, "38": 62, "39": 33, "40": 38, "41": 50, "42": null, "43": 27, "44": 31, "45": 27, "46": 54, "47": 29, "48": null, "49": 19, "50": 29, "51": 57, "52": null, "53": 70, "54": null, "55": 67, "56": 67, "57": null, "58": null, "59": 65, "60": 42, "61": 46, "62": 29, "63": null, "64": 53, "65": null, "66": 60, "67": null, "68": 43, "69": 55, "70": 34, "71": 27, "72": null, "73": 57, "74": 57, "75": null, "76": 27, "77": 25, "78": 65, "79": 57, "80": 53, "81": null, "82": 38, "83": 27, "84": 27, "85": null, "86": null, "87": null, "88": 65, "89": null, "90": 57, "91": 55, "92": 29, "93": 53, "94": 57, "95": 58, "96": 57, "97": 27, "98": 27, "99": 19, "100": 19, "101": null, "102": 38, "103": null, "104": null, "105": 57}, "allBugFrontier": ["luna-high", "luna-xhigh", "deepseek-flash-1017-high", "deepseek-flash-1017-max", "sol-medium", "sol-high", "sol-xhigh", "sol-max", "astra-xhigh", "antigravity-ultra-5x-neon-medium", "antigravity-ultra-5x-carbon-medium", "antigravity-ultra-5x-neon-high", "antigravity-ultra-5x-neon-xhigh"], "negativeRatings": 32, "scoreRange": [-1087.3298337835395, 2094.9659272849913], "scores": {"sonnet-high": 352.18914375915836, "sol-medium": 79.39976203500646, "opus-medium": 28.719180914163758, "sol-high": 299.995432328202, "opus-high": 139.74600083753523, "sonnet-xhigh": 128.91704930023195, "sol-xhigh": 677.6997119530954, "opus-xhigh": 293.71015274850777, "grok-high": -698.766072049455, "grok-xhigh": -429.5949353955599, "sonnet-low": -545.2134980120312, "sonnet-medium": -491.47275727129045, "sonnet-max": 736.3982295114329, "opus-low": -537.2160670248052, "opus-max": 626.7566782676852, "sol-low": -529.5134595547559, "sol-max": 746.1805804077569, "astra-low": 215.80772062145263, "astra-medium": 635.797054499885, "astra-high": 679.8770603504042, "astra-xhigh": 1147.7828374005558, "astra-max": 728.3945405448242, "luna-low": -1081.0898337835397, "luna-medium": -1087.3298337835395, "luna-high": -812.2468708205763, "luna-xhigh": -546.0399231832841, "luna-max": -818.4537673723007, "haiku-low": -708.1639078576134, "haiku-medium": -653.5785150343119, "haiku-high": -651.1639078576134, "haiku-xhigh": -704.6261300798357, "haiku-max": -319.2460702237629, "grok-low": -975.5903051640107, "fable-low": 752.2501107420146, "fable-medium": 718.2266298040976, "fable-high": 845.5957385816896, "fable-xhigh": 815.7760590121193, "fable-max": 1482.5688558799086, "muse-standard-max": -437.57620554715254, "muse-contributor-max": -437.57620554715254, "muse-wonder-standard-max": -38.47882674867162, "muse-wonder-contributor-max": -38.47882674867162, "kimi-k3-1-pro-max": 73.29065528119395, "deepseek-flash-1017-max": -163.42893729218042, "go-mimo-v2-6-pro": -538.9036960027566, "go-kimi-k3-1-pro-max": 73.29065528119395, "go-glm-5-3-max": -261.9938448025829, "terra-low": -1084.3490930427986, "terra-medium": -976.9985048075043, "terra-high": -919.9985048075046, "terra-xhigh": -1030.4525413186607, "terra-max": 110.98425143956933, "antigravity-ultra-5x-argon-high": 505.6464336348794, "antigravity-ultra-5x-argon-medium": 434.8715318567092, "antigravity-ultra-5x-carbon-high": 1469.1037690982519, "antigravity-ultra-5x-carbon-low": 658.6656169413534, "antigravity-ultra-5x-carbon-medium": 1507.5123976446575, "antigravity-ultra-5x-neon-low": -38.12232050981231, "antigravity-ultra-5x-neon-medium": 1148.218337507045, "antigravity-ultra-5x-neon-high": 1785.5298767683437, "antigravity-ultra-5x-neon-xhigh": 2094.9659272849913, "go-glm-5-3-flash": -655.8140686775733, "go-mimo-v2-6-flash": -653.1847441778045, "deepseek-flash-1017-high": -437.39115119988924}
     }
   }
 };
-// Published v5 inputs and converted task costs from the 2026-11-04 and 2026-11-09 AA snapshots.
+// Published v5 inputs and converted task costs from the 2026-11-04, 2026-11-09, 2026-11-17, 2026-11-18 and 2026-11-20 AA snapshots.
 const inputs = [
   ["sonnet-high",42,46,1.64,894.0,41.515109087048,46.1934013528139,1.6361294399784785,1],
   ["sol-medium",46,52,0.36,1178.0,46.3468797067114,52.0526137445887,0.3593898648025732,1],
@@ -118,10 +115,15 @@ const inputs = [
   ["terra-high",42,46,0.26,1054.0,42.4344508712563,46.424690530303,0.2592796466169722,1],
   ["terra-xhigh",45,49,0.4,684.0,45.250051789066,49.4166886904762,0.40068900166662513,1],
   ["terra-max",51,55,0.96,286.0,51.3265188577015,54.7359752164502,0.961108031081634,1],
-  ["antigravity-ultra-5x-argon-high",50,57,3.84,46.0,50.4121935905389,57.3015892857143,7.682671372515551,0.5],
+  ["antigravity-ultra-5x-argon-high",50,57,4.97,36.0,50.4121935905389,57.3015892857143,9.946608711550533,0.5],
+  ["antigravity-ultra-5x-argon-medium",48,53,4.31,40.0,47.6040598289046,52.7261420995671,8.629243138175465,0.5],
   ["antigravity-ultra-5x-carbon-high",60,65,3.88,44.0,60.025738829526,65.3103995670996,7.755545745286556,0.5],
   ["antigravity-ultra-5x-carbon-low",54,60,3.59,48.0,54.2206114502924,60.2151701298701,7.186577262951972,0.5],
   ["antigravity-ultra-5x-carbon-medium",58,64,3.29,52.0,58.2587824022788,63.889674025974,6.585776867225546,0.5],
+  ["antigravity-ultra-5x-neon-low",44,52,0.75,232.0,44.0831506204565,51.9587830627706,0.7452280945089245,1],
+  ["antigravity-ultra-5x-neon-medium",55,61,1.9,92.0,54.8622945007349,60.9146628246753,1.9045555241044152,1],
+  ["antigravity-ultra-5x-neon-high",60,65,3.74,46.0,59.6189441875232,64.9085861471861,3.7427499092845027,1],
+  ["antigravity-ultra-5x-neon-xhigh",61,67,6.44,28.0,61.3982491392674,66.8388920454545,6.444838101104699,1],
   ["go-glm-5-3-flash",28,34,0.58,206.0,27.803889160883,34.4534900974026,0.5833103440014082,1],
   ["go-glm-5-3-low",23,28,1.57,20.0,23.1079373025379,28.3489622294372,1.5749301149593384,1],
   ["go-mimo-v2-6-flash",27,31,0.13,924.0,26.7276981444568,30.9836839285714,0.12852987084014672,1],
@@ -158,7 +160,7 @@ for(const model of data){
   assert.equal(model.aaIndexVersion,'5.0.1');
   assert.equal(model.intelligence,Math.round(model.aaIntelligenceExact));
   assert.equal(model.engineering,Math.round(model.aaEngineeringExact));
-  const sourceDate = model.id.startsWith('astra-6-2-') ? '2026-11-18' : model.id.startsWith('sol-6-2-') ? '2026-11-17' : /^(fable-|muse-(wonder|ember)-)/.test(model.id) ? '2026-11-09' : '2026-11-04';
+  const sourceDate = model.model.startsWith('Gemini 4 ') ? '2026-11-20' : model.id.startsWith('astra-6-2-') ? '2026-11-18' : model.id.startsWith('sol-6-2-') ? '2026-11-17' : /^(fable-|muse-(wonder|ember)-)/.test(model.id) ? '2026-11-09' : '2026-11-04';
   assert.ok(model.benchmarkCost > 0 && model.multiplier > 0 && model.aaSource && model.sourceDate === sourceDate);
   assert.equal(model.tasks20,20 * Math.round(model.multiplier / model.benchmarkCost * 10) / 10);
   assert.ok(matchesSearch(model,model.provider.toLowerCase()));
@@ -176,7 +178,7 @@ const byId = id => data.find(m => m.id === id);
 const expectedMultiplier = model => model.provider === 'X Subscription' ? 41.4 : ['go-glm-5-3-max','go-glm-5-3-low'].includes(model.id) ? 3 : model.multiplier;
 const expectedTasks = model => 20 * Math.round(expectedMultiplier(model) / model.benchmarkCost * 10) / 10;
 const argon = byId('antigravity-ultra-5x-argon-high');
-assert.deepEqual([argon.provider,argon.reasoning,argon.multiplier,argon.taskPriceFactor,argon.benchmarkCost,argon.tasks20],['Antigravity Ultra 5x','High',8.7,.5,3.84,46]);
+assert.deepEqual([argon.provider,argon.reasoning,argon.multiplier,argon.taskPriceFactor,argon.benchmarkCost,argon.tasks20],['Antigravity Ultra 5x','High',8.7,.5,4.97,36]);
 assert.equal(argon.multiplier,Math.round(200 * (30.4375 / 7) / 99.99 * 10) / 10);
 assert.ok(!data.some(model => model.model.startsWith('Gemini') && model.provider === 'OpenCode Go'));
 near(argon.benchmarkCost,Math.round(argon.aaTaskCostExact * argon.taskPriceFactor * 100) / 100);
@@ -195,15 +197,30 @@ for(const [id,go,plus,runs] of [['deepseek-flash-1017-max',10,5,5],['deepseek-fl
     near(refreshedGo.metricValue(model),20 * Math.round(multiplier / model.benchmarkCost * 10) / 10);
   }
 }
-for(const [effort,general,engineering,cost,tasks] of [['Low',54,60,3.59,48],['Medium',58,64,3.29,52],['High',60,65,3.88,44]]){
-  const model = byId('antigravity-ultra-5x-carbon-' + effort.toLowerCase());
-  assert.deepEqual([model.reasoning,model.intelligence,model.engineering,model.benchmarkCost,model.tasks20,model.bugHunt],[effort,general,engineering,cost,tasks,undefined]);
+// Gemini rows: AA values checked 20 November; Bug Hunt means of three, each already at the multiplier's price basis.
+for(const [id,effort,general,engineering,cost,tasks,runId,fixed,extras,runCost,date,reliable] of [
+  ['argon-medium','Medium',48,53,4.31,40,'Gemini 4 Argon (medium effort, Antigravity CLI) - mean of 3',39.3,11.3,7.5,'2026-10-14',31],
+  ['carbon-low','Low',54,60,3.59,48,'Gemini 4 Carbon (low effort, Antigravity CLI) - mean of 3',46,18,7.67,'2026-11-13',35],
+  ['carbon-medium','Medium',58,64,3.29,52,'Gemini 4 Carbon (medium effort, Antigravity CLI) - mean of 3',56,46.7,24.95,'2026-11-10',48],
+  ['carbon-high','High',60,65,3.88,44,'Gemini 4 Carbon (high effort, Antigravity CLI) - mean of 3',57.3,25,31.32,'2026-11-10',47],
+  ['neon-low','Low',44,52,.75,232,'Gemini 4 Neon (low effort, Antigravity CLI) - mean of 3',29.7,6.3,5.29,'2026-11-19',23],
+  ['neon-medium','Medium',55,61,1.9,92,'Gemini 4 Neon (medium effort, Antigravity CLI) - mean of 3',47.7,23,12.84,'2026-11-19',42],
+  ['neon-high','High',60,65,3.74,46,'Gemini 4 Neon (high effort, Antigravity CLI) - mean of 3',57,43.7,29.11,'2026-11-19',52],
+  ['neon-xhigh','XHigh',61,67,6.44,28,'Gemini 4 Neon (xhigh effort, Antigravity CLI) - mean of 3',63,60.3,46.34,'2026-11-19',56]
+]){
+  const model = byId('antigravity-ultra-5x-' + id), bug = model.bugHunt;
+  assert.deepEqual([model.reasoning,model.intelligence,model.engineering,model.benchmarkCost,model.tasks20],[effort,general,engineering,cost,tasks]);
+  near(model.benchmarkCost,Math.round(model.aaTaskCostExact * model.taskPriceFactor * 100) / 100);
+  assert.deepEqual([bug.id,bug.fixed,bug.extras,bug.cost_usd,bug.cost_kind,bug.n_runs,bug.coverage_runs,bug.date,bug.price_factor],[runId,fixed,extras,runCost,'list',3,3,date,undefined]);
+  assert.equal(create().reliableBugs(model).length,reliable);
+  near(create().metricValue(model,'bugs'),runCost / 8.7 / (fixed + extras));
 }
 const carbon = byId('antigravity-ultra-5x-carbon-high');
-assert.deepEqual([carbon.reasoning,carbon.benchmarkCost,carbon.tasks20,carbon.bugHunt],['High',3.88,44,undefined]);
-near(carbon.benchmarkCost,Math.round(carbon.aaTaskCostExact * carbon.taskPriceFactor * 100) / 100);
-for(const model of data.filter(model => /^Gemini 4 (Argon|Carbon)$/.test(model.model))) assert.deepEqual([model.provider,model.multiplier,model.taskPriceFactor],['Antigravity Ultra 5x',argon.multiplier,.5]);
-assert.ok(carbon.sourceNote.includes('User-directed') && carbon.sourceNote.includes('subscription availability are not verified'));
+assert.deepEqual(data.filter(model => model.model.startsWith('Gemini')).map(model => model.id.replace('antigravity-ultra-5x-','')),['argon-high','argon-medium','carbon-high','carbon-low','carbon-medium','neon-low','neon-medium','neon-high','neon-xhigh']);
+// Argon and Carbon reprice AA's standard rates to launch prices; Neon's API price has no launch discount.
+for(const model of data.filter(model => model.model.startsWith('Gemini'))) assert.deepEqual([model.provider,model.multiplier,model.taskPriceFactor],['Antigravity Ultra 5x',argon.multiplier,model.model === 'Gemini 4 Neon' ? 1 : .5]);
+assert.ok(carbon.sourceNote.includes('User-directed') && carbon.sourceNote.includes('quota behavior remains unverified') && carbon.sourceNote.includes('1 December'));
+for(const model of data.filter(model => model.model === 'Gemini 4 Neon')) assert.ok(model.sourceNote.includes('User-directed') && model.sourceNote.includes('No Neon quota measurement exists'));
 assert.equal(byId('go-minimax-m3-1-flash').reasoning,'Max');
 assert.equal(byId('go-qwen3-8-max-0902').reasoning,'XHigh');
 assert.equal(create().selectedTier(byId('fable-max')).name,'Max $100');
@@ -343,8 +360,8 @@ assert.ok(code.includes('label.getBBox()') && html.includes('.chart-point[aria-p
 assert.ok(!html.includes('id="provider"') && !html.includes('id="scale"'));
 assert.ok(readme.includes('https://nishimura-katsuo.github.io/subscription-value/'));
 assert.ok(readme.includes('https://artificialanalysis.ai/indexes/engineering'));
-assert.ok(readme.includes('v5') && readme.includes('**77 configurations**') && readme.includes('**56 configurations have complete Bug Hunt evidence in this snapshot and 21 are tasks-only'));
-console.log('Report checks passed: 77 exact v5.0.1 inputs, both calibration bases and full frontiers, 56 evidence records, signed/zero ratings, inverse penalties, cost direction, task conversion, resets, search, and chart geometry.');
+assert.ok(readme.includes('v5') && readme.includes('**82 configurations**') && readme.includes('**64 configurations have complete Bug Hunt evidence in this snapshot and 18 are tasks-only'));
+console.log('Report checks passed: 82 exact v5.0.1 inputs, both calibration bases and full frontiers, 64 evidence records, signed/zero ratings, inverse penalties, cost direction, task conversion, resets, search, and chart geometry.');
 
 // Cost ranges filter known plan prices and choose the best multiplier per configuration.
 const tierAPI = create(), sol = byId('sol-medium'), astra = byId('astra-low');
