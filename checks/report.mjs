@@ -219,8 +219,8 @@ const carbon = byId('antigravity-ultra-5x-carbon-high');
 assert.deepEqual(data.filter(model => model.model.startsWith('Gemini')).map(model => model.id.replace('antigravity-ultra-5x-','')),['argon-high','argon-medium','carbon-high','carbon-low','carbon-medium','neon-low','neon-medium','neon-high','neon-xhigh']);
 // Argon and Carbon reprice AA's standard rates to launch prices; Neon's API price has no launch discount.
 for(const model of data.filter(model => model.model.startsWith('Gemini'))) assert.deepEqual([model.provider,model.multiplier,model.taskPriceFactor],['Antigravity Ultra 5x',argon.multiplier,model.model === 'Gemini 4 Neon' ? 1 : .5]);
-assert.ok(carbon.sourceNote.includes('User-directed') && carbon.sourceNote.includes('quota behavior remains unverified') && carbon.sourceNote.includes('1 December'));
-for(const model of data.filter(model => model.model === 'Gemini 4 Neon')) assert.ok(model.sourceNote.includes('User-directed') && model.sourceNote.includes('No Neon quota measurement exists'));
+assert.ok(carbon.sourceNote.includes('Measured quota rate') && carbon.sourceNote.includes('3.00×') && carbon.sourceNote.includes('1 December'));
+for(const model of data.filter(model => model.model === 'Gemini 4 Neon')) assert.ok(model.sourceNote.includes('User-directed') && model.sourceNote.includes('No Neon quota measurement exists') && model.sourceNote.includes('likely a lower bound'));
 assert.equal(byId('go-minimax-m3-1-flash').reasoning,'Max');
 assert.equal(byId('go-qwen3-8-max-0902').reasoning,'XHigh');
 assert.equal(create().selectedTier(byId('fable-max')).name,'Max $100');

@@ -128,10 +128,10 @@
   assert(get('detail').textContent.includes('8.7×') && get('provider-legend').textContent.includes('Antigravity Ultra 5x'), 'Antigravity multiplier and legend are visible');
   change('search','carbon','input');
   assertRows(carbonModels, 'Carbon has its own task result');
-  assert(get('detail').textContent.includes('User-directed') && get('detail').textContent.includes('quota behavior remains unverified'), 'Carbon details disclose the assumed multiplier and unverified quota behavior');
+  assert(get('detail').textContent.includes('Measured quota rate') && get('detail').textContent.includes('3.00×'), 'Carbon details disclose the measured quota rate');
   change('search','neon','input');
   assertRows(neonModels, 'Neon has its own task results');
-  assert(get('detail').textContent.includes('No Neon quota measurement exists'), 'Neon details disclose the transferred multiplier');
+  assert(get('detail').textContent.includes('No Neon quota measurement exists') && get('detail').textContent.includes('likely a lower bound'), 'Neon details disclose the transferred multiplier and its likely understatement');
   mode('bugs');
   assertRows(neonModels, 'Neon has bug results at all four efforts');
   change('search','gemini','input');
